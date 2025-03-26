@@ -1,0 +1,27 @@
+{
+  "name": "socialicar",
+  "version": "1.0.0",
+  "description": "This is a repository for our final degree project as DAW students (TFG).",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ide-la-r/TFG-SocialiCar.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/ide-la-r/TFG-SocialiCar/issues"
+  },
+  "homepage": "https://github.com/ide-la-r/TFG-SocialiCar#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  }
+}
