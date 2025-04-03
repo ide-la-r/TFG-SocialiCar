@@ -18,6 +18,8 @@ body{
 .card_registro{
     background-color: var(--color-primario);
     padding: 5%;
+    border-radius: 2%;
+    box-shadow: 15px 15px 12px 1px rgba(0, 0, 0, 0.2);
 }
 
 .register{
@@ -26,5 +28,15 @@ body{
 
 .iniciar_sesion_pregunta{
     margin-top: 3.378%;
+}
+
+.btn-custom{
+    background-color: var(--color-terciario);
+    margin-top: 2%;
+}
+
+.btn-custom:hover{
+    background-color: var(--color-terciario);
+    border-color: var(--color-oscuro);
 }
 
