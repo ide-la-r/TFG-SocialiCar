@@ -1,0 +1,30 @@
+:root {
+    --color-primario: #C4EEF2;
+    --color-secundario: #B0D5D9;
+    --color-terciario: #6BBFBF;
+    --color-claro: #F2F2F2;
+    --color-oscuro: #595959;
+}
+
+body{
+    background-color: var(--color-claro);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.card_registro{
+    background-color: var(--color-primario);
+    padding: 5%;
+}
+
+.register{
+    margin-bottom: 7%;
+}
+
+.iniciar_sesion_pregunta{
+    margin-top: 3.378%;
+}
+
