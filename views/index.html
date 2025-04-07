@@ -3,9 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SocialiCar</title>
+    <title>SocialiCar - Comparte tu vehículo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link id="style-theme" rel="stylesheet" href="/stylesheets/main.css">
 </head>
 <body>
-    
+    <!-- NAVBAR -->
+    <nav id="navbar" class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <!-- IMAGEN LOGO -->
+            <a class="navbar-brand fw-bold text-primary" href="#">SocialiCar</a>
+            
+            <!-- MENU -->
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/cars">Alquiler</a>
+                    </li>
+                </ul>
+            </div>
+
+            
+            <div>
+                <!-- LOGIN Y REGISTRO -->
+                <a href="/login" class="btn btn-outline-primary">Iniciar Sesión</a>
+                <!-- BOTON TEMA OSCURO -->
+                <button id="change-theme" class="btn">🌙</button>
+            </div>
+
+            
+        </div>
+    </nav>
+
+    <!-- BANNER -->
+    <section class="hero-section text-center">
+        <div class="container">
+            <h1 class="display-4 fw-bold">Encuentra tu vehiculo ideal</h1>
+            <p class="lead">Alquila vehículos de forma segura</p>
+        </div>
+    </section>
+
+    <!-- VEHICULOS DESTACADOS -->
+    <section class="container mb-5">
+        <h2 class="text-center mb-4">Vehículos Disponibles</h2>
+        <div class="row g-4">
+
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100">
+                    <img src="https://codigogenesis.com/genesis/2022/04/imagen-placeholder-por-defecto-WooCommerce.png" class="card-img-top" alt="Ford Mustang">
+                    <div class="card-body">
+                        <h5 class="card-title">Ford Mustang 2022</h5>
+                        <p class="price-tag">€120/día</p>
+                        <p class="card-text">Coche deportivo en excelente estado, perfecto para viajes por carretera. Incluye seguro básico.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100">
+                    <img src="https://codigogenesis.com/genesis/2022/04/imagen-placeholder-por-defecto-WooCommerce.png" class="card-img-top" alt="Audi A4">
+                    <div class="card-body">
+                        <h5 class="card-title">Nissan GTR 2017</h5>
+                        <p class="price-tag">€190/día</p>
+                        <p class="card-text">Elegante berlina con sistema de navegación y asientos de piel. Ideal para viajes de negocios.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100">
+                    <img src="https://codigogenesis.com/genesis/2022/04/imagen-placeholder-por-defecto-WooCommerce.png" class="card-img-top" alt="Porsche 911">
+                    <div class="card-body">
+                        <h5 class="card-title">Porsche 911 2023</h5>
+                        <p class="price-tag">€250/día</p>
+                        <p class="card-text">El legendario deportivo alemán. Kilometraje ilimitado y seguro premium incluido.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100">
+                    <img src="https://codigogenesis.com/genesis/2022/04/imagen-placeholder-por-defecto-WooCommerce.png" class="card-img-top" alt="Jeep Wrangler">
+                    <div class="card-body">
+                        <h5 class="card-title">Volkswagen Polo 2011</h5>
+                        <p class="price-tag">€80/día</p>
+                        <p class="card-text">Berlina para aventuras off-road. Techo descubrible y equipamiento completo.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="footer" class="bg-white text-dark py-4">
+        <div class="container text-center">
+            <p>&copy; 2023 SocialiCar. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/javascripts/index.js"></script>
 </body>
 </html>
