@@ -1,10 +1,4 @@
-:root {
-    --color-primario: #C4EEF2;
-    --color-secundario: #B0D5D9;
-    --color-terciario: #6BBFBF;
-    --color-claro: #F2F2F2;
-    --color-oscuro: #595959;
-}
+@import url(./global.css);
 
 body{
     background-color: var(--color-claro);
