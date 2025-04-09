@@ -1,37 +1,19 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-const fs = require('fs/promises');
+const express = require('express');
+const http = require('http');
+const app = express();
+require('dotenv').config();
 
+app.use(express.json());
 
 // Rutas de las páginas
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var carsRouter = require('./routes/cars');
-var loginRouter = require('./routes/login');
-var registerRouter = require('./routes/register');
-var blogRouter = require('./routes/blog');
-var premiumRouter = require('./routes/premium');
-var rentRouter = require('./routes/rent');
-
-var app = express();
-
-app.set('views', path.join(__dirname, 'views')); // Establece la carpeta de vistas
-
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
-
-app.use(async (req, res, next) => {
-  // Middleware para gestionar las peticiones
-  await fs.appendFile("./main.log", `Método: ${req.method} - URL: ${req.url} - Fecha: ${new Date()}\n`)
-  next();
-});
-
+var indexRouter = require('./src/routes/index');
+var usersRouter = require('./src/routes/users');
+var carsRouter = require('./src/routes/cars');
+var loginRouter = require('./src/routes/login');
+var registerRouter = require('./src/routes/register');
+var blogRouter = require('./src/routes/blog');
+var premiumRouter = require('./src/routes/premium');
+var rentRouter = require('./src/routes/rent');
 
 // Delegación de las rutas
 app.use('/', indexRouter);
@@ -43,5 +25,16 @@ app.use('/blog', blogRouter);
 app.use('/premium', premiumRouter);
 app.use('/rent', rentRouter);
 
+// Configuración de la BBDD
+require('./src/config/db');
+
+// Creación y lanzamiento del servidor
+const server = http.createServer(app);
+const PORT = process.env.PORT || 3001;
+server.listen(PORT);
+
+server.on('listening', () => {
+    console.log(`Servidor escuchando en el puerto ${PORT}`);
+});
 
 module.exports = app;
