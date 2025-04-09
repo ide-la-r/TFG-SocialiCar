@@ -2,18 +2,27 @@ var express = require('express');
 var path = require('path');
 var router = express.Router();
 
-/* GET users listing. */
+
 router.get('/', function(req, res, next) {
   res.sendFile(path.join(__dirname, '../views/login.html'));
 });
 
-router.get('/registro', function(req, res, next) {
-  res.sendFile(path.join(__dirname, '../views/registro.html'));
+router.get("/edit:id", (req, res) => {
+  const { id } = req.params;
+  res.send(`Página de perfil de usuario con id: ${id}.`);
 });
 
-router.get("/perfil:id", (req, res) => {
-  const { id } = req.params;
-  res.send(`Perfil de usuario con id: ${id}`);
+router.get("/payout", (req, res) => {
+  res.send(`Página de retiro de saldo.`);
 });
+
+router.get("/earnings", (req, res) => {
+  res.send(`Página de movimiento en transacciones.`);
+});
+
+router.get("/payment_cards", (req, res) => {
+  res.send(`Página de metodos de pago. (Proximamente)`);
+});
+
 
 module.exports = router;

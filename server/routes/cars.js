@@ -1,18 +1,22 @@
 var express = require('express');
-const { route } = require('.');
 var router = express.Router();
 
-/* GET users listing. */
+
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+  res.send('Página de todos los coches en alquiler.');
 });
 
-// Filtros
-router.get("/add", (req, res) => {
-  const { page=1, limit=10 } = req.query;
-  console.log(page, limit);
-  
-  res.send('respond with a resource');
+router.get('/:id', function(req, res, next) {
+  res.send('Página del coche.');
 });
+
+router.get('/:id/rental-checkout', function(req, res, next) {
+  res.send('Página de alquiler del coche.');
+});
+
+router.get('/:id/rental-checkout/payment', function(req, res, next) {
+  res.send('Página de pago del alquiler del coche.');
+});
+
 
 module.exports = router;

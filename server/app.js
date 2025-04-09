@@ -11,6 +11,9 @@ var usersRouter = require('./routes/users');
 var carsRouter = require('./routes/cars');
 var loginRouter = require('./routes/login');
 var registerRouter = require('./routes/register');
+var blogRouter = require('./routes/blog');
+var premiumRouter = require('./routes/premium');
+var rentRouter = require('./routes/rent');
 
 var app = express();
 
@@ -36,6 +39,9 @@ app.use('/users', usersRouter);
 app.use('/cars', carsRouter);
 app.use('/login', loginRouter);
 app.use('/registro', registerRouter);
+app.use('/blog', blogRouter);
+app.use('/premium', premiumRouter);
+app.use('/rent', rentRouter);
 
 
 module.exports = app;
