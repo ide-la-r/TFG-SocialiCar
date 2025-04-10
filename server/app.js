@@ -1,16 +1,20 @@
 const express = require('express');
 const http = require('http');
 const app = express();
+const cors = require('cors');
+const bodyParser = require('body-parser');
+
 require('dotenv').config();
 
 app.use(express.json());
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Rutas de las páginas
 var indexRouter = require('./src/routes/index');
 var usersRouter = require('./src/routes/users');
 var carsRouter = require('./src/routes/cars');
-var loginRouter = require('./src/routes/login');
-var registerRouter = require('./src/routes/register');
 var blogRouter = require('./src/routes/blog');
 var premiumRouter = require('./src/routes/premium');
 var rentRouter = require('./src/routes/rent');
@@ -19,8 +23,6 @@ var rentRouter = require('./src/routes/rent');
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/cars', carsRouter);
-app.use('/login', loginRouter);
-app.use('/registro', registerRouter);
 app.use('/blog', blogRouter);
 app.use('/premium', premiumRouter);
 app.use('/rent', rentRouter);
