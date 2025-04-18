@@ -13,6 +13,21 @@ function Home() {
 
   return (
     <div>
+        <div className="container-fluid">
+          <h1>Encuentra tu coche ideal</h1>
+          <form className="d-flex input-group w-auto">
+            <input
+              type="search"
+              className="form-control rounded"
+              placeholder="¿Qué coche buscas?"
+              aria-label="¿Qué coche buscas?"
+              aria-describedby="search-addon"
+            />
+            <span className="input-group-text border-0" id="search-addon">
+              <i className="fas fa-search"></i>
+            </span>
+          </form>
+        </div>
         {listofusers.map((value, key) => {
         return (
           <div className='Usuarios'> 
