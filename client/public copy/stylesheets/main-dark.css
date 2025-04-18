@@ -1,0 +1,11 @@
+@import url(./global.css);
+
+body {
+    
+    background-color: var(--color-oscuro);
+    color: var(--color-claro);
+    margin: 0;
+    padding: 0;
+
+
+}
