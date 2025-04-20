@@ -6,22 +6,18 @@ const db = require('./models');
 
 app.use(express.json());
 app.use(cors());
+app.use('/uploads', express.static('uploads'));
 
 // Rutas
-/* const indexRouter = require('./routes/index'); */
 const usuarioRouter = require('./routes/Usuario');
 const cocheRouter = require('./routes/Coche');
-/* const blogRouter = require('./routes/Blog');
-const premiumRouter = require('./routes/Premium');
-const reservaRouter = require('./routes/Reserva'); */
+const uploadRouter = require('./routes/uploadRoutes');
+
 
 // Delegación de las rutas
-/* app.use('/', indexRouter); */
 app.use('/users', usuarioRouter);
 app.use('/cars', cocheRouter);
-/* app.use('/blog', blogRouter);
-app.use('/premium', premiumRouter);
-app.use('/rent', reservaRouter); */
+app.use('/upload-images', uploadRouter);
 
 
 db.sequelize.sync().then(() => {

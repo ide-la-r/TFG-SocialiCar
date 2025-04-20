@@ -12,7 +12,6 @@ module.exports = (sequelize, DataTypes) => {
       },
       contrasena: DataTypes.STRING,
       telefono: DataTypes.STRING,
-      carnet_conducir: DataTypes.STRING,
       foto_perfil: DataTypes.STRING,
       fecha_registro: DataTypes.DATE,
       fecha_update: DataTypes.DATE,
