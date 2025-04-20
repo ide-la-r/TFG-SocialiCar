@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from "yup";
 import axios from 'axios';
+import UbicacionInput from './UbicacionInput';
+import "../styles/alquilar.css";
 
 function AlquilarCoche() {
   const [marcas, setMarcas] = useState([]);
@@ -21,7 +23,15 @@ function AlquilarCoche() {
     tipo_aparcamiento: '',
     mascota: false,
     fumar: false,
-    ruta_img_coche: ''
+    ruta_img_coche: '',
+    movilidadreducia: false,
+    aireacondicionado: false,
+    gps: false,
+    wifi: false,
+    sensoresaparcamiento: false,
+    camaradereversa: false,
+    controldecrucero: false,
+    asientoscalefactables: false
   };
 
   useEffect(() => {
@@ -41,9 +51,25 @@ function AlquilarCoche() {
 
   const onSubmit = (data) => {
     const formData = new FormData();
-    for (let key in data) {
-      formData.append(key, data[key]);
-    }
+  
+    const fields = [
+      'id_usuario', 'matricula', 'seguro', 'marca', 'modelo', 'anno_matriculacion',
+      'kilometros', 'combustible', 'transmision', 'ubicacion', 'tipo_aparcamiento',
+      'mascota', 'fumar', 'ruta_img_coche', 'movilidadreducia', 'aireacondicionado',
+      'gps', 'wifi', 'sensoresaparcamiento', 'camaradereversa', 'controldecrucero',
+      'asientoscalefactables'
+    ];
+  
+    fields.forEach(key => {
+      if (key === 'ruta_img_coche' && data[key]) {
+        for (let file of data[key]) {
+          formData.append(key, file);
+        }
+      } else {
+        formData.append(key, data[key]);
+      }
+    });
+  
     axios.post("http://localhost:3001/cars/rentacar", formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
@@ -71,102 +97,169 @@ function AlquilarCoche() {
 
   return (
     <div className='addCoche'>
-      <h2>Formulario de Alquiler de Coche</h2>
+      <h1>Formulario de Alquiler de Coche</h1>
       <Formik
         initialValues={initialValues}
         onSubmit={onSubmit}
         validationSchema={validationSchema}
       >
         {({ setFieldValue }) => (
-          <Form>
-            <label>Usuario (ID):</label>
-            <ErrorMessage name="id_usuario" component="span" />
-            <Field name="id_usuario" placeholder="ID del usuario" />
+          <Form className='row g-3'>
 
-            <label>Matrícula:</label>
-            <ErrorMessage name="matricula" component="span" />
-            <Field name="matricula" placeholder="1234ABC" />
+            <div className='col-md-6 form-floating'>
+              <Field className='form-control' name="id_usuario" placeholder="ID del usuario" />
+              <label className='form-label'>Usuario (ID) <ErrorMessage name="id_usuario" component="span" /></label>
+            </div>
 
-            <label>¿Tiene seguro?</label>
-            <Field type="checkbox" name="seguro" />
+            <div className='col-md-6 form-floating'>
+              <Field className='form-control' name="matricula" placeholder="1234ABC" />
+              <label className='form-label'>Matrícula <ErrorMessage name="matricula" component="span" /></label>
+            </div>
 
-            <label>Marca:</label>
-            <ErrorMessage name="marca" component="span" />
-            <Field as="select" name="marca" onChange={(e) => handleMarcaChange(e, setFieldValue)}>
-              <option value="" disabled hidden>Selecciona una marca</option>
-              {marcas.map(m => (
-                <option key={m.MakeId} value={m.MakeName} data-id={m.MakeId}>{m.MakeName}</option>
-              ))}
-            </Field>
+            <div className='col-md-6 form-floating'>
+              <Field className='form-select' as="select" name="marca" onChange={(e) => handleMarcaChange(e, setFieldValue)}>
+                <option value="" disabled hidden>Selecciona una marca</option>
+                {marcas.map(m => (
+                  <option key={m.MakeId} value={m.MakeName} data-id={m.MakeId}>{m.MakeName}</option>
+                ))}
+              </Field>
+              <label className='form-label'>Marca <ErrorMessage name="marca" component="span" /></label>
+            </div>
 
-            <label>Modelo:</label>
-            <ErrorMessage name="modelo" component="span" />
-            <Field as="select" name="modelo">
-              <option value="" disabled hidden>Selecciona un modelo</option>
-              {modelos.map(m => (
-                <option key={m.Model_ID} value={m.Model_Name}>{m.Model_Name}</option>
-              ))}
-            </Field>
+            <div className='col-md-6 form-floating'>
+              <Field className='form-select' as="select" name="modelo">
+                <option value="" disabled hidden>Selecciona un modelo</option>
+                {modelos.map(m => (
+                  <option key={m.Model_ID} value={m.Model_Name}>{m.Model_Name}</option>
+                ))}
+              </Field>
+              <label className='form-label'>Modelo <ErrorMessage name="modelo" component="span" /></label>
+            </div>
 
-            <label>Año de matriculación:</label>
-            <ErrorMessage name="anno_matriculacion" component="span" />
-            <Field type="date" name="anno_matriculacion" />
+            <div className='col-md-6 form-floating'>
+              <Field className='form-control' type="month" name="anno_matriculacion" />
+              <label className='form-label'>Fecha de matriculación <ErrorMessage name="anno_matriculacion" component="span" /></label>
+            </div>
 
-            <label>Kilómetros:</label>
-            <ErrorMessage name="kilometros" component="span" />
-            <Field name="kilometros" placeholder="30500" />
+            <div className='col-md-6 form-floating'>
+              <Field className='form-control' name="kilometros" placeholder="30500" />
+              <label className='form-label'>Kilómetros <ErrorMessage name="kilometros" component="span" /></label>
+            </div>
 
-            <label>Combustible:</label>
-            <ErrorMessage name="combustible" component="span" />
-            <Field as="select" name="combustible">
-              <option value="" disabled hidden>Selecciona tipo de combustible</option>
-              <option value="Gasolina">Gasolina</option>
-              <option value="Diésel">Diésel</option>
-              <option value="Eléctrico">Eléctrico</option>
-              <option value="Híbrido">Híbrido</option>
-              <option value="GLP">GLP</option>
-              <option value="GNC">GNC</option>
-            </Field>
+            <div className='col-md-6 form-floating'>
+              <Field className='form-select' as="select" name="combustible">
+                <option value="" disabled hidden>Selecciona tipo de combustible</option>
+                <option value="Gasolina">Gasolina</option>
+                <option value="Diésel">Diésel</option>
+                <option value="Eléctrico">Eléctrico</option>
+                <option value="Híbrido">Híbrido</option>
+                <option value="GLP">GLP</option>
+                <option value="GNC">GNC</option>
+              </Field>
+              <label className='form-label'>Combustible <ErrorMessage name="combustible" component="span" /></label>
+            </div>
 
-            <label>Transmisión:</label>
-            <ErrorMessage name="transmision" component="span" />
-            <Field as="select" name="transmision">
-              <option value="" disabled hidden>Selecciona tipo de transmisión</option>
-              <option value="Manual">Manual</option>
-              <option value="Automática">Automática</option>
-            </Field>
+            <div className='col-md-6 form-floating'>
+              <Field className='form-select' as="select" name="transmision">
+                <option value="" disabled hidden>Selecciona tipo de transmisión</option>
+                <option value="Manual">Manual</option>
+                <option value="Automática">Automática</option>
+              </Field>
+              <label className='form-label'>Transmisión <ErrorMessage name="transmision" component="span" /></label>
+            </div>
 
-            <label>Ubicación:</label>
-            <ErrorMessage name="ubicacion" component="span" />
-            <Field name="ubicacion" placeholder="Málaga" />
+            <UbicacionInput />
 
-            <label>Tipo de aparcamiento:</label>
-            <ErrorMessage name="tipo_aparcamiento" component="span" />
-            <Field as="select" name="tipo_aparcamiento">
-              <option value="" disabled hidden>Selecciona tipo de aparcamiento</option>
-              <option value="Calle">Calle</option>
-              <option value="Garaje">Garaje</option>
-              <option value="Parking público">Parking público</option>
-            </Field>
+            <div className="col-md-4 form-floating">
+              <Field className="form-select" as="select" name="tipo_aparcamiento">
+                <option value="" disabled hidden>Selecciona tipo de aparcamiento</option>
+                <option value="Calle">Calle</option>
+                <option value="Garaje">Garaje</option>
+                <option value="Parking público">Parking público</option>
+              </Field>
+              <label className="form-label">Tipo de aparcamiento <ErrorMessage name="tipo_aparcamiento" component="span" /></label>
+            </div>
 
-            <label>¿Se permiten mascotas?</label>
-            <Field type="checkbox" name="mascota" />
+            <div className="card mt-3">
+              <div className="card-header">
+                <h4 className="mb-0">Servicios del vehículo</h4>
+              </div>
+              <div className="card-body">
+                <div className="row">
+                  <div className="col-md-6">
+                    <div className="form-check form-switch mb-3">
+                      <Field className="form-check-input" type="checkbox" role='switch' id="seguro" name="seguro" />
+                      <label className="form-check-label" htmlFor="seguro">¿Tiene seguro?</label>
+                    </div>
+                    <div className="form-check form-switch mb-3">
+                      <Field className="form-check-input" type="checkbox" role='switch' id="mascota" name="mascota" />
+                      <label className="form-check-label" htmlFor="mascota">¿Se permiten mascotas?</label>
+                    </div>
+                    <div className="form-check form-switch mb-3">
+                      <Field className="form-check-input" type="checkbox" role='switch' id="fumar" name="fumar" />
+                      <label className="form-check-label" htmlFor="fumar">¿Se permite fumar?</label>
+                    </div>
+                    <div className="form-check form-switch mb-3">
+                      <Field className="form-check-input" type="checkbox" role='switch' id="movilidadreducia" name="movilidadreducia" />
+                      <label className="form-check-label" htmlFor="movilidadreducia">¿Adaptado a movilidad reducida?</label>
+                    </div>
+                    <div className="form-check form-switch mb-3">
+                      <Field className="form-check-input" type="checkbox" role='switch' id="aireacondicionado" name="aireacondicionado" />
+                      <label className="form-check-label" htmlFor="aireacondicionado">¿Tiene aire acondicionado?</label>
+                    </div>
+                    <div className="form-check form-switch mb-3">
+                      <Field className="form-check-input" type="checkbox" role='switch' id="gps" name="gps" />
+                      <label className="form-check-label" htmlFor="gps">¿Tiene GPS?</label>
+                    </div>
+                  </div>
 
-            <label>¿Se permite fumar?</label>
-            <Field type="checkbox" name="fumar" />
+                  <div className="col-md-6">
+                    <div className="form-check form-switch mb-3">
+                      <Field className="form-check-input" type="checkbox" role='switch' id="wifi" name="wifi" />
+                      <label className="form-check-label" htmlFor="wifi">¿Wi-Fi o Bluetooth?</label>
+                    </div>
+                    <div className="form-check form-switch mb-3">
+                      <Field className="form-check-input" type="checkbox" role='switch' id="sensoresaparcamiento" name="sensoresaparcamiento" />
+                      <label className="form-check-label" htmlFor="sensoresaparcamiento">¿Sensores de aparcamiento?</label>
+                    </div>
+                    <div className="form-check form-switch mb-3">
+                      <Field className="form-check-input" type="checkbox" role='switch' id="camaradereversa" name="camaradereversa" />
+                      <label className="form-check-label" htmlFor="camaradereversa">¿Cámara trasera?</label>
+                    </div>
+                    <div className="form-check form-switch mb-3">
+                      <Field className="form-check-input" type="checkbox" role='switch' id="controldecrucero" name="controldecrucero" />
+                      <label className="form-check-label" htmlFor="controldecrucero">¿Control de crucero?</label>
+                    </div>
+                    <div className="form-check form-switch mb-3">
+                      <Field className="form-check-input" type="checkbox" role='switch' id="asientoscalefactables" name="asientoscalefactables" />
+                      <label className="form-check-label" htmlFor="asientoscalefactables">¿Asientos calefactables?</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-            <label>Imagen del coche:</label>
-            <ErrorMessage name="ruta_img_coche" component="span" />
-            <input
-              type="file"
-              name="ruta_img_coche"
-              accept="image/*"
-              onChange={(event) => {
-                setFieldValue("ruta_img_coche", event.currentTarget.files[0]);
-              }}
-            />
+            <div className="form-group mt-3">
+              <label htmlFor="ruta_img_coche">Imágenes del coche</label>
+              <input
+                className="form-control"
+                type="file"
+                name="ruta_img_coche"
+                multiple
+                onChange={(event) => {
+                  // Aquí obtenemos los archivos seleccionados
+                  const files = event.target.files;
+                  
+                  // No necesitamos actualizar programáticamente el valor
+                  // Solo pasamos los archivos seleccionados a Formik
+                  setFieldValue("ruta_img_coche", files);
+                }}
+              />
+              <ErrorMessage name="ruta_img_coche" component="span" />
+            </div>
 
             <button type="submit">¡Alquilar!</button>
+
           </Form>
         )}
       </Formik>

@@ -2,7 +2,8 @@ module.exports = (sequelize, DataTypes) => {
     const ImagenCoche = sequelize.define('ImagenCoche', {
       id_imagen_coche: {
         type: DataTypes.INTEGER,
-        primaryKey: true
+        primaryKey: true,
+        autoIncrement: true
       },
       id_coche: DataTypes.STRING,
       ruta_img_coche: DataTypes.STRING

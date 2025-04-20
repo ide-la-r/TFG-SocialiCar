@@ -25,7 +25,7 @@ function App() {
                   backgroundColor: 'transparent',
                 }}
               >
-                <i className="fas fa-bars" style={{ color: '#343434', fontSize: '1.5rem' }}></i>
+                <i className="fas fa-bars"></i>
               </button>
 
               {/* Logo */}

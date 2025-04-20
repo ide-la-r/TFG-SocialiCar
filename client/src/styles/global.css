@@ -1,9 +1,15 @@
 @font-face {
-    font-family: "Dacherry";
-    src: url("../fonts/Dacherry/Dacherry.woff2") format("woff2");
+    font-family: 'Teko';
+    src: url("../fonts/Teko/Teko-Bold.ttf") format("woff2");
     font-weight: 700;
     font-display: swap;
-    text-transform: uppercase;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url("../fonts/roboto/Roboto-Regular.ttf") format("woff2");
+    font-weight: 700;
+    font-display: swap;
 }
 
 :root {
@@ -23,8 +29,11 @@
     background-color: var(--color-darkMode) !important;
 }
 
-h1 {
-    color: var(--color-claro);
-    font-family: Dacherry;
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'BebasNeue';
     text-transform: uppercase;
+}
+
+p, label, span, ::placeholder, option, button, li, ul {
+    font-family: 'Roboto';
 }

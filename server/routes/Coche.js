@@ -2,28 +2,40 @@ const express = require('express');
 const router = express.Router();
 const { Coche } = require('../models');
 
-
-router.get('/', function(req, res, next) {
-    res.send('Página del perfil de usuario.');
+// Ruta para obtener todos los coches
+router.get('/', async function(req, res) {
+    try {
+        const listOfCoches = await Coche.findAll();
+        res.json(listOfCoches);
+    } catch (error) {
+        res.status(500).json({ message: "Error al obtener los coches", error });
+    }
 });
 
-router.get("/edit/:id", (req, res) => {
+// Ruta para obtener un coche por ID
+router.get("/edit/:id", async (req, res) => {
     const { id } = req.params;
-    res.send(`Página para editar vehiculo con id: ${id}.`);
+    try {
+        const coche = await Coche.findByPk(id);
+        if (coche) {
+            res.json(coche);
+        } else {
+            res.status(404).json({ message: "Coche no encontrado" });
+        }
+    } catch (error) {
+        res.status(500).json({ message: "Error al obtener el coche", error });
+    }
 });
 
-router.get("/rentacar", async function(req, res) {
-    const listOfCoches = await Coche.findAll();
-    res.json(listOfCoches);
-});
-
+// Ruta para crear un coche
 router.post('/rentacar', async (req, res) => {
-    const coche = req.body;
-    await Coche.create(coche);
-    res.json(coche);
+    const cocheData = req.body;
+    try {
+        const coche = await Coche.create(cocheData);
+        res.status(201).json(coche);
+    } catch (error) {
+        res.status(500).json({ message: "Error al crear el coche", error });
+    }
 });
-
-console.log("Coche router cargado");
-
 
 module.exports = router;
