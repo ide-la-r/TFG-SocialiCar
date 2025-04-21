@@ -3,7 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from "yup";
 import axios from 'axios';
 import UbicacionInput from './UbicacionInput';
-import "../styles/alquilar.css";
+
 
 function AlquilarCoche() {
   const [marcas, setMarcas] = useState([]);
@@ -49,7 +49,7 @@ function AlquilarCoche() {
     }
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = (data, { resetForm }) => {
     const formData = new FormData();
   
     const fields = [
@@ -75,9 +75,11 @@ function AlquilarCoche() {
         'Content-Type': 'multipart/form-data'
       }
     }).then(() => {
-      console.log("Coche enviado correctamente");
+      resetForm(); // Resetea el formulario
+      alert("Coche registrado correctamente!");
     }).catch(err => {
       console.error("Error al enviar:", err);
+      alert("Hubo un error al registrar el coche. Inténtalo de nuevo.");
     });
   };
 
@@ -92,7 +94,7 @@ function AlquilarCoche() {
     transmision: Yup.string().required("* Campo obligatorio"),
     ubicacion: Yup.string().required("* Campo obligatorio"),
     tipo_aparcamiento: Yup.string().required("* Campo obligatorio"),
-    ruta_img_coche: Yup.mixed().required("* Campo obligatorio")
+    ruta_img_coche: Yup.array().min(1, "* Debe subir al menos una imagen").of(Yup.mixed().test("fileType", "Debe ser una imagen", (value) => value && value.type.startsWith("image/")))
   });
 
   return (
@@ -108,12 +110,12 @@ function AlquilarCoche() {
 
             <div className='col-md-6 form-floating'>
               <Field className='form-control' name="id_usuario" placeholder="ID del usuario" />
-              <label className='form-label'>Usuario (ID) <ErrorMessage name="id_usuario" component="span" /></label>
+              <label className='form-label'>Usuario (ID) <ErrorMessage className='subirError' name="id_usuario" component="span" /></label>
             </div>
 
             <div className='col-md-6 form-floating'>
               <Field className='form-control' name="matricula" placeholder="1234ABC" />
-              <label className='form-label'>Matrícula <ErrorMessage name="matricula" component="span" /></label>
+              <label className='form-label'>Matrícula <ErrorMessage className='subirError' name="matricula" component="span" /></label>
             </div>
 
             <div className='col-md-6 form-floating'>
@@ -123,7 +125,7 @@ function AlquilarCoche() {
                   <option key={m.MakeId} value={m.MakeName} data-id={m.MakeId}>{m.MakeName}</option>
                 ))}
               </Field>
-              <label className='form-label'>Marca <ErrorMessage name="marca" component="span" /></label>
+              <label className='form-label'>Marca <ErrorMessage className='subirError' name="marca" component="span" /></label>
             </div>
 
             <div className='col-md-6 form-floating'>
@@ -133,17 +135,17 @@ function AlquilarCoche() {
                   <option key={m.Model_ID} value={m.Model_Name}>{m.Model_Name}</option>
                 ))}
               </Field>
-              <label className='form-label'>Modelo <ErrorMessage name="modelo" component="span" /></label>
+              <label className='form-label'>Modelo <ErrorMessage className='subirError' name="modelo" component="span" /></label>
             </div>
 
             <div className='col-md-6 form-floating'>
               <Field className='form-control' type="month" name="anno_matriculacion" />
-              <label className='form-label'>Fecha de matriculación <ErrorMessage name="anno_matriculacion" component="span" /></label>
+              <label className='form-label'>Fecha de matriculación <ErrorMessage className='subirError' name="anno_matriculacion" component="span" /></label>
             </div>
 
             <div className='col-md-6 form-floating'>
               <Field className='form-control' name="kilometros" placeholder="30500" />
-              <label className='form-label'>Kilómetros <ErrorMessage name="kilometros" component="span" /></label>
+              <label className='form-label'>Kilómetros <ErrorMessage className='subirError' name="kilometros" component="span" /></label>
             </div>
 
             <div className='col-md-6 form-floating'>
@@ -156,7 +158,7 @@ function AlquilarCoche() {
                 <option value="GLP">GLP</option>
                 <option value="GNC">GNC</option>
               </Field>
-              <label className='form-label'>Combustible <ErrorMessage name="combustible" component="span" /></label>
+              <label className='form-label'>Combustible <ErrorMessage className='subirError' name="combustible" component="span" /></label>
             </div>
 
             <div className='col-md-6 form-floating'>
@@ -165,7 +167,7 @@ function AlquilarCoche() {
                 <option value="Manual">Manual</option>
                 <option value="Automática">Automática</option>
               </Field>
-              <label className='form-label'>Transmisión <ErrorMessage name="transmision" component="span" /></label>
+              <label className='form-label'>Transmisión <ErrorMessage className='subirError' name="transmision" component="span" /></label>
             </div>
 
             <UbicacionInput />
@@ -177,7 +179,7 @@ function AlquilarCoche() {
                 <option value="Garaje">Garaje</option>
                 <option value="Parking público">Parking público</option>
               </Field>
-              <label className="form-label">Tipo de aparcamiento <ErrorMessage name="tipo_aparcamiento" component="span" /></label>
+              <label className="form-label">Tipo de aparcamiento <ErrorMessage className='subirError' name="tipo_aparcamiento" component="span" /></label>
             </div>
 
             <div className="card mt-3">
@@ -246,16 +248,18 @@ function AlquilarCoche() {
                 type="file"
                 name="ruta_img_coche"
                 multiple
+                accept="image/*" // Aceptar solo imágenes
                 onChange={(event) => {
-                  // Aquí obtenemos los archivos seleccionados
                   const files = event.target.files;
-                  
-                  // No necesitamos actualizar programáticamente el valor
-                  // Solo pasamos los archivos seleccionados a Formik
-                  setFieldValue("ruta_img_coche", files);
+                  const validFiles = Array.from(files).filter(file => file.type.startsWith('image/'));
+                  if (validFiles.length > 0) {
+                    setFieldValue("ruta_img_coche", validFiles); // Pasar los archivos válidos a Formik
+                  } else {
+                    alert('Por favor, seleccione solo imágenes.');
+                  }
                 }}
               />
-              <ErrorMessage name="ruta_img_coche" component="span" />
+              <ErrorMessage className='subirError' name="ruta_img_coche" component="span" />
             </div>
 
             <button type="submit">¡Alquilar!</button>

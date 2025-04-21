@@ -30,10 +30,11 @@
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'BebasNeue';
+    font-family: 'Teko', sans-serif;
     text-transform: uppercase;
+    color: var(--color-oscuro);
 }
 
 p, label, span, ::placeholder, option, button, li, ul {
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
 }

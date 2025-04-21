@@ -1,101 +1,93 @@
 module.exports = (sequelize, DataTypes) => {
   const Coche = sequelize.define('Coche', {
-    id_usuario: DataTypes.STRING,
+    id_usuario: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     matricula: {
       type: DataTypes.STRING,
-      primaryKey: true
+      allowNull: false
     },
     seguro: {
       type: DataTypes.BOOLEAN,
-      allowNull: true 
+      allowNull: false
     },
     marca: {
       type: DataTypes.STRING,
-      allowNull: true 
+      allowNull: false
     },
     modelo: {
       type: DataTypes.STRING,
-      allowNull: true 
+      allowNull: false
     },
     anno_matriculacion: {
       type: DataTypes.DATE,
-      allowNull: true
+      allowNull: false
     },
     kilometros: {
-      type: DataTypes.DECIMAL,
-      allowNull: true
+      type: DataTypes.INTEGER,
+      allowNull: false
     },
     combustible: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: false
     },
     transmision: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: false
     },
     ubicacion: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: false
     },
     tipo_aparcamiento: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: false
     },
     mascota: {
       type: DataTypes.BOOLEAN,
-      allowNull: true
+      allowNull: false
     },
     fumar: {
       type: DataTypes.BOOLEAN,
-      allowNull: true 
+      allowNull: false
     },
     ruta_img_coche: {
       type: DataTypes.STRING,
-      allowNull: true 
+      allowNull: true
     },
     movilidadreducia: {
       type: DataTypes.BOOLEAN,
-      allowNull: true
+      allowNull: false
     },
     aireacondicionado: {
       type: DataTypes.BOOLEAN,
-      allowNull: true 
+      allowNull: false
     },
     gps: {
       type: DataTypes.BOOLEAN,
-      allowNull: true 
+      allowNull: false
     },
     wifi: {
       type: DataTypes.BOOLEAN,
-      allowNull: true 
+      allowNull: false
     },
     sensoresaparcamiento: {
       type: DataTypes.BOOLEAN,
-      allowNull: true 
+      allowNull: false
     },
     camaradereversa: {
       type: DataTypes.BOOLEAN,
-      allowNull: true
+      allowNull: false
     },
     controldecrucero: {
       type: DataTypes.BOOLEAN,
-      allowNull: true 
+      allowNull: false
     },
     asientoscalefactables: {
       type: DataTypes.BOOLEAN,
-      allowNull: true 
+      allowNull: false
     }
-  }, {
-    tableName: 'coche',
-    timestamps: false,
-    underscored: true
   });
-
-  Coche.associate = models => {
-    Coche.belongsTo(models.Usuario, { foreignKey: 'id_usuario' });
-    Coche.hasMany(models.ReservaCoche, { foreignKey: 'matricula' });
-    Coche.hasMany(models.ImagenCoche, { foreignKey: 'id_coche' });
-  };
-
   return Coche;
 };
