@@ -59,7 +59,7 @@ const UbicacionInput = () => {
           autoComplete="off"
         />
         <label className="form-label">
-          Ubicación <ErrorMessage name="ubicacion" component="span" />
+          Ubicación <ErrorMessage className='subirError' name="ubicacion" component="span" />
         </label>
       </div>
 

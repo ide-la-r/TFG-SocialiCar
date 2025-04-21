@@ -1,17 +1,16 @@
 @import url(./global.css);
 
 body {
-    
+
     background-color: var(--color-claro);
     color: var(--color-oscuro);
     margin: 0;
     padding: 0;
 
-    h1 {
-        color: var(--color-oscuro);
-        font-family: 'Teko', sans-serif;
-    }
+}
 
+#subirError {
+    color: red;
 }
 
 

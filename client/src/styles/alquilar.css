@@ -1,9 +1,0 @@
-@import url(./global.css);
-
-span {
-    color: rgba(255, 0, 0, 0.838);
-}
-
-h5 {
-    color: var(--color-primario);
-}

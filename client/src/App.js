@@ -61,7 +61,7 @@ function App() {
                     role="button"
                     aria-expanded="false"
                   >
-                    <i class="fa-regular fa-comment-dots fa-flip-horizontal"></i>
+                    <i className="fa-regular fa-comment-dots fa-flip-horizontal"></i>
                     <span className="badge rounded-pill bg-danger">1</span>
                   </Link>
                 </div>
@@ -86,13 +86,13 @@ function App() {
                   <ul className="dropdown-menu dropdown-menu-end">
                     <li>
                       <Link className="dropdown-item" to="#">
-                        <i class="fa-regular fa-circle-user me-2"></i>
+                        <i className="fa-regular fa-circle-user me-2"></i>
                         Mi perfil
                       </Link>
                     </li>
                     <li>
                       <Link className="dropdown-item" to="#">
-                        <i class="fa-regular fa-circle-question me-2"></i>
+                        <i className="fa-regular fa-circle-question me-2"></i>
                         Configuración
                       </Link>
                     </li>
