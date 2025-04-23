@@ -36,6 +36,11 @@
     <!-- Elementos a la derecha -->
     <div class="d-flex align-items-center">
 
+      <!-- Botón de alquilar -->
+      <a class="btn btn-primary me-3" href="/socialicar/src/pages/rentacar/nuevo_coche.php">
+        <i class="fa-solid fa-car-side me-2"></i> Alquila tu coche
+      </a>
+
       <!-- Notificaciones -->
       <div class="dropdown me-3">
         <a
