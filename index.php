@@ -8,7 +8,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.0/mdb.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
+
     <!-- Navbar -->
     <?php include_once 'src/components/navbar.php'; ?>
 
@@ -17,8 +18,8 @@
         <h1>Bienvenido a SocialiCar</h1>
         <p>Comparte tu coche y ahorra dinero.</p>
     </div>
-
     
+
 
 
     <!-- Footer -->
