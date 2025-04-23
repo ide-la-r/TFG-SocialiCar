@@ -12,80 +12,90 @@
 <body>
     <?php include_once '../../components/navbar.php'; ?>
     <form action="#" method="post">
-        <h2>Editar coche</h2>
-        <!-- Campo para matrícula -->
-        <div class="form-group">
-            <label for="matricula">Matrícula</label>
-            <input type="text" id="matricula" name="matricula" required>
+        <div class="container card text-center card_registro" style="width: 40rem;">
+            <h1 class="register">Editar coche</h1>
+            <form action="" class="form-floating">
+                <div class="row justify-content-center">
+                    <div class="mb-3 col-4">
+                        <input class="form-control" type="text" placeholder="Matricula*" name="matricula">
+                    </div>
+                    <div class="mb-3 col-4">
+                        <input class="form-control" type="text" placeholder="Marca*" name="marca">
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="mb-3 col-8">
+                        <input class="form-control" type="text" placeholder="Modelo*" name="modelo">
+                    </div>
+
+                    <div class="mb-3 col-8">
+                        <input id="contrasena" class="form-control" type="date" placeholder="Año de matriculación*" name="anno_matriculacion">
+                    </div>
+
+                    <div class="mb-3 col-8">
+                        <input id="validarContrasena" class="form-control" type="number" placeholder="Kilómetros*" name="kilometros">
+                    </div>
+
+                    <div class="mb-3 col-8">
+                        <input class="form-control" type="text" placeholder="Ubicación*" name="ubicacion">
+                    </div>
+
+                    <div class="mb-3 col-8">
+                        <input class="form-control" type="file" placeholder="Imagen*" name="imagen">
+                    </div>
+
+                    <div class="mb-3 col-8">
+                        <Select id="tipoIdentificacion" class="form-select">
+                            <option disabled selected hidden>Tipo de combustible*</option>
+                            <option value="dni">Gasolina</option>
+                            <option value="nie">Diesel</option>
+                            <option value="nif">Hibrido</option>
+                            <option value="nif">Eléctrico</option>
+                            <option value="nif">GLP</option>
+                            <option value="nif">GNC</option>
+                        </Select>
+                    </div>
+
+
+
+                    <div class="mb-3 col-8">
+                        <Select id="tipoIdentificacion" class="form-select">
+                            <option disabled selected hidden>Transmisión*</option>
+                            <option value="dni">Manual</option>
+                            <option value="nie">Automática</option>
+                        </Select>
+                    </div>
+
+
+                    <div class="mb-3 col-8">
+                        <Select id="tipoIdentificacion" class="form-select">
+                            <option disabled selected hidden>Tipo de aparcamiento*</option>
+                            <option value="dni">Calle </option>
+                            <option value="nie">Garaje</option>
+                            <option value="nie">Parking</option>
+                        </Select>
+                    </div>
+
+
+
+                    <div class="mb-3 col-8">
+                        <input class="form-control" placeholder="" id="identificacion" type="text" hidden>
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#miModal">
+                Extras
+            </button>
+            </form>
+            <!--BOTON VENTANA MODAL CON BOOTSTRAP-->
+            <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#miModal">
+                Confirmar
+            </button>
         </div>
-        <!-- Campo para marca del coche -->
-        <div class="form-group">
-            <label for="marca">Marca</label>
-            <input type="text" id="marca" name="marca" required>
-        </div>
-        <!-- Campo para modelo del coche -->
-        <div class="form-group">
-            <label for="modelo">Modelo</label>
-            <input type="text" id="modelo" name="modelo" required>
-        </div>
-        <!-- Campo para año de matriculación -->
-        <div class="form-group">
-            <label for="anno_matriculacion">Año matriculación</label>
-            <input type="number" id="anno_matriculacion" name="anno_matriculacion" min="1900" max="2099">
-        </div>
-        <!-- Campo para kilómetros del coche -->
-        <div class="form-group">
-            <label for="kilometros">Kilómetros</label>
-            <input type="number" id="kilometros" name="kilometros" min="0">
-        </div>
-        <!-- Selector para tipo de combustible -->
-        <div class="form-group">
-            <label for="combustible">Combustible</label>
-            <select id="combustible" name="combustible">
-                <option value="" hidden>Selecciona...</option>
-                <option value="gasolina">Gasolina</option>
-                <option value="diesel">Diésel</option>
-                <option value="hibrido">Híbrido</option>
-                <option value="electrico">Eléctrico</option>
-                <option value="glp">GLP</option>
-                <option value="gnc">GNC</option>
-            </select>
-        </div>
-        <!-- Selector para tipo de transmisión -->
-        <div class="form-group">
-            <label for="transmision">Transmisión</label>
-            <select id="transmision" name="transmision">
-                <option value="" hidden>Selecciona...</option>
-                <option value="manual">Manual</option>
-                <option value="automatica">Automática</option>
-            </select>
-        </div>
-        <!-- Campo para ubicación del coche -->
-        <div class="form-group">
-            <label for="ubicacion">Ubicación</label>
-            <input type="text" id="ubicacion" name="ubicacion">
-        </div>
-        <!-- Selector para tipo de aparcamiento -->
-        <div class="form-group">
-            <label for="tipo_aparcamiento">Tipo aparcamiento</label>
-            <select id="tipo_aparcamiento" name="tipo_aparcamiento">
-                <option value="" hidden>Selecciona...</option>
-                <option value="calle">Calle</option>
-                <option value="garaje">Garaje</option>
-                <option value="parking">Parking</option>
-            </select>
         </div>
 
-        <!-- Campo para la ruta de la imagen del coche -->
-        <div class="form-group">
-            <label for="ruta_img_coche">Ruta img. coche</label>
-            <input type="file" id="ruta_img_coche" name="ruta_img_coche">
-        </div>
 
-        <!--BOTON VENTANA MODAL CON BOOTSTRAP-->
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#miModal">
-            Abrir Modal
-        </button>
         <div class="modal fade" id="miModal" tabindex="-1" aria-labelledby="miModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -118,6 +128,9 @@
 
                         </div>
                     </div>
+
+
+                    <!--BOTON CERRAR DE LA VENTANA MODAL-->
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                     </div>
@@ -128,12 +141,10 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
         <!-- Botón para enviar el formulario -->
-        <button type="submit">Guardar coche</button>
-    </form>
-    <?php include_once '../../components/footer.php';?>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.0/mdb.min.js"></script>
-</body>
 
-</html>
+    </form>
+    <?php include_once '../../components/footer.php'; ?>
+
+</body>
 
 </html>
