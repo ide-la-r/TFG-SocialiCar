@@ -8,6 +8,7 @@
     <title>SocialiCar - Comparte tu coche</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.0/mdb.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+
 </head>
 
 <body class="d-flex flex-column min-vh-100">
@@ -16,15 +17,17 @@
     <?php include_once 'src/components/navbar.php'; ?>
 
     <!-- BANNER (Hero) -->
-    <div>
-        <h1>Encuentra tu vehiculo ideal</h1>
-        <p>Alquila vehículos de forma segura</p>
+    <div class="d-flex justify-content-center align-items-center text-center" style="height: 40vh;">
+        <div>
+            <h1>Encuentra tu vehículo ideal</h1>
+            <h3>Alquila vehículos de forma segura</h3>
+        </div>
     </div>
 
     <!-- BARRA DE BUSQUEDA -->
     <form class="w-75 mx-auto">
         <div class="input-group">
-            <input type="text" class="form-control" placeholder="Busca un vehículo...">
+            <input type="text" class="form-control" placeholder="Buscar un vehículo...">
             <button class="btn btn-primary" type="submit">Buscar</button>
         </div>
     </form>
@@ -33,8 +36,8 @@
     <!-- MENU DE FILTROS DEL COCHE -->
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-2">
-
+            <div class="col-md-2 border-top border-end border-bottom pe-3">
+                <h3>Filtros</h3>
                 <!-- MARCA -->
                 <div>
                     <label class="form-label">Marca:</label>
@@ -129,39 +132,81 @@
                 </div><br>
 
                 <!-- OTROS FILTROS -->
-                <div class="form-check">
+                <!-- mascotas -->
+                <div>
+                    <label class="form-label">Mascotas:</label>
+                    <div class="form-check">
                         <input class="form-check-input" type="checkbox" id="mascotas">
-                        <label class="form-check-label" for="mascotas">Acepta mascotas</label>
+                        <label class="form-check-label">Acepta mascotas</label>
                     </div>
+                </div><br>
+                <!-- movilidad -->
+                <div>
+                    <label class="form-label">Movilidad reducida:</label>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="fumador">
-                        <label class="form-check-label" for="fumador">Fumador</label>
+                        <input class="form-check-input" type="checkbox" id="movilidad_reducida">
+                        <label class="form-check-label">Adaptado para movilidad reducida</label>
                     </div>
+                </div><br>
+                <!-- fumador -->
+                <div>
+                    <label class="form-label">Fumadores:</label>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="movilidad">
-                        <label class="form-check-label" for="movilidad">Movilidad reducida</label>
+                        <input class="form-check-input" type="checkbox" id="fumadores">
+                        <label class="form-check-label">Acepta fumadores</label>
                     </div>
-                </div>
+                </div><br>
 
                 <!-- EQUIPAMIENTO -->
                 <div>
-                    <label class="form-label">Otros filtros</label>
-                    
+                    <label class="form-label">Equipamiento:</label>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="movilidad">
-                        <label class="form-check-label" for="bluetooh">Bluetooh</label>
+                        <input class="form-check-input" type="checkbox" id="bluetooh">
+                        <label class="form-check-label">Bluetooh</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="movilidad">
-                        <label class="form-check-label" for="wifi">WiFi</label>
+                        <input class="form-check-input" type="checkbox" id="wifi">
+                        <label class="form-check-label">WiFi</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="movilidad">
-                        <label class="form-check-label" for="camara_reversa">Cámara reversa</label>
+                        <input class="form-check-input" type="checkbox" id="camara_reversa">
+                        <label class="form-check-label">Cámara trasera</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="movilidad">
-                        <label class="form-check-label" for="control_crucero">Control crucero</label>
+                        <input class="form-check-input" type="checkbox" id="sensor_aparcamiento">
+                        <label class="form-check-label">Sensor de aparcamiento</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="control_crucero">
+                        <label class="form-check-label">Control crucero</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="bola_remolque">
+                        <label class="form-check-label">Bola de remolque</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="4x4">
+                        <label class="form-check-label">4x4</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="baca">
+                        <label class="form-check-label">Baca</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="4x4">
+                        <label class="form-check-label">4x4</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="portabicicletas">
+                        <label class="form-check-label">Portabicicletas</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="portaequipajes">
+                        <label class="form-check-label">Portaequipajes</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="portaesquís">
+                        <label class="form-check-label">Portaesquís</label>
                     </div>
                 </div>
 
@@ -171,17 +216,119 @@
                 <div>
                     <button class="btn btn-primary" type="button">Aplicar Filtros</button>
                 </div>
-            </div>
+            </div> <!-- fin del menu -->
 
+            <!-- TARJETAS -->
+            <div class="col-md-10 bg-light">
+                <div class="container my-4">
+                    <div class="row row-cols-1 row-cols-md-4 g-4">
 
+                        <!-- 1 -->
+                        <div class="col">
+                            <div class="card shadow">
+                                <img src="./ruta" class="card-img-top">
+                                <div class="card-body">
+                                    <h5 class="card-title">Modelo del Vehículo</h5>
+                                    <p class="card-text">Marca: <strong>Marca del coche</strong></p>
+                                    <p class="card-text text-success">45€/día</p>
+                                </div>
+                            </div>
+                        </div>
 
+                        <!-- 2 -->
+                        <div class="col">
+                            <div class="card shadow">
+                                <img src="./ruta" class="card-img-top">
+                                <div class="card-body">
+                                    <h5 class="card-title">Modelo del Vehículo</h5>
+                                    <p class="card-text">Marca: <strong>Marca del coche</strong></p>
+                                    <p class="card-text text-success">45€/día</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 3 -->
+                        <div class="col">
+                            <div class="card shadow">
+                                <img src="./ruta" class="card-img-top">
+                                <div class="card-body">
+                                    <h5 class="card-title">Modelo del Vehículo</h5>
+                                    <p class="card-text">Marca: <strong>Marca del coche</strong></p>
+                                    <p class="card-text text-success">45€/día</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 4 -->
+                        <div class="col">
+                            <div class="card shadow">
+                                <img src="./ruta" class="card-img-top">
+                                <div class="card-body">
+                                    <h5 class="card-title">Modelo del Vehículo</h5>
+                                    <p class="card-text">Marca: <strong>Marca del coche</strong></p>
+                                    <p class="card-text text-success">45€/día</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 5 -->
+                        <div class="col">
+                            <div class="card shadow">
+                                <img src="./ruta" class="card-img-top">
+                                <div class="card-body">
+                                    <h5 class="card-title">Modelo del Vehículo</h5>
+                                    <p class="card-text">Marca: <strong>Marca del coche</strong></p>
+                                    <p class="card-text text-success">45€/día</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 6 -->
+                        <div class="col">
+                            <div class="card shadow">
+                                <img src="./ruta" class="card-img-top">
+                                <div class="card-body">
+                                    <h5 class="card-title">Modelo del Vehículo</h5>
+                                    <p class="card-text">Marca: <strong>Marca del coche</strong></p>
+                                    <p class="card-text text-success">45€/día</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 7 -->
+                        <div class="col">
+                            <div class="card shadow">
+                                <img src="./ruta" class="card-img-top">
+                                <div class="card-body">
+                                    <h5 class="card-title">Modelo del Vehículo</h5>
+                                    <p class="card-text">Marca: <strong>Marca del coche</strong></p>
+                                    <p class="card-text text-success">45€/día</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 8 -->
+                        <div class="col">
+                            <div class="card shadow">
+                                <img src="./ruta" class="card-img-top">
+                                <div class="card-body">
+                                    <h5 class="card-title">Modelo del Vehículo</h5>
+                                    <p class="card-text">Marca: <strong>Marca del coche</strong></p>
+                                    <p class="card-text text-success">45€/día</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div> <!-- fin tarjetas -->
         </div>
     </div>
-
-
     <!-- Footer -->
     <?php include_once 'src/components/footer.php'; ?>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.0/mdb.min.js"></script>
+
+
 </body>
 
 </html>
