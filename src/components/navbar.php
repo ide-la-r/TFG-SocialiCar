@@ -17,7 +17,7 @@
     <!-- Logo -->
     <a class="navbar-brand mt-2 mt-lg-0" href="index.php">
       <img
-        src="src/img/nav.png"
+        src="/socialicar/src/img/nav.png"
         height="30"
         alt="SocialiCar Logo"
         loading="lazy"
@@ -28,10 +28,10 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" href="index.php">Inicio</a>
+          <a class="nav-link" href="/socialicar/">Inicio</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="alquilar.php">Alquilar Coche</a>
+          <a class="nav-link" href="/socialicar/src/pages/rentacar/mostrar_coches.php">Alquilar Coche</a>
         </li>
       </ul>
     </div>
@@ -63,7 +63,7 @@
           aria-expanded="false"
         >
           <img
-            src="src/img/perfil.png"
+            src="/socialicar/src/img/perfil.png"
             class="rounded-circle"
             height="30"
             alt="Avatar"
