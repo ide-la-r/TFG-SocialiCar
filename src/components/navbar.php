@@ -4,13 +4,12 @@
     <button
       class="navbar-toggler"
       type="button"
-      data-mdb-toggle="collapse"
+      data-bs-toggle="collapse"
       data-mdb-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent"
       aria-expanded="false"
       aria-label="Toggle navigation"
-      style="border: none; background-color: transparent;"
-    >
+      style="border: none; background-color: transparent;">
       <i class="fas fa-bars"></i>
     </button>
 
@@ -20,8 +19,7 @@
         src="/socialicar/src/img/nav.png"
         height="30"
         alt="SocialiCar Logo"
-        loading="lazy"
-      />
+        loading="lazy" />
     </a>
 
     <!-- Contenido colapsable -->
@@ -45,8 +43,7 @@
           class="text-reset"
           href="#"
           role="button"
-          aria-expanded="false"
-        >
+          aria-expanded="false">
           <i class="fa-regular fa-comment-dots fa-flip-horizontal"></i>
           <span class="badge rounded-pill bg-danger">1</span>
         </a>
@@ -54,21 +51,13 @@
 
       <!-- Avatar usuario -->
       <div class="dropdown">
-        <a
-          class="dropdown-toggle d-flex align-items-center hidden-arrow"
+        <a class="dropdown-toggle d-flex align-items-center hidden-arrow"
           href="#"
           id="navbarDropdownMenuAvatar"
           role="button"
           data-mdb-toggle="dropdown"
-          aria-expanded="false"
-        >
-          <img
-            src="/socialicar/src/img/perfil.png"
-            class="rounded-circle"
-            height="30"
-            alt="Avatar"
-            loading="lazy"
-          />
+          aria-expanded="false">
+          <img src="/socialicar/src/img/perfil.png" class="rounded-circle" height="30" alt="Avatar" loading="lazy" />
         </a>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
           <li>
@@ -92,3 +81,4 @@
     </div>
   </div>
 </nav>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.0/mdb.min.js"></script>
