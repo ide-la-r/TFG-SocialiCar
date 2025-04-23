@@ -218,18 +218,66 @@
                 </div>
             </div> <!-- fin del menu -->
 
-            <!-- TARJETAS -->
-            <div class="col-md-10 bg-light">
-                <div class="container my-4">
-                    <div class="row row-cols-1 row-cols-md-4 g-4">
 
+            <!-- TARJETAS DE LOS USUARIOS PREMIUM -->
+
+
+            <div class="col-md-10 bg-light">
+
+
+                <div class="container my-4">
+                    <!-- TARJETAS -->
+
+                    <!-- tarjetas premium -->
+                    <div class="row row-cols-1 row-cols-md-3 g-4"> <!-- Solo una fila -->
+                        <!-- 1 -->
+                        <div class="col">
+                            <div class="card h-100 shadow-lg border-success">
+                                <img src="./ruta" class="card-img-top">
+                                <div class="card-body">
+                                    <h5 class="card-title">Modelo del Vehículo</h5>
+                                    <p class="card-text"><strong>Marca del coche</strong></p>
+                                    <p class="card-text text-success">45€/día</p>
+                                    <p class="badge bg-warning">¡Premium!</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 2 -->
+                        <div class="col">
+                            <div class="card h-100 shadow-lg border-success">
+                                <img src="./ruta" class="card-img-top">
+                                <div class="card-body">
+                                    <h5 class="card-title">Modelo del Vehículo</h5>
+                                    <p class="card-text"><strong>Marca del coche</strong></p>
+                                    <p class="card-text text-success">45€/día</p>
+                                    <p class="badge bg-warning">¡Premium!</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 3 -->
+                        <div class="col">
+                            <div class="card h-100 shadow-lg border-success">
+                                <img src="./ruta" class="card-img-top">
+                                <div class="card-body">
+                                    <h5 class="card-title">Modelo del Vehículo</h5>
+                                    <p class="card-text"><strong>Marca del coche</strong></p>
+                                    <p class="card-text text-success">45€/día</p>
+                                    <p class="badge bg-warning">¡Premium!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div><br>
+
+
+                    <!-- TARJETAS NORMALES -->
+                    <div class="row row-cols-1 row-cols-md-4 g-4">
                         <!-- 1 -->
                         <div class="col">
                             <div class="card shadow">
                                 <img src="./ruta" class="card-img-top">
                                 <div class="card-body">
                                     <h5 class="card-title">Modelo del Vehículo</h5>
-                                    <p class="card-text">Marca: <strong>Marca del coche</strong></p>
+                                    <p class="card-text"><strong>Marca del coche</strong></p>
                                     <p class="card-text text-success">45€/día</p>
                                 </div>
                             </div>
@@ -241,7 +289,7 @@
                                 <img src="./ruta" class="card-img-top">
                                 <div class="card-body">
                                     <h5 class="card-title">Modelo del Vehículo</h5>
-                                    <p class="card-text">Marca: <strong>Marca del coche</strong></p>
+                                    <p class="card-text"><strong>Marca del coche</strong></p>
                                     <p class="card-text text-success">45€/día</p>
                                 </div>
                             </div>
@@ -253,7 +301,7 @@
                                 <img src="./ruta" class="card-img-top">
                                 <div class="card-body">
                                     <h5 class="card-title">Modelo del Vehículo</h5>
-                                    <p class="card-text">Marca: <strong>Marca del coche</strong></p>
+                                    <p class="card-text"><strong>Marca del coche</strong></p>
                                     <p class="card-text text-success">45€/día</p>
                                 </div>
                             </div>
@@ -265,7 +313,7 @@
                                 <img src="./ruta" class="card-img-top">
                                 <div class="card-body">
                                     <h5 class="card-title">Modelo del Vehículo</h5>
-                                    <p class="card-text">Marca: <strong>Marca del coche</strong></p>
+                                    <p class="card-text"><strong>Marca del coche</strong></p>
                                     <p class="card-text text-success">45€/día</p>
                                 </div>
                             </div>
@@ -277,7 +325,7 @@
                                 <img src="./ruta" class="card-img-top">
                                 <div class="card-body">
                                     <h5 class="card-title">Modelo del Vehículo</h5>
-                                    <p class="card-text">Marca: <strong>Marca del coche</strong></p>
+                                    <p class="card-text"><strong>Marca del coche</strong></p>
                                     <p class="card-text text-success">45€/día</p>
                                 </div>
                             </div>
@@ -289,7 +337,7 @@
                                 <img src="./ruta" class="card-img-top">
                                 <div class="card-body">
                                     <h5 class="card-title">Modelo del Vehículo</h5>
-                                    <p class="card-text">Marca: <strong>Marca del coche</strong></p>
+                                    <p class="card-text"><strong>Marca del coche</strong></p>
                                     <p class="card-text text-success">45€/día</p>
                                 </div>
                             </div>
@@ -301,7 +349,7 @@
                                 <img src="./ruta" class="card-img-top">
                                 <div class="card-body">
                                     <h5 class="card-title">Modelo del Vehículo</h5>
-                                    <p class="card-text">Marca: <strong>Marca del coche</strong></p>
+                                    <p class="card-text"><strong>Marca del coche</strong></p>
                                     <p class="card-text text-success">45€/día</p>
                                 </div>
                             </div>
@@ -313,7 +361,7 @@
                                 <img src="./ruta" class="card-img-top">
                                 <div class="card-body">
                                     <h5 class="card-title">Modelo del Vehículo</h5>
-                                    <p class="card-text">Marca: <strong>Marca del coche</strong></p>
+                                    <p class="card-text"><strong>Marca del coche</strong></p>
                                     <p class="card-text text-success">45€/día</p>
                                 </div>
                             </div>
@@ -322,6 +370,8 @@
                     </div>
                 </div>
             </div> <!-- fin tarjetas -->
+
+
         </div>
     </div>
     <!-- Footer -->
