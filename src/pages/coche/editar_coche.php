@@ -41,7 +41,7 @@
                     </div>
 
                     <div class="mb-3 col-8">
-                        <input id="contrasena" class="form-control" type="date" placeholder="Año de matriculación*" name="anno_matriculacion">
+                        <input id="contrasena" class="form-control" type="month" placeholder="Año de matriculación*" name="anno_matriculacion">
                     </div>
 
                     <div class="mb-3 col-8">
