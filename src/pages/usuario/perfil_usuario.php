@@ -3,10 +3,15 @@
     ini_set("display_errors", 1);
     session_start();
 
-    require(__DIR__ . "/../../config/conexion.php"); // Aquí se define $conexion
+    require(__DIR__ . "/../../config/conexion.php");
     require(__DIR__ . "/../../config/depurar.php");
 
-    // Verificar si el usuario ha iniciado sesión
+    // Verificar si la conexión está funcionando correctamente
+    if (!$_conexion) {
+        echo "Error en la conexión a la base de datos.";
+        exit();
+    }
+
     if (!isset($_SESSION["usuario"])) {
         header("location: ../../../index.php");
         exit();
@@ -20,17 +25,29 @@
             $dniUsuario = $_SESSION["usuario"]["dni"];
             $rutaDestino = __DIR__ . "/../../../../public/img/perfil/" . $dniUsuario;
 
+            // Depuración: Verificar la ruta de destino
+            echo "Ruta destino: " . $rutaDestino . "<br>";
+
+            // Verificar las extensiones permitidas
             $lista_extensiones = ["image/jpg", "image/jpeg", "image/png", "image/webp"];
             if (!in_array($fotoPerfil["type"], $lista_extensiones)) {
                 $err_fotoPerfil = "Formato de imagen no válido. Solo se permiten JPG, JPEG, PNG y WEBP.";
             } else {
+                // Crear la carpeta si no existe
                 if (!is_dir($rutaDestino)) {
-                    mkdir($rutaDestino, 0777, true);
+                    echo "Creando carpeta: " . $rutaDestino . "<br>";
+                    if (mkdir($rutaDestino, 0777, true)) {
+                        echo "Carpeta creada correctamente: " . $rutaDestino . "<br>";
+                    } else {
+                        echo "No se pudo crear la carpeta: " . $rutaDestino . "<br>";
+                    }
                 }
 
+                // Mover la imagen a la carpeta del usuario
                 if (move_uploaded_file($rutaTemporal, $rutaDestino . "/" . $nombreArchivo)) {
-                    $rutaRelativaBD = "src/img/perfil/" . $dniUsuario . "/" . $nombreArchivo;
+                    $rutaRelativaBD = "public/img/perfil/" . $dniUsuario . "/" . $nombreArchivo;
 
+                    // Actualizar la base de datos
                     $sql = "UPDATE usuario SET foto_perfil = ? WHERE identificacion = ?";
                     $stmt = $_conexion->prepare($sql);
                     $stmt->bind_param("ss", $rutaRelativaBD, $dniUsuario);
@@ -51,6 +68,7 @@
         }
     }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="es">
