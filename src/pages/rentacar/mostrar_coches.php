@@ -2,10 +2,7 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="src/img/favicon.png" />
-    <title>SocialiCar - Comparte tu coche</title>
+    <link rel="icon" href="../../../src/img/favicon.png" />
     <?php
         require(__DIR__ . '/../../config/bootstrap.php');
         require(__DIR__ . "/../../../src/config/conexion.php");
