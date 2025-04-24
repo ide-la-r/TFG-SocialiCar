@@ -99,22 +99,26 @@
           <a
             class="btn btn-outline-light btn-floating m-1"
             class="text-white"
+            href="https://www.facebook.com/people/SocialiCar-Rentacar/pfbid0eL6UbpgSWBv5jxYF5SV32DuJF645MRwvcVb1KXnVPvWNbfs8NYWQeHpUntVefi23l/"
             role="button"><i class="fab fa-facebook-f"></i></a>
 
           <!-- TWITTER -->
           <a
             class="btn btn-outline-light btn-floating m-1"
             class="text-white"
+            href="https://x.com/socialicar_"
             role="button"><i class="fab fa-twitter"></i></a>
 
           <!-- TIKI TOKO -->
           <a
             class="btn btn-outline-light btn-floating m-1"
             class="text-white"
+            href="https://www.tiktok.com/@socialicar"
             role="button"><i class="fab fa-tiktok"></i></a>
 
           <!-- IG DE LA MINITA -->
           <a
+            href="https://www.instagram.com/socialicar/"
             class="btn btn-outline-light btn-floating m-1"
             class="text-white"
 
