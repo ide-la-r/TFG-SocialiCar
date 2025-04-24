@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil de usuario</title>
-    <?php include_once '../../components/links.php'; ?>
+    <?php 
+    include_once '../../components/links.php';
+    session_start();
+    ?>
     <link rel="icon" href="../../../src/img/favicon.png" />
 </head>
 <body>
@@ -34,7 +37,7 @@
     <!-- Añade más datos si lo deseas -->
 </ul>
 <div class="text-center mt-4">
-    <a href="/socialicar/src/pages/usuario/editar_usuario.php" class="btn btn-outline-primary btn-sm">Cambiar credenciales</a>
+    <a href="/socialicar/src/pages/usuario/editar_usuario" class="btn btn-outline-primary btn-sm">Cambiar credenciales</a>
 </div>
 </div>
                         </div>

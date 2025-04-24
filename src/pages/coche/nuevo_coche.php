@@ -7,7 +7,7 @@ require(__DIR__ . "/../../config/conexion.php");
 require(__DIR__ . "/../../config/depurar.php");
 
 session_start();
-if (isset($_SESSION["usuario"])) {
+if (!isset($_SESSION["usuario"])) {
     header("location: ../../../index.php");
     exit();
 }

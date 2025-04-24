@@ -45,9 +45,13 @@
     <div class="d-flex align-items-center">
 
       <!-- Botón de alquilar -->
-      <a class="btn btn-custom me-3" href="/socialicar/src/pages/coche/nuevo_coche">
-        <i class="fa-solid fa-car-side me-2"></i> Alquila tu coche
-      </a>
+      <?php
+      if (isset($_SESSION['usuario'])) {
+        echo "<a class='btn btn-custom me-3' href='/socialicar/src/pages/coche/nuevo_coche'>
+        <i class='fa-solid fa-car-side me-2'></i> Alquila tu coche </a>";
+      }
+      ?>
+      
 
       <!-- Notificaciones -->
       <div class="dropdown me-3">
@@ -75,26 +79,37 @@
         </a>
 
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
-          <li>
-            <a class="dropdown-item" href="/socialicar/src/pages/usuario/registro">
-              <i class="fa-regular fa-circle-user me-2"></i> Registrarse
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item" href="/socialicar/src/pages/usuario/iniciar_sesion">
-              <i class="fa-regular fa-circle-user me-2"></i> Iniciar sesión
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item" href="/socialicar/src/pages/usuario/perfil_usuario">
-              <i class="fa-regular fa-circle-user me-2"></i> Mi perfil
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item" href="/socialicar/src/pages/usuario/cerrar_sesion">
-              <i class="fa-regular fa-circle-xmark me-2"></i> Cerrar sesión
-            </a>
-          </li>
+          <?php
+
+            if (isset($_SESSION['usuario'])) {
+              echo "
+                  <li>
+                    <a class='dropdown-item' href='/socialicar/src/pages/usuario/perfil_usuario'>
+                      <i class='fa-regular fa-circle-user me-2'></i> Mi perfil
+                    </a>
+                  </li>
+                  <li>
+                    <a class='dropdown-item' href='/socialicar/src/pages/usuario/cerrar_sesion'>
+                      <i class='fa-regular fa-circle-xmark me-2'></i> Cerrar sesión
+                    </a>
+                  </li>
+                ";
+            } else {
+              echo "
+                  <li>
+                    <a class='dropdown-item' href='/socialicar/src/pages/usuario/iniciar_sesion'>
+                      <i class='fa-regular fa-circle-user me-2'></i> Iniciar sesión
+                    </a>
+                  </li>
+                  <li>
+                    <a class='dropdown-item' href='/socialicar/src/pages/usuario/registro'>
+                      <i class='fa-regular fa-circle-user me-2'></i> Registrarse
+                    </a>
+                  </li>
+                ";
+            }
+
+          ?>
         </ul>
       </div>
     </div>
