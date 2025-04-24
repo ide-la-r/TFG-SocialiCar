@@ -1,23 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="icon" href="../../../src/img/favicon.png" />
+    <?php
+        require(__DIR__ . '/../../config/bootstrap.php');
+        require(__DIR__ . "/../../../src/config/conexion.php");
+        require(__DIR__ . "/../../../src/config/depurar.php");
+    ?>
     <style>
         .error {
             color: red;
         }
     </style>
-    <?php
-    error_reporting(E_ALL);
-    ini_set("display_errors", 1);
-
-    require('../../config/conexion.php');
-    require('../../config/depurar.php');
-    ?>
 </head>
 
 <body class="d-flex flex-column min-vh-100">
@@ -157,7 +152,7 @@
                 '$contrasena_cifrada', NOW(), NOW(), NULL, NULL, NULL, 0)";
                 
                 if ($_conexion->query($sql)) {
-                    header("location: ../../../index.php");
+                    header("Location: " . BASE_URL);
                     exit(); 
                 }
             }
@@ -223,7 +218,6 @@
     </div>
     <?php include_once '../../components/footer.php'; ?>
     <script src="../../js/registro.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 
 </html>
