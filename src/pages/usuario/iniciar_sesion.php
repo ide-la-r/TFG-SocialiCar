@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($acceso_concedido) {
             $_SESSION["usuario"] = $datos_usuario["nombre"];
-            header("location: iniciar_sesion.php");
+            header("location: ../../../index.php");
             exit();
         } else {
             $err_contrasena = "La contraseña es incorrecta";
