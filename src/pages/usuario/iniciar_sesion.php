@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $acceso_concedido = password_verify($contrasena, $datos_usuario["contrasena"]);
 
         if ($acceso_concedido) {
-            $_SESSION["usuario"] = $datos_usuario["nombre"];
+            $_SESSION["usuario"] = $datos_usuario;
             header("location: ../../../index.php");
             exit();
         } else {
