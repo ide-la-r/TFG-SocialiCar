@@ -84,44 +84,29 @@
     <section class="p-3 pt-0">
       <div class="row d-flex align-items-center">
 
-        <div class="col-md-7 col-lg-8 text-center text-md-start">
-          <!-- Copyright -->
-          <div class="p-3">
-            © 2025 Socialicar:
-            <!-- CUANDO TENGAMOS SUBIDA LA PAGINA WEB PONEMOS LA URL DE LA PAGINA -->
-            <a class="text-white" href="">Socialicar.com</a>
-          </div>
-          <!-- Copyright -->
-        </div>
-
-        <div class="col-md-5 col-lg-4 ml-lg-0 text-center text-md-end">
+        <div class="col-12 text-center justify-content-center">
           <!-- FACEBOOK -->
           <a
-            class="btn btn-outline-light btn-floating m-1"
-            class="text-white"
+            class="btn btn-outline-light btn-floating m-1 mx-3 text-white"
             href="https://www.facebook.com/people/SocialiCar-Rentacar/pfbid0eL6UbpgSWBv5jxYF5SV32DuJF645MRwvcVb1KXnVPvWNbfs8NYWQeHpUntVefi23l/"
             role="button"><i class="fab fa-facebook-f"></i></a>
 
           <!-- TWITTER -->
           <a
-            class="btn btn-outline-light btn-floating m-1"
-            class="text-white"
+            class="btn btn-outline-light btn-floating m-1 mx-3 text-white"
             href="https://x.com/socialicar_"
             role="button"><i class="fab fa-twitter"></i></a>
 
           <!-- TIKI TOKO -->
           <a
-            class="btn btn-outline-light btn-floating m-1"
-            class="text-white"
+            class="btn btn-outline-light btn-floating m-1 mx-3 text-white"
             href="https://www.tiktok.com/@socialicar"
             role="button"><i class="fab fa-tiktok"></i></a>
 
           <!-- IG DE LA MINITA -->
           <a
             href="https://www.instagram.com/socialicar/"
-            class="btn btn-outline-light btn-floating m-1"
-            class="text-white"
-
+            class="btn btn-outline-light btn-floating m-1 mx-3 text-white"
             role="button"><i class="fab fa-instagram"></i></a>
         </div>
       </div>
