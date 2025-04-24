@@ -4,9 +4,9 @@
 <head>
     <link rel="icon" href="../../../src/img/favicon.png" />
     <?php
-        require(__DIR__ . '/../../config/bootstrap.php');
-        require(__DIR__ . "/../../../src/config/conexion.php");
-        require(__DIR__ . "/../../../src/config/depurar.php");
+    require(__DIR__ . '/../../config/bootstrap.php');
+    require(__DIR__ . "/../../../src/config/conexion.php");
+    require(__DIR__ . "/../../../src/config/depurar.php");
     ?>
     <style>
         .error {
@@ -121,39 +121,48 @@
                 $confirmar = false;
                 $err_identificacion = "La identificación es obligatoria";
             } else {
-                if ($tipo_identificacion == "dni") {
-                    //patron DNI
-                    $patron = "/^[0-9]{8}[A-Za-z]$/";
-                    if (!preg_match($patron, $identificacion)) {
-                        $confirmar = false;
-                        $err_identificacion = "La DNI debe tener 8 digitos y una letra al final";
-                    }
-                } elseif ($tipo_identificacion == "nie") {
-                    //patron NIE
-                    $patron = "/^[XYZ][0-9]{7}[A-Za-z]$/";
-                    if (!preg_match($patron, $identificacion)) {
-                        $confirmar = false;
-                        $err_identificacion = "El NIE debe tener una X,Y o Z, siguiendo de 7 digitos y una letra al final";
-                    }
-                } elseif ($tipo_identificacion == "nif") {
-                    //patron NIF
-                    $patron = "/^[0-9]{8}[A-Za-z]$/";
-                    if (!preg_match($patron, $identificacion)) {
-                        $confirmar = false;
-                        $err_identificacion = "El NIF debe tener 8 digitos y una letra al final";
+
+                $sql = "SELECT * FROM usuario WHERE identificacion = '$identificacion'";
+                $resultado = $_conexion->query($sql);
+
+                if ($resultado->num_rows == 1) {
+                    $confirmar = false;
+                    $err_identificacion = "Esta identificación ya esta registrada";
+                } else {
+                    if ($tipo_identificacion == "dni") {
+                        //patron DNI
+                        $patron = "/^[0-9]{8}[A-Za-z]$/";
+                        if (!preg_match($patron, $identificacion)) {
+                            $confirmar = false;
+                            $err_identificacion = "La DNI debe tener 8 digitos y una letra al final";
+                        }
+                    } elseif ($tipo_identificacion == "nie") {
+                        //patron NIE
+                        $patron = "/^[XYZ][0-9]{7}[A-Za-z]$/";
+                        if (!preg_match($patron, $identificacion)) {
+                            $confirmar = false;
+                            $err_identificacion = "El NIE debe tener una X,Y o Z, siguiendo de 7 digitos y una letra al final";
+                        }
+                    } elseif ($tipo_identificacion == "nif") {
+                        //patron NIF
+                        $patron = "/^[0-9]{8}[A-Za-z]$/";
+                        if (!preg_match($patron, $identificacion)) {
+                            $confirmar = false;
+                            $err_identificacion = "El NIF debe tener 8 digitos y una letra al final";
+                        }
                     }
                 }
             }
 
             if ($confirmar) {
-                $sql = "INSERT INTO usuario (dni, nombre, apellido, correo, telefono, contrasena,
+                $sql = "INSERT INTO usuario (identificacion, nombre, apellido, correo, telefono, contrasena,
                 fecha_registro, fecha_update, foto_perfil, ruta_img_dni, ruta_img_carnet, verificado)
                 VALUES ('$identificacion', '$nombre', '$apellido', '$correo', '$telefono',
                 '$contrasena_cifrada', NOW(), NOW(), NULL, NULL, NULL, 0)";
-                
+
                 if ($_conexion->query($sql)) {
                     header("Location: " . BASE_URL);
-                    exit(); 
+                    exit();
                 }
             }
         }
