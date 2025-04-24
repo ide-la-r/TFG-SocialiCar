@@ -2,11 +2,16 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Añadir coche</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.0/mdb.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <link rel="icon" href="../../../src/img/favicon.png" />
+    <?php
+        require(__DIR__ . '/../../config/bootstrap.php');
+        require(__DIR__ . "/../../../src/config/conexion.php");
+
+        /* if (!isset($_SESSION["usuario"])) {
+            header("Location: " . BASE_URL . "src/pages/usuario/iniciar_sesion.php");
+            exit;
+        } */
+    ?>
 </head>
 
 <body>
@@ -137,9 +142,6 @@
                 </div>
             </div>
         </div>
-
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
         <!-- Botón para enviar el formulario -->
 
     </form>
