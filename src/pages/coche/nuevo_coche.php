@@ -1,3 +1,233 @@
+<?php
+
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+
+require(__DIR__ . "/../../config/conexion.php");
+require(__DIR__ . "/../../config/depurar.php");
+
+session_start();
+if (isset($_SESSION["usuario"])) {
+    header("location: ../../../index.php");
+    exit();
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $tmp_matricula = $_POST['matricula'];
+    $tmp_marca = $_POST['marca'];
+    $tmp_modelo = $_POST['modelo'];
+    $tmp_anno_matriculacion = $_POST['anno_matriculacion'];
+    $tmp_kilometros = $_POST['kilometros'];
+    $tmp_direccion = $_POST['direccion'];
+    $tmp_cp = $_POST['cp'];
+    $tmp_provincia = $_POST['provincia'];
+    $tmp_ciudad = $_POST['ciudad'];
+    $tmp_tipo_combustible = $_POST['tipo_combustible'];
+    $tmp_transmision = $_POST['transmision'];
+    $tmp_tipo_aparcamiento = $_POST['tipo_aparcamiento'];
+    $tmp_tipo = $_POST['tipo'];
+
+    $id_usuario = $_SESSION["usuario"];
+    $seguro = isset($_POST['seguro']) ? 1 : 0;
+    $mascota = isset($_POST['mascota']) ? 1 : 0;
+    $fumar = isset($_POST['fumar']) ? 1 : 0;
+    $ruta_img_coche = $_POST['ruta_img_coche'] ?? NULL;
+    $movilidadreducia = isset($_POST['movilidadreducia']) ? 1 : 0;
+    $gps = isset($_POST['gps']) ? 1 : 0;
+    $wifi = isset($_POST['wifi']) ? 1 : 0;
+    $sensoresaparcamiento = isset($_POST['sensoresaparcamiento']) ? 1 : 0;
+    $camaradereversa = isset($_POST['camaradereversa']) ? 1 : 0;
+    $controldecrucero = isset($_POST['controldecrucero']) ? 1 : 0;
+    $asientoscalefactables = isset($_POST['asientoscalefactables']) ? 1 : 0;
+    $bola_remolque = isset($_POST['bola_remolque']) ? 1 : 0;
+    $fijaciones_isofix = isset($_POST['fijaciones_isofix']) ? 1 : 0;
+    $apple_carplay = isset($_POST['apple_carplay']) ? 1 : 0;
+    $android_carplay = isset($_POST['android_carplay']) ? 1 : 0;
+    $baca = isset($_POST['baca']) ? 1 : 0;
+    $portabicicletas = isset($_POST['portabicicletas']) ? 1 : 0;
+    $portaequipajes = isset($_POST['portaequipajes']) ? 1 : 0;
+    $portaesquis = isset($_POST['portaesquis']) ? 1 : 0;
+    $bluetooth = isset($_POST['bluetooth']) ? 1 : 0;
+    $cuatroxcuatro = isset($_POST['cuatroxcuatro']) ? 1 : 0;
+
+
+    /* Validación de matricula */
+    if ($tmp_matricula == "") {
+        $err_matricula = "Debes indicar la matricula de tu coche";
+    } else {
+        $sql = "SELECT * FROM coches WHERE matricula = '$tmp_matricula'";
+        $resultado = $_conexion->query($sql);
+        if ($resultado -> num_rows == 1) {
+            $err_matricula = "Ya existe un coche con esta matricula";
+        } else {
+            if (strlen($tmp_matricula) > 7) {
+                $err_matricula = "La matricula no puede tener más de 7 caracteres";
+            } else {
+                if (!preg_match("/^[0-9]{4}[A-Z]{3}$/", $tmp_matricula)) {
+                    $err_matricula = "La matricula no es válida";
+                } else {
+                    $matricula = $tmp_matricula;
+                }
+            }
+        }
+    }
+
+    /* Validación de marca */
+    if ($tmp_marca == "") {
+        $err_marca = "Debes indicar la marca de tu coche";
+    } else {
+        if (strlen($tmp_marca) > 20) {
+            $err_marca = "La marca no puede tener más de 20 caracteres";
+        } else {
+            $marca = $tmp_marca; /* Agregar más adelante la comprovación con la API de las marcas */
+        }
+    }
+
+    /* Validación de modelo */
+    if ($tmp_modelo == "") {
+        $err_modelo = "Debes indicar el modelo de tu coche";
+    } else {
+        if (strlen($tmp_modelo) > 20) {
+            $err_modelo = "El modelo no puede tener más de 20 caracteres";
+        } else {
+            $modelo = $tmp_modelo; /* Agregar más adelante la comprovación con la API de los modelos */
+        }
+    }
+
+    /* Validación de año de matriculación */
+    if ($tmp_anno_matriculacion == "") {
+        $err_anno_matriculacion = "Debes indicar el año de matriculación de tu coche";
+    } else {
+        $anno_matriculacion = $tmp_anno_matriculacion . "-01";
+    }
+
+    /* Validación de kilómetros */
+    if ($tmp_kilometros == "") {
+        $err_kilometros = "Debes indicar los kilómetros de tu coche";
+    } else {
+        if (!is_numeric($tmp_kilometros)) {
+            $err_kilometros = "Los kilómetros deben ser un número";
+        } else {
+            $kilometros = $tmp_kilometros;
+        }
+    }
+
+    /* Validación de dirección */
+    if ($tmp_direccion == "") {
+        $err_direccion = "Debes indicar la dirección de tu coche";
+    } else {
+        if (strlen($tmp_direccion) > 50) {
+            $err_direccion = "La dirección no puede tener más de 50 caracteres";
+        } else {
+            $direccion = $tmp_direccion;
+        }
+    }
+    
+    /* Validación de código postal */
+    if ($tmp_cp == "") {
+        $err_cp = "Debes indicar el código postal de tu coche";
+    } else {
+        if (!is_numeric($tmp_cp)) {
+            $err_cp = "El código postal debe ser un número";
+        } else {
+            if (strlen($tmp_cp) != 5) {
+                $err_cp = "El código postal debe tener 5 dígitos";
+            } else {
+                $cp = $tmp_cp;
+            }
+        }
+    }
+
+    /* Validación de provincia */
+    if ($tmp_provincia == "") {
+        $err_provincia = "Debes indicar la provincia de tu coche";
+    } else {
+        if (strlen($tmp_provincia) > 20) {
+            $err_provincia = "La provincia no puede tener más de 20 caracteres";
+        } else {
+            $provincia = $tmp_provincia; /* Agregar más adelante la comprovación con la API de las provincias */
+        }
+    }
+
+    /* Validación de ciudad */
+    if ($tmp_ciudad == "") {
+        $err_ciudad = "Debes indicar la ciudad de tu coche";
+    } else {
+        if (strlen($tmp_ciudad) > 20) {
+            $err_ciudad = "La ciudad no puede tener más de 20 caracteres";
+        } else {
+            $ciudad = $tmp_ciudad; /* Agregar más adelante la comprovación con la API de las ciudades */
+        }
+    }
+
+    /* Validación de tipo de combustible */
+    if ($tmp_tipo_combustible == "") {
+        $err_tipo_combustible = "Debes indicar el tipo de combustible de tu coche";
+    } else {
+        $lista_combustibles = ["gasolina", "diesel", "hibrido", "electrico", "glp", "gnc"];
+        if (!in_array($tmp_tipo_combustible, $lista_combustibles)) {
+            $err_tipo_combustible = "El tipo de combustible no es válido";
+        } else {
+            $tipo_combustible = $tmp_tipo_combustible;
+        }
+    }
+
+    /* Validación del tipo de coche */
+    if ($tmp_tipo == "") {
+        $err_tipo = "Debes indicar de que tipo es tu coche";
+    } else {
+        $lista_tipos = ["coupe", "monovolumen", "suv", "familiar", "furgoneta", "utilitario", "autocaravana"];
+        if (!in_array($tmp_tipo, $lista_tipos)) {
+            $err_tipo = "El tipo de coche no es válido";
+        } else {
+            $tipo = $tmp_tipo;
+        }
+    }
+
+    /* Validación de transmisión */
+    if ($tmp_transmision == "") {
+        $err_transmision = "Debes indicar la transmisión de tu coche";
+    } else {
+        $lista_transmision = ["manual", "automatico"];
+        if (!in_array($tmp_transmision, $lista_transmision)) {
+            $err_transmision = "El tipo de transmisión no es válido";
+        } else {
+            $transmision = $tmp_transmision;
+        }
+    }
+
+    /* Validación de tipo de aparcamiento */
+    if ($tmp_tipo_aparcamiento == "") {
+        $err_tipo_aparcamiento = "Debes indicar el tipo de aparcamiento de tu coche";
+    } else {
+        $lista_aparcamiento = ["calle", "garaje", "parking"];
+        if (!in_array($tmp_tipo_aparcamiento, $lista_aparcamiento)) {
+            $err_tipo_aparcamiento = "El tipo de aparcamiento no es válido";
+        } else {
+            $tipo_aparcamiento = $tmp_tipo_aparcamiento;
+        }
+    }
+
+    /* Validación de fotos */
+    if (isset($_FILES['fotosCoche'])) {
+        $fotosCoche = $_FILES['fotosCoche'];
+        $errores = [];
+        foreach ($fotosCoche['error'] as $key => $error) {
+            if ($error == UPLOAD_ERR_OK) {
+                $tmp_name = $fotosCoche['tmp_name'][$key];
+                $name = basename($fotosCoche['name'][$key]);
+                move_uploaded_file($tmp_name, "uploads/$name");
+            } else {
+                $errores[] = "Error al subir la foto: " . $error;
+            }
+        }
+    } else {
+        $err_fotosCoche = "Debes subir al menos una foto de tu coche";
+    }
+
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -5,238 +235,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SocialiCar - Comparte tu coche</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <?php include_once '../../components/links.php'; ?>
     <link rel="icon" href="../../../src/img/favicon.png" />
     <?php
-    error_reporting(E_ALL);
-    ini_set("display_errors", 1);
-    
-    require(__DIR__ . "/../../config/conexion.php");
-    require(__DIR__ . "/../../config/depurar.php");
+        
     ?>
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
 </head>
 
 <body>
-
-    <?php
-
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $tmp_matricula = $_POST['matricula'];
-            $tmp_marca = $_POST['marca'];
-            $tmp_modelo = $_POST['modelo'];
-            $tmp_anno_matriculacion = $_POST['anno_matriculacion'];
-            $tmp_kilometros = $_POST['kilometros'];
-            $tmp_direccion = $_POST['direccion'];
-            $tmp_cp = $_POST['cp'];
-            $tmp_provincia = $_POST['provincia'];
-            $tmp_ciudad = $_POST['ciudad'];
-            $tmp_tipo_combustible = $_POST['tipo_combustible'];
-            $tmp_transmision = $_POST['transmision'];
-            $tmp_tipo_aparcamiento = $_POST['tipo_aparcamiento'];
-            $tmp_tipo = $_POST['tipo'];
-
-            $id_usuario = $_SESSION['identificaion'];
-            $seguro = isset($_POST['seguro']) ? 1 : 0;
-            $mascota = isset($_POST['mascota']) ? 1 : 0;
-            $fumar = isset($_POST['fumar']) ? 1 : 0;
-            $ruta_img_coche = $_POST['ruta_img_coche'] ?? NULL;
-            $movilidadreducia = isset($_POST['movilidadreducia']) ? 1 : 0;
-            $gps = isset($_POST['gps']) ? 1 : 0;
-            $wifi = isset($_POST['wifi']) ? 1 : 0;
-            $sensoresaparcamiento = isset($_POST['sensoresaparcamiento']) ? 1 : 0;
-            $camaradereversa = isset($_POST['camaradereversa']) ? 1 : 0;
-            $controldecrucero = isset($_POST['controldecrucero']) ? 1 : 0;
-            $asientoscalefactables = isset($_POST['asientoscalefactables']) ? 1 : 0;
-            $bola_remolque = isset($_POST['bola_remolque']) ? 1 : 0;
-            $fijaciones_isofix = isset($_POST['fijaciones_isofix']) ? 1 : 0;
-            $apple_carplay = isset($_POST['apple_carplay']) ? 1 : 0;
-            $android_carplay = isset($_POST['android_carplay']) ? 1 : 0;
-            $baca = isset($_POST['baca']) ? 1 : 0;
-            $portabicicletas = isset($_POST['portabicicletas']) ? 1 : 0;
-            $portaequipajes = isset($_POST['portaequipajes']) ? 1 : 0;
-            $portaesquis = isset($_POST['portaesquis']) ? 1 : 0;
-            $bluetooth = isset($_POST['bluetooth']) ? 1 : 0;
-            $cuatroxcuatro = isset($_POST['cuatroxcuatro']) ? 1 : 0;
-
-
-            /* Validación de matricula */
-            if ($tmp_matricula == "") {
-                $err_matricula = "Debes indicar la matricula de tu coche";
-            } else {
-                $sql = "SELECT * FROM coches WHERE matricula = '$tmp_matricula'";
-                $resultado = $_conexion->query($sql);
-                if ($resultado -> num_rows == 1) {
-                    $err_matricula = "Ya existe un coche con esta matricula";
-                } else {
-                    if (strlen($tmp_matricula) > 7) {
-                        $err_matricula = "La matricula no puede tener más de 7 caracteres";
-                    } else {
-                        if (!preg_match("/^[0-9]{4}[A-Z]{3}$/", $tmp_matricula)) {
-                            $err_matricula = "La matricula no es válida";
-                        } else {
-                            $matricula = $tmp_matricula;
-                        }
-                    }
-                }
-            }
-
-            /* Validación de marca */
-            if ($tmp_marca == "") {
-                $err_marca = "Debes indicar la marca de tu coche";
-            } else {
-                if (strlen($tmp_marca) > 20) {
-                    $err_marca = "La marca no puede tener más de 20 caracteres";
-                } else {
-                    $marca = $tmp_marca; /* Agregar más adelante la comprovación con la API de las marcas */
-                }
-            }
-
-            /* Validación de modelo */
-            if ($tmp_modelo == "") {
-                $err_modelo = "Debes indicar el modelo de tu coche";
-            } else {
-                if (strlen($tmp_modelo) > 20) {
-                    $err_modelo = "El modelo no puede tener más de 20 caracteres";
-                } else {
-                    $modelo = $tmp_modelo; /* Agregar más adelante la comprovación con la API de los modelos */
-                }
-            }
-
-            /* Validación de año de matriculación */
-            if ($tmp_anno_matriculacion == "") {
-                $err_anno_matriculacion = "Debes indicar el año de matriculación de tu coche";
-            } else {
-                $anno_matriculacion = $tmp_anno_matriculacion . "-01";
-            }
-
-            /* Validación de kilómetros */
-            if ($tmp_kilometros == "") {
-                $err_kilometros = "Debes indicar los kilómetros de tu coche";
-            } else {
-                if (!is_numeric($tmp_kilometros)) {
-                    $err_kilometros = "Los kilómetros deben ser un número";
-                } else {
-                    $kilometros = $tmp_kilometros;
-                }
-            }
-
-            /* Validación de dirección */
-            if ($tmp_direccion == "") {
-                $err_direccion = "Debes indicar la dirección de tu coche";
-            } else {
-                if (strlen($tmp_direccion) > 50) {
-                    $err_direccion = "La dirección no puede tener más de 50 caracteres";
-                } else {
-                    $direccion = $tmp_direccion;
-                }
-            }
-            
-            /* Validación de código postal */
-            if ($tmp_cp == "") {
-                $err_cp = "Debes indicar el código postal de tu coche";
-            } else {
-                if (!is_numeric($tmp_cp)) {
-                    $err_cp = "El código postal debe ser un número";
-                } else {
-                    if (strlen($tmp_cp) != 5) {
-                        $err_cp = "El código postal debe tener 5 dígitos";
-                    } else {
-                        $cp = $tmp_cp;
-                    }
-                }
-            }
-
-            /* Validación de provincia */
-            if ($tmp_provincia == "") {
-                $err_provincia = "Debes indicar la provincia de tu coche";
-            } else {
-                if (strlen($tmp_provincia) > 20) {
-                    $err_provincia = "La provincia no puede tener más de 20 caracteres";
-                } else {
-                    $provincia = $tmp_provincia; /* Agregar más adelante la comprovación con la API de las provincias */
-                }
-            }
-
-            /* Validación de ciudad */
-            if ($tmp_ciudad == "") {
-                $err_ciudad = "Debes indicar la ciudad de tu coche";
-            } else {
-                if (strlen($tmp_ciudad) > 20) {
-                    $err_ciudad = "La ciudad no puede tener más de 20 caracteres";
-                } else {
-                    $ciudad = $tmp_ciudad; /* Agregar más adelante la comprovación con la API de las ciudades */
-                }
-            }
-
-            /* Validación de tipo de combustible */
-            if ($tmp_tipo_combustible == "") {
-                $err_tipo_combustible = "Debes indicar el tipo de combustible de tu coche";
-            } else {
-                $lista_combustibles = ["gasolina", "diesel", "hibrido", "electrico", "glp", "gnc"];
-                if (!in_array($tmp_tipo_combustible, $lista_combustibles)) {
-                    $err_tipo_combustible = "El tipo de combustible no es válido";
-                } else {
-                    $tipo_combustible = $tmp_tipo_combustible;
-                }
-            }
-
-            /* Validación del tipo de coche */
-            if ($tmp_tipo == "") {
-                $err_tipo = "Debes indicar de que tipo es tu coche";
-            } else {
-                $lista_tipos = ["coupe", "monovolumen", "suv", "familiar", "furgoneta", "utilitario", "autocaravana"];
-                if (!in_array($tmp_tipo, $lista_tipos)) {
-                    $err_tipo = "El tipo de coche no es válido";
-                } else {
-                    $tipo = $tmp_tipo;
-                }
-            }
-
-            /* Validación de transmisión */
-            if ($tmp_transmision == "") {
-                $err_transmision = "Debes indicar la transmisión de tu coche";
-            } else {
-                $lista_transmision = ["manual", "automatico"];
-                if (!in_array($tmp_transmision, $lista_transmision)) {
-                    $err_transmision = "El tipo de transmisión no es válido";
-                } else {
-                    $transmision = $tmp_transmision;
-                }
-            }
-
-            /* Validación de tipo de aparcamiento */
-            if ($tmp_tipo_aparcamiento == "") {
-                $err_tipo_aparcamiento = "Debes indicar el tipo de aparcamiento de tu coche";
-            } else {
-                $lista_aparcamiento = ["calle", "garaje", "parking"];
-                if (!in_array($tmp_tipo_aparcamiento, $lista_aparcamiento)) {
-                    $err_tipo_aparcamiento = "El tipo de aparcamiento no es válido";
-                } else {
-                    $tipo_aparcamiento = $tmp_tipo_aparcamiento;
-                }
-            }
-
-            /* Validación de fotos */
-            if (isset($_FILES['fotosCoche'])) {
-                $fotosCoche = $_FILES['fotosCoche'];
-                $errores = [];
-                foreach ($fotosCoche['error'] as $key => $error) {
-                    if ($error == UPLOAD_ERR_OK) {
-                        $tmp_name = $fotosCoche['tmp_name'][$key];
-                        $name = basename($fotosCoche['name'][$key]);
-                        move_uploaded_file($tmp_name, "uploads/$name");
-                    } else {
-                        $errores[] = "Error al subir la foto: " . $error;
-                    }
-                }
-            } else {
-                $err_fotosCoche = "Debes subir al menos una foto de tu coche";
-            }
-
-        }
-    ?>
-
 
     <?php include_once '../../components/navbar.php'; ?>
     <form action="#" method="post">

@@ -1,3 +1,10 @@
+<?php
+    error_reporting(E_ALL);
+    ini_set("display_errors", 1);
+
+    require('../../config/conexion.php');
+    require('../../config/depurar.php')
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -5,19 +12,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar sesion</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <?php include_once '../../components/links.php'; ?>
+    <link rel="icon" href="../../../src/img/favicon.png" />
     <style>
         .error {
             color: red;
         }
     </style>
-    <?php
-    error_reporting(E_ALL);
-    ini_set("display_errors", 1);
-
-    require('../../config/conexion.php');
-    require('../../config/depurar.php')
-    ?>
 </head>
 
 <body class="d-flex flex-column min-vh-100">
