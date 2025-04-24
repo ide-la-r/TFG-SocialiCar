@@ -149,6 +149,18 @@
                     }
                 }
             }
+
+            if ($confirmar) {
+                $sql = "INSERT INTO usuario (dni, nombre, apellido, correo, telefono, contrasena,
+                fecha_registro, fecha_update, foto_perfil, ruta_img_dni, ruta_img_carnet, verificado)
+                VALUES ('$identificacion', '$nombre', '$apellido', '$correo', '$telefono',
+                '$contrasena_cifrada', NOW(), NOW(), NULL, NULL, NULL, 0)";
+                
+                if ($_conexion->query($sql)) {
+                    header("location: ../../../index.php");
+                    exit(); 
+                }
+            }
         }
         ?>
         <div class="container card text-center card_registro" style="width: 40rem;">
@@ -172,7 +184,7 @@
                     </div>
 
                     <div class="mb-3 col-8">
-                        <input id="contrasena" class="form-control" type="password" placeholder="Contraseña*" name="contrasena">
+                        <input id="contrasena" class="form-control" type="password" placeholder="Contraseña*" name="contrasena" value="<?php if (isset($contrasena)) echo "$contrasena" ?>">
                         <?php if (isset($err_contrasena)) echo "<span class='error'>$err_contrasena</span>" ?>
                     </div>
 

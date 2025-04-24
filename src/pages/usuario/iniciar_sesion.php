@@ -35,14 +35,13 @@
                 $err_correo = "El correo electronico no existe";
             } else {
                 $datos_usuario = $resultado->fetch_assoc();
-
                 $acceso_concedido = password_verify($contrasena, $datos_usuario["contrasena"]);
 
                 if ($acceso_concedido) {
                     session_start();
                     $_SESSION["usuario"] = $datos_usuario["nombre"];
                     header("location: ../../../index.php");
-                    exit;
+                    exit();
                 } else {
                     $err_contrasena = "La contraseña es incorrecta";
                 }
