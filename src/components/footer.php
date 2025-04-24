@@ -35,7 +35,7 @@
             <a class="text-white">Centro de ayuda</a>
           </p>
           <p> <!-- Hacemos la tipica pagina de work in progress y queda de superputamadre -->
-            <a class="text-white">Descargar nuestra app</a>
+            <a class="text-white" href="/socialicar/src/pages/informacion/descarga_app.php">Descargar nuestra app</a>
           </p>
         </div>
         <!-- Grid column -->
