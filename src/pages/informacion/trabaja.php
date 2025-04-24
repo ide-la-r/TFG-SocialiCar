@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +12,7 @@
 
 <div class="container d-flex flex-column align-items-center justify-content-center" style="min-height: 60vh;">
     <!-- Imagen de referencia, reemplaza src por tu imagen -->
-    <img src="" alt="Aqui va la imagen de nuestra mascota xD" style="max-width:200px; margin-bottom: 20px; display:block;" />
+    <img src="../../../src/img/mascota.png" alt="Aqui va la imagen de nuestra mascota xD" style="max-width:200px; margin-bottom: 20px; display:block;" />
     <h3 class="fw-bold text-center" style="color: #595959;">No tenemos ningún puesto abierto ahora mismo</h3>
     <p class="text-center" style="margin-bottom: 0;">¡Nos encantaría conocerte de todas formas! Puedes escribirnos a:</p>
     <a href="mailto:socialicar.rentacar@gmail.com" class="text-decoration-none" style="color: #0099cc; font-weight: 500;">socialicar.rentacar@gmail.com</a>
