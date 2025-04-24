@@ -35,7 +35,7 @@
                 $err_correo = "El correo electronico no existe";
             } else {
                 $datos_usuario = $resultado->fetch_assoc();
-                
+
                 $acceso_concedido = password_verify($contrasena, $datos_usuario["contrasena"]);
 
                 if ($acceso_concedido) {
@@ -64,6 +64,9 @@
                 </div>
                 <input type="submit" class="btn col-4">
             </form>
+            <div class="mb-3 iniciar_sesion_pregunta">
+                <p>¿Todavía no tienes cuenta? <a href="./registro.php">Registrarse</a></p>
+            </div>
         </div>
     </div>
     <?php include_once '../../components/footer.php'; ?>

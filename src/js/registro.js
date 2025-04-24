@@ -1,28 +1,16 @@
-const contrasena = document.getElementById("contrasena");
-const validarContrasena = document.getElementById("validarContrasena");
+document.addEventListener("DOMContentLoaded", function () {
+    const select = document.getElementById("tipoIdentificacion");
+    const inputIdentificacion = document.getElementById("identificacion");
 
-const tipoIdentificacion = document.getElementById("tipoIdentificacion");
-const identificacion = document.getElementById("identificacion");
-
-
-boxPassword.addEventListener("input", () => {
-    validarContrasena.removeAttribute("hidden");
-    if (boxPassword.value === "") {
-        validarContrasena.setAttribute("hidden", true);
-        validarContrasena.value = "";
+    function toggleInput() {
+        if (select.value === "dni" || select.value === "nie" || select.value === "nif") {
+            inputIdentificacion.removeAttribute("hidden");
+        } else {
+            inputIdentificacion.setAttribute("hidden", true);
+        }
     }
-});
 
+    select.addEventListener("change", toggleInput);
 
-identificacion.addEventListener("change", () => {
-    tipoIdentificacion.removeAttribute("hidden");
-    if (identificacion.value === "dni") {
-        tipoIdentificacion.setAttribute("placeholder", "Número de DNI*");
-    } else if (identificacion.value === "nif") {
-        tipoIdentificacion.setAttribute("placeholder", "Número de NIF*");
-    } else if (identificacion.value === "nie") {
-        tipoIdentificacion.setAttribute("placeholder", "Número de NIE*");
-    } else {
-        tipoIdentificacion.setAttribute("hidden", true);
-    }
+    toggleInput();
 });
