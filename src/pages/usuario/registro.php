@@ -2,11 +2,18 @@
 <html lang="es">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SocialiCar - Comparte tu coche</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
     <link rel="icon" href="../../../src/img/favicon.png" />
     <?php
-    require(__DIR__ . '/../../config/bootstrap.php');
-    require(__DIR__ . "/../../../src/config/conexion.php");
-    require(__DIR__ . "/../../../src/config/depurar.php");
+    error_reporting(E_ALL);
+    ini_set("display_errors", 1);
+    
+    require(__DIR__ . "/../../config/conexion.php");
+    require(__DIR__ . "/../../config/depurar.php");
     ?>
     <style>
         .error {
@@ -161,7 +168,7 @@
                 '$contrasena_cifrada', NOW(), NOW(), NULL, NULL, NULL, 0)";
 
                 if ($_conexion->query($sql)) {
-                    header("Location: " . BASE_URL);
+                    header("Location: " . BASE_URL . "index");
                     exit();
                 }
             }
