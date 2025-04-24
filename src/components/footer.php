@@ -67,10 +67,10 @@
         <!-- Grid column -->
         <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
           <h6 class="text-uppercase mb-4 font-weight-bold">Contacto</h6>
-          <p><i class="fas fa-home mr-3"></i> New York, NY 10012, US</p>
-          <p><i class="fas fa-envelope mr-3"></i> info@gmail.com</p>
-          <p><i class="fas fa-phone mr-3"></i> + 01 234 567 88</p>
-          <p><i class="fas fa-print mr-3"></i> + 01 234 567 89</p>
+          <p><i class="fas fa-home mr-3"></i>  C. Alejandro Dumas, 17, Carretera de Cádiz, 29004 Málaga </p>
+          <p><i class="fas fa-envelope mr-3"></i> socialicar.rentacar@gmail.com </p>
+          <p><i class="fas fa-phone mr-3"></i> 951 56 46 58</p>
+          <p><i class="fas fa-print mr-3"></i> 951 90 59 67 </p>
         </div>
         <!-- Grid column -->
       </div>
@@ -107,16 +107,17 @@
             class="text-white"
             role="button"><i class="fab fa-twitter"></i></a>
 
-          <!-- GOOGLE -->
+          <!-- TIKI TOKO -->
           <a
             class="btn btn-outline-light btn-floating m-1"
             class="text-white"
-            role="button"><i class="fab fa-google"></i></a>
+            role="button"><i class="fab fa-tiktok"></i></a>
 
           <!-- IG DE LA MINITA -->
           <a
             class="btn btn-outline-light btn-floating m-1"
             class="text-white"
+
             role="button"><i class="fab fa-instagram"></i></a>
         </div>
       </div>
