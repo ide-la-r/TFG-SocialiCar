@@ -1,4 +1,21 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<style>
+  .custom-navbar {
+    background-color: #C4EEF2 !important;
+  }
+
+  .btn-custom {
+    background-color: #6BBFBF;
+    color: black;
+    border: none;
+  }
+
+  .btn-custom:hover {
+    background-color: #B0D5D9;
+    color: black;
+  }
+</style>
+
+<nav class="navbar navbar-expand-lg navbar-light custom-navbar">
   <div class="container-fluid">
     <!-- Botón para móviles -->
     <button
@@ -37,7 +54,7 @@
     <div class="d-flex align-items-center">
 
       <!-- Botón de alquilar -->
-      <a class="btn btn-primary me-3" href="/socialicar/src/pages/coche/nuevo_coche">
+      <a class="btn btn-custom me-3" href="/socialicar/src/pages/coche/nuevo_coche">
         <i class="fa-solid fa-car-side me-2"></i> Alquila tu coche
       </a>
 
