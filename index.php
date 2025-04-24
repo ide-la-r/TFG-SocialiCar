@@ -25,7 +25,7 @@
 
     .flecha {
         margin-left: 8px;
-        font-size: 1.5vh;
+        font-size: 10px;
         color: black;
         cursor: pointer;
         transition: transform 0.3s ease;
@@ -189,7 +189,7 @@
                 <!-- EQUIPAMIENTO -->
                 <div>
                     <div class="equipamiento" onclick="Equipamiento()">
-                        <b>Equipamiento</b> <i id="flecha" class="fa-solid fa-chevron-right flecha"></i>
+                        <b>Equipamiento</b> <i id="flecha" class="fas fa-chevron-right flecha"></i>
                     </div>
 
                     <div id="opciones-equipamiento">
@@ -282,7 +282,7 @@
                     <!-- TARJETAS -->
 
                     <!-- tarjetas premium -->
-                    <div class="row row-cols-1 row-cols-md-3 g-4"> <!-- Solo una fila -->
+                    <div class="row row-cols-1 row-cols-md-3 g-4"> 
                         <!-- 1 -->
                         <div class="col">
                             <div class="card h-100 shadow-lg border-success">
