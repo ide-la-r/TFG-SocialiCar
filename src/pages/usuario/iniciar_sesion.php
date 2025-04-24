@@ -11,7 +11,9 @@
     <?php
     error_reporting(E_ALL);
     ini_set("display_errors", 1);
-    
+
+    session_start();
+
     require(__DIR__ . "/../../config/conexion.php");
     require(__DIR__ . "/../../config/depurar.php");
     ?>
@@ -40,7 +42,6 @@
                 $acceso_concedido = password_verify($contrasena, $datos_usuario["contrasena"]);
 
                 if ($acceso_concedido) {
-                    session_start();
                     $_SESSION["usuario"] = $datos_usuario["nombre"];
                     header("location: iniciar_sesion.php");
                     exit();
