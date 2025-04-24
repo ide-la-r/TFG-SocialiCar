@@ -13,10 +13,56 @@
     padding-right: 20px;
   }
 
-
-  .premium-link .fa-star {
-    color:rgb(252, 235, 121) !important;
+  .nav-item .nav-link {
+    position: relative;
+    padding-bottom: 5px;
   }
+
+  .nav-item .nav-link::after {
+    /* se encarga de subrayar */
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 3px;
+    background-color: white;
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.3s ease;
+  }
+
+  .nav-item .nav-link:hover::after {
+    /* se encarga de subrayar */
+    transform: scaleX(1);
+    transform-origin: bottom left;
+  }
+
+  .nav-item:hover .nav-link {
+    color: white !important;
+  }
+
+
+  
+  .premium-link .fa-star {
+  color: rgb(252, 235, 121) !important;
+  transition: transform 0.3s ease, color 0.3s ease; 
+}
+
+.premium-link:hover .fa-star {
+  color: white !important; 
+  animation: girarEstrella 1.5s infinite linear; 
+}
+
+@keyframes girarEstrella {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 
 
   .fa-solid {
@@ -70,7 +116,7 @@
         </li>
         <li class="nav-item">
           <a class="nav-link premium-link" href="/socialicar/src/pages/usuario/planes">
-          Premium <i class="fa-solid fa-star "></i> 
+            Premium <i class="fa-solid fa-star "></i>
           </a>
         </li>
         <li class="nav-item">
