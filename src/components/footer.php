@@ -1,7 +1,12 @@
 <!-- Footer -->
 <footer
-  class="text-center text-lg-start text-white mt-auto"
-  style="background-color: #6BBFBF">
+  class="text-center text-lg-start mt-auto"
+  style="background-color: #6BBFBF; color: #595959 !important;">
+  <style>
+    footer, footer a, footer h6, footer p, footer span, footer .text-white {
+      color: #595959 !important;
+    }
+  </style>
   <!-- Grid container -->
   <div class="container p-4 pb-0">
     <!-- Section: Links -->

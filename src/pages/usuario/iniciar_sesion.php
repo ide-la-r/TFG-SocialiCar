@@ -62,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <?php if (isset($err_contrasena)) echo "<span class='error'>$err_contrasena</span>" ?>
                     </div>
                 </div>
-                <input type="submit" class="btn col-4">
+                <input type="submit" class="btn col-4" value="Iniciar sesión">
             </form>
             <div class="mb-3 iniciar_sesion_pregunta">
                 <p>¿Todavía no tienes cuenta? <a href="./registro.php">Registrarse</a></p>
