@@ -3,7 +3,7 @@
     ini_set("display_errors", 1);
     session_start();
 
-    require(__DIR__ . "/../../config/conexion.php");
+    require(__DIR__ . "/../../config/conexion.php"); // Aquí se define $conexion
     require(__DIR__ . "/../../config/depurar.php");
 
     // Verificar si el usuario ha iniciado sesión
@@ -13,27 +13,28 @@
     }
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // Verificar si se ha subido una foto de perfil
         if (isset($_FILES["foto_perfil"]) && $_FILES["foto_perfil"]["error"] == 0) {
             $fotoPerfil = $_FILES["foto_perfil"];
             $nombreArchivo = $fotoPerfil["name"];
             $rutaTemporal = $fotoPerfil["tmp_name"];
-            $rutaDestino = __DIR__ . "/../../../src/img/perfil/" . $_SESSION["usuario"]["dni"];
+            $dniUsuario = $_SESSION["usuario"]["dni"];
+            $rutaDestino = __DIR__ . "/../../../../public/img/perfil/" . $dniUsuario;
 
-            $lista_extensiones = array("image/jpg", "image/jpeg", "image/png", "image/webp");
+            $lista_extensiones = ["image/jpg", "image/jpeg", "image/png", "image/webp"];
             if (!in_array($fotoPerfil["type"], $lista_extensiones)) {
                 $err_fotoPerfil = "Formato de imagen no válido. Solo se permiten JPG, JPEG, PNG y WEBP.";
             } else {
-                // Crear el directorio si no existe
                 if (!is_dir($rutaDestino)) {
                     mkdir($rutaDestino, 0777, true);
                 }
 
-                // Mover la imagen a la carpeta de destino
-                if (move_uploaded_file($rutaTemporal, $rutaCarpeta . "/" . $nombreArchivo)) {
+                if (move_uploaded_file($rutaTemporal, $rutaDestino . "/" . $nombreArchivo)) {
+                    $rutaRelativaBD = "src/img/perfil/" . $dniUsuario . "/" . $nombreArchivo;
+
                     $sql = "UPDATE usuario SET foto_perfil = ? WHERE identificacion = ?";
-                    $stmt = $conexion->prepare($sql);
+                    $stmt = $_conexion->prepare($sql);
                     $stmt->bind_param("ss", $rutaRelativaBD, $dniUsuario);
+
                     if ($stmt->execute()) {
                         $_SESSION["usuario"]["foto_perfil"] = $rutaRelativaBD;
                         header("Location: " . $_SERVER["PHP_SELF"]);
@@ -51,10 +52,8 @@
     }
 ?>
 
-
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -62,7 +61,6 @@
     <?php include_once '../../components/links.php'; ?>
     <link rel="icon" href="../../../src/img/favicon.png" />
 </head>
-
 <body>
     <?php include_once '../../components/navbar.php'; ?>
     <div class="container py-5">
@@ -74,8 +72,7 @@
                         <div class="col-md-4 d-flex justify-content-center align-items-center">
                             <div class="bg-light rounded-4 shadow-sm p-4 w-100 text-center">
                                 <?php
-                                    $sql = "SELECT foto_perfil FROM usuario WHERE identificacion = ?";
-                                    $stmt = $conexion->prepare($sql);
+                                    $stmt = $_conexion->prepare("SELECT foto_perfil FROM usuario WHERE identificacion = ?");
                                     $stmt->bind_param("s", $_SESSION["usuario"]["dni"]);
                                     $stmt->execute();
                                     $resultado = $stmt->get_result();
@@ -84,26 +81,26 @@
                                         $usuario = $resultado->fetch_assoc();
                                         $rutaFotoPerfil = $usuario["foto_perfil"];
                                         if ($rutaFotoPerfil) {
-                                            echo "<img src='$rutaFotoPerfil' alt='Imagen del usuario' class='rounded-circle mb-3' width='100' height='100'>";
+                                            echo "<img src='../../../$rutaFotoPerfil' alt='Imagen del usuario' class='rounded-circle mb-3' width='100' height='100'>";
+                                        } else {
+                                            echo "<img src='../../../src/img/perfil.png' alt='Imagen del usuario' class='rounded-circle mb-3' width='100' height='100'>";
                                         }
-                                    } else {
-                                        echo "<img src='../../../src/img/perfil.png' alt='Imagen del usuario' class='rounded-circle mb-3' width='100' height='100'>";
                                     }
                                 ?>
-                                <img src="../../../src/img/perfil.png" alt="Imagen del usuario" class="rounded-circle mb-3" width="100" height="100">
                                 <h6 class="mb-0">Foto Perfil</h6>
                                 <div class="text-center mt-4">
-                                    <form action="ruta_a_tu_php.php" method="post" enctype="multipart/form-data" id="formFotoPerfil">
+                                    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data" id="formFotoPerfil">
                                         <label for="foto_perfil" class="btn btn-outline-success fw-bold me-3 mb-0" style="border-radius: 2rem; cursor:pointer;">
-                                        Subir foto
+                                            Subir foto
                                         </label>
                                         <input type="file" id="foto_perfil" name="foto_perfil"
-                                        accept="image/jpg, image/jpeg, image/png, image/webp"
-                                        style="display:none;" onchange="document.getElementById('formFotoPerfil').submit();">
+                                               accept="image/jpg, image/jpeg, image/png, image/webp"
+                                               style="display:none;" onchange="document.getElementById('formFotoPerfil').submit();">
                                     </form>
                                 </div>
                             </div>
                         </div>
+
                         <!-- DATOS PERSONALES -->
                         <div class="col-md-8">
                             <div class="bg-light rounded-4 shadow-sm p-4 h-100">
@@ -111,10 +108,9 @@
                                     <h5 class="mb-0"><i class="fas fa-user me-2"></i>Datos personales</h5>
                                 </div>
                                 <ul class="list-unstyled mb-0">
-                                    <li><strong>Nombre:</strong> <?php echo $_SESSION["usuario"]["nombre"] . " " . $_SESSION["usuario"]["apellido"] ?></li>
-                                    <li><strong>Email:</strong> <?php echo $_SESSION["usuario"]["correo"] ?></li>
-                                    <li><strong>Teléfono:</strong> <?php echo $_SESSION["usuario"]["telefono"] ?></li>
-                                    <!-- Añade más datos si lo deseas -->
+                                    <li><strong>Nombre:</strong> <?php echo $_SESSION["usuario"]["nombre"] . " " . $_SESSION["usuario"]["apellido"]; ?></li>
+                                    <li><strong>Email:</strong> <?php echo $_SESSION["usuario"]["correo"]; ?></li>
+                                    <li><strong>Teléfono:</strong> <?php echo $_SESSION["usuario"]["telefono"]; ?></li>
                                 </ul>
                                 <div class="text-center mt-4">
                                     <a href="/socialicar/src/pages/usuario/editar_usuario" class="btn btn-outline-primary btn-sm">Editar datos</a>
@@ -122,24 +118,24 @@
                             </div>
                         </div>
                     </div>
-                    <!-- TUS VEHICULOS -->
+
+                    <!-- TUS VEHÍCULOS -->
                     <div class="row">
                         <div class="col-12">
                             <div class="bg-light rounded-4 shadow-sm p-4">
                                 <h5 class="mb-3"><i class="fas fa-car me-2"></i>Tus vehículos</h5>
                                 <div class="text-center text-muted py-4">
-                                    <!-- LISTA DE VEHICULOS -->
                                     <i class="fas fa-car-side fa-2x mb-2"></i>
                                     <p class="mb-0">Aún no has registrado vehículos.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
     <?php include_once '../../components/footer.php'; ?>
 </body>
-
 </html>
