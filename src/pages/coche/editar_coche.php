@@ -59,12 +59,12 @@
                     <div class="mb-3 col-8">
                         <Select id="tipoIdentificacion" class="form-select">
                             <option disabled selected hidden>Tipo de combustible*</option>
-                            <option value="dni">Gasolina</option>
-                            <option value="nie">Diesel</option>
-                            <option value="nif">Hibrido</option>
-                            <option value="nif">Eléctrico</option>
-                            <option value="nif">GLP</option>
-                            <option value="nif">GNC</option>
+                            <option value="gasolina">Gasolina</option>
+                            <option value="diesel">Diesel</option>
+                            <option value="hibrido">Hibrido</option>
+                            <option value="electrico">Eléctrico</option>
+                            <option value="glp">GLP</option>
+                            <option value="gnc">GNC</option>
                         </Select>
                     </div>
 
@@ -73,8 +73,8 @@
                     <div class="mb-3 col-8">
                         <Select id="tipoIdentificacion" class="form-select">
                             <option disabled selected hidden>Transmisión*</option>
-                            <option value="dni">Manual</option>
-                            <option value="nie">Automática</option>
+                            <option value="manual">Manual</option>
+                            <option value="automatico">Automático</option>
                         </Select>
                     </div>
 
@@ -82,9 +82,9 @@
                     <div class="mb-3 col-8">
                         <Select id="tipoIdentificacion" class="form-select">
                             <option disabled selected hidden>Tipo de aparcamiento*</option>
-                            <option value="dni">Calle </option>
-                            <option value="nie">Garaje</option>
-                            <option value="nie">Parking</option>
+                            <option value="calle">Calle </option>
+                            <option value="garaje">Garaje</option>
+                            <option value="parking">Parking</option>
                         </Select>
                     </div>
 

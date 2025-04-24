@@ -24,14 +24,19 @@
                         <!-- DATOS PERSONALES -->
                         <div class="col-md-8">
                             <div class="bg-light rounded-4 shadow-sm p-4 h-100">
-                                <h5 class="mb-3"><i class="fas fa-user me-2"></i>Datos personales</h5>
-                                <ul class="list-unstyled mb-0">
-                                    <li><strong>Nombre:</strong></li>
-                                    <li><strong>Email:</strong></li>
-                                    <li><strong>Teléfono:</strong></li>
-                                    <!-- Añade más datos si lo deseas -->
-                                </ul>
-                            </div>
+    <div class="mb-3">
+    <h5 class="mb-0"><i class="fas fa-user me-2"></i>Datos personales</h5>
+</div>
+<ul class="list-unstyled mb-0">
+    <li><strong>Nombre:</strong></li>
+    <li><strong>Email:</strong></li>
+    <li><strong>Teléfono:</strong></li>
+    <!-- Añade más datos si lo deseas -->
+</ul>
+<div class="text-center mt-4">
+    <a href="/socialicar/src/pages/usuario/editar_usuario.php" class="btn btn-outline-primary btn-sm">Cambiar credenciales</a>
+</div>
+</div>
                         </div>
                     </div>
                     <!-- TUS VEHICULOS -->

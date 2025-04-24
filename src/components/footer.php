@@ -24,18 +24,18 @@
 
         <!-- Grid column -->
         <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
-          <h6 class="text-uppercase mb-4 font-weight-bold">Products</h6>
-          <p>
-            <a class="text-white">MDBootstrap</a>
+          <h6 class="text-uppercase mb-4 font-weight-bold">Socialicar</h6>
+          <p> <!-- esto en un futuro sera un link parecido a este   https://amovens.com/mission_and_purpose-->
+            <a class="text-white">Mision y proposito</a>
           </p>
-          <p>
-            <a class="text-white">MDWordPress</a>
+          <p> <!-- Tenemos que poner que no tenemos ningun puesto abierto ahora mismo y dejarlo parecido a este  https://amovens.com/jobs-->
+            <a class="text-white">Trabaja con nosotros</a>
           </p>
-          <p>
-            <a class="text-white">BrandFlow</a>
+          <p> <!-- Lo dejamos parecido pero con el email de soporte y cambiando el texto que dice que no tenemos ningun puesto abierto :)  https://amovens.com/jobs-->
+            <a class="text-white">Centro de ayuda</a>
           </p>
-          <p>
-            <a class="text-white">Bootstrap Angular</a>
+          <p> <!-- Hacemos la tipica pagina de work in progress y queda de superputamadre -->
+            <a class="text-white">Descargar nuestra app</a>
           </p>
         </div>
         <!-- Grid column -->
@@ -45,19 +45,19 @@
         <!-- Grid column -->
         <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
           <h6 class="text-uppercase mb-4 font-weight-bold">
-            Useful links
+            Alquiler de coches
           </h6>
           <p>
-            <a class="text-white">Your Account</a>
+            <a class="text-white" href="/socialicar/src/pages/rentacar/mostrar_coches.php">Encontrar un coche</a>
           </p>
           <p>
-            <a class="text-white">Become an Affiliate</a>
+            <a class="text-white" href="/socialicar/src/pages/usuario/planes.php">Hazte miembro</a>
           </p>
           <p>
-            <a class="text-white">Shipping Rates</a>
+            <a class="text-white" href="/socialicar/src/pages/coche/nuevo_coche.php">Alquila tu coche</a>
           </p>
-          <p>
-            <a class="text-white">Help</a>
+          <p> <!-- Redirige a un video explicando como funciona nuestra pagina web -->
+            <a class="text-white">Ayuda</a>
           </p>
         </div>
 
@@ -66,7 +66,7 @@
 
         <!-- Grid column -->
         <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
-          <h6 class="text-uppercase mb-4 font-weight-bold">Contact</h6>
+          <h6 class="text-uppercase mb-4 font-weight-bold">Contacto</h6>
           <p><i class="fas fa-home mr-3"></i> New York, NY 10012, US</p>
           <p><i class="fas fa-envelope mr-3"></i> info@gmail.com</p>
           <p><i class="fas fa-phone mr-3"></i> + 01 234 567 88</p>
