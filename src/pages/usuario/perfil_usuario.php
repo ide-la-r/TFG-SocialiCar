@@ -30,29 +30,25 @@
                 }
 
                 // Mover la imagen a la carpeta de destino
-                if (move_uploaded_file($rutaTemporal, $rutaDestino . "/" . $nombreArchivo)) {
-                    // Actualizar la ruta de la foto de perfil en la base de datos
-                    $sql = "UPDATE usuario SET foto_perfil = ? WHERE dni = ?";
+                if (move_uploaded_file($rutaTemporal, $rutaCarpeta . "/" . $nombreArchivo)) {
+                    $sql = "UPDATE usuario SET foto_perfil = ? WHERE identificacion = ?";
                     $stmt = $conexion->prepare($sql);
-                    $stmt->bind_param("ss", $nombreArchivo, $_SESSION["usuario"]["dni"]);
+                    $stmt->bind_param("ss", $rutaRelativaBD, $dniUsuario);
                     if ($stmt->execute()) {
-                        $_SESSION["usuario"]["foto_perfil"] = $nombreArchivo;
+                        $_SESSION["usuario"]["foto_perfil"] = $rutaRelativaBD;
                         header("Location: " . $_SERVER["PHP_SELF"]);
                         exit();
                     } else {
-                        $err_fotoPerfil = "Error al actualizar la foto de perfil en la base de datos.";
+                        $err_fotoPerfil = "Error al actualizar la foto en la base de datos.";
                     }
                 } else {
-                    $err_fotoPerfil = "Error al mover la imagen a la carpeta de destino.";
+                    $err_fotoPerfil = "Error al mover la imagen.";
                 }
             }
-
         } else {
-           $err_fotoPerfil = "Error al subir la foto de perfil.";
+            $err_fotoPerfil = "No se ha seleccionado una imagen válida.";
         }
     }
-
-
 ?>
 
 
@@ -77,6 +73,23 @@
                         <!-- FOTO DE PERFIL -->
                         <div class="col-md-4 d-flex justify-content-center align-items-center">
                             <div class="bg-light rounded-4 shadow-sm p-4 w-100 text-center">
+                                <?php
+                                    $sql = "SELECT foto_perfil FROM usuario WHERE identificacion = ?";
+                                    $stmt = $conexion->prepare($sql);
+                                    $stmt->bind_param("s", $_SESSION["usuario"]["dni"]);
+                                    $stmt->execute();
+                                    $resultado = $stmt->get_result();
+
+                                    if ($resultado->num_rows > 0) {
+                                        $usuario = $resultado->fetch_assoc();
+                                        $rutaFotoPerfil = $usuario["foto_perfil"];
+                                        if ($rutaFotoPerfil) {
+                                            echo "<img src='$rutaFotoPerfil' alt='Imagen del usuario' class='rounded-circle mb-3' width='100' height='100'>";
+                                        }
+                                    } else {
+                                        echo "<img src='../../../src/img/perfil.png' alt='Imagen del usuario' class='rounded-circle mb-3' width='100' height='100'>";
+                                    }
+                                ?>
                                 <img src="../../../src/img/perfil.png" alt="Imagen del usuario" class="rounded-circle mb-3" width="100" height="100">
                                 <h6 class="mb-0">Foto Perfil</h6>
                                 <div class="text-center mt-4">
@@ -98,13 +111,13 @@
                                     <h5 class="mb-0"><i class="fas fa-user me-2"></i>Datos personales</h5>
                                 </div>
                                 <ul class="list-unstyled mb-0">
-                                    <li><strong>Nombre:</strong></li>
-                                    <li><strong>Email:</strong></li>
-                                    <li><strong>Teléfono:</strong></li>
+                                    <li><strong>Nombre:</strong> <?php echo $_SESSION["usuario"]["nombre"] . " " . $_SESSION["usuario"]["apellido"] ?></li>
+                                    <li><strong>Email:</strong> <?php echo $_SESSION["usuario"]["correo"] ?></li>
+                                    <li><strong>Teléfono:</strong> <?php echo $_SESSION["usuario"]["telefono"] ?></li>
                                     <!-- Añade más datos si lo deseas -->
                                 </ul>
                                 <div class="text-center mt-4">
-                                    <a href="/socialicar/src/pages/usuario/editar_usuario" class="btn btn-outline-primary btn-sm">Cambiar credenciales</a>
+                                    <a href="/socialicar/src/pages/usuario/editar_usuario" class="btn btn-outline-primary btn-sm">Editar datos</a>
                                 </div>
                             </div>
                         </div>
