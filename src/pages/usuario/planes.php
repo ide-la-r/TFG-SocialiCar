@@ -2,18 +2,21 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="src/img/favicon.png" />
-    <title>SocialiCar - Comparte tu coche</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.0/mdb.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <link rel="icon" href="../../../src/img/favicon.png" />
+    <?php
+        require(__DIR__ . '/../../config/bootstrap.php');
+        require(__DIR__ . "/../../../src/config/conexion.php");
 
+        /* if (!isset($_SESSION["usuario"])) {
+            header("Location: " . BASE_URL . "src/pages/usuario/iniciar_sesion.php");
+            exit;
+        } */
+    ?>
 </head>
 
 <body>
     <!-- Navbar -->
-    <?php include_once 'src/components/navbar.php'; ?>
+    <?php include_once '../../../src/components/navbar.php'; ?>
     
 
 
@@ -50,8 +53,7 @@
 
 
     <!-- Footer -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.0/mdb.min.js"></script>
-    <?php include_once 'src/components/footer.php'; ?>
+    <?php include_once '../../../src/components/footer.php'; ?>
 </body>
 
 </html>
