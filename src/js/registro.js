@@ -1,8 +1,10 @@
 document.addEventListener("DOMContentLoaded", function () {
     const select = document.getElementById("tipoIdentificacion");
     const inputIdentificacion = document.getElementById("identificacion");
+    const inputContrasena = document.getElementById("contrasena");
+    const inputConfirmarContrasena = document.getElementById("validarContrasena");
 
-    function toggleInput() {
+    function toggleIdentificacion() {
         if (select.value === "dni" || select.value === "nie" || select.value === "nif") {
             inputIdentificacion.removeAttribute("hidden");
         } else {
@@ -10,7 +12,17 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    select.addEventListener("change", toggleInput);
+    function toggleConfirmarContrasena() {
+        if (inputContrasena.value.trim() !== "") {
+            inputConfirmarContrasena.removeAttribute("hidden");
+        } else {
+            inputConfirmarContrasena.setAttribute("hidden", true);
+        }
+    }
 
-    toggleInput();
+    select.addEventListener("change", toggleIdentificacion);
+    inputContrasena.addEventListener("input", toggleConfirmarContrasena);
+
+    toggleIdentificacion();
+    toggleConfirmarContrasena();
 });
