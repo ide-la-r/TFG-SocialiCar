@@ -1,9 +1,142 @@
 <?php
-    error_reporting(E_ALL);
-    ini_set("display_errors", 1);
-    session_start();
-    require('../../config/conexion.php');
-    require('../../config/depurar.php')
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+session_start();
+
+require(__DIR__ . "/../../config/conexion.php");
+require(__DIR__ . "/../../config/depurar.php");
+
+$correo = $_SESSION["usuario"]["correo"];
+
+$sql = "SELECT * FROM usuario WHERE correo = '$correo'";
+$resultado = $_conexion->query($sql);
+
+while ($fila = $resultado->fetch_assoc()) {
+    $nombre = $fila["nombre"];
+    $apellido = $fila["apellido"];
+    $contrasena = $fila["contrasena"];
+    $foto_perfil = $fila["foto_perfil"];
+    $telefono = $fila["telefono"];
+    $identificacion = $fila["identificacion"];
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $nuevo_nombre = $_POST["correo"];
+    $nuevo_apellido = $_POST["apellido"];
+    $nuevo_correo = $_POST["correo"];
+    $nueva_contrasena = $_POST["contrasena"];
+    $confirma_contrasena = ["confirma_contrasena"];
+    //$nueva_foto_perfil = $_POST["foto_perfil"];
+    $nuevo_telefono = $_POST["telefono"];
+    $nueva_identificacion = $_POST["identificacion"];
+
+    $confirmar = true;
+
+    if ($nuevo_nombre == '') {
+        $confirmar = false;
+        $err_nombre = "El nombre es obligatorio";
+    } else {
+        $patron = "/^[a-zA-Z áéióúÁÉÍÓÚñÑüÜ'-]+$/";
+        if (!preg_match($patron, $nuevo_nombre)) {
+            $confirmar = false;
+            $err_nombre = "El nombre solo puede tener letras";
+        }
+    }
+
+    if ($nuevo_apellido == '') {
+        $confirmar = false;
+        $err_apellido = "El nombre es obligatorio";
+    } else {
+        $patron = "/^[a-zA-Z áéióúÁÉÍÓÚñÑüÜ'-]+$/";
+        if (!preg_match($patron, $nuevo_apellido)) {
+            $confirmar = false;
+            $err_apellido = "El apellido solo puede tener letras";
+        }
+    }
+
+    if ($nuevo_correo == '') {
+        $confirmar = false;
+        $err_correo = "El correo es obligatorio";
+    } elseif (filter_var($nuevo_correo, FILTER_VALIDATE_EMAIL) == false) {
+        $confirmar = false;
+        $err_correo = "El correo tiene que tener el @ y el . bien colocados";
+    }
+
+    if ($nueva_contrasena == '') {
+        $confirmar = false;
+        $err_contrasena = "La contraseña es obligatoria";
+    } else {
+        if (strlen($nueva_contrasena) < 7 || strlen($nueva_contrasena) > 20) {
+            $confirmar = false;
+            $err_contrasena = "La contraseña tiene que tener como minimo 7 y como maximo 20 caracteres";
+        } else {
+            $patron = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/";
+            if (!preg_match($patron, $nueva_contrasena)) {
+                $confirmar = false;
+                $err_contrasena = "La contraseña tiene que tener al menos 1 mayuscula, 1 minuscula y 1 numero";
+            } else {
+                $contrasena_cifrada = password_hash($nueva_contrasena, PASSWORD_DEFAULT);
+            }
+        }
+    }
+
+    if ($confirma_contrasena !== $nueva_contrasena) { 
+        $confirmar = false;
+        $err_confirma_contrasena = "Las contraseñas no coinciden";
+    }
+
+    if ($nuevo_telefono == '') {
+        $confirmar = false;
+        $err_telefono = "El telefono es obligatorio";
+    } else {
+        $patron = "/^\d{9,15}$/";
+        if (!preg_match($patron, $nuevo_telefono)) {
+            $confirmar = false;
+            $err_telefono = "El teléfono debe contener solo dígitos y tener entre 9 y 15 números";
+        }
+    }
+
+    if ($nueva_identificacion == '') {
+        $confirmar = false;
+        $err_identificacion = "La identificación es obligatoria";
+    } else {
+        $tipo_identificacion = $_SESSION['usuario']['tipo_identificacion'];
+        if ($tipo_identificacion == "dni") {
+            //patron DNI
+            $patron = "/^[0-9]{8}[A-Za-z]$/";
+            if (!preg_match($patron, $nueva_identificacion)) {
+                $confirmar = false;
+                $err_identificacion = "La DNI debe tener 8 digitos y una letra al final";
+            }
+        } elseif ($tipo_identificacion == "nie") {
+            //patron NIE
+            $patron = "/^[XYZ][0-9]{7}[A-Za-z]$/";
+            if (!preg_match($patron, $nueva_identificacion)) {
+                $confirmar = false;
+                $err_identificacion = "El NIE debe tener una X,Y o Z, siguiendo de 7 digitos y una letra al final";
+            }
+        } elseif ($tipo_identificacion == "nif") {
+            //patron NIF
+            $patron = "/^[0-9]{8}[A-Za-z]$/";
+            if (!preg_match($patron, $nueva_identificacion)) {
+                $confirmar = false;
+                $err_identificacion = "El NIF debe tener 8 digitos y una letra al final";
+            }
+        }
+    }
+
+    if ($confirmar) {
+        $sql = "UPDATE usuario SET 
+                    nombre = '$nuevo_nombre',
+                    apellido = '$nuevo_apellido',
+                    correo = '$nuevo_correo',
+                    contrasena = '$contrasena_cifrada',
+                    telefono = '$nuevo_telefono',
+                    identificacion = '$nueva_identificacion'
+                WHERE correo = '$correo'";
+        $_conexion->query($sql);
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -24,53 +157,8 @@
 <body class="d-flex flex-column min-vh-100">
     <?php include_once '../../components/navbar.php'; ?>
     <div class="container mt-5 pt-5">
-        <?php
-        $nombre = $_GET["nombre"];
-        $apellido = $_GET["apellido"];
-        $correo = $_GET["correo"];
-        $foto_perfil = $_GET["foto_perfil"];
-        $telefono = $_GET["telefono"];
-
-        $sql = "SELECT * FROM usuarios WHERE usuario = '$usuario'";
-        $resultado = $_conexion->query($sql);
-
-        while ($fila = $resultado->fetch_assoc()) {
-            $contrasena = $fila["contrasena"];
-        }
-
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $nombre = $_POST["correo"];
-            $apellido = $_POST["apellido"];
-            $correo = $_POST["correo"];
-            $contrasena = $_POST["contrasena"];
-            //$foto_perfil = $_POST["foto_perfil"];
-            $telefono = $_POST["telefono"];
-
-            $confirmar = true;
-
-            if ($nueva_contrasena == '') {
-                $confirmar = false;
-                $err_contrasena = "La contraseña es obligatoria";
-            } else {
-                $patron = "/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/";
-                if (strlen($nueva_contrasena) < 8 || strlen($nueva_contrasena) > 15) {
-                    $confirmar = false;
-                    $err_contrasena = "La contraseña no puede tener menos de 8 caracteres o mas de 15";
-                } elseif (!preg_match($patron, $nueva_contrasena)) {
-                    $confirmar = false;
-                    $err_contrasena = "La contraseña tiene que tener letras minusculas, mayusculas, algun numero y puede tener caracteres especiales";
-                }
-            }
-
-            if ($confirmar) {
-                $contrasena_cifrada = password_hash($nueva_contrasena, PASSWORD_DEFAULT);
-                $sql = "UPDATE usuarios SET contrasena = '$contrasena_cifrada' WHERE usuario = '$usuario'";
-                $_conexion->query($sql);
-            }
-        }
-        ?>
         <div class="container card text-center card-sesion" style="width: 40rem;">
-            <h1 class="title">Iniciar sesión</h1>
+            <h1 class="title">Editar perfil</h1>
             <form method="post" action="" class="form-floating">
                 <div class="row justify-content-center">
                     <div class="row justify-content-center">
@@ -84,19 +172,29 @@
                         </div>
                     </div>
                     <div class="mb-3 col-8">
-                        <input name="correo" class="form-control" type="text" placeholder="Correo electronico*" value="<?php if (isset($correo)) echo "$correo" ?>">
+                        <input name="correo" class="form-control" type="email" placeholder="Correo electronico*" value="<?php if (isset($correo)) echo "$correo" ?>">
                         <?php if (isset($err_correo)) echo "<span class='error'>$err_correo</span>" ?>
                     </div>
                     <div class="mb-3 col-8">
-                        <input name="contrasena" class="form-control" type="password" placeholder="Contraseña*">
+                        <input name="contrasena" class="form-control" type="password" placeholder="Contraseña*" value="<?php if (isset($contrasena)) echo "$contrasena" ?>">
                         <?php if (isset($err_contrasena)) echo "<span class='error'>$err_contrasena</span>" ?>
                     </div>
+                    <div class="mb-3 col-8">
+                        <input name="confirma_contrasena" class="form-control" type="password" placeholder="Confirmar contraseña*">
+                        <?php if (isset($err_confirma_contrasena)) echo "<span class='error'>$err_confirma_contrasena</span>" ?>
+                    </div>
+                    <!-- FOTO DE PERFIL -->
+                    <div class="mb-3 col-8">
+                        <input name="telefono" class="form-control" type="text" placeholder="Correo electronico*" value="<?php if (isset($telefono)) echo "$telefono" ?>">
+                        <?php if (isset($err_telefono)) echo "<span class='error'>$err_telefono</span>" ?>
+                    </div>
+                    <div class="mb-3 col-8">
+                        <input name="identificacion" class="form-control" type="text" placeholder="Correo electronico*" value="<?php if (isset($identificacion)) echo "$identificacion" ?>">
+                        <?php if (isset($err_identificacion)) echo "<span class='error'>$err_identificacion</span>" ?>
+                    </div>
                 </div>
-                <input type="submit" class="btn col-4">
+                <input type="submit" class="btn col-4" value="Editar">
             </form>
-            <div class="mb-3 iniciar_sesion_pregunta">
-                <p>¿Todavía no tienes cuenta? <a href="./registro.php">Registrarse</a></p>
-            </div>
         </div>
     </div>
     <?php include_once '../../components/footer.php'; ?>
