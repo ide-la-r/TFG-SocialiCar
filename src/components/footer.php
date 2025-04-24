@@ -29,7 +29,7 @@
             <a class="text-white">Mision y proposito</a>
           </p>
           <p> <!-- Tenemos que poner que no tenemos ningun puesto abierto ahora mismo y dejarlo parecido a este  https://amovens.com/jobs-->
-            <a class="text-white">Trabaja con nosotros</a>
+            <a class="text-white" href="/socialicar/src/pages/informacion/trabaja.php">Trabaja con nosotros</a>
           </p>
           <p> <!-- Lo dejamos parecido pero con el email de soporte y cambiando el texto que dice que no tenemos ningun puesto abierto :)  https://amovens.com/jobs-->
             <a class="text-white">Centro de ayuda</a>
