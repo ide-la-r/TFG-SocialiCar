@@ -1,7 +1,7 @@
 <!-- Footer -->
 <footer
   class="text-center text-lg-start text-white mt-auto"
-  style="background-color: #45526e">
+  style="background-color: #6BBFBF">
   <!-- Grid container -->
   <div class="container p-4 pb-0">
     <!-- Section: Links -->
@@ -11,12 +11,11 @@
         <!-- Grid column -->
         <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
           <h6 class="text-uppercase mb-4 font-weight-bold">
-            Company name
+            SOCIALICAR
           </h6>
           <p>
-            Here you can use rows and columns to organize your footer
-            content. Lorem ipsum dolor sit amet, consectetur adipisicing
-            elit.
+            SocialiCar es un intermediario destinado al alquiler de vehículos entre particulares. La idea surge ante la creciente necesidad de alternativas de movilidad más flexibles, accesibles y sostenibles. Los usuarios propietarios de un vehículo podrán establecer tarifas por hora para el alquiler de sus coches, mientras que SocialiCar obtendrá ingresos mediante comisiones, gastos de gestión y planes de suscripción.
+
           </p>
         </div>
         <!-- Grid column -->
@@ -81,52 +80,49 @@
 
     <hr class="my-3">
 
-    <!-- Section: Copyright -->
+    <!--Copyright -->
     <section class="p-3 pt-0">
       <div class="row d-flex align-items-center">
-        <!-- Grid column -->
+
         <div class="col-md-7 col-lg-8 text-center text-md-start">
           <!-- Copyright -->
           <div class="p-3">
-            © 2020 Copyright:
-            <a class="text-white" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+            © 2025 Socialicar:
+            <!-- CUANDO TENGAMOS SUBIDA LA PAGINA WEB PONEMOS LA URL DE LA PAGINA -->
+            <a class="text-white" href="">Socialicar.com</a>
           </div>
           <!-- Copyright -->
         </div>
-        <!-- Grid column -->
 
-        <!-- Grid column -->
         <div class="col-md-5 col-lg-4 ml-lg-0 text-center text-md-end">
-          <!-- Facebook -->
+          <!-- FACEBOOK -->
           <a
             class="btn btn-outline-light btn-floating m-1"
             class="text-white"
             role="button"><i class="fab fa-facebook-f"></i></a>
 
-          <!-- Twitter -->
+          <!-- TWITTER -->
           <a
             class="btn btn-outline-light btn-floating m-1"
             class="text-white"
             role="button"><i class="fab fa-twitter"></i></a>
 
-          <!-- Google -->
+          <!-- GOOGLE -->
           <a
             class="btn btn-outline-light btn-floating m-1"
             class="text-white"
             role="button"><i class="fab fa-google"></i></a>
 
-          <!-- Instagram -->
+          <!-- IG DE LA MINITA -->
           <a
             class="btn btn-outline-light btn-floating m-1"
             class="text-white"
             role="button"><i class="fab fa-instagram"></i></a>
         </div>
-        <!-- Grid column -->
       </div>
     </section>
-    <!-- Section: Copyright -->
+    <!-- Copyright -->
   </div>
-  <!-- Grid container -->
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
