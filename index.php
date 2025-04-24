@@ -3,15 +3,46 @@
 
 <head>
     <link rel="icon" href="src/img/favicon.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <?php
-        require(__DIR__ . '/src/config/bootstrap.php');
-        require(__DIR__ . "/src/config/conexion.php");
+    require(__DIR__ . '/src/config/bootstrap.php');
+    require(__DIR__ . "/src/config/conexion.php");
     ?>
 </head>
+<style>
+    #opciones-equipamiento {
+        display: none;
+        margin-top: -2vh;
+        margin-left: 4vh;
+    }
+
+    .equipamiento {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        margin-bottom: 3vh;
+    }
+
+    .flecha {
+        margin-left: 8px;
+        font-size: 1.5vh;
+        color: black;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
+
+    .flecha.girada {
+        transform: rotate(90deg);
+    }
+
+    .form-label {
+    font-weight: bold;
+}
+</style>
 
 <body class="d-flex flex-column min-vh-100">
 
-    <!-- Navbar -->
+    <!-- NAVBAR -->
     <?php include_once 'src/components/navbar.php'; ?>
 
     <!-- BANNER (Hero) -->
@@ -157,57 +188,81 @@
 
                 <!-- EQUIPAMIENTO -->
                 <div>
-                    <label class="form-label">Equipamiento:</label>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="bluetooh">
-                        <label class="form-check-label">Bluetooh</label>
+                    <div class="equipamiento" onclick="Equipamiento()">
+                        <b>Equipamiento</b> <i id="flecha" class="fa-solid fa-chevron-right flecha"></i>
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="wifi">
-                        <label class="form-check-label">WiFi</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="camara_reversa">
-                        <label class="form-check-label">Cámara trasera</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="sensor_aparcamiento">
-                        <label class="form-check-label">Sensor de aparcamiento</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="control_crucero">
-                        <label class="form-check-label">Control crucero</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="bola_remolque">
-                        <label class="form-check-label">Bola de remolque</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="4x4">
-                        <label class="form-check-label">4x4</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="baca">
-                        <label class="form-check-label">Baca</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="4x4">
-                        <label class="form-check-label">4x4</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="portabicicletas">
-                        <label class="form-check-label">Portabicicletas</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="portaequipajes">
-                        <label class="form-check-label">Portaequipajes</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="portaesquís">
-                        <label class="form-check-label">Portaesquís</label>
+
+                    <div id="opciones-equipamiento">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="bluetooh">
+                            <label class="form-check-label">Bluetooh</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="wifi">
+                            <label class="form-check-label">WiFi</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="camara_reversa">
+                            <label class="form-check-label">Cámara reversa</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="sensor_aparcamiento">
+                            <label class="form-check-label">Sensor de aparcamiento</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="control_crucero">
+                            <label class="form-check-label">Control crucero</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="asiento_calefactable">
+                            <label class="form-check-label">Asiento calefactable</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="bola_remolque">
+                            <label class="form-check-label">Bola de remolque</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="4x4">
+                            <label class="form-check-label">4x4</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="baca">
+                            <label class="form-check-label">Baca</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="fijaciones_isofix">
+                            <label class="form-check-label">Fijaciones isofix</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="gps">
+                            <label class="form-check-label">GPS</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="aire_acondicionado">
+                            <label class="form-check-label">Aire Acondicionado</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="portabicicletas">
+                            <label class="form-check-label">Portabicicletas</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="portaequipajes">
+                            <label class="form-check-label">Portaequipajes</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="portaesquís">
+                            <label class="form-check-label">Portaesquís</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="android_carplay">
+                            <label class="form-check-label">Android Carplay</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="apple_carplay">
+                            <label class="form-check-label">Apple Carplay</label>
+                        </div>
                     </div>
                 </div>
-
 
 
                 <!-- APLICAR FILTROS -->
@@ -373,9 +428,25 @@
         </div>
     </div>
 
-    <!-- Footer -->
+    <!-- FOOTER -->
     <?php include_once 'src/components/footer.php'; ?>
+
+    <!-- FUNCIONES -->
+    <script>
+        // DESPLEGABLE PARA VER EL EQUIPAMIENTO
+        function Equipamiento() {
+            const contenedor = document.getElementById("opciones-equipamiento");
+            const flecha = document.getElementById("flecha");
+
+            if (contenedor.style.display === "none" || contenedor.style.display === "") {
+                contenedor.style.display = "block";
+                flecha.classList.add("girada");
+            } else {
+                contenedor.style.display = "none";
+                flecha.classList.remove("girada");
+            }
+        }
+    </script>
 </body>
 
 </html>
-
