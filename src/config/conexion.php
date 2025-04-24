@@ -9,6 +9,6 @@
     if ($_conexion -> connect_error) {
         die("Error de conexión: " . $_conexion->connect_error);
     } else {
-        echo "Conexión exitosa";
+        echo "<script>console.log('Conexión exitosa');</script>";
     }
 ?>

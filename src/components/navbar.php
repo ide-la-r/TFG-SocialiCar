@@ -28,7 +28,7 @@
           <a class="nav-link" href="/socialicar/">Inicio</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/socialicar/src/pages/rentacar/mostrar_coches.php">Alquilar Coche</a>
+          <a class="nav-link" href="/socialicar/src/pages/rentacar/mostrar_coches">Alquilar Coche</a>
         </li>
       </ul>
     </div>
@@ -37,7 +37,7 @@
     <div class="d-flex align-items-center">
 
       <!-- Botón de alquilar -->
-      <a class="btn btn-primary me-3" href="/socialicar/src/pages/rentacar/nuevo_coche.php">
+      <a class="btn btn-primary me-3" href="/socialicar/src/pages/coche/nuevo_coche">
         <i class="fa-solid fa-car-side me-2"></i> Alquila tu coche
       </a>
 
