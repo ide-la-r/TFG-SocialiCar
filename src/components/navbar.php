@@ -9,6 +9,27 @@
     border: none;
   }
 
+  .nav-item {
+    padding-right: 20px;
+  }
+
+
+  .premium-link .fa-star {
+    color:rgb(252, 235, 121) !important;
+  }
+
+
+  .fa-solid {
+    color: white;
+  }
+
+  .custom-navbar .btn-custom {
+    color: white !important;
+    /* sino, cambia de color */
+    background-color: #6BBFBF;
+    border: none;
+  }
+
   .btn-custom:hover {
     background-color: #B0D5D9;
     color: black;
@@ -17,7 +38,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-light custom-navbar">
   <div class="container-fluid">
-    <!-- Botón para móviles -->
+    <!-- Botón para móviles INICIAR SESION, REGISTRARSE, PREMIUM-->
     <button
       class="navbar-toggler"
       type="button"
@@ -40,12 +61,20 @@
 
     <!-- Contenido colapsable -->
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a class="nav-link" href="/socialicar/">Inicio</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/socialicar/src/pages/rentacar/mostrar_coches">Alquilar Coche</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link premium-link" href="/socialicar/src/pages/usuario/planes">
+          Premium <i class="fa-solid fa-star "></i> 
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/socialicar/src/pages/usuario/contacto">Contacto</a>
         </li>
       </ul>
     </div>
@@ -72,6 +101,7 @@
       </div>
 
       <!-- Avatar usuario -->
+
       <div class="dropdown">
         <a class="dropdown-toggle d-flex align-items-center hidden-arrow"
           href="#"
@@ -81,19 +111,25 @@
           aria-expanded="false">
           <img src="/socialicar/src/img/perfil.png" class="rounded-circle" height="30" alt="Avatar" loading="lazy" />
         </a>
+
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
           <li>
-            <a class="dropdown-item" href="#">
+            <a class="dropdown-item" href="/socialicar/src/pages/usuario/registro">
+              <i class="fa-regular fa-circle-user me-2"></i> Registrarse
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="/socialicar/src/pages/usuario/iniciar_sesion">
+              <i class="fa-regular fa-circle-user me-2"></i> Iniciar sesión
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="/socialicar/src/pages/usuario/perfil_usuario">
               <i class="fa-regular fa-circle-user me-2"></i> Mi perfil
             </a>
           </li>
           <li>
-            <a class="dropdown-item" href="#">
-              <i class="fa-regular fa-circle-question me-2"></i> Configuración
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item" href="#">
+            <a class="dropdown-item" href="/socialicar/src/pages/usuario/cerrar_sesion">
               <i class="fa-regular fa-circle-xmark me-2"></i> Cerrar sesión
             </a>
           </li>
