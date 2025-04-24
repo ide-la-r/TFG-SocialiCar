@@ -4,10 +4,10 @@
 <head>
     <link rel="icon" href="../../../src/img/favicon.png" />
     <?php
-        require(__DIR__ . '/../../config/bootstrap.php');
-        require(__DIR__ . "/../../../src/config/conexion.php");
+    require(__DIR__ . '/../../config/bootstrap.php');
+    require(__DIR__ . "/../../../src/config/conexion.php");
 
-        /* if (!isset($_SESSION["usuario"])) {
+    /* if (!isset($_SESSION["usuario"])) {
             header("Location: " . BASE_URL . "src/pages/usuario/iniciar_sesion.php");
             exit;
         } */
@@ -19,6 +19,12 @@
     <form action="#" method="post">
         <div class="container card text-center card_registro" style="width: 40rem;">
             <h1 class="register">Añadir coche</h1>
+
+
+
+
+
+
             <form action="" class="form-floating">
                 <div class="row justify-content-center">
                     <div class="mb-3 col-4">
@@ -82,18 +88,125 @@
                         </Select>
                     </div>
 
-
+                    <!-- INICIO SECCION DE IMAGENES -->
+                    <div class="mb-4">
+                        <label class="form-label fw-bold fs-4 mb-2 text-start" style="display:block">Fotos</label>
+                        <div class="border rounded-3 p-3 mb-3 bg-white" style="border-style: dashed; border-width: 2px;">
+                            <div class="d-flex align-items-center mb-1">
+                                <label for="fotosCoche" class="b    tn btn-outline-success fw-bold me-3 mb-0" style="border-radius: 2rem; cursor:pointer;">Subir fotos</label>
+                                <input type="file" id="fotosCoche" name="fotosCoche[]" accept="image/jpeg, image/png, image/webp" multiple style="display:none;" aria-label="Subir fotos del coche">
+                                <div>
+                                    <span class="fw-semibold">Arrastra tus fotos aquí</span><br>
+                                    <span class="text-muted" style="font-size: 0.95em;">Formatos aceptados: JPEG, PNG y WebP. Tamaño límite: 10 MB por archivo.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-cols-5 g-3 justify-content-center">
+                            <!-- CAJAS IMAGENES DE LOS COCHES -->
+                            <div class="col">
+                                <div class="border rounded-3 bg-white d-flex align-items-center justify-content-center" style="height: 110px;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" stroke="#5b7684" stroke-width="2" viewBox="0 0 24 24">
+                                        <rect width="18" height="14" x="3" y="5" rx="2" />
+                                        <circle cx="8.5" cy="11.5" r="2.5" />
+                                        <path d="M21 19 16.65 13.92a2 2 0 0 0-3.3 0L9.5 17.5" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="border rounded-3 bg-white d-flex align-items-center justify-content-center" style="height: 110px;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" stroke="#5b7684" stroke-width="2" viewBox="0 0 24 24">
+                                        <rect width="18" height="14" x="3" y="5" rx="2" />
+                                        <circle cx="8.5" cy="11.5" r="2.5" />
+                                        <path d="M21 19 16.65 13.92a2 2 0 0 0-3.3 0L9.5 17.5" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="border rounded-3 bg-white d-flex align-items-center justify-content-center" style="height: 110px;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" stroke="#5b7684" stroke-width="2" viewBox="0 0 24 24">
+                                        <rect width="18" height="14" x="3" y="5" rx="2" />
+                                        <circle cx="8.5" cy="11.5" r="2.5" />
+                                        <path d="M21 19 16.65 13.92a2 2 0 0 0-3.3 0L9.5 17.5" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="border rounded-3 bg-white d-flex align-items-center justify-content-center" style="height: 110px;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" stroke="#5b7684" stroke-width="2" viewBox="0 0 24 24">
+                                        <rect width="18" height="14" x="3" y="5" rx="2" />
+                                        <circle cx="8.5" cy="11.5" r="2.5" />
+                                        <path d="M21 19 16.65 13.92a2 2 0 0 0-3.3 0L9.5 17.5" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="border rounded-3 bg-white d-flex align-items-center justify-content-center" style="height: 110px;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" stroke="#5b7684" stroke-width="2" viewBox="0 0 24 24">
+                                        <rect width="18" height="14" x="3" y="5" rx="2" />
+                                        <circle cx="8.5" cy="11.5" r="2.5" />
+                                        <path d="M21 19 16.65 13.92a2 2 0 0 0-3.3 0L9.5 17.5" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="border rounded-3 bg-white d-flex align-items-center justify-content-center" style="height: 110px;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" stroke="#5b7684" stroke-width="2" viewBox="0 0 24 24">
+                                        <rect width="18" height="14" x="3" y="5" rx="2" />
+                                        <circle cx="8.5" cy="11.5" r="2.5" />
+                                        <path d="M21 19 16.65 13.92a2 2 0 0 0-3.3 0L9.5 17.5" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="border rounded-3 bg-white d-flex align-items-center justify-content-center" style="height: 110px;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" stroke="#5b7684" stroke-width="2" viewBox="0 0 24 24">
+                                        <rect width="18" height="14" x="3" y="5" rx="2" />
+                                        <circle cx="8.5" cy="11.5" r="2.5" />
+                                        <path d="M21 19 16.65 13.92a2 2 0 0 0-3.3 0L9.5 17.5" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="border rounded-3 bg-white d-flex align-items-center justify-content-center" style="height: 110px;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" stroke="#5b7684" stroke-width="2" viewBox="0 0 24 24">
+                                        <rect width="18" height="14" x="3" y="5" rx="2" />
+                                        <circle cx="8.5" cy="11.5" r="2.5" />
+                                        <path d="M21 19 16.65 13.92a2 2 0 0 0-3.3 0L9.5 17.5" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="border rounded-3 bg-white d-flex align-items-center justify-content-center" style="height: 110px;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" stroke="#5b7684" stroke-width="2" viewBox="0 0 24 24">
+                                        <rect width="18" height="14" x="3" y="5" rx="2" />
+                                        <circle cx="8.5" cy="11.5" r="2.5" />
+                                        <path d="M21 19 16.65 13.92a2 2 0 0 0-3.3 0L9.5 17.5" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="border rounded-3 bg-white d-flex align-items-center justify-content-center" style="height: 110px;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" stroke="#5b7684" stroke-width="2" viewBox="0 0 24 24">
+                                        <rect width="18" height="14" x="3" y="5" rx="2" />
+                                        <circle cx="8.5" cy="11.5" r="2.5" />
+                                        <path d="M21 19 16.65 13.92a2 2 0 0 0-3.3 0L9.5 17.5" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FIN SECCION DE IMAGENES -->
 
                     <div class="mb-3 col-8">
                         <input class="form-control" placeholder="" id="identificacion" type="text" hidden>
                     </div>
                 </div>
-
+                <!--BOTON VENTANA MODAL CON BOOTSTRAP-->
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#miModal">
-                Extras
-            </button>
+                    Extras
+                </button>
             </form>
-            <!--BOTON VENTANA MODAL CON BOOTSTRAP-->
+            <!--BOTON PARA ENVIAR EL FORMULARIO -->
             <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#miModal">
                 Confirmar
             </button>
@@ -129,7 +242,6 @@
                             <label class="col-6"><input type="checkbox" name="portabicicletas">Portabicicletas</label>
                             <label class="col-6"><input type="checkbox" name="portaequipajes">Portaequipajes</label>
                             <label class="col-6"><input type="checkbox" name="portaesquis">Portaesquis</label>
-                            <label class="col-6"><input type="checkbox" name="seguro">Seguro</label>
 
                         </div>
                     </div>
@@ -143,7 +255,7 @@
             </div>
         </div>
 
-        <!-- Botón para enviar el formulario -->
+
 
     </form>
     <?php include_once '../../components/footer.php'; ?>
