@@ -15,7 +15,7 @@
     <!-- Logo -->
     <a class="navbar-brand mt-2 mt-lg-0" href="/socialicar/">
       <img
-        src="/socialicar/src/img/nav.png"
+        src="/socialicar/src/img/Logo_Socialicar.png"
         height="30"
         alt="SocialiCar Logo"
         loading="lazy" />
