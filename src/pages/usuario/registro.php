@@ -148,9 +148,9 @@
         }
 
         if ($confirmar) {
-            $sql = "INSERT INTO usuario (identificacion, nombre, apellido, correo, telefono, contrasena,
+            $sql = "INSERT INTO usuario (identificacion,tipo_identificacion , nombre, apellido, correo, telefono, contrasena,
             fecha_registro, fecha_update, foto_perfil, ruta_img_dni, ruta_img_carnet, verificado)
-            VALUES ('$identificacion', '$nombre', '$apellido', '$correo', '$telefono',
+            VALUES ('$identificacion', '$tipo_identificacion' , '$nombre', '$apellido', '$correo', '$telefono',
             '$contrasena_cifrada', NOW(), NOW(), NULL, NULL, NULL, 0)";
             
             if ($_conexion->query($sql)) {
