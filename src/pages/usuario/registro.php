@@ -154,8 +154,17 @@
             '$contrasena_cifrada', NOW(), NOW(), NULL, NULL, NULL, 0)";
             
             if ($_conexion->query($sql)) {
-                header("location: ../../../index.php");
-                exit();
+
+                $sql = "SELECT * FROM usuario WHERE correo = '$correo'";
+                $resultado = $_conexion->query($sql);
+                
+                if ($resultado->num_rows == 1) {
+                    $datos_usuario = $resultado->fetch_assoc();
+
+                    $_SESSION["usuario"] = $datos_usuario;
+                    header("location: ../../../index.php");
+                    exit();
+                }
             }
         }
     }
