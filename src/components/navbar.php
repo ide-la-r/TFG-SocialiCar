@@ -1,47 +1,5 @@
 <style>
-  .navbar {
-    overflow: visible !important;
-    position: relative;
-    z-index: 1;
-  }
 
-  .logo {
-    height: 30px;
-    display: flex;
-    align-items: center;
-    position: relative;
-    z-index: 10;
-  }
-
-  .logo img {
-    height: 165px;
-    position: absolute;
-    top: -67px;
-    left: 0;
-  }
-
-  .dropdown-menu {
-    display: block;
-    opacity: 0;
-    transform: scaleY(0);
-    transform-origin: top;
-    transition: all 0.2s ease;
-    position: absolute;
-    right: 0;
-    min-width: 200px;
-    pointer-events: none;
-  }
-
-  /* clase de bootstrap */
-  .dropdown-menu.show { 
-    opacity: 1;
-    transform: scaleY(1);
-    pointer-events: auto;
-  }
-
-  .navbar-nav {
-    position: relative;
-  }
 </style>
 
 <nav class="navbar navbar-expand-lg navbar-light custom-navbar">
