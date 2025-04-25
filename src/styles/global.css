@@ -1,0 +1,31 @@
+@font-face {
+    font-family: "Roboto";
+    src: url("/socialicar/src/fonts/Roboto/Roboto-Regular.ttf") format("woff2");
+    font-weight: 700;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Teko";
+    src: url("/socialicar/src/fonts/Teko/Teko-Bold.ttf") format("woff2");
+    font-weight: 700;
+    font-display: swap;
+}
+
+:root {
+    --color-primario: #C4EEF2;
+    --color-secundario: #B0D5D9;
+    --color-terciario: #6BBFBF;
+    --color-claro: #F2F2F2;
+    --color-oscuro: #595959;
+    --color-darkMode: #343434;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: Teko;
+    text-transform: uppercase;
+}
+
+p, span, a, li, button, input, textarea, label, select, option, table, th, td, ::placeholder, link, nav, ul, ol {
+    font-family: Roboto;
+}
