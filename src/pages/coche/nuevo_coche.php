@@ -762,9 +762,8 @@
                 bluetooth, cuatroxcuatro, tipo
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         
-            // Asegúrate de pasar los parámetros correctamente
             $enviar->bind_param(
-                "ssisssissssissiisiiiiiiiiiiiiiiiiis", // La cantidad de tipos debe coincidir con las columnas
+                "ssisssissssissiisiiiiiiiiiiiiiiiiis",
                 $matricula, $id_usuario, $seguro, $marca, $modelo, $anno_matriculacion, $kilometros,
                 $tipo_combustible, $transmision, $provincia, $ciudad, $cp, $direccion,
                 $tipo_aparcamiento, $mascota, $fumar, $ruta_img_coche, $movilidadreducia, $gps,
