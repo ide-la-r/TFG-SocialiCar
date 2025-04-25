@@ -1,8 +1,8 @@
 <?php
-    error_reporting(E_ALL);
-    ini_set("display_errors", 1);
-    session_start();
-    require(__DIR__ . "/src/config/conexion.php");
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+session_start();
+require(__DIR__ . "/src/config/conexion.php");
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -41,8 +41,34 @@
     }
 
     .form-label {
-    font-weight: bold;
-}
+        font-weight: bold;
+    }
+
+    .banner-video-container {
+        position: relative;
+        height: 60vh;
+        overflow: hidden;
+    }
+
+    .banner-video {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        min-width: 100%;
+        min-height: 100%;
+        transform: translate(-50%, -50%);
+        object-fit: cover;
+        z-index: 1;
+    }
+
+    .banner-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .busqueda {
+        margin-top: 10vh;
+    }
 </style>
 
 <body class="d-flex flex-column min-vh-100">
@@ -51,15 +77,19 @@
     <?php include_once 'src/components/navbar.php'; ?>
 
     <!-- BANNER (Hero) -->
-    <div class="d-flex justify-content-center align-items-center text-center" style="height: 40vh;">
-        <div>
+    
+    <div class="banner-video-container d-flex justify-content-center align-items-center text-center">
+        <video autoplay muted loop playsinline class="banner-video">
+            <source src="/socialicar/src/video/socialicar_3.mp4" type="video/mp4" />
+            Tu navegador no soporta el video HTML5.
+        </video>
+        <div class="banner-content text-white">
             <h1>Encuentra tu vehículo ideal</h1>
             <h3>Alquila vehículos de forma segura</h3>
         </div>
     </div>
-
     <!-- BARRA DE BUSQUEDA -->
-    <form class="w-75 mx-auto">
+    <form class="w-75 mx-auto busqueda">
         <div class="input-group">
             <input type="text" class="form-control" placeholder="Buscar un vehículo...">
             <button class="btn btn-primary" type="submit">Buscar</button>
@@ -287,7 +317,7 @@
                     <!-- TARJETAS -->
 
                     <!-- tarjetas premium -->
-                    <div class="row row-cols-1 row-cols-md-3 g-4"> 
+                    <div class="row row-cols-1 row-cols-md-3 g-4">
                         <!-- 1 -->
                         <div class="col">
                             <div class="card h-100 shadow-lg border-success">
