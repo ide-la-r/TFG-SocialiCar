@@ -44,10 +44,12 @@ require(__DIR__ . "/src/config/conexion.php");
         font-weight: bold;
     }
 
+    /* BANNER */
     .banner-video-container {
         position: relative;
-        height: 60vh;
+        height: 70vh;
         overflow: hidden;
+        z-index: 0;
     }
 
     .banner-video {
@@ -66,9 +68,47 @@ require(__DIR__ . "/src/config/conexion.php");
         z-index: 2;
     }
 
+    /* BARRA DE BUSQUEDA 
     .busqueda {
         margin-top: 10vh;
+    }*/
+    
+    .busqueda {
+        position: absolute;
+        top: 65%; 
+        left: 50%;
+        transform: translateX(-50%); 
+        z-index: 3;
+        width: 70%;
+        margin-top: 0; 
     }
+    
+    /* Animación de los títulos */
+    @keyframes fadeInUp {
+        0% {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .banner-content h1 {
+        animation: fadeInUp 1s ease-out forwards;
+        opacity: 0;
+    }
+    .banner-content h3 {
+        animation: fadeInUp 1.2s ease-out forwards;
+        opacity: 0;
+    }
+
+    .banner-content h3 {
+        animation-delay: 0.7s;
+    }
+
 </style>
 
 <body class="d-flex flex-column min-vh-100">
@@ -77,17 +117,16 @@ require(__DIR__ . "/src/config/conexion.php");
     <?php include_once 'src/components/navbar.php'; ?>
 
     <!-- BANNER (Hero) -->
-    
     <div class="banner-video-container d-flex justify-content-center align-items-center text-center">
         <video autoplay muted loop playsinline class="banner-video">
             <source src="/socialicar/src/video/socialicar_3.mp4" type="video/mp4" />
-            Tu navegador no soporta el video HTML5.
         </video>
         <div class="banner-content text-white">
             <h1>Encuentra tu vehículo ideal</h1>
             <h3>Alquila vehículos de forma segura</h3>
         </div>
     </div>
+
     <!-- BARRA DE BUSQUEDA -->
     <form class="w-75 mx-auto busqueda">
         <div class="input-group">
