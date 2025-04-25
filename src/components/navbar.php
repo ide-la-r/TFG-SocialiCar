@@ -1,3 +1,26 @@
+<style>
+  .navbar {
+  overflow: visible !important;
+  position: relative;
+  z-index: 1;
+}
+
+.logo {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 10;
+}
+
+.logo img {
+  height: 165px;
+  position: absolute;
+  top: -67px; 
+  left: 0;
+}
+</style>
+
 <nav class="navbar navbar-expand-lg navbar-light custom-navbar">
   <div class="container-fluid">
     <!-- Botón para móviles INICIAR SESION, REGISTRARSE, PREMIUM-->
@@ -13,7 +36,7 @@
     </button>
 
     <!-- Logo -->
-    <a class="navbar-brand mt-2 mt-lg-0" href="/socialicar/">
+    <a class="navbar-brand mt-2 mt-lg-0 logo" href="/socialicar/">
       <img
         src="/socialicar/src/img/Logo_Socialicar.png"
         height="30"
