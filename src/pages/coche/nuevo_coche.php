@@ -751,7 +751,7 @@
     </form>
 
     <?php
-        if (isset($matricula) && isset($marca) && isset($modelo) && isset($anno_matriculacion) && isset($kilometros) && isset($direccion) && isset($cp) && isset($provincia) && isset($ciudad) && isset($tipo_combustible) && isset($transmision) && isset($tipo_aparcamiento) && isset($tipo)) {
+        if (isset($matricula, $marca) && isset($modelo) && isset($anno_matriculacion) && isset($kilometros) && isset($direccion) && isset($cp) && isset($provincia) && isset($ciudad) && isset($tipo_combustible) && isset($transmision) && isset($tipo_aparcamiento) && isset($tipo)) {
             $enviar = $_conexion->prepare("INSERT INTO coche (
                 matricula, id_usuario, seguro, marca, modelo, anno_matriculacion, kilometros,
                 combustible, transmision, provincia, ciudad, codigo_postal, direccion,
