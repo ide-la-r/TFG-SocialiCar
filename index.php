@@ -97,6 +97,7 @@ require(__DIR__ . "/src/config/conexion.php");
     }
 
     .banner-content h1 {
+        font-size: 3.5rem;
         animation: fadeInUp 1s ease-out forwards;
         opacity: 0;
     }
@@ -122,7 +123,7 @@ require(__DIR__ . "/src/config/conexion.php");
             <source src="/socialicar/src/video/socialicar_3.mp4" type="video/mp4" />
         </video>
         <div class="banner-content text-white">
-            <h1>Encuentra tu vehículo ideal</h1>
+            <h1>Encuentra tu <i>vehículo</i> ideal</h1>
             <h3>Alquila vehículos de forma segura</h3>
         </div>
     </div>
