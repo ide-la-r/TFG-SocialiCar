@@ -391,62 +391,28 @@
                         $marcas = $datos['Results'];
                     ?>
 
-                    <div class="mb-3 col-4">
-                        <select id="marca" name="marca" class="form-select" onchange="this.form.submit()">
-                            <option disabled selected hidden>Marca*</option>
-                            <?php
-                                foreach ($marcas as $marca) { ?>
+                    <div class="row justify-content-center">
+                        <div class="mb-3 col-4">
+                            <select id="marca" name="marca" class="form-select">
+                                <option disabled selected hidden>Marca*</option>
+                                <?php foreach ($marcas as $marca) { ?>
                                     <option value="<?php echo $marca["MakeName"]; ?>" 
                                         <?php if (isset($_POST['marca']) && $_POST['marca'] == $marca["MakeName"]) echo "selected"; ?>>
                                         <?php echo $marca["MakeName"]; ?>
                                     </option>
                                 <?php } ?>
-                        </select>
-                        <?php 
-                            if(isset($err_marca)){
-                                echo "<span class='error'>$err_marca</span>";
-                            }
-                        ?>
-                    </div>
-                </div>
-                
-                <div class="row justify-content-center">
-
-                    <?php
-                        if (isset($_POST['marca'])) {
-                            $makeNameSeleccionado = $_POST['marca'];
-                            $makeIdSeleccionado = null;
-
-                            foreach ($marcas as $marcaItem) {
-                                if ($marcaItem["MakeName"] == $makeNameSeleccionado) {
-                                    $makeIdSeleccionado = $marcaItem["MakeId"];
-                                    break;
+                            </select>
+                            <?php 
+                                if(isset($err_marca)){
+                                    echo "<span class='error'>$err_marca</span>";
                                 }
-                            }
+                            ?>
+                        </div>
 
-                            if ($makeIdSeleccionado) {
-                                $apiUrlModelos = "https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMakeId/{$makeIdSeleccionado}?format=json";
-
-                                $curl = curl_init();
-                                curl_setopt($curl, CURLOPT_URL, $apiUrlModelos);
-                                curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-                                $respuestaModelos = curl_exec($curl);
-                                curl_close($curl);
-
-                                $datosModelos = json_decode($respuestaModelos, true);
-                                $modelos = $datosModelos['Results'];
-                            }
-                        }
-                    ?>
-
-                    <?php if (!empty($modelos)) { ?>
                         <div class="mb-3 col-4">
                             <select id="modelo" name="modelo" class="form-select">
                                 <option disabled selected hidden>Modelo*</option>
-                                <?php
-                                    foreach ($modelos as $modelo) { ?>
-                                        <option value="<?php echo $modelo["Model_Name"]; ?>"><?php echo $modelo["Model_Name"]; ?></option>
-                                    <?php } ?>
+                                <!-- Aquí los modelos se cargarán dinámicamente -->
                             </select>
                             <?php 
                                 if(isset($err_modelo)){
@@ -454,7 +420,7 @@
                                 }
                             ?>
                         </div>
-                    <?php } ?>
+                    </div>
 
                     <div class="mb-3 col-8">
                         <input id="anno_matriculacion" class="form-control" type="month" name="anno_matriculacion" value="<?php if (isset($_POST['anno_matriculacion'])) echo htmlspecialchars($_POST['anno_matriculacion']); ?>" 
@@ -761,7 +727,15 @@
                 android_carplay, baca, portabicicletas, portaequipajes, portaesquis,
                 bluetooth, cuatroxcuatro, tipo
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        
+
+            if (is_array($marca) && isset($marca['MakeName'])) {
+                $marca = $marca['MakeName'];
+            }
+
+            if (is_array($modelo) && isset($modelo['Model_Name'])) {
+                $modelo = $modelo['Model_Name'];
+            }
+            
             $enviar->bind_param(
                 "ssisssissssissiisiiiiiiiiiiiiiiiiis",
                 $matricula, $id_usuario, $seguro, $marca, $modelo, $anno_matriculacion, $kilometros,
