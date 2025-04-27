@@ -72,17 +72,17 @@ require(__DIR__ . "/src/config/conexion.php");
     .busqueda {
         margin-top: 10vh;
     }*/
-    
+
     .busqueda {
         position: absolute;
-        top: 65%; 
+        top: 65%;
         left: 50%;
-        transform: translateX(-50%); 
+        transform: translateX(-50%);
         z-index: 3;
         width: 70%;
-        margin-top: 0; 
+        margin-top: 0;
     }
-    
+
     /* Animación de los títulos */
     @keyframes fadeInUp {
         0% {
@@ -101,6 +101,7 @@ require(__DIR__ . "/src/config/conexion.php");
         animation: fadeInUp 1s ease-out forwards;
         opacity: 0;
     }
+
     .banner-content h3 {
         animation: fadeInUp 1.2s ease-out forwards;
         opacity: 0;
@@ -110,9 +111,75 @@ require(__DIR__ . "/src/config/conexion.php");
         animation-delay: 0.7s;
     }
 
+/* video */
+
+#video {
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+    position: fixed;  
+    top: 0;
+    left: 0;
+    z-index: 4; 
+    animation: difuminarVideo 7s forwards;
+}
+
+#contenido {
+    position: absolute; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.7); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;  /* LA PAGINA */
+    z-index: 20; 
+}
+
+@keyframes difuminarVideo {
+    0% {
+        opacity: 1;
+        filter: blur(0px);
+    }
+    100% {
+        opacity: 0;
+        filter: blur(5px);
+    }
+}
+
+/* ARREGLAR QUE TARDA EN FUNCIONAR LOS BTOONES */
+
+
+
+
+
 </style>
 
 <body class="d-flex flex-column min-vh-100">
+   
+<video id="video" autoplay muted playsinline>
+    <source src="/socialicar/src/video/socialicar_2.mp4" type="video/mp4">
+    Tu navegador no soporta el formato de video.
+</video>
+<script>
+    document.getElementById('video').playbackRate = 2;  // Reproducir a 2x velocidad
+</script>
+
+    
+    <script>
+        const video = document.getElementById('video');
+        
+        video.play().catch(error => {
+            console.log("Error al intentar reproducir el video:", error);
+        });
+
+        video.onended = function() {
+            document.getElementById('video').style.display = 'none';
+            document.getElementById('contenido').style.display = 'block';
+        };
+    </script>
 
     <!-- NAVBAR -->
     <?php include_once 'src/components/navbar.php'; ?>
