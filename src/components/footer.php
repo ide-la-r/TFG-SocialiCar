@@ -57,3 +57,4 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
 <script src="/socialicar/src/js/mostrar_marcas.js"></script>
+<script src="/socialicar/src/js/precio_coche.js"></script>
