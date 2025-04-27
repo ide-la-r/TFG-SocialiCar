@@ -53,17 +53,23 @@
 
 
       <!-- Notificaciones -->
-      <div class="dropdown me-3">
-        <a
-          class="text-reset"
-          href="#"
-          role="button"
-          data-bs-toggle="dropdown"
-          aria-expanded="false">
-          <i class="fa-regular fa-comment-dots fa-flip-horizontal"></i>
-          <span class="badge rounded-pill bg-danger">1</span>
-        </a>
-      </div>
+      <?php
+      if (isset($_SESSION['usuario'])) {
+      echo "
+        <div class='dropdown me-3'>
+          <a
+            class='text-reset'
+            href='#'
+            role='button'
+            data-bs-toggle='dropdown'
+            aria-expanded='false'>
+            <i class='fa-regular fa-comment-dots fa-flip-horizontal'></i>
+            <span class='badge rounded-pill bg-danger'>1</span>
+          </a>
+        </div>
+      ";
+      }
+      ?>
 
       <!-- Avatar usuario -->
       <div class="dropdown">
