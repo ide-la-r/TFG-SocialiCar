@@ -123,7 +123,7 @@ require(__DIR__ . "/src/config/conexion.php");
         top: 0;
         left: 0;
         z-index: 4;
-        animation: difuminarVideo 3.5s forwards;
+        animation: difuminarVideo 3.9s forwards;
     }
 
     #contenido {
@@ -153,6 +153,17 @@ require(__DIR__ . "/src/config/conexion.php");
     }
 
     /* CARTAS DE LOS COCHES */
+    .card {
+        position: relative;
+        transition: transform 0.3s ease;
+    }
+
+
+    .card:hover {
+        transform: scale(1.05);
+        cursor: pointer;
+    }
+
     .card-img-premium {
         height: 40vh;
         object-fit: cover;
@@ -164,6 +175,9 @@ require(__DIR__ . "/src/config/conexion.php");
         object-fit: cover;
         width: 100%;
     }
+
+
+    
 </style>
 
 <body class="d-flex flex-column min-vh-100">
@@ -175,7 +189,6 @@ require(__DIR__ . "/src/config/conexion.php");
     <script>
         document.getElementById('video').playbackRate = 2; // se reproduce a x2
     </script>
-
 
 
     <!-- NAVBAR -->
@@ -201,11 +214,16 @@ require(__DIR__ . "/src/config/conexion.php");
     </form>
     <br><br>
 
+
+
     <!-- MENU DE FILTROS DEL COCHE -->
-    <div class="container-fluid" style="margin-top: -6vh; padding-left: 4vh">
+    <div class="container-fluid" style="margin-top: -6vh; padding-left: 4vh; padding-bottom: 1vh">
         <div class="row">
             <div class="col-md-2 menu-de-filtros border-top border-end border-bottom pe-3">
+            <div class="col-md-1">
+        </div>
 
+        
                 <h3 style="margin-top: 3vh;">Filtros</h3>
                 <!-- MARCA -->
                 <div>
@@ -406,7 +424,7 @@ require(__DIR__ . "/src/config/conexion.php");
 
 
                 <!-- APLICAR FILTROS -->
-                <div style="padding-bottom: 3vh;">
+                <div style="padding-bottom: 1vh;">
                     <button class="btn btn-primary" type="button">Aplicar Filtros</button>
                     <button class="btn btn-warning" type="submit">Buscar</button>
                 </div>
