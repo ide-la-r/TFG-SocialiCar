@@ -13,10 +13,10 @@
         require(__DIR__ . "/../../config/conexion.php");
 
         session_start();
-        if (!isset($_SESSION["usuario"])) {
+        /* if (!isset($_SESSION["usuario"])) {
             header("location: ../../../index.php");
             exit();
-        }
+        } */
     ?>
     <style>
         .error {
@@ -30,6 +30,7 @@
         require(__DIR__ . "/../../config/depurar.php");
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $tmp_matricula = depurar($_POST['matricula']);
+            $tmp_precio = depurar($_POST['precio']);
 
             if (isset($_POST['marca'])) {
                 $tmp_marca = depurar($_POST['marca']);
@@ -387,6 +388,13 @@
                                 echo "<span class='error'>$err_matricula</span>";
                             }
                         ?>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="seguro" <?php if (isset($_POST['seguro'])) echo 'checked'; ?>>
+                            <label class="form-check-label">
+                                Seguro
+                            </label>
+                        </div>
                     </div>
 
                     <?php
@@ -618,6 +626,19 @@
                                 echo "<span class='error'>$err_tipo_aparcamiento</span>";
                             }
                         ?>
+                    </div>
+
+                    <div class="mb-3 col-8">
+                        <label id="totalPrecio" class="form-label">Precio Diario: <span id="mostrarPrecio">15€</span></label>
+
+                        <input type="range" class="form-range" id="precio" min="15" max="500" step="1" value="15">
+
+                        <div class="d-flex justify-content-between">
+                            <span>15€</span>
+                            <span>500€</span>
+                        </div>
+
+                        <p>La media de precio para tu coche es de <span>0€</span></p>
                     </div>
 
                     <!-- INICIO SECCION DE IMAGENES -->
