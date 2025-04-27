@@ -5,7 +5,7 @@
       <!-- Información del tfg sacado del plan de empresa -->
       <div class="col-md-4 mb-4 mb-md-0">
         <h6 class="fw-semibold mb-1" style="color: #6BBFBF;">SocialiCar</h6>
-        <p class="mb-0" style="color: #595959; font-size: 0.93em;">
+        <p class="mb-0" style="color: #595959; font-size: 0.93em; width: 70%">
           SocialiCar es un intermediario destinado al alquiler de vehículos entre particulares. La idea surge ante la creciente necesidad de alternativas de movilidad más flexibles, accesibles y sostenibles. 
         </p>
       </div>
