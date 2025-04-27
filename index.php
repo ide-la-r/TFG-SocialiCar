@@ -111,75 +111,63 @@ require(__DIR__ . "/src/config/conexion.php");
         animation-delay: 0.7s;
     }
 
-/* video */
+    /* video */
+    /* video */
+    #video {
+        width: 100%;
+        height: 100vh;
+        object-fit: cover;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 4;
+        animation: difuminarVideo 3.5s forwards;
+    }
 
-#video {
-    width: 100%;
-    height: 100vh;
-    object-fit: cover;
-    position: fixed;  
-    top: 0;
-    left: 0;
-    z-index: 4; 
-    animation: difuminarVideo 7s forwards;
-}
-
-#contenido {
-    position: absolute; 
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background: rgba(255, 255, 255, 0.7); 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 1;  /* LA PAGINA */
-    z-index: 20; 
-}
-
-@keyframes difuminarVideo {
-    0% {
+    #contenido {
+        position: relative;
+        /* Ya no hace falta que sea absolute */
+        width: 100%;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        /* Si quieres que tu página sea normal */
+        justify-content: flex-start;
+        align-items: center;
         opacity: 1;
-        filter: blur(0px);
+        z-index: 20;
+        background: none;
+        /* Quitar el fondo blanco */
     }
-    100% {
-        opacity: 0;
-        filter: blur(5px);
+
+    /* Animación para difuminar el video */
+    @keyframes difuminarVideo {
+        0% {
+            opacity: 1;
+            filter: blur(0px);
+        }
+
+        100% {
+            opacity: 0;
+            filter: blur(5px);
+        }
     }
-}
-
-/* ARREGLAR QUE TARDA EN FUNCIONAR LOS BTOONES */
 
 
-
-
-
+    /* ARREGLAR QUE TARDA EN FUNCIONAR LOS BTOONES */
 </style>
 
 <body class="d-flex flex-column min-vh-100">
-   
-<video id="video" autoplay muted playsinline>
-    <source src="/socialicar/src/video/socialicar_2.mp4" type="video/mp4">
-    Tu navegador no soporta el formato de video.
-</video>
-<script>
-    document.getElementById('video').playbackRate = 2;  // Reproducir a 2x velocidad
-</script>
 
-    
+    <video id="video" autoplay muted playsinline>
+        <source src="/socialicar/src/video/socialicar_2.mp4" type="video/mp4">
+        Tu navegador no soporta el formato de video.
+    </video>
     <script>
-        const video = document.getElementById('video');
-        
-        video.play().catch(error => {
-            console.log("Error al intentar reproducir el video:", error);
-        });
-
-        video.onended = function() {
-            document.getElementById('video').style.display = 'none';
-            document.getElementById('contenido').style.display = 'block';
-        };
+        document.getElementById('video').playbackRate = 2; // se reproduce a x2
     </script>
+
+
 
     <!-- NAVBAR -->
     <?php include_once 'src/components/navbar.php'; ?>
@@ -205,15 +193,15 @@ require(__DIR__ . "/src/config/conexion.php");
     <br><br>
 
     <!-- MENU DE FILTROS DEL COCHE -->
-    <div class="container-fluid">
+    <div class="container-fluid" style="margin-top: -6vh; padding-left: 3vh">
         <div class="row">
             <div class="col-md-2 border-top border-end border-bottom pe-3">
-                <h3>Filtros</h3>
+                <h3 style="margin-top: 3vh;">Filtros</h3>
                 <!-- MARCA -->
                 <div>
                     <label class="form-label">Marca:</label>
                     <select class="form-select">
-                        <option selected>- - Selecciona un tipo - -</option>
+                        <option selected>- - Selecciona una marca - -</option>
                         <option value="1">Alfa Romeo</option>
                         <option value="2">Volkswagen</option>
                         <option value="3">BMW</option>
@@ -227,7 +215,7 @@ require(__DIR__ . "/src/config/conexion.php");
                 <div>
                     <label class="form-label">Modelo:</label>
                     <select class="form-select">
-                        <option selected>- - Selecciona un tipo - -</option>
+                        <option selected>- - Selecciona un modelo - -</option>
                         <option value="1">Modelo</option>
                         <!-- API coches para modelos QUE CAMBIARAN SEGUN LA MARCA-->
                     </select>
@@ -250,7 +238,7 @@ require(__DIR__ . "/src/config/conexion.php");
                 <div>
                     <label class="form-label">Tipo de Coche:</label>
                     <select class="form-select">
-                        <option selected>- - Selecciona un tipo - -</option>
+                        <option selected>- - Selecciona un tipo de coche - -</option>
                         <option value="1">Berlina</option>
                         <option value="2">Coupé</option>
                         <option value="3">Monovolumen</option>
@@ -589,6 +577,37 @@ require(__DIR__ . "/src/config/conexion.php");
             }
         }
     </script>
+
+
+    <script>
+        //  VIDEO AL BUSCAR LA PAGINA
+        // reproducir el video
+        const video = document.getElementById('video');
+
+        video.play().catch(error => {
+            console.log("Error al intentar reproducir el video de inivio", error);
+        });
+
+        video.onended = function() {
+            document.getElementById('video').style.display = 'none';
+            document.getElementById('contenido').style.display = 'block';
+        };
+
+        // controlar si se ha visto o no
+        document.addEventListener("DOMContentLoaded", function() {
+            const yaVisto = sessionStorage.getItem('videoVisto');
+
+            if (yaVisto) { // si se ha visto el video no sale mas
+                const video = document.getElementById('video');
+                if (video) {
+                    video.parentNode.removeChild(video);
+                }
+            } else { // cuando cargue la pagina decimos que se ha visto
+                sessionStorage.setItem('videoVisto', 'true');
+            }
+        });
+    </script>
+
 </body>
 
 </html>
