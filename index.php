@@ -68,11 +68,13 @@ require(__DIR__ . "/src/config/conexion.php");
         z-index: 2;
     }
 
-    /* BARRA DE BUSQUEDA 
-    .busqueda {
-        margin-top: 10vh;
-    }*/
+    /* MENU DE FILTROS*/
+    .menu-de-filtros {
+        width: 25%;
+        /* Un pequeño incremento sobre el 16.6% de 2 columnas */
+    }
 
+    /* BARRA DE BUSQUEDA */
     .busqueda {
         position: absolute;
         top: 65%;
@@ -111,8 +113,8 @@ require(__DIR__ . "/src/config/conexion.php");
         animation-delay: 0.7s;
     }
 
-    /* video */
-    /* video */
+
+    /* video inicial*/
     #video {
         width: 100%;
         height: 100vh;
@@ -126,21 +128,18 @@ require(__DIR__ . "/src/config/conexion.php");
 
     #contenido {
         position: relative;
-        /* Ya no hace falta que sea absolute */
         width: 100%;
         min-height: 100vh;
         display: flex;
         flex-direction: column;
-        /* Si quieres que tu página sea normal */
         justify-content: flex-start;
         align-items: center;
         opacity: 1;
         z-index: 20;
         background: none;
-        /* Quitar el fondo blanco */
     }
 
-    /* Animación para difuminar el video */
+    /* difuminar el video */
     @keyframes difuminarVideo {
         0% {
             opacity: 1;
@@ -153,8 +152,18 @@ require(__DIR__ . "/src/config/conexion.php");
         }
     }
 
+    /* CARTAS DE LOS COCHES */
+    .card-img-premium {
+        height: 40vh;
+        object-fit: cover;
+        width: 100%;
+    }
 
-    /* ARREGLAR QUE TARDA EN FUNCIONAR LOS BTOONES */
+    .card-img-top {
+        height: 20vh;
+        object-fit: cover;
+        width: 100%;
+    }
 </style>
 
 <body class="d-flex flex-column min-vh-100">
@@ -178,7 +187,7 @@ require(__DIR__ . "/src/config/conexion.php");
             <source src="/socialicar/src/video/socialicar_3.mp4" type="video/mp4" />
         </video>
         <div class="banner-content text-white">
-            <h1>Encuentra tu <i>vehículo</i> ideal</h1>
+            <h1>Encuentra tu <i>vehiculo</i> ideal</h1>
             <h3>Alquila vehículos de forma segura</h3>
         </div>
     </div>
@@ -186,16 +195,17 @@ require(__DIR__ . "/src/config/conexion.php");
     <!-- BARRA DE BUSQUEDA -->
     <form class="w-75 mx-auto busqueda">
         <div class="input-group">
-            <input type="text" class="form-control" placeholder="Buscar un vehículo...">
+            <input type="text" class="form-control" placeholder="buscar vehiculo">
             <button class="btn btn-primary" type="submit">Buscar</button>
         </div>
     </form>
     <br><br>
 
     <!-- MENU DE FILTROS DEL COCHE -->
-    <div class="container-fluid" style="margin-top: -6vh; padding-left: 3vh">
+    <div class="container-fluid" style="margin-top: -6vh; padding-left: 4vh">
         <div class="row">
-            <div class="col-md-2 border-top border-end border-bottom pe-3">
+            <div class="col-md-2 menu-de-filtros border-top border-end border-bottom pe-3">
+
                 <h3 style="margin-top: 3vh;">Filtros</h3>
                 <!-- MARCA -->
                 <div>
@@ -223,7 +233,7 @@ require(__DIR__ . "/src/config/conexion.php");
 
                 <!-- CIUDAD -->
                 <div>
-                    <label for="ciudad" class="form-label">Ubicación:</label>
+                    <label for="ciudad" class="form-label"><b>Ubicación:</b></label>
                     <select id="ciudad" class="form-select">
                         <option selected>- - Selecciona una ciudad - -</option>
                         <option value="1">Málaga</option>
@@ -262,7 +272,7 @@ require(__DIR__ . "/src/config/conexion.php");
                     </select>
                 </div><br>
 
-                <!-- PRECIO -->
+                <!-- PRECIO   poner para escribir y que se ajuste en la barra-->
                 <div>
                     <label class="form-label">Precio Diario (€):</label>
 
@@ -396,51 +406,51 @@ require(__DIR__ . "/src/config/conexion.php");
 
 
                 <!-- APLICAR FILTROS -->
-                <div>
+                <div style="padding-bottom: 3vh;">
                     <button class="btn btn-primary" type="button">Aplicar Filtros</button>
+                    <button class="btn btn-warning" type="submit">Buscar</button>
                 </div>
             </div> <!-- fin del menu -->
 
 
             <!-- TARJETAS DE LOS USUARIOS PREMIUM -->
-
-
-            <div class="col-md-10 bg-light">
-
-
+            <div class="col-md-9 bg-light">
                 <div class="container my-4">
                     <!-- TARJETAS -->
-
                     <!-- tarjetas premium -->
                     <div class="row row-cols-1 row-cols-md-3 g-4">
                         <!-- 1 -->
                         <div class="col">
                             <div class="card h-100 shadow-lg border-success">
-                                <img src="./ruta" class="card-img-top">
+                                <img src="https://cdn.classic-trader.com/I/images/1920_1920_inset/vehicle_ad_standard_image_0829ce87a13d4a47d162eba1e504d203.jpg"
+                                    class="card-img-premium">
                                 <div class="card-body">
-                                    <h5 class="card-title">Modelo del Vehículo</h5>
-                                    <p class="card-text"><strong>Marca del coche</strong></p>
-                                    <p class="card-text text-success">45€/día</p>
+                                    <h5 class="card-title">Mercedes AMG GT</h5>
+                                    <p class="card-text"><strong>Porsche</strong></p>
+                                    <p class="card-text text-success">450€/día</p>
                                     <p class="badge bg-warning">¡Premium!</p>
                                 </div>
                             </div>
                         </div>
+
                         <!-- 2 -->
                         <div class="col">
                             <div class="card h-100 shadow-lg border-success">
-                                <img src="./ruta" class="card-img-top">
+                                <img src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?ixlib=rb-1.2.1&w=1200&fit=crop"
+                                    class="card-img-premium">
                                 <div class="card-body">
-                                    <h5 class="card-title">Modelo del Vehículo</h5>
-                                    <p class="card-text"><strong>Marca del coche</strong></p>
-                                    <p class="card-text text-success">45€/día</p>
-                                    <p class="badge bg-warning">¡Premium!</p>
+                                    <h5 class="card-title">Rolls-Royce Cullinan Black Badge</h5>
+                                    <p class="card-text"><strong>Rolls-Royce</strong></p>
+                                    <p class="card-text text-success">500€/día</p>
+                                    <p class="badge bg-warning">¡Edición Limitada!</p>
                                 </div>
                             </div>
                         </div>
+
                         <!-- 3 -->
                         <div class="col">
                             <div class="card h-100 shadow-lg border-success">
-                                <img src="./ruta" class="card-img-top">
+                                <img src="https://media.revistagq.com/photos/5f9855f07828529cb9a7a5e8/16:9/w_2560%2Cc_limit/porsche%2520panamera%25201.jpg" class="card-img-premium">
                                 <div class="card-body">
                                     <h5 class="card-title">Modelo del Vehículo</h5>
                                     <p class="card-text"><strong>Marca del coche</strong></p>
@@ -457,7 +467,7 @@ require(__DIR__ . "/src/config/conexion.php");
                         <!-- 1 -->
                         <div class="col">
                             <div class="card shadow">
-                                <img src="./ruta" class="card-img-top">
+                                <img src="https://cdn.motor1.com/images/mgl/Kkqpq/s1/vw-polo-gti-by-siemoneit-racing.jpg" class="card-img-top">
                                 <div class="card-body">
                                     <h5 class="card-title">Modelo del Vehículo</h5>
                                     <p class="card-text"><strong>Marca del coche</strong></p>
@@ -469,7 +479,7 @@ require(__DIR__ . "/src/config/conexion.php");
                         <!-- 2 -->
                         <div class="col">
                             <div class="card shadow">
-                                <img src="./ruta" class="card-img-top">
+                                <img src="https://i.pinimg.com/736x/71/e2/4b/71e24beb4b6dbcb35c2231711e4dcf31.jpg" class="card-img-top">
                                 <div class="card-body">
                                     <h5 class="card-title">Modelo del Vehículo</h5>
                                     <p class="card-text"><strong>Marca del coche</strong></p>
@@ -481,7 +491,7 @@ require(__DIR__ . "/src/config/conexion.php");
                         <!-- 3 -->
                         <div class="col">
                             <div class="card shadow">
-                                <img src="./ruta" class="card-img-top">
+                                <img src="https://www.automoli.com/common/vehicles/_assets/img/gallery/f53/nissan-sentra-b15.jpg" class="card-img-top">
                                 <div class="card-body">
                                     <h5 class="card-title">Modelo del Vehículo</h5>
                                     <p class="card-text"><strong>Marca del coche</strong></p>
@@ -493,7 +503,7 @@ require(__DIR__ . "/src/config/conexion.php");
                         <!-- 4 -->
                         <div class="col">
                             <div class="card shadow">
-                                <img src="./ruta" class="card-img-top">
+                                <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?ixlib=rb-1.2.1&w=1200" class="card-img-top">
                                 <div class="card-body">
                                     <h5 class="card-title">Modelo del Vehículo</h5>
                                     <p class="card-text"><strong>Marca del coche</strong></p>
@@ -505,7 +515,7 @@ require(__DIR__ . "/src/config/conexion.php");
                         <!-- 5 -->
                         <div class="col">
                             <div class="card shadow">
-                                <img src="./ruta" class="card-img-top">
+                                <img src="https://cdn.blendio.es/bitool/vehicle/images/1200/900/20791/70cb09a658.jpg" class="card-img-top">
                                 <div class="card-body">
                                     <h5 class="card-title">Modelo del Vehículo</h5>
                                     <p class="card-text"><strong>Marca del coche</strong></p>
@@ -517,7 +527,7 @@ require(__DIR__ . "/src/config/conexion.php");
                         <!-- 6 -->
                         <div class="col">
                             <div class="card shadow">
-                                <img src="./ruta" class="card-img-top">
+                                <img src="https://www.hyundai.com/es/es/modelos/i30-fastback.thumb.800.480.png?ck=1743677668" class="card-img-top">
                                 <div class="card-body">
                                     <h5 class="card-title">Modelo del Vehículo</h5>
                                     <p class="card-text"><strong>Marca del coche</strong></p>
@@ -529,7 +539,7 @@ require(__DIR__ . "/src/config/conexion.php");
                         <!-- 7 -->
                         <div class="col">
                             <div class="card shadow">
-                                <img src="./ruta" class="card-img-top">
+                                <img src="https://images.coches.com/_vn_/ford/Ranger/47576f644b7aa090f109c67b66fdbc51.jpg?w=1920&ar=16:9" class="card-img-top">
                                 <div class="card-body">
                                     <h5 class="card-title">Modelo del Vehículo</h5>
                                     <p class="card-text"><strong>Marca del coche</strong></p>
@@ -541,7 +551,7 @@ require(__DIR__ . "/src/config/conexion.php");
                         <!-- 8 -->
                         <div class="col">
                             <div class="card shadow">
-                                <img src="./ruta" class="card-img-top">
+                                <img src="https://avolo.net/wp-content/uploads/2024/12/dacia-duster-gasolina-2018-segunda-mano-8219-ad7483350c.webp" class="card-img-top">
                                 <div class="card-body">
                                     <h5 class="card-title">Modelo del Vehículo</h5>
                                     <p class="card-text"><strong>Marca del coche</strong></p>
