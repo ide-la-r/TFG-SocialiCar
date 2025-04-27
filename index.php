@@ -199,7 +199,7 @@ require(__DIR__ . "/src/config/conexion.php");
                 <h3 style="margin-top: 3vh;">Filtros</h3>
                 <!-- MARCA -->
                 <div>
-                    <label class="form-label">Marca:</label>
+                    <label class="form-label"><b>Marca:</b></label>
                     <select class="form-select">
                         <option selected>- - Selecciona una marca - -</option>
                         <option value="1">Alfa Romeo</option>
@@ -213,7 +213,7 @@ require(__DIR__ . "/src/config/conexion.php");
 
                 <!-- MODELO -->
                 <div>
-                    <label class="form-label">Modelo:</label>
+                    <label class="form-label"><b>Modelo:</b></label>
                     <select class="form-select">
                         <option selected>- - Selecciona un modelo - -</option>
                         <option value="1">Modelo</option>
