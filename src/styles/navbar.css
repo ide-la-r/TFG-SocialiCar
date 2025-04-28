@@ -1,3 +1,5 @@
+  @import url(global.css);
+
   .custom-navbar {
     background-color: #C4EEF2 !important;
   }
@@ -64,18 +66,60 @@
 
 
 
-  .fa-solid {
-    color: white;
-  }
+.fa-solid {
+  color: white;
+}
 
-  .custom-navbar .btn-custom {
-    color: white !important;
-    /* sino, cambia de color */
-    background-color: #6BBFBF;
-    border: none;
-  }
+.custom-navbar .btn-custom {
+  color: white !important;
+  /* sino, cambia de color */
+  background-color: #6BBFBF;
+  border: none;
+}
 
-  .btn-custom:hover {
-    background-color: #B0D5D9;
-    color: black;
-  }
+.btn-custom:hover {
+  background-color: #B0D5D9;
+  color: black;
+}
+
+.navbar {
+  overflow: visible !important;
+  position: relative;
+  z-index: 1;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 10;
+}
+
+.logo img {
+  height: 35px;
+  top: -67px;
+  left: 0;
+}
+
+.dropdown-menu {
+  display: block;
+  opacity: 0;
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: all 0.2s ease;
+  position: absolute;
+  right: 0;
+  min-width: 200px;
+  pointer-events: none;
+}
+
+/* clase de bootstrap */
+.dropdown-menu.show { 
+  opacity: 1;
+  transform: scaleY(1);
+  pointer-events: auto;
+}
+
+.navbar-nav {
+  position: relative;
+}

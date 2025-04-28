@@ -13,10 +13,9 @@
     </button>
 
     <!-- Logo -->
-    <a class="navbar-brand mt-2 mt-lg-0" href="/socialicar/">
+    <a class="navbar-brand mt-2 mt-lg-0 logo" href="/socialicar/">
       <img
-        src="/socialicar/src/img/nav.png"
-        height="30"
+        src="/socialicar/src/img/LogoSocialicar.png"
         alt="SocialiCar Logo"
         loading="lazy" />
     </a>
@@ -51,23 +50,28 @@
         <i class='fa-solid fa-car-side me-2'></i> Alquila tu coche </a>";
       }
       ?>
-      
+
 
       <!-- Notificaciones -->
-      <div class="dropdown me-3">
-        <a
-          class="text-reset"
-          href="#"
-          role="button"
-          data-bs-toggle="dropdown"
-          aria-expanded="false">
-          <i class="fa-regular fa-comment-dots fa-flip-horizontal"></i>
-          <span class="badge rounded-pill bg-danger">1</span>
-        </a>
-      </div>
+      <?php
+      if (isset($_SESSION['usuario'])) {
+      echo "
+        <div class='dropdown me-3'>
+          <a
+            class='text-reset'
+            href='#'
+            role='button'
+            data-bs-toggle='dropdown'
+            aria-expanded='false'>
+            <i class='fa-regular fa-comment-dots fa-flip-horizontal'></i>
+            <span class='badge rounded-pill bg-danger'>1</span>
+          </a>
+        </div>
+      ";
+      }
+      ?>
 
       <!-- Avatar usuario -->
-
       <div class="dropdown">
         <a class="dropdown-toggle d-flex align-items-center hidden-arrow"
           href="#"
@@ -81,8 +85,8 @@
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
           <?php
 
-            if (isset($_SESSION['usuario'])) {
-              echo "
+          if (isset($_SESSION['usuario'])) {
+            echo "
                   <li>
                     <a class='dropdown-item' href='/socialicar/src/pages/usuario/perfil_usuario'>
                       <i class='fa-regular fa-circle-user me-2'></i> Mi perfil
@@ -94,8 +98,8 @@
                     </a>
                   </li>
                 ";
-            } else {
-              echo "
+          } else {
+            echo "
                   <li>
                     <a class='dropdown-item' href='/socialicar/src/pages/usuario/iniciar_sesion'>
                       <i class='fa-regular fa-circle-user me-2'></i> Iniciar sesión
@@ -107,7 +111,7 @@
                     </a>
                   </li>
                 ";
-            }
+          }
 
           ?>
         </ul>

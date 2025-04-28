@@ -1,124 +1,60 @@
-<!-- Footer -->
-<footer
-  class="text-center text-lg-start mt-auto"
-  style="background-color: #6BBFBF; color: #595959 !important;">
-  <style>
-    footer, footer a, footer h6, footer p, footer span, footer .text-white {
-      color: #595959 !important;
-    }
-  </style>
-  <!-- Grid container -->
-  <div class="container p-4 pb-0">
-    <!-- Section: Links -->
-    <section class="">
-      <!--Grid row-->
-      <div class="row">
-        <!-- Grid column -->
-        <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
-          <h6 class="text-uppercase mb-4 font-weight-bold">
-            SOCIALICAR
-          </h6>
-          <p>
-            SocialiCar es un intermediario destinado al alquiler de vehículos entre particulares. La idea surge ante la creciente necesidad de alternativas de movilidad más flexibles, accesibles y sostenibles. Los usuarios propietarios de un vehículo podrán establecer tarifas por hora para el alquiler de sus coches, mientras que SocialiCar obtendrá ingresos mediante comisiones, gastos de gestión y planes de suscripción.
-
-          </p>
-        </div>
-        <!-- Grid column -->
-
-        <hr class="w-100 clearfix d-md-none" />
-
-        <!-- Grid column -->
-        <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
-          <h6 class="text-uppercase mb-4 font-weight-bold">Socialicar</h6>
-          <p> <!-- esto en un futuro sera un link parecido a este   https://amovens.com/mission_and_purpose-->
-            <a class="text-white">Mision y proposito</a>
-          </p>
-          <p> <!-- Tenemos que poner que no tenemos ningun puesto abierto ahora mismo y dejarlo parecido a este  https://amovens.com/jobs-->
-            <a class="text-white" href="/socialicar/src/pages/informacion/trabaja.php">Trabaja con nosotros</a>
-          </p>
-          <p> <!-- Lo dejamos parecido pero con el email de soporte y cambiando el texto que dice que no tenemos ningun puesto abierto :)  https://amovens.com/jobs-->
-            <a class="text-white">Centro de ayuda</a>
-          </p>
-          <p> <!-- Hacemos la tipica pagina de work in progress y queda de superputamadre -->
-            <a class="text-white" href="/socialicar/src/pages/informacion/descarga_app.php">Descargar nuestra app</a>
-          </p>
-        </div>
-        <!-- Grid column -->
-
-        <hr class="w-100 clearfix d-md-none" />
-
-        <!-- Grid column -->
-        <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
-          <h6 class="text-uppercase mb-4 font-weight-bold">
-            Alquiler de coches
-          </h6>
-          <p>
-            <a class="text-white" href="/socialicar/src/pages/rentacar/mostrar_coches.php">Encontrar un coche</a>
-          </p>
-          <p>
-            <a class="text-white" href="/socialicar/src/pages/usuario/planes.php">Hazte miembro</a>
-          </p>
-          <p>
-            <a class="text-white" href="/socialicar/src/pages/coche/nuevo_coche.php">Alquila tu coche</a>
-          </p>
-          <p> <!-- Redirige a un video explicando como funciona nuestra pagina web -->
-            <a class="text-white">Ayuda</a>
-          </p>
-        </div>
-
-        <!-- Grid column -->
-        <hr class="w-100 clearfix d-md-none" />
-
-        <!-- Grid column -->
-        <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
-          <h6 class="text-uppercase mb-4 font-weight-bold">Contacto</h6>
-          <p><i class="fas fa-home mr-3"></i>  C. Alejandro Dumas, 17, Carretera de Cádiz, 29004 Málaga </p>
-          <p><i class="fas fa-envelope mr-3"></i> socialicar.rentacar@gmail.com </p>
-          <p><i class="fas fa-phone mr-3"></i> 951 56 46 58</p>
-          <p><i class="fas fa-print mr-3"></i> 951 90 59 67 </p>
-        </div>
-        <!-- Grid column -->
+<!-- Footer estilo minimalista y alineado como en el ejemplo proporcionado -->
+<footer class="bg-light mt-auto" style="background-color: #F2F2F2!important; color: #595959; font-size: 0.95rem;">
+  <div class="container pt-5 pb-2">
+    <div class="row mb-2">
+      <!-- Información del tfg sacado del plan de empresa -->
+      <div class="col-md-4 mb-4 mb-md-0">
+        <h6 class="fw-semibold mb-1" style="color: #6BBFBF;">SocialiCar</h6>
+        <p class="mb-0" style="color: #595959; font-size: 0.93em; width: 70%">
+          SocialiCar es un intermediario destinado al alquiler de vehículos entre particulares. La idea surge ante la creciente necesidad de alternativas de movilidad más flexibles, accesibles y sostenibles. 
+        </p>
       </div>
-      <!--Grid row-->
-    </section>
-    <!-- Section: Links -->
-
-    <hr class="my-3">
-
-    <!--Copyright -->
-    <section class="p-3 pt-0">
-      <div class="row d-flex align-items-center">
-
-        <div class="col-12 text-center justify-content-center">
-          <!-- FACEBOOK -->
-          <a
-            class="btn btn-outline-light btn-floating m-1 mx-3 text-white"
-            href="https://www.facebook.com/people/SocialiCar-Rentacar/pfbid0eL6UbpgSWBv5jxYF5SV32DuJF645MRwvcVb1KXnVPvWNbfs8NYWQeHpUntVefi23l/"
-            role="button"><i class="fab fa-facebook-f"></i></a>
-
-          <!-- TWITTER -->
-          <a
-            class="btn btn-outline-light btn-floating m-1 mx-3 text-white"
-            href="https://x.com/socialicar_"
-            role="button"><i class="fab fa-twitter"></i></a>
-
-          <!-- TIKI TOKO -->
-          <a
-            class="btn btn-outline-light btn-floating m-1 mx-3 text-white"
-            href="https://www.tiktok.com/@socialicar"
-            role="button"><i class="fab fa-tiktok"></i></a>
-
-          <!-- IG DE LA MINITA -->
-          <a
-            href="https://www.instagram.com/socialicar/"
-            class="btn btn-outline-light btn-floating m-1 mx-3 text-white"
-            role="button"><i class="fab fa-instagram"></i></a>
+      <!-- Enlaces del footer -->
+      <div class="col-md-4 mb-4 mb-md-0">
+        <h6 class="fw-semibold mb-1" style="color: #6BBFBF;">Información</h6> <!-- NOMBRE PROVISIONAL  -->
+        <ul class="list-unstyled mb-0">
+          <li><a href="/socialicar/index.php" class="text-decoration-none" style="color: #595959;">Inicio</a></li>
+          <li><a href="/socialicar/src/pages/informacion/trabaja.php" class="text-decoration-none" style="color: #595959;">Trabaja con nosotros</a></li>
+          <li><a href="/socialicar/src/pages/rentacar/mostrar_coches.php" class="text-decoration-none" style="color: #595959;">Encontrar un coche</a></li>
+          <li><a href="/socialicar/src/pages/informacion/descarga_app.php" class="text-decoration-none" style="color: #595959;">Descarga nuestra app</a></li>
+          <li><a href="/socialicar/src/pages/informacion/proposito.php" class="text-decoration-none" style="color: #595959;">Propósito</a></li>
+        </ul>
+      </div>
+      <!-- Contacto -->
+      <div class="col-md-4">
+        <h6 class="fw-semibold mb-1" style="color: #6BBFBF;">Contacto</h6>
+        <div class="mb-1">
+          <i class="fas fa-envelope me-2" style="color: #6BBFBF;"></i>
+          <span style="color: #595959;">socialicar.rentacar@gmail.com</span>
+        </div>
+        <div class="mb-1">
+          <i class="fas fa-phone me-2" style="color: #6BBFBF;"></i>
+          <span style="color: #595959;">951 56 46 58</span>
+        </div>
+        <div>
+          <i class="fas fa-map-marker-alt me-2" style="color: #6BBFBF;"></i>
+          <span style="color: #595959;">C. Alejandro Dumas, 17, Málaga</span>
         </div>
       </div>
-    </section>
-    <!-- Copyright -->
+    </div>
+    <hr class="mb-2 mt-0" style="border-color: #B0D5D9;" />
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center pb-2">
+      <div class="mb-2 mb-md-0">
+        <!-- Redes sociales alineadas a la izquierda -->
+        <a href="https://www.facebook.com/people/SocialiCar-Rentacar/pfbid0eL6UbpgSWBv5jxYF5SV32DuJF645MRwvcVb1KXnVPvWNbfs8NYWQeHpUntVefi23l/" class="me-3" style="color: #6BBFBF;" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg"></i></a>
+        <a href="https://www.instagram.com/socialicar/" class="me-3" style="color: #6BBFBF;" target="_blank" rel="noopener"><i class="fab fa-instagram fa-lg"></i></a>
+        <a href="https://x.com/socialicar_" class="me-3" style="color: #6BBFBF;" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg"></i></a>
+        <a href="https://www.linkedin.com" class="me-3" style="color: #6BBFBF;" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg"></i></a>
+      </div>
+      <div class="text-end w-100 w-md-auto" style="color: #595959; font-size: 0.88em;">
+        &copy; <?php echo date('Y'); ?> SocialiCar. Todos los derechos reservados.
+      </div>
+    </div>
   </div>
 </footer>
+<!-- FontAwesome CDN para iconos sociales -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+<script src="/socialicar/src/js/mostrar_marcas.js"></script>
+<script src="/socialicar/src/js/precio_coche.js"></script>
