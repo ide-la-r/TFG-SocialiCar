@@ -109,7 +109,7 @@
                                 <div class="text-center mt-4">
                                     <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data" id="formFotoPerfil">
                                         <label for="foto_perfil" class="btn btn-outline-success fw-bold me-3 mb-0" style="border-radius: 2rem; cursor:pointer;">
-                                            Subir foto
+                                            3====D
                                         </label>
                                         <input type="file" id="foto_perfil" name="foto_perfil"
                                                accept="image/jpg, image/jpeg, image/png, image/webp"
