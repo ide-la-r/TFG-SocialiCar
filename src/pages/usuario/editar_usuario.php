@@ -24,15 +24,15 @@ while ($fila = $resultado->fetch_assoc()) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nuevo_nombre = $_POST["nombre"];
-    $nuevo_apellido = $_POST["apellido"];
-    $nuevo_correo = $_POST["correo"];
-    $contrasena_original = $_POST["contrasena_original"];
-    $nueva_contrasena = $_POST["contrasena"];
-    $confirma_contrasena = $_POST["confirma_contrasena"];
+    $nuevo_nombre = depurar($_POST["nombre"]);
+    $nuevo_apellido = depurar($_POST["apellido"]);
+    $nuevo_correo = depurar($_POST["correo"]);
+    $contrasena_original = depurar($_POST["contrasena_original"]);
+    $nueva_contrasena = depurar($_POST["contrasena"]);
+    $confirma_contrasena = depurar($_POST["confirma_contrasena"]);
     //$nueva_foto_perfil = $_POST["foto_perfil"];
-    $nuevo_telefono = $_POST["telefono"];
-    $nueva_identificacion = $_POST["identificacion"];
+    $nuevo_telefono = depurar($_POST["telefono"]);
+    $nueva_identificacion = depurar($_POST["identificacion"]);
 
     $confirmar = true;
 
