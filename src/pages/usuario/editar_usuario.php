@@ -21,11 +21,12 @@ while ($fila = $resultado->fetch_assoc()) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nuevo_nombre = $_POST["correo"];
+    $nuevo_nombre = $_POST["nombre"];
     $nuevo_apellido = $_POST["apellido"];
     $nuevo_correo = $_POST["correo"];
+    $contrasena_original = $_POST["contrasena_original"];
     $nueva_contrasena = $_POST["contrasena"];
-    $confirma_contrasena = ["confirma_contrasena"];
+    $confirma_contrasena = $_POST["confirma_contrasena"];
     //$nueva_foto_perfil = $_POST["foto_perfil"];
     $nuevo_telefono = $_POST["telefono"];
     $nueva_identificacion = $_POST["identificacion"];
@@ -38,6 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $patron = "/^[a-zA-Z áéióúÁÉÍÓÚñÑüÜ'-]+$/";
         if (!preg_match($patron, $nuevo_nombre)) {
+            var_dump($nuevo_nombre);
             $confirmar = false;
             $err_nombre = "El nombre solo puede tener letras";
         }
@@ -62,18 +64,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $err_correo = "El correo tiene que tener el @ y el . bien colocados";
     }
 
+    if (!password_verify($contrasena_original, $contrasena)) { 
+        $confirmar = false;
+        $err_contrasena_original = "Porfavor, inserte la contraseña actual parta cambiar los datos";
+    }
+
     if ($nueva_contrasena == '') {
         $confirmar = false;
-        $err_contrasena = "La contraseña es obligatoria";
+        $err_nueva_contrasena = "La contraseña es obligatoria";
     } else {
         if (strlen($nueva_contrasena) < 7 || strlen($nueva_contrasena) > 20) {
             $confirmar = false;
-            $err_contrasena = "La contraseña tiene que tener como minimo 7 y como maximo 20 caracteres";
+            $err_nueva_contrasena = "La contraseña tiene que tener como minimo 7 y como maximo 20 caracteres";
         } else {
             $patron = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/";
             if (!preg_match($patron, $nueva_contrasena)) {
                 $confirmar = false;
-                $err_contrasena = "La contraseña tiene que tener al menos 1 mayuscula, 1 minuscula y 1 numero";
+                $err_nueva_contrasena = "La contraseña tiene que tener al menos 1 mayuscula, 1 minuscula y 1 numero";
             } else {
                 $contrasena_cifrada = password_hash($nueva_contrasena, PASSWORD_DEFAULT);
             }
@@ -135,6 +142,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     identificacion = '$nueva_identificacion'
                 WHERE correo = '$correo'";
         $_conexion->query($sql);
+
+        header("location: ./perfil_usuario");
+        exit();
     }
 }
 ?>
@@ -175,12 +185,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <input name="correo" class="form-control" type="email" placeholder="Correo electronico*" value="<?php if (isset($correo)) echo "$correo" ?>">
                         <?php if (isset($err_correo)) echo "<span class='error'>$err_correo</span>" ?>
                     </div>
+                    <!-- Confirmar contraseña -->
                     <div class="mb-3 col-8">
-                        <input name="contrasena" class="form-control" type="password" placeholder="Contraseña*" value="<?php if (isset($contrasena)) echo "$contrasena" ?>">
-                        <?php if (isset($err_contrasena)) echo "<span class='error'>$err_contrasena</span>" ?>
+                        <input name="contrasena_original" class="form-control" type="password" placeholder="Contraseña actual*">
+                        <?php if (isset($err_contrasena_original)) echo "<span class='error'>$err_contrasena_original</span>" ?>
                     </div>
                     <div class="mb-3 col-8">
-                        <input name="confirma_contrasena" class="form-control" type="password" placeholder="Confirmar contraseña*">
+                        <input name="contrasena" class="form-control" type="password" placeholder="Nueva contraseña*">
+                        <?php if (isset($err_nueva_contrasena)) echo "<span class='error'>$err_nueva_contrasena</span>" ?>
+                    </div>
+                    <div class="mb-3 col-8">
+                        <input name="confirma_contrasena" class="form-control" type="password" placeholder="Confirmar nueva contraseña*">
                         <?php if (isset($err_confirma_contrasena)) echo "<span class='error'>$err_confirma_contrasena</span>" ?>
                     </div>
                     <!-- FOTO DE PERFIL -->
