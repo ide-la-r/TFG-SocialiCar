@@ -8,8 +8,11 @@ require(__DIR__ . "/../../config/depurar.php");
 
 $correo = $_SESSION["usuario"]["correo"];
 
-$sql = "SELECT * FROM usuario WHERE correo = '$correo'";
-$resultado = $_conexion->query($sql);
+$sql = $_conexion->prepare("SELECT * FROM usuario WHERE correo = ?");
+$sql->bind_param("s", $correo);
+$sql->execute();
+$resultado = $sql->get_result();
+$_conexion->close();
 
 while ($fila = $resultado->fetch_assoc()) {
     $nombre = $fila["nombre"];
@@ -21,15 +24,15 @@ while ($fila = $resultado->fetch_assoc()) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nuevo_nombre = $_POST["nombre"];
-    $nuevo_apellido = $_POST["apellido"];
-    $nuevo_correo = $_POST["correo"];
-    $contrasena_original = $_POST["contrasena_original"];
-    $nueva_contrasena = $_POST["contrasena"];
-    $confirma_contrasena = $_POST["confirma_contrasena"];
+    $nuevo_nombre = depurar($_POST["nombre"]);
+    $nuevo_apellido = depurar($_POST["apellido"]);
+    $nuevo_correo = depurar($_POST["correo"]);
+    $contrasena_original = depurar($_POST["contrasena_original"]);
+    $nueva_contrasena = depurar($_POST["contrasena"]);
+    $confirma_contrasena = depurar($_POST["confirma_contrasena"]);
     //$nueva_foto_perfil = $_POST["foto_perfil"];
-    $nuevo_telefono = $_POST["telefono"];
-    $nueva_identificacion = $_POST["identificacion"];
+    $nuevo_telefono = depurar($_POST["telefono"]);
+    $nueva_identificacion = depurar($_POST["identificacion"]);
 
     $confirmar = true;
 
@@ -64,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $err_correo = "El correo tiene que tener el @ y el . bien colocados";
     }
 
-    if (!password_verify($contrasena_original, $contrasena)) { 
+    if (!password_verify($contrasena_original, $contrasena)) {
         $confirmar = false;
         $err_contrasena_original = "Porfavor, inserte la contraseña actual parta cambiar los datos";
     }
@@ -87,7 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    if ($confirma_contrasena !== $nueva_contrasena) { 
+    if ($confirma_contrasena !== $nueva_contrasena) {
         $confirmar = false;
         $err_confirma_contrasena = "Las contraseñas no coinciden";
     }
@@ -133,15 +136,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if ($confirmar) {
-        $sql = "UPDATE usuario SET 
-                    nombre = '$nuevo_nombre',
-                    apellido = '$nuevo_apellido',
-                    correo = '$nuevo_correo',
-                    contrasena = '$contrasena_cifrada',
-                    telefono = '$nuevo_telefono',
-                    identificacion = '$nueva_identificacion'
-                WHERE correo = '$correo'";
-        $_conexion->query($sql);
+        $sql = $_conexion->prepare("UPDATE usuario SET nombre = ?, 
+                                    apellido = ?, 
+                                    correo = ?, 
+                                    contrasena = ?, 
+                                    telefono = ?, 
+                                    identificacion = ? WHERE correo = ?");
+
+        $sql->bind_param("sssssss", $nuevo_nombre, $nuevo_apellido, $nuevo_correo, $contrasena_cifrada, $nuevo_telefono, $nueva_identificacion, $correo);
+        
+        $sql->execute();
 
         header("location: ./perfil_usuario");
         exit();
