@@ -189,7 +189,7 @@ require(__DIR__ . "/src/config/conexion.php");
         transition: all 0.3s ease;
         background: white;
         position: relative;
-        margin-top: 0.4vh;
+        margin-top: 0.18%;
     }
 
     .contenido-filtros {
@@ -264,7 +264,7 @@ require(__DIR__ . "/src/config/conexion.php");
                     <h3 class="mb-0" style="margin-top: 3vh;">Filtros</h3>
                     <!-- MARCA -->
                     <div>
-                        <label class="form-label"><b>Marca:</b></label>
+                        <label class="form-label">Marca:</label>
                         <select class="form-select">
                             <option selected>- - Selecciona una marca - -</option>
                             <option value="1">Alfa Romeo</option>
@@ -278,7 +278,7 @@ require(__DIR__ . "/src/config/conexion.php");
 
                     <!-- MODELO -->
                     <div>
-                        <label class="form-label"><b>Modelo:</b></label>
+                        <label class="form-label">Modelo:</label>
                         <select class="form-select">
                             <option selected>- - Selecciona un modelo - -</option>
                             <option value="1">Modelo</option>
@@ -288,7 +288,7 @@ require(__DIR__ . "/src/config/conexion.php");
 
                     <!-- CIUDAD -->
                     <div>
-                        <label for="ciudad" class="form-label"><b>Ubicación:</b></label>
+                        <label for="ciudad" class="form-label">Ubicación:</label>
                         <select id="ciudad" class="form-select">
                             <option selected>- - Selecciona una ciudad - -</option>
                             <option value="1">Málaga</option>
