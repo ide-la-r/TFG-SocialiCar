@@ -27,7 +27,7 @@
           <a class="nav-link" href="/socialicar/">Inicio</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/socialicar/src/pages/rentacar/mostrar_coches">Alquilar Coche</a>
+          <a class="nav-link" href="/socialicar/src/pages/rentacar/mostrar_coches">Alquiler</a>
         </li>
         <li class="nav-item">
           <a class="nav-link premium-link" href="/socialicar/src/pages/usuario/planes">
@@ -35,7 +35,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/socialicar/src/pages/usuario/contacto">Contacto</a>
+          <a class="nav-link" href="/socialicar/src/pages/informacion/contacto">Contacto</a>
         </li>
       </ul>
     </div>
