@@ -44,7 +44,7 @@
         <a href="https://www.facebook.com/people/SocialiCar-Rentacar/pfbid0eL6UbpgSWBv5jxYF5SV32DuJF645MRwvcVb1KXnVPvWNbfs8NYWQeHpUntVefi23l/" class="me-3" style="color: #6BBFBF;" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg"></i></a>
         <a href="https://www.instagram.com/socialicar/" class="me-3" style="color: #6BBFBF;" target="_blank" rel="noopener"><i class="fab fa-instagram fa-lg"></i></a>
         <a href="https://x.com/socialicar_" class="me-3" style="color: #6BBFBF;" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg"></i></a>
-        <a href="https://www.linkedin.com" class="me-3" style="color: #6BBFBF;" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg"></i></a>
+        
       </div>
       <div class="text-end w-100 w-md-auto" style="color: #595959; font-size: 0.88em;">
         &copy; <?php echo date('Y'); ?> SocialiCar. Todos los derechos reservados.

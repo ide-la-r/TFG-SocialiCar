@@ -19,8 +19,168 @@
         }
     ?>
     <style>
+        body {
+            background: #f7f9fb;
+        }
+        .card_registro {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            border: 1px solid #e5e7eb;
+            max-width: 850px;
+            width: 100%;
+            padding: 36px 32px 28px 32px;
+            margin-top: 48px;
+            margin-bottom: 48px;
+        }
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: none;
+            border: 1px solid #e5e7eb;
+            margin-bottom: 24px;
+            padding: 0;
+            max-width: 850px;
+            width: 100%;
+        }
+        .card-header {
+            background: #f7f9fb;
+            border-bottom: none;
+            font-weight: 500;
+            color: #444;
+            font-size: 0.98rem;
+            border-radius: 12px 12px 0 0;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .register {
+            font-weight: 500;
+            font-size: 2.2rem;
+            color: #23272b;
+            letter-spacing: 0.2px;
+            text-align: center;
+            margin-bottom: 0.2rem;
+        }
+        .subtitle {
+            color: #888;
+            font-size: 1rem;
+            margin-bottom: 2.2rem;
+            text-align: center;
+        }
+        .form-label {
+            font-weight: 400;
+            color: #23272b;
+            margin-bottom: 0.15rem;
+            font-size: 1rem;
+        }
+        .form-control, .form-select {
+            border-radius: 6px;
+            background: #fff;
+            border: 1px solid #ced4da;
+            font-size: 1rem;
+            color: #23272b;
+            min-height: 38px;
+            padding: 0.45rem 0.75rem;
+            margin-bottom: 0.6rem;
+            box-shadow: none;
+            transition: border 0.2s;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #86b7fe;
+            background: #fff;
+            box-shadow: 0 0 0 0.1rem rgba(13,110,253,.10);
+        }
+        .form-check-label {
+            font-size: 1rem;
+            color: #23272b;
+        }
+        .btn-primary, .btn-info {
+            border-radius: 4px;
+            font-weight: 400;
+            min-width: 110px;
+            font-size: 1rem;
+            padding: 8px 18px;
+            box-shadow: none;
+            margin-right: 4px;
+        }
+        .btn-info {
+            background: #0d6efd;
+            border: 1px solid #0d6efd;
+            color: #fff;
+        }
+        .btn-info:hover, .btn-info:focus {
+            background: #0b5ed7;
+            border: 1px solid #0b5ed7;
+        }
+        .btn-primary {
+            background: #198754;
+            border: 1px solid #198754;
+            color: #fff;
+        }
+        .btn-primary:hover, .btn-primary:focus {
+            background: #157347;
+            border: 1px solid #157347;
+        }
+        /* Modal extras */
+        .modal-content {
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+        }
+        .modal-header {
+            border-bottom: none;
+            background: #fff;
+            border-radius: 12px 12px 0 0;
+            padding-bottom: 0.5rem;
+        }
+        .modal-title {
+            font-weight: 500;
+            color: #23272b;
+            font-size: 1.15rem;
+        }
+        .modal-body {
+            background: #fff;
+            padding-top: 1.2rem;
+            padding-bottom: 0.5rem;
+        }
+        .modal-footer {
+            border-top: none;
+            background: #fff;
+            border-radius: 0 0 12px 12px;
+        }
+        .modal-body .row {
+            margin-left: 0;
+            margin-right: 0;
+        }
+        .extras-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem 2.2rem;
+        }
+        .extras-grid .form-check {
+            margin-bottom: 0.5rem;
+        }
+        @media (max-width: 900px) {
+            .extras-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .card_registro {
+                padding: 18px 2vw;
+            }
+        }
+        @media (max-width: 600px) {
+            .extras-grid {
+                grid-template-columns: 1fr;
+            }
+            .card_registro {
+                width: 99vw !important;
+                padding: 10px 2vw;
+            }
+        }
         .error {
-            color: red;
+            color: #e03131;
+            font-size: 1em;
         }
     </style>
 </head>
@@ -714,7 +874,7 @@
                 Confirmar
             </button>
         </div>
-        </div>
+        </form>
 
         <!-- VENTANA MODAL CON BOOTSTRAP -->
         <div class="modal fade" id="miModal" tabindex="-1" aria-labelledby="miModalLabel" aria-hidden="true">
