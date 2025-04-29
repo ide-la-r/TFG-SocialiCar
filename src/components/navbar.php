@@ -13,7 +13,7 @@
     </button>
 
     <!-- Logo -->
-    <a class="navbar-brand mt-2 mt-lg-0 logo" href="/socialicar/">
+    <a class="navbar-brand mt-2 mt-lg-0 logo ps-3" href="/socialicar/">
       <img
         src="/socialicar/src/img/LogoSocialicar.png"
         alt="SocialiCar Logo"
