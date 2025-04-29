@@ -109,7 +109,7 @@
                                 <div class="text-center mt-4">
                                     <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data" id="formFotoPerfil">
                                         <label for="foto_perfil" class="btn btn-outline-success fw-bold me-3 mb-0" style="border-radius: 2rem; cursor:pointer;">
-                                            3====D
+                                            Subir foto
                                         </label>
                                         <input type="file" id="foto_perfil" name="foto_perfil"
                                                accept="image/jpg, image/jpeg, image/png, image/webp"
@@ -140,16 +140,51 @@
                     <!-- TUS VEHÍCULOS -->
                     <div class="row">
                         <div class="col-12">
-                            <div class="bg-light rounded-4 shadow-sm p-4">
-                                <h5 class="mb-3"><i class="fas fa-car me-2"></i>Tus vehículos</h5>
-                                <div class="text-center text-muted py-4">
-                                    <i class="fas fa-car-side fa-2x mb-2"></i>
-                                    <p class="mb-0">Aún no has registrado vehículos.</p>
-                                </div>
-                            </div>
+                            <?php
+                                // Verificar si el usuario tiene vehículos registrados
+                                $usuario = $_SESSION["usuario"]["identificacion"];
+                                $obtener_coche = $_conexion->prepare("SELECT * FROM coche WHERE id_usuario = ?");
+                                $obtener_coche->bind_param("s", $usuario);
+                                $obtener_coche->execute();
+                                $resultado = $obtener_coche->get_result();
+                                $vehiculos = $resultado->fetch_all(MYSQLI_ASSOC);
+
+                                if (count($vehiculos) === 0) {
+                                    echo "
+                                    <div class='bg-light rounded-4 shadow-sm p-4'>
+                                        <h5 class='mb-3'><i class='fas fa-car me-2'></i>Tus vehículos</h5>
+                                        <div class='text-center text-muted py-4'>
+                                            <i class='fas fa-car-side fa-2x mb-2'></i>
+                                            <p class='mb-0'>Aún no has registrado vehículos.</p>
+                                        </div>
+                                    </div>
+                                    ";
+                                } else {
+                                    // Mostrar los vehículos registrados
+                                    echo "<div class='bg-light rounded-4 shadow-sm p-4'>";
+                                    foreach ($vehiculos as $vehiculo) {
+                                        echo "
+                                            <div class='card mb-3'>
+                                                <div class='card-body'>
+                                                    <h5 class='card-title'>" . $vehiculo['marca'] . " " . $vehiculo['modelo'] . "</h5>
+                                                    <p class='card-text'>Año: " . $vehiculo['anno_matriculacion'] . "</p>
+                                                    <p class='card-text'>Matrícula: " . $vehiculo['matricula'] . "</p>
+                                                    <p class='card-text'>Kilometraje: " . $vehiculo['kilometros'] . "</p>
+                                                    <p class='card-text'>Tipo: " . ucfirst($vehiculo['tipo']) . "</p>
+                                                    <p class='card-text'>Fecha de registro: " . $vehiculo['created_at'] . "</p>
+                                                    <p class='card-text'>Última actualización: " . $vehiculo['updated_at'] . "</p>
+                                                    <a href='editar_vehiculo.php?id=" . $vehiculo['matricula'] . "' class='btn btn-primary me-2'>Editar</a>
+                                                    <a href='eliminar_vehiculo.php?id=" . $vehiculo['matricula'] . "' class='btn btn-danger'>Eliminar</a>
+                                                </div>
+                                            </div>
+                                        ";
+                                    }
+                                    echo "</div>";                               
+                                }
+                            ?>
+                            
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
