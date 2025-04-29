@@ -13,10 +13,10 @@
         require(__DIR__ . "/../../config/conexion.php");
 
         session_start();
-        /* if (!isset($_SESSION["usuario"])) {
+        if (!isset($_SESSION["usuario"])) {
             header("location: ../../../index.php");
             exit();
-        } */
+        }
     ?>
     <style>
         .error {
@@ -31,6 +31,7 @@
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $tmp_matricula = depurar($_POST['matricula']);
             $tmp_precio = depurar($_POST['precio']);
+            $id_usuario = $_SESSION["usuario"]["identificacion"];
 
             if (isset($_POST['marca'])) {
                 $tmp_marca = depurar($_POST['marca']);
@@ -53,10 +54,10 @@
 
             
 
-            if (isset($_POST['movilidadreducia']) && $_POST['movilidadreducia'] == 'on') {
-                $movilidadreducia = 1;
+            if (isset($_POST['movilidad_reducia']) && $_POST['movilidad_reducia'] == 'on') {
+                $movilidad_reducia = 1;
             } else {
-                $movilidadreducia = 0;
+                $movilidad_reducia = 0;
             }
             
             if (isset($_POST['gps']) && $_POST['gps'] == 'on') {
@@ -71,28 +72,34 @@
                 $wifi = 0;
             }
             
-            if (isset($_POST['sensoresaparcamiento']) && $_POST['sensoresaparcamiento'] == 'on') {
-                $sensoresaparcamiento = 1;
+            if (isset($_POST['sensores_aparcamiento']) && $_POST['sensores_aparcamiento'] == 'on') {
+                $sensores_aparcamiento = 1;
             } else {
-                $sensoresaparcamiento = 0;
+                $sensores_aparcamiento = 0;
             }
             
-            if (isset($_POST['camaradereversa']) && $_POST['camaradereversa'] == 'on') {
-                $camaradereversa = 1;
+            if (isset($_POST['camara_trasera']) && $_POST['camara_trasera'] == 'on') {
+                $camara_trasera = 1;
             } else {
-                $camaradereversa = 0;
+                $camara_trasera = 0;
             }
             
-            if (isset($_POST['controldecrucero']) && $_POST['controldecrucero'] == 'on') {
-                $controldecrucero = 1;
+            if (isset($_POST['control_de_crucero']) && $_POST['control_de_crucero'] == 'on') {
+                $control_de_crucero = 1;
             } else {
-                $controldecrucero = 0;
+                $control_de_crucero = 0;
             }
             
-            if (isset($_POST['asientoscalefactables']) && $_POST['asientoscalefactables'] == 'on') {
-                $asientoscalefactables = 1;
+            if (isset($_POST['asientos_calefactables']) && $_POST['asientos_calefactables'] == 'on') {
+                $asientos_calefactables = 1;
             } else {
-                $asientoscalefactables = 0;
+                $asientos_calefactables = 0;
+            }
+
+            if (isset($_POST['aire_acondicionado']) && $_POST['aire_acondicionado'] == 'on') {
+                $aire_acondicionado = 1;
+            } else {
+                $aire_acondicionado = 0;
             }
             
             if (isset($_POST['bola_remolque']) && $_POST['bola_remolque'] == 'on') {
@@ -101,10 +108,10 @@
                 $bola_remolque = 0;
             }
             
-            if (isset($_POST['fijaciones_isofix']) && $_POST['fijaciones_isofix'] == 'on') {
-                $fijaciones_isofix = 1;
+            if (isset($_POST['fijacion_isofix']) && $_POST['fijacion_isofix'] == 'on') {
+                $fijacion_isofix = 1;
             } else {
-                $fijaciones_isofix = 0;
+                $fijacion_isofix = 0;
             }
             
             if (isset($_POST['apple_carplay']) && $_POST['apple_carplay'] == 'on') {
@@ -149,10 +156,10 @@
                 $bluetooth = 0;
             }
             
-            if (isset($_POST['cuatroxcuatro']) && $_POST['cuatroxcuatro'] == 'on') {
-                $cuatroxcuatro = 1;
+            if (isset($_POST['cuatro_x_cuatro']) && $_POST['cuatro_x_cuatro'] == 'on') {
+                $cuatro_x_cuatro = 1;
             } else {
-                $cuatroxcuatro = 0;
+                $cuatro_x_cuatro = 0;
             }
             
             if (isset($_POST['mascota']) && $_POST['mascota'] == 'on') {
@@ -197,8 +204,6 @@
                 $tmp_tipo = "";
             }
 
-            $id_usuario = $_SESSION["usuario"]["identificacion"];
-
             /* Validación de matricula */
             if ($tmp_matricula == "") {
                 $err_matricula = "Debes indicar la matricula de tu coche";
@@ -214,8 +219,29 @@
                         if (!preg_match("/^[0-9]{4}[A-Z]{3}$/", $tmp_matricula)) {
                             $err_matricula = "La matricula no es válida";
                         } else {
+                            $tmp_matricula = strtoupper($tmp_matricula);
+                            $tmp_matricula = str_replace(" ", "", $tmp_matricula);
+                            $tmp_matricula = str_replace("-", "", $tmp_matricula);
+                            $tmp_matricula = str_replace(".", "", $tmp_matricula);
+                            $tmp_matricula = str_replace(",", "", $tmp_matricula);
+                            $tmp_matricula = str_replace(":", "", $tmp_matricula);
                             $matricula = $tmp_matricula;
                         }
+                    }
+                }
+            }
+
+            /* Validación de precio */
+            if ($tmp_precio == "") {
+                $err_precio = "Debes indicar el precio de tu coche";
+            } else {
+                if (!is_numeric($tmp_precio)) {
+                    $err_precio = "El precio debe ser un número";
+                } else {
+                    if ($tmp_precio < 15 || $tmp_precio > 500) {
+                        $err_precio = "El precio debe estar entre 15 y 500";
+                    } else {
+                        $precio = $tmp_precio;
                     }
                 }
             }
@@ -224,8 +250,8 @@
             if ($tmp_marca == "") {
                 $err_marca = "Debes indicar la marca de tu coche";
             } else {
-                if (strlen($tmp_marca) > 20) {
-                    $err_marca = "La marca no puede tener más de 20 caracteres";
+                if (strlen($tmp_marca) > 50) {
+                    $err_marca = "La marca no puede tener más de 50 caracteres";
                 } else {
                     $marca = $tmp_marca; /* Agregar más adelante la comprovación con la API de las marcas */
                 }
@@ -236,10 +262,11 @@
                 $err_modelo = "Debes indicar el modelo de tu coche";
             } else {
                 if (strlen($tmp_modelo) > 20) {
-                    $err_modelo = "El modelo no puede tener más de 20 caracteres";
+                    $err_modelo = "El modelo no puede tener más de 50 caracteres";
                 } else {
                     $modelo = $tmp_modelo; /* Agregar más adelante la comprovación con la API de los modelos */
                     $ruta_img_coche = __DIR__ . "/../../../clients/img/coche/" . $_SESSION["usuario"]["identificacion"] . "/" . $marca . "_" . $modelo ."/";
+                    
                 }
             }
 
@@ -247,7 +274,17 @@
             if ($tmp_anno_matriculacion == "") {
                 $err_anno_matriculacion = "Debes indicar el año de matriculación de tu coche";
             } else {
-                $anno_matriculacion = $tmp_anno_matriculacion . "-01";
+                $patron_anno = "/^[0-9]{4}-[0-9]{2}$/";
+                if (!preg_match($patron_anno, $tmp_anno_matriculacion)) {
+                    $err_anno_matriculacion = "El año de matriculación no es válido";
+                } else {
+                    if ($tmp_anno_matriculacion > date("Y-m")) {
+                        $err_anno_matriculacion = "El año de matriculación no puede ser mayor al actual";
+                    } else {
+                        $anno_matriculacion = $tmp_anno_matriculacion . "-01";
+                    }
+                    
+                }
             }
 
             /* Validación de kilómetros */
@@ -257,7 +294,15 @@
                 if (!is_numeric($tmp_kilometros)) {
                     $err_kilometros = "Los kilómetros deben ser un número";
                 } else {
-                    $kilometros = $tmp_kilometros;
+                    if ($tmp_kilometros < 0) {
+                        $err_kilometros = "Los kilómetros no pueden ser negativos";
+                    } else {
+                        $tmp_kilometros = str_replace(",", "", $tmp_kilometros);
+                        $tmp_kilometros = str_replace(".", "", $tmp_kilometros);
+                        $tmp_kilometros = str_replace(" ", "", $tmp_kilometros);
+                        $kilometros = $tmp_kilometros;
+                    }
+                    
                 }
             }
 
@@ -313,7 +358,14 @@
             if ($tmp_tipo_combustible == "") {
                 $err_tipo_combustible = "Debes indicar el tipo de combustible de tu coche";
             } else {
-                $lista_combustibles = ["gasolina", "diesel", "hibrido", "electrico", "glp", "gnc"];
+                $lista_combustibles = [
+                    "gasolina", 
+                    "diesel", 
+                    "hibrido", 
+                    "electrico", 
+                    "glp", 
+                    "gnc"
+                ];
                 if (!in_array($tmp_tipo_combustible, $lista_combustibles)) {
                     $err_tipo_combustible = "El tipo de combustible no es válido";
                 } else {
@@ -349,7 +401,10 @@
             if ($tmp_transmision == "") {
                 $err_transmision = "Debes indicar la transmisión de tu coche";
             } else {
-                $lista_transmision = ["manual", "automatico"];
+                $lista_transmision = [
+                    "manual", 
+                    "automatico"
+                ];
                 if (!in_array($tmp_transmision, $lista_transmision)) {
                     $err_transmision = "El tipo de transmisión no es válido";
                 } else {
@@ -361,7 +416,11 @@
             if ($tmp_tipo_aparcamiento == "") {
                 $err_tipo_aparcamiento = "Debes indicar el tipo de aparcamiento de tu coche";
             } else {
-                $lista_aparcamiento = ["calle", "garaje", "parking"];
+                $lista_aparcamiento = [
+                    "calle", 
+                    "garaje", 
+                    "parking"
+                ];
                 if (!in_array($tmp_tipo_aparcamiento, $lista_aparcamiento)) {
                     $err_tipo_aparcamiento = "El tipo de aparcamiento no es válido";
                 } else {
@@ -415,10 +474,10 @@
                         <div class="mb-3 col-4">
                             <select id="marca" name="marca" class="form-select">
                                 <option disabled selected hidden>Marca*</option>
-                                <?php foreach ($marcas as $marca) { ?>
-                                    <option value="<?php echo $marca["MakeName"]; ?>" 
-                                        <?php if (isset($_POST['marca']) && $_POST['marca'] == $marca["MakeName"]) echo "selected"; ?>>
-                                        <?php echo $marca["MakeName"]; ?>
+                                <?php foreach ($marcas as $marcaItem) { ?>
+                                    <option value="<?php echo $marcaItem["MakeName"]; ?>" 
+                                        <?php if (isset($_POST['marca']) && $_POST['marca'] == $marcaItem["MakeName"]) echo "selected"; ?>>
+                                        <?php echo $marcaItem["MakeName"]; ?>
                                     </option>
                                 <?php } ?>
                             </select>
@@ -432,7 +491,6 @@
                         <div class="mb-3 col-4">
                             <select id="modelo" name="modelo" class="form-select">
                                 <option disabled selected hidden>Modelo*</option>
-                                <!-- Aquí los modelos se cargarán dinámicamente -->
                             </select>
                             <?php 
                                 if(isset($err_modelo)){
@@ -631,7 +689,7 @@
                     <div class="mb-3 col-8">
                         <label id="totalPrecio" class="form-label">Precio Diario: <span id="mostrarPrecio">15€</span></label>
 
-                        <input type="range" class="form-range" id="precio" min="15" max="500" step="1" value="15">
+                        <input type="range" class="form-range" name="precio" id="precio" min="15" max="500" step="1" value="15">
 
                         <div class="d-flex justify-content-between">
                             <span>15€</span>
@@ -844,37 +902,55 @@
     </form>
 
     <?php
-        if (isset($matricula, $marca) && isset($modelo) && isset($anno_matriculacion) && isset($kilometros) && isset($direccion) && isset($cp) && isset($provincia) && isset($ciudad) && isset($tipo_combustible) && isset($transmision) && isset($tipo_aparcamiento) && isset($tipo)) {
+        if (isset($matricula, $marca, $modelo, $precio, $anno_matriculacion, $kilometros, $direccion, $cp, $provincia, $ciudad, $tipo_combustible, $transmision, $tipo_aparcamiento, $tipo)) {
+            /* Insertar coche */
             $enviarCoche = $_conexion->prepare("INSERT INTO coche (
                 matricula, id_usuario, seguro, marca, modelo, anno_matriculacion, kilometros,
                 combustible, transmision, provincia, ciudad, codigo_postal, direccion,
-                tipo_aparcamiento, mascota, fumar, ruta_img_coche, movilidadreducia, gps,
-                wifi, sensoresaparcamiento, camaradereversa, controldecrucero,
-                asientoscalefactables, bola_remolque, fijaciones_isofix, apple_carplay,
-                android_carplay, baca, portabicicletas, portaequipajes, portaesquis,
-                bluetooth, cuatroxcuatro, tipo
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                tipo_aparcamiento, ruta_img_coche, tipo, precio
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-            if (is_array($marca) && isset($marca['MakeName'])) {
-                $marca = $marca['MakeName'];
+            if (!$enviarCoche) {
+                die('Error en prepare coche: ' . $_conexion->error);
             }
 
-            if (is_array($modelo) && isset($modelo['Model_Name'])) {
-                $modelo = $modelo['Model_Name'];
-            }
-            
             $enviarCoche->bind_param(
-                "ssisssissssissiisiiiiiiiiiiiiiiiiis",
+                "ssisssissssissssi",
                 $matricula, $id_usuario, $seguro, $marca, $modelo, $anno_matriculacion, $kilometros,
                 $tipo_combustible, $transmision, $provincia, $ciudad, $cp, $direccion,
-                $tipo_aparcamiento, $mascota, $fumar, $ruta_img_coche, $movilidadreducia, $gps,
-                $wifi, $sensoresaparcamiento, $camaradereversa, $controldecrucero,
-                $asientoscalefactables, $bola_remolque, $fijaciones_isofix, $apple_carplay,
-                $android_carplay, $baca, $portabicicletas, $portaequipajes, $portaesquis,
-                $bluetooth, $cuatroxcuatro, $tipo
+                $tipo_aparcamiento, $ruta_img_coche, $tipo, $precio
             );
-        
-            $enviarCoche->execute();
+
+            if (!$enviarCoche->execute()) {
+                die('Error al insertar coche: ' . $enviarCoche->error);
+            }
+
+            /* Insertar los extras */
+            $enviarExtras = $_conexion->prepare("INSERT INTO extras_coche (
+                matricula, aire_acondicionado, gps, wifi, sensores_aparcamiento, 
+                camara_trasera, control_de_crucero, asientos_calefactables, bola_remolque, 
+                fijacion_isofix, apple_carplay, android_carplay, baca, portabicicletas, 
+                portaequipajes, portaesquis, bluetooth, cuatro_x_cuatro, mascota, fumar, 
+                movilidad_reducida
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+            if (!$enviarExtras) {
+                die('Error en prepare extras: ' . $_conexion->error);
+            }
+
+            $enviarExtras->bind_param(
+                "siiiiiiiiiiiiiiiiiiii", 
+                $matricula, $aire_acondicionado, $gps, $wifi, $sensores_aparcamiento,
+                $camara_trasera, $control_de_crucero, $asientos_calefactables, $bola_remolque,
+                $fijacion_isofix, $apple_carplay, $android_carplay, $baca, $portabicicletas,
+                $portaequipajes, $portaesquis, $bluetooth, $cuatro_x_cuatro, $mascota,
+                $fumar, $movilidad_reducida
+            );
+
+            if (!$enviarExtras->execute()) {
+                die('Error al insertar extras: ' . $enviarExtras->error);
+            }
+
             echo "<script>alert('Coche añadido correctamente');</script>";
         }
     ?>
