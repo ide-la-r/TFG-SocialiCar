@@ -276,159 +276,129 @@ require(__DIR__ . "/src/config/conexion.php");
             </div> <!-- fin del menu -->
 
 
-
-            <!-- TARJETAS DE LOS USUARIOS PREMIUM -->
             <div class="col-md-9 bg-light">
                 <div class="container my-4 ">
                     <!-- TARJETAS -->
-                    <!-- tarjetas premium -->
+                    <!-- Tarjetas Premium -->
                     <div class="row row-cols-1 row-cols-md-3 g-4 ">
-                        <!-- 1 -->
-                        <div class="col">
-                            <div class="card h-100 shadow-lg border-success">
-                                <img src="https://cdn.classic-trader.com/I/images/1920_1920_inset/vehicle_ad_standard_image_0829ce87a13d4a47d162eba1e504d203.jpg"
-                                    class="card-img-premium">
-                                <div class="card-body">
-                                    <h5 class="card-title">Lamborghini Aventador</h5>
-                                    <p class="card-text"><strong>Lamborghini</strong></p>
-                                    <p class="card-text text-success">450€/día</p>
-                                    <p class="badge bg-warning">¡Premium!</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 2 -->
-                        <div class="col">
-                            <div class="card h-100 shadow-lg border-success">
-                                <img src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?ixlib=rb-1.2.1&w=1200&fit=crop"
-                                    class="card-img-premium">
-                                <div class="card-body">
-                                    <h5 class="card-title">BMW M5 2017</h5>
-                                    <p class="card-text"><strong>BMW</strong></p>
-                                    <p class="card-text text-success">190€/día</p>
-                                    <p class="badge bg-warning">¡Edición Limitada!</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 3 -->
-                        <div class="col">
-                            <div class="card h-100 shadow-lg border-success">
-                                <img src="https://media.revistagq.com/photos/5f9855f07828529cb9a7a5e8/16:9/w_2560%2Cc_limit/porsche%2520panamera%25201.jpg" class="card-img-premium">
-                                <div class="card-body">
-                                    <h5 class="card-title">Porsche Panamera 2019</h5>
-                                    <p class="card-text"><strong>Porsche</strong></p>
-                                    <p class="card-text text-success">235€/día</p>
-                                    <p class="badge bg-warning">¡Premium!</p>
-                                </div>
-                            </div>
-                        </div>
+                        <?php
+                            $obtener_coche_premium = $_conexion->prepare("
+                                SELECT coche.*, sus.tipo AS tipo_suscripcion
+                                FROM coche
+                                JOIN usuario ON coche.id_usuario = usuario.identificacion
+                                JOIN suscripcion_usuario sus 
+                                    ON sus.identificacion = usuario.identificacion 
+                                    AND sus.activo = TRUE 
+                                    AND sus.tipo = 'Premium'
+                                ORDER BY coche.precio ASC
+                                LIMIT 3
+                            ");
+                            $obtener_coche_premium->execute();
+                            $resultado = $obtener_coche_premium->get_result();
+                            $vehiculos_premiums = $resultado->fetch_all(MYSQLI_ASSOC);
+                            
+                            if (count($vehiculos_premiums) > 0) {
+                                foreach ($vehiculos_premiums as $vehiculo_premium) {
+                                    echo "
+                                        <div class='col'>
+                                            <a href='/socialicar/src/pages/coche/coche?matricula=" . $vehiculo_premium['matricula'] . "' class='text-decoration-none text-dark'>
+                                            <div class='card h-100 shadow-lg border-warning'>
+                                                <img src='" . $vehiculo_premium['ruta_img_coche'] . "' class='card-img-top'>
+                                                <div class='card-body'>
+                                                    <h5 class='card-title'>" . $vehiculo_premium['marca'] . " " . $vehiculo_premium['modelo'] . "</h5>
+                                                    <p class='card-text'><strong>" . $vehiculo_premium['marca'] . "</strong></p>
+                                                    <p class='card-text text-success'>" . $vehiculo_premium['precio'] . "€/día</p>
+                                                    <p class='badge bg-warning'>¡Premium!</p>
+                                                </div>
+                                            </div>
+                                            </a>
+                                        </div>
+                                    ";
+                                }
+                            }
+                        ?>
                     </div><br>
 
 
-                    <!-- TARJETAS NORMALES -->
-                    <div class="row row-cols-1 row-cols-md-4 g-4">
-                        <!-- 1 -->
-                        <div class="col">
-                            <div class="card shadow">
-                                <img src="https://cdn.motor1.com/images/mgl/Kkqpq/s1/vw-polo-gti-by-siemoneit-racing.jpg" class="card-img-top">
-                                <div class="card-body">
-                                    <h5 class="card-title">Modelo del Vehículo</h5>
-                                    <p class="card-text"><strong>Marca del coche</strong></p>
-                                    <p class="card-text text-success">45€/día</p>
-                                </div>
-                            </div>
-                        </div>
+                    <!-- Tarjetas Plus -->
+                    <div class="row row-cols-1 row-cols-md-3 g-4 ">
+                        <?php
+                            $obtener_coche_plus = $_conexion->prepare("
+                                SELECT coche.*, sus.tipo AS tipo_suscripcion
+                                FROM coche
+                                JOIN usuario ON coche.id_usuario = usuario.identificacion
+                                JOIN suscripcion_usuario sus 
+                                    ON sus.identificacion = usuario.identificacion 
+                                    AND sus.activo = TRUE 
+                                    AND sus.tipo = 'Plus'
+                                ORDER BY coche.precio ASC
+                                LIMIT 6
+                            ");
+                            $obtener_coche_plus->execute();
+                            $resultado = $obtener_coche_plus->get_result();
+                            $vehiculos_plus = $resultado->fetch_all(MYSQLI_ASSOC);
+                            
+                            if (count($vehiculos_plus) > 0) {
+                                foreach ($vehiculos_plus as $vehiculo_plus) {
+                                    echo "
+                                        <div class='col'>
+                                            <a href='/socialicar/src/pages/coche/coche?matricula=" . $vehiculo_plus['matricula'] . "' class='text-decoration-none text-dark'>
+                                            <div class='card shadow'>
+                                                <img src='" . $vehiculo_plus['ruta_img_coche'] . "' class='card-img-top'>
+                                                <div class='card-body'>
+                                                    <h5 class='card-title'>" . $vehiculo_normal['marca'] . "</h5>
+                                                    <p class='card-text'><strong>" . $vehiculo_normal['modelo'] . "</strong></p>
+                                                    <p class='card-text text-success'>" . $vehiculo_plus['precio'] . "€/día</p>
+                                                </div>
+                                            </div>
+                                            </a>
+                                        </div>
+                                    ";
+                                }
+                            }
+                        ?>
+                    </div><br>
 
-                        <!-- 2 -->
-                        <div class="col">
-                            <div class="card shadow">
-                                <img src="https://i.pinimg.com/736x/71/e2/4b/71e24beb4b6dbcb35c2231711e4dcf31.jpg" class="card-img-top">
-                                <div class="card-body">
-                                    <h5 class="card-title">Modelo del Vehículo</h5>
-                                    <p class="card-text"><strong>Marca del coche</strong></p>
-                                    <p class="card-text text-success">45€/día</p>
-                                </div>
-                            </div>
-                        </div>
 
-                        <!-- 3 -->
-                        <div class="col">
-                            <div class="card shadow">
-                                <img src="https://www.automoli.com/common/vehicles/_assets/img/gallery/f53/nissan-sentra-b15.jpg" class="card-img-top">
-                                <div class="card-body">
-                                    <h5 class="card-title">Modelo del Vehículo</h5>
-                                    <p class="card-text"><strong>Marca del coche</strong></p>
-                                    <p class="card-text text-success">45€/día</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 4 -->
-                        <div class="col">
-                            <div class="card shadow">
-                                <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?ixlib=rb-1.2.1&w=1200" class="card-img-top">
-                                <div class="card-body">
-                                    <h5 class="card-title">Modelo del Vehículo</h5>
-                                    <p class="card-text"><strong>Marca del coche</strong></p>
-                                    <p class="card-text text-success">45€/día</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 5 -->
-                        <div class="col">
-                            <div class="card shadow">
-                                <img src="https://cdn.blendio.es/bitool/vehicle/images/1200/900/20791/70cb09a658.jpg" class="card-img-top">
-                                <div class="card-body">
-                                    <h5 class="card-title">Modelo del Vehículo</h5>
-                                    <p class="card-text"><strong>Marca del coche</strong></p>
-                                    <p class="card-text text-success">45€/día</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 6 -->
-                        <div class="col">
-                            <div class="card shadow">
-                                <img src="https://www.hyundai.com/es/es/modelos/i30-fastback.thumb.800.480.png?ck=1743677668" class="card-img-top">
-                                <div class="card-body">
-                                    <h5 class="card-title">Modelo del Vehículo</h5>
-                                    <p class="card-text"><strong>Marca del coche</strong></p>
-                                    <p class="card-text text-success">45€/día</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 7 -->
-                        <div class="col">
-                            <div class="card shadow">
-                                <img src="https://images.coches.com/_vn_/ford/Ranger/47576f644b7aa090f109c67b66fdbc51.jpg?w=1920&ar=16:9" class="card-img-top">
-                                <div class="card-body">
-                                    <h5 class="card-title">Modelo del Vehículo</h5>
-                                    <p class="card-text"><strong>Marca del coche</strong></p>
-                                    <p class="card-text text-success">45€/día</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 8 -->
-                        <div class="col">
-                            <div class="card shadow">
-                                <img src="https://avolo.net/wp-content/uploads/2024/12/dacia-duster-gasolina-2018-segunda-mano-8219-ad7483350c.webp" class="card-img-top">
-                                <div class="card-body">
-                                    <h5 class="card-title">Modelo del Vehículo</h5>
-                                    <p class="card-text"><strong>Marca del coche</strong></p>
-                                    <p class="card-text text-success">45€/día</p>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
+                    <!-- Tarjetas Normales -->
+                    <div class="row row-cols-1 row-cols-md-3 g-4 ">
+                        <?php
+                            $obtener_coche_normal = $_conexion->prepare("
+                                SELECT coche.*, sus.tipo AS tipo_suscripcion
+                                FROM coche
+                                JOIN usuario ON coche.id_usuario = usuario.identificacion
+                                LEFT JOIN suscripcion_usuario sus 
+                                    ON sus.identificacion = usuario.identificacion 
+                                    AND sus.activo = TRUE
+                                WHERE sus.tipo IS NULL
+                                LIMIT 6
+                            ");
+                            $obtener_coche_normal->execute();
+                            $resultado = $obtener_coche_normal->get_result();
+                            $vehiculos_normales = $resultado->fetch_all(MYSQLI_ASSOC);
+                            
+                            if (count($vehiculos_normales) > 0) {
+                                foreach ($vehiculos_normales as $vehiculo_normal) {
+                                    echo "
+                                        <div class='col'>
+                                            <a href='/socialicar/src/pages/coche/coche?matricula=" . $vehiculo_normal['matricula'] . "' class='text-decoration-none text-dark'>
+                                            <div class='card shadow'>
+                                                <img src='" . $vehiculo_normal['ruta_img_coche'] . "' class='card-img-top'>
+                                                <div class='card-body'>
+                                                    <h5 class='card-title'>" . $vehiculo_normal['marca'] . "</h5>
+                                                    <p class='card-text'><strong>" . $vehiculo_normal['modelo'] . "</strong></p>
+                                                    <p class='card-text text-success'>" . $vehiculo_normal['precio'] . "€/día</p>
+                                                </div>
+                                            </div>
+                                            </a>
+                                        </div>
+                                    ";
+                                }
+                            }
+                        ?>
+                    </div><br>
                 </div>
-            </div> <!-- fin tarjetas -->
-
-
+            </div>
         </div>
     </div>
 

@@ -1,23 +1,23 @@
 <?php
-require(__DIR__ . "/../../config/conexion.php");
+    require(__DIR__ . "/../../config/conexion.php");
 
-if (isset($_GET['matricula'])) {
-    $matricula = $_GET['matricula'];
+    if (isset($_GET['matricula'])) {
+        $matricula = $_GET['matricula'];
 
-    $stmt = $_conexion->prepare("DELETE FROM coche WHERE matricula = ?");
-    $stmt->bind_param("s", $matricula);
+        $stmt = $_conexion->prepare("DELETE FROM coche WHERE matricula = ?");
+        $stmt->bind_param("s", $matricula);
 
-    if ($stmt->execute()) {
-        header("Location: ../usuario/perfil_usuario.php");
-        exit();
+        if ($stmt->execute()) {
+            header("Location: ../usuario/perfil_usuario.php");
+            exit();
+        } else {
+            echo "Error al eliminar el coche: " . $stmt->error;
+        }
+
+        $stmt->close();
     } else {
-        echo "Error al eliminar el coche: " . $stmt->error;
+        echo "Parámetro inválido.";
     }
 
-    $stmt->close();
-} else {
-    echo "Parámetro inválido.";
-}
-
-$_conexion->close();
+    $_conexion->close();
 ?>
