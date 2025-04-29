@@ -148,6 +148,7 @@
             }
         }
 
+        /* Validar fecha de nacimiento */
         if ($fecha_nacimiento == '') {
             $confirmar = false;
             $err_fecha_nacimiento = "La fecha de nacimiento es obligatoria";
