@@ -35,7 +35,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/socialicar/src/pages/usuario/contacto">Contacto</a>
+          <a class="nav-link" href="/socialicar/src/pages/informacion/contacto">Contacto</a>
         </li>
       </ul>
     </div>
