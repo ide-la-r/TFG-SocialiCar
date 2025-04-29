@@ -1,6 +1,6 @@
 <?php
 if (isset($_GET['marca'])) {
-    $marca = $_GET['marca'];
+    $marcaSeleccionada = $_GET['marca'];
 
     // API para obtener todas las marcas
     $apiUrlMarcas = "https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json";
@@ -15,7 +15,7 @@ if (isset($_GET['marca'])) {
 
     $makeId = null;
     foreach ($marcas as $marcaItem) {
-        if (strcasecmp($marcaItem['MakeName'], $marca) == 0) {
+        if (strcasecmp($marcaItem['MakeName'], $marcaSeleccionada) == 0) {
             $makeId = $marcaItem['MakeId'];
             break;
         }
