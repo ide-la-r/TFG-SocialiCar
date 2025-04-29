@@ -15,10 +15,9 @@ require(__DIR__ . "/src/config/conexion.php");
     <link rel="icon" href="src/img/favicon.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <?php include_once 'src/components/links.php'; ?>
-    <script src="src/js/index.js"></script>
 </head>
 
-<body class="d-flex flex-column min-vh-100">
+<body class="d-flex flex-column min-vh-100 bg-light">
 
     <video id="video" autoplay muted playsinline>
         <source src="/socialicar/src/video/socialicar_2.mp4" type="video/mp4">
@@ -55,7 +54,7 @@ require(__DIR__ . "/src/config/conexion.php");
 
 
     <!-- MENU DE FILTROS DEL COCHE -->
-    <div class="container-fluid menu" style="margin-top: -6vh; padding-left: 4vh; padding-bottom: 1vh">
+    <div class="container-fluid menu" style="margin-top: -6vh; padding-bottom: 1vh">
         <div class="row">
             <div class="col-md-2 menu-de-filtros border-top border-end border-bottom pe-3">
                 <div class="col-md-1">
@@ -64,7 +63,7 @@ require(__DIR__ . "/src/config/conexion.php");
 
                 <!-- BOTON PARA OCULTAR MENU -->
                 <div class="d-flex align-items-center justify-content-between">
-                    <button id="toggleFiltros" class="btn btn-light rounded-circle shadow-sm">
+                    <button id="toggleFiltros" class="btn btn-warning rounded-circle shadow-sm">
                         <i class="fas fa-chevron-left"></i>
                     </button>
                 </div>
@@ -280,10 +279,10 @@ require(__DIR__ . "/src/config/conexion.php");
 
             <!-- TARJETAS DE LOS USUARIOS PREMIUM -->
             <div class="col-md-9 bg-light">
-                <div class="container my-4">
+                <div class="container my-4 ">
                     <!-- TARJETAS -->
                     <!-- tarjetas premium -->
-                    <div class="row row-cols-1 row-cols-md-3 g-4">
+                    <div class="row row-cols-1 row-cols-md-3 g-4 ">
                         <!-- 1 -->
                         <div class="col">
                             <div class="card h-100 shadow-lg border-success">
