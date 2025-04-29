@@ -39,7 +39,7 @@
     </div>
     <hr class="mb-3 mt-0" style="border-color: #B0D5D9;" />
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-center pb-2 gap-2">
-      <div class="mb-2 mb-md-0 d-flex align-items-center">
+      <div class="mb-2 mb-md-0 d-flex align-items-center footer-social-icons">
         <!-- Redes sociales alineadas a la izquierda -->
         <a href="https://www.facebook.com/people/SocialiCar-Rentacar/pfbid0eL6UbpgSWBv5jxYF5SV32DuJF645MRwvcVb1KXnVPvWNbfs8NYWQeHpUntVefi23l/" class="me-3" style="color: #6BBFBF; font-size: 1.35em;" target="_blank" rel="noopener"><i class="fab fa-facebook"></i></a>
         <a href="https://www.instagram.com/socialicar/" class="me-3" style="color: #6BBFBF; font-size: 1.35em;" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
@@ -57,3 +57,19 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
 <script src="/socialicar/src/js/mostrar_marcas.js"></script>
 <script src="/socialicar/src/js/precio_coche.js"></script>
+
+<!-- Estilos específicos para los iconos sociales del footer -->
+<style>
+.footer-social-icons a {
+  display: inline-block;
+  margin-right: 1rem;
+  font-size: 1.35em;
+  color: #6BBFBF;
+}
+.footer-social-icons a:last-child {
+  margin-right: 0;
+}
+.footer-social-icons i {
+  vertical-align: middle;
+}
+</style>
