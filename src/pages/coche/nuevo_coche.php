@@ -13,10 +13,10 @@
         require(__DIR__ . "/../../config/conexion.php");
 
         session_start();
-        /* if (!isset($_SESSION["usuario"])) {
+        if (!isset($_SESSION["usuario"])) {
             header("location: ../../../index.php");
             exit();
-        } */
+        }
     ?>
     <style>
         .error {
@@ -31,8 +31,7 @@
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $tmp_matricula = depurar($_POST['matricula']);
             $tmp_precio = depurar($_POST['precio']);
-            /* $id_usuario = $_SESSION["usuario"]["identificacion"]; */
-            $id_usuario = "12345678A";
+            $id_usuario = $_SESSION["usuario"]["identificacion"];
 
             if (isset($_POST['marca'])) {
                 $tmp_marca = depurar($_POST['marca']);
@@ -266,8 +265,8 @@
                     $err_modelo = "El modelo no puede tener más de 50 caracteres";
                 } else {
                     $modelo = $tmp_modelo; /* Agregar más adelante la comprovación con la API de los modelos */
-                    /* $ruta_img_coche = __DIR__ . "/../../../clients/img/coche/" . $_SESSION["usuario"]["identificacion"] . "/" . $marca . "_" . $modelo ."/"; */
-                    $ruta_img_coche = __DIR__ . "/../../../clients/img/coche/12345678A/" . $marca . "_" . $modelo ."/";
+                    $ruta_img_coche = __DIR__ . "/../../../clients/img/coche/" . $_SESSION["usuario"]["identificacion"] . "/" . $marca . "_" . $modelo ."/";
+                    
                 }
             }
 
@@ -475,10 +474,10 @@
                         <div class="mb-3 col-4">
                             <select id="marca" name="marca" class="form-select">
                                 <option disabled selected hidden>Marca*</option>
-                                <?php foreach ($marcas as $marca) { ?>
-                                    <option value="<?php echo $marca["MakeName"]; ?>" 
-                                        <?php if (isset($_POST['marca']) && $_POST['marca'] == $marca["MakeName"]) echo "selected"; ?>>
-                                        <?php echo $marca["MakeName"]; ?>
+                                <?php foreach ($marcas as $marcaItem) { ?>
+                                    <option value="<?php echo $marcaItem["MakeName"]; ?>" 
+                                        <?php if (isset($_POST['marca']) && $_POST['marca'] == $marcaItem["MakeName"]) echo "selected"; ?>>
+                                        <?php echo $marcaItem["MakeName"]; ?>
                                     </option>
                                 <?php } ?>
                             </select>
@@ -904,21 +903,6 @@
 
     <?php
         if (isset($matricula, $marca, $modelo, $precio, $anno_matriculacion, $kilometros, $direccion, $cp, $provincia, $ciudad, $tipo_combustible, $transmision, $tipo_aparcamiento, $tipo)) {
-            
-            if (is_array($marca) && isset($marca['MakeName'])) {
-                $marca = $marca['MakeName'];
-            }
-
-            if (is_array($modelo) && isset($modelo['Model_Name'])) {
-                $modelo = $modelo['Model_Name'];
-            }
-
-            /* Comprobar si variables importantes existen */
-            if (!isset($id_usuario, $seguro)) {
-                echo "<script>alert('Faltan datos de usuario o seguro');</script>";
-                exit;
-            }
-
             /* Insertar coche */
             $enviarCoche = $_conexion->prepare("INSERT INTO coche (
                 matricula, id_usuario, seguro, marca, modelo, anno_matriculacion, kilometros,
