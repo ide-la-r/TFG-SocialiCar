@@ -10,8 +10,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $correo = $_POST["correo"];
     $contrasena = $_POST["contrasena"];
 
-    $sql = "SELECT * FROM usuario WHERE correo = '$correo'";
-    $resultado = $_conexion->query($sql);
+    $sql = $_conexion -> prepare("SELECT * FROM usuario WHERE correo = ?");
+    $sql -> bind_param("s", $correo);
+    $sql -> execute();
+    $resultado = $sql -> get_result();
+    $_conexion -> close();
 
     if ($resultado->num_rows == 0) {
         $err_correo = "El correo electronico no existe";
