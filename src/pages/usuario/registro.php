@@ -1,192 +1,210 @@
 <?php
 
-    error_reporting(E_ALL);
-    ini_set("display_errors", 1);
-    
-    require(__DIR__ . "/../../config/conexion.php");
-    require(__DIR__ . "/../../config/depurar.php");
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
 
-    session_start();
-    if (isset($_SESSION["usuario"])) {
-        header("location: ../../../index.php");
-        exit();
+require(__DIR__ . "/../../config/conexion.php");
+require(__DIR__ . "/../../config/depurar.php");
+
+session_start();
+if (isset($_SESSION["usuario"])) {
+    header("location: ../../../index.php");
+    exit();
+}
+
+$mostrar_identificacion = false;
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $nombre = depurar($_POST["nombre"]);
+    $apellido = depurar($_POST["apellido"]);
+    $correo = depurar($_POST["correo"]);
+    $contrasena = depurar($_POST["contrasena"]);
+    $confirma_contrasena = depurar($_POST["confirma_contrasena"]);
+    $telefono = depurar($_POST["telefono"]);
+    $tipo_identificacion = isset($_POST["tipo_identificacion"]) ? depurar($_POST["tipo_identificacion"]) : '';
+    $identificacion = depurar($_POST["identificacion"]);
+    $fecha_nacimiento = depurar($_POST["fecha_nacimiento"]);
+
+    $confirmar = true;
+
+    if ($nombre == '') {
+        $confirmar = false;
+        $err_nombre = "El nombre es obligatorio";
+    } else {
+        $patron = "/^[a-zA-Z0-9 áéióúÁÉÍÓÚñÑüÜ'-]+$/";
+        if (!preg_match($patron, $nombre)) {
+            $confirmar = false;
+            $err_nombre = "El nombre solo puede tener letras";
+        }
     }
 
-    $mostrar_identificacion = false;
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $nombre = depurar($_POST["nombre"]);
-        $apellido = depurar($_POST["apellido"]);
-        $correo = depurar($_POST["correo"]);
-        $contrasena = depurar($_POST["contrasena"]);
-        $confirma_contrasena = depurar($_POST["confirma_contrasena"]);
-        $telefono = depurar($_POST["telefono"]);
-        $tipo_identificacion = isset($_POST["tipo_identificacion"]) ? depurar($_POST["tipo_identificacion"]) : '';
-        $identificacion = depurar($_POST["identificacion"]);
-        $fecha_nacimiento = depurar($_POST["fecha_nacimiento"]);
-
-        $confirmar = true;
-
-        if ($nombre == '') {
+    if ($apellido == '') {
+        $confirmar = false;
+        $err_apellido = "El nombre es obligatorio";
+    } else {
+        $patron = "/^[a-zA-Z áéióúÁÉÍÓÚñÑüÜ'-]+$/";
+        if (!preg_match($patron, $apellido)) {
             $confirmar = false;
-            $err_nombre = "El nombre es obligatorio";
+            $err_apellido = "El apellido solo puede tener letras";
+        }
+    }
+
+    $sql = $_conexion->prepare("SELECT * FROM usuario WHERE correo = ?");
+    $sql->bind_param("s", $correo);
+    $sql->execute();
+    $resultado = $sql->get_result();
+
+    if ($correo == '') {
+        $confirmar = false;
+        $err_correo = "El correo es obligatorio";
+    } else {
+        if ($resultado->num_rows == 1) {
+            $confirmar = false;
+            $err_correo = "El correo ya existe";
         } else {
-            $patron = "/^[a-zA-Z0-9 áéióúÁÉÍÓÚñÑüÜ'-]+$/";
-            if (!preg_match($patron, $nombre)) {
+            if (filter_var($correo, FILTER_VALIDATE_EMAIL) == false) {
                 $confirmar = false;
-                $err_nombre = "El nombre solo puede tener letras";
+                $err_correo = "El correo tiene que tener el @ y el . bien colocados";
             }
         }
+    }
 
-        if ($apellido == '') {
+    if ($contrasena == '') {
+        $confirmar = false;
+        $err_contrasena = "La contraseña es obligatoria";
+    } else {
+        if (strlen($contrasena) < 7 || strlen($contrasena) > 20) {
             $confirmar = false;
-            $err_apellido = "El nombre es obligatorio";
+            $err_contrasena = "La contraseña tiene que tener como minimo 7 y como maximo 20 caracteres";
         } else {
-            $patron = "/^[a-zA-Z áéióúÁÉÍÓÚñÑüÜ'-]+$/";
-            if (!preg_match($patron, $apellido)) {
+            $patron = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/";
+            if (!preg_match($patron, $contrasena)) {
                 $confirmar = false;
-                $err_apellido = "El apellido solo puede tener letras";
-            }
-        }
-
-        $sql = "SELECT * FROM usuario WHERE correo = '$correo'";
-        $resultado = $_conexion->query($sql);
-
-        if ($correo == '') {
-            $confirmar = false;
-            $err_correo = "El correo es obligatorio";
-        } else {
-            if ($resultado->num_rows == 1) {
-                $confirmar = false;
-                $err_correo = "El correo ya existe";
+                $err_contrasena = "La contraseña tiene que tener al menos 1 mayuscula, 1 minuscula y 1 numero";
             } else {
-                if (filter_var($correo, FILTER_VALIDATE_EMAIL) == false) {
+                $contrasena_cifrada = password_hash($contrasena, PASSWORD_DEFAULT);
+            }
+        }
+    }
+
+    if ($confirma_contrasena !== $contrasena) {
+        $confirmar = false;
+        $err_confirma_contrasena = "Las contraseñas no coinciden";
+    }
+
+    if ($telefono == '') {
+        $confirmar = false;
+        $err_telefono = "El telefono es obligatorio";
+    } else {
+        $patron = "/^\d{9,15}$/";
+        if (!preg_match($patron, $telefono)) {
+            $confirmar = false;
+            $err_telefono = "El teléfono debe contener solo dígitos y tener entre 9 y 15 números";
+        }
+    }
+
+    $identificaciones = ["dni", "nie", "nif"];
+    if ($tipo_identificacion == '') {
+        $confirmar = false;
+        $err_tipo_identificacion = "Es obligatorio seleccionar un tipo de identificación";
+    } elseif (!in_array($tipo_identificacion, $identificaciones)) {
+        $confirmar = false;
+        $err_tipo_identificacion = "Tienes que elegir un tipo de identificación existente";
+    } else {
+        $mostrar_identificacion = true;
+    }
+
+    if ($identificacion == '') {
+        $confirmar = false;
+        $err_identificacion = "La identificación es obligatoria";
+    } else {
+
+        $sql = $_conexion->prepare("SELECT * FROM usuario WHERE identificacion = ?");
+        $sql->bind_param("s", $identificacion);
+        $sql->execute();
+        $resultado = $sql->get_result();
+
+        if ($resultado->num_rows == 1) {
+            $confirmar = false;
+            $err_identificacion = "Esta identificación ya esta registrada";
+        } else {
+            if ($tipo_identificacion == "dni") {
+                //patron DNI
+                $patron = "/^[0-9]{8}[A-Za-z]$/";
+                if (!preg_match($patron, $identificacion)) {
                     $confirmar = false;
-                    $err_correo = "El correo tiene que tener el @ y el . bien colocados";
+                    $err_identificacion = "La DNI debe tener 8 digitos y una letra al final";
                 }
-            }
-        }
-
-        if ($contrasena == '') {
-            $confirmar = false;
-            $err_contrasena = "La contraseña es obligatoria";
-        } else {
-            if (strlen($contrasena) < 7 || strlen($contrasena) > 20) {
-                $confirmar = false;
-                $err_contrasena = "La contraseña tiene que tener como minimo 7 y como maximo 20 caracteres";
-            } else {
-                $patron = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/";
-                if (!preg_match($patron, $contrasena)) {
+            } elseif ($tipo_identificacion == "nie") {
+                //patron NIE
+                $patron = "/^[XYZ][0-9]{7}[A-Za-z]$/";
+                if (!preg_match($patron, $identificacion)) {
                     $confirmar = false;
-                    $err_contrasena = "La contraseña tiene que tener al menos 1 mayuscula, 1 minuscula y 1 numero";
-                } else {
-                    $contrasena_cifrada = password_hash($contrasena, PASSWORD_DEFAULT);
+                    $err_identificacion = "El NIE debe tener una X,Y o Z, siguiendo de 7 digitos y una letra al final";
                 }
-            }
-        }
-
-        if ($confirma_contrasena !== $contrasena) {
-            $confirmar = false;
-            $err_confirma_contrasena = "Las contraseñas no coinciden";
-        }
-
-        if ($telefono == '') {
-            $confirmar = false;
-            $err_telefono = "El telefono es obligatorio";
-        } else {
-            $patron = "/^\d{9,15}$/";
-            if (!preg_match($patron, $telefono)) {
-                $confirmar = false;
-                $err_telefono = "El teléfono debe contener solo dígitos y tener entre 9 y 15 números";
-            }
-        }
-
-        $identificaciones = ["dni", "nie", "nif"];
-        if ($tipo_identificacion == '') {
-            $confirmar = false;
-            $err_tipo_identificacion = "Es obligatorio seleccionar un tipo de identificación";
-        } elseif (!in_array($tipo_identificacion, $identificaciones)) {
-            $confirmar = false;
-            $err_tipo_identificacion = "Tienes que elegir un tipo de identificación existente";
-        } else {
-            $mostrar_identificacion = true;
-        }
-
-        if ($identificacion == '') {
-            $confirmar = false;
-            $err_identificacion = "La identificación es obligatoria";
-        } else {
-
-            $sql = "SELECT * FROM usuario WHERE identificacion = '$identificacion'";
-            $resultado = $_conexion->query($sql);
-
-            if ($resultado->num_rows == 1) {
-                $confirmar = false;
-                $err_identificacion = "Esta identificación ya esta registrada";
-            } else {
-                if ($tipo_identificacion == "dni") {
-                    //patron DNI
-                    $patron = "/^[0-9]{8}[A-Za-z]$/";
-                    if (!preg_match($patron, $identificacion)) {
-                        $confirmar = false;
-                        $err_identificacion = "La DNI debe tener 8 digitos y una letra al final";
-                    }
-                } elseif ($tipo_identificacion == "nie") {
-                    //patron NIE
-                    $patron = "/^[XYZ][0-9]{7}[A-Za-z]$/";
-                    if (!preg_match($patron, $identificacion)) {
-                        $confirmar = false;
-                        $err_identificacion = "El NIE debe tener una X,Y o Z, siguiendo de 7 digitos y una letra al final";
-                    }
-                } elseif ($tipo_identificacion == "nif") {
-                    //patron NIF
-                    $patron = "/^[0-9]{8}[A-Za-z]$/";
-                    if (!preg_match($patron, $identificacion)) {
-                        $confirmar = false;
-                        $err_identificacion = "El NIF debe tener 8 digitos y una letra al final";
-                    }
-                }
-            }
-        }
-
-        /* Validar fecha de nacimiento */
-        if ($fecha_nacimiento == '') {
-            $confirmar = false;
-            $err_fecha_nacimiento = "La fecha de nacimiento es obligatoria";
-        } else {
-            $fecha_actual = date("Y-m-d");
-            if ($fecha_nacimiento > $fecha_actual) {
-                $confirmar = false;
-                $err_fecha_nacimiento = "La fecha de nacimiento no puede ser mayor a la fecha actual";
-            } else {
-                if (date("Y") - date("Y", strtotime($fecha_nacimiento)) < 18) {
+            } elseif ($tipo_identificacion == "nif") {
+                //patron NIF
+                $patron = "/^[0-9]{8}[A-Za-z]$/";
+                if (!preg_match($patron, $identificacion)) {
                     $confirmar = false;
-                    $err_fecha_nacimiento = "Tienes que ser mayor de edad para registrarte";
-                }
-            }
-        }
-
-        if ($confirmar) {
-            $sql = "INSERT INTO usuario (identificacion, tipo_identificacion, nombre, apellido, correo, 
-            contrasena, telefono, foto_perfil, ruta_img_dni, ruta_img_carnet, verificado, fecha_nacimiento,
-            estado)
-            VALUES ('$identificacion', '$tipo_identificacion' , '$nombre', '$apellido', '$correo', '$contrasena_cifrada',
-            '$telefono', NULL, NULL, NULL, 0, '$fecha_nacimiento', 1)";
-            
-            if ($_conexion->query($sql)) {
-
-                $sql = "SELECT * FROM usuario WHERE correo = '$correo'";
-                $resultado = $_conexion->query($sql);
-                
-                if ($resultado->num_rows == 1) {
-                    $datos_usuario = $resultado->fetch_assoc();
-
-                    $_SESSION["usuario"] = $datos_usuario;
-                    header("location: ../../../index.php");
-                    exit();
+                    $err_identificacion = "El NIF debe tener 8 digitos y una letra al final";
                 }
             }
         }
     }
+
+    /* Validar fecha de nacimiento */
+    if ($fecha_nacimiento == '') {
+        $confirmar = false;
+        $err_fecha_nacimiento = "La fecha de nacimiento es obligatoria";
+    } else {
+        $fecha_actual = date("Y-m-d");
+        if ($fecha_nacimiento > $fecha_actual) {
+            $confirmar = false;
+            $err_fecha_nacimiento = "La fecha de nacimiento no puede ser mayor a la fecha actual";
+        } else {
+            if (date("Y") - date("Y", strtotime($fecha_nacimiento)) < 18) {
+                $confirmar = false;
+                $err_fecha_nacimiento = "Tienes que ser mayor de edad para registrarte";
+            }
+        }
+    }
+
+    if ($confirmar) {
+        $sql = $_conexion->prepare("INSERT INTO usuario (
+                identificacion, tipo_identificacion, nombre, apellido, correo, 
+                contrasena, telefono, foto_perfil, ruta_img_dni, ruta_img_carnet, 
+                verificado, fecha_nacimiento, estado
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, NULL, NULL, NULL, 0, ?, 1)");
+
+        $sql->bind_param(
+            "sssssss",
+            $identificacion,
+            $tipo_identificacion,
+            $nombre,
+            $apellido,
+            $correo,
+            $contrasena_cifrada,
+            $telefono,
+            $fecha_nacimiento
+        );
+
+        if ($sql->execute()) {
+            $sql = $_conexion->prepare("SELECT * FROM usuario WHERE correo = ?");
+            $sql->bind_param("s", $correo);
+            $sql->execute();
+            $resultado = $sql->get_result();
+
+            $_conexion->close();
+
+            if ($resultado->num_rows === 1) {
+                $datos_usuario = $resultado->fetch_assoc();
+                $_SESSION["usuario"] = $datos_usuario;
+                header("Location: ../../../index.php");
+                exit();
+            }
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -199,7 +217,7 @@
     <?php include_once '../../components/links.php'; ?>
     <link rel="icon" href="../../../src/img/favicon.png" />
     <?php
-        
+
     ?>
     <style>
         .error {
