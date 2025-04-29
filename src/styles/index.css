@@ -32,7 +32,7 @@
     position: relative;
     height: 70vh;
     overflow: hidden;
-    z-index: 1;
+    z-index: 0;
 }
 
 .banner-video {
@@ -51,10 +51,6 @@
     z-index: 2;
 }
 
-/* MENU DE FILTROS*/
-.menu-de-filtros {
-    width: 25%;
-}
 
 /* BARRA DE BUSQUEDA */
 .busqueda {
@@ -170,19 +166,21 @@
 
 .menu-de-filtros {
     transition: all 0.3s ease;
-    background: white;
+    background: rgb(248, 248, 248);
     position: relative;
-    margin-top: 0.18%;
     padding-top: 3vh;
+    margin-top: 3vh !important;
+    width: 25%;
 }
 
 .contenido-filtros {
     transition: opacity 0.2s ease;
+    padding-left: 5vh;
+    padding-right: 3vh;
 }
 
 .menu-colapsado {
     width: 0 !important;
-    border: none !important;
     padding: 0 !important;
 }
 

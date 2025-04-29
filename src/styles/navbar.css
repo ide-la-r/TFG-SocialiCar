@@ -113,7 +113,6 @@
   pointer-events: none;
 }
 
-/* clase de bootstrap */
 .dropdown-menu.show { 
   opacity: 1;
   transform: scaleY(1);
