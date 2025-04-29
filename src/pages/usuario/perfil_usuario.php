@@ -160,26 +160,53 @@
                                     </div>
                                     ";
                                 } else {
-                                    // Mostrar los vehículos registrados
-                                    echo "<div class='bg-light rounded-4 shadow-sm p-4'>";
-                                    foreach ($vehiculos as $vehiculo) {
-                                        echo "
-                                            <div class='card mb-3'>
-                                                <div class='card-body'>
-                                                    <h5 class='card-title'>" . $vehiculo['marca'] . " " . $vehiculo['modelo'] . "</h5>
-                                                    <p class='card-text'>Año: " . $vehiculo['anno_matriculacion'] . "</p>
-                                                    <p class='card-text'>Matrícula: " . $vehiculo['matricula'] . "</p>
-                                                    <p class='card-text'>Kilometraje: " . $vehiculo['kilometros'] . "</p>
-                                                    <p class='card-text'>Tipo: " . ucfirst($vehiculo['tipo']) . "</p>
-                                                    <p class='card-text'>Fecha de registro: " . $vehiculo['created_at'] . "</p>
-                                                    <p class='card-text'>Última actualización: " . $vehiculo['updated_at'] . "</p>
-                                                    <a href='editar_vehiculo.php?id=" . $vehiculo['matricula'] . "' class='btn btn-primary me-2'>Editar</a>
-                                                    <a href='eliminar_vehiculo.php?id=" . $vehiculo['matricula'] . "' class='btn btn-danger'>Eliminar</a>
-                                                </div>
+                                // Función para formatear la fecha en español
+                                function formatearFecha($fecha, $meses) {
+                                    $dia = $fecha->format('d');
+                                    $mes = $meses[$fecha->format('m')];
+                                    $anio = $fecha->format('Y');
+                                    return "$dia de $mes de $anio";
+                                }
+
+                                // Array de meses
+                                $meses = [
+                                    '01' => 'enero', '02' => 'febrero', '03' => 'marzo',
+                                    '04' => 'abril', '05' => 'mayo', '06' => 'junio',
+                                    '07' => 'julio', '08' => 'agosto', '09' => 'septiembre',
+                                    '10' => 'octubre', '11' => 'noviembre', '12' => 'diciembre'
+                                ];
+
+                                // Mostrar los vehículos registrados
+                                echo "<div class='bg-light rounded-4 shadow-sm p-4'>";
+                                foreach ($vehiculos as $vehiculo) {
+                                    $fechaRegistro = new DateTime($vehiculo['created_at']);
+                                    $fechaActualizacion = new DateTime($vehiculo['updated_at']);
+                                    $fechaMatriculacion = new DateTime($vehiculo['anno_matriculacion']);
+
+                                    // Formatear fechas
+                                    $fechaRegistroFormateada = formatearFecha($fechaRegistro, $meses);
+                                    $fechaActualizacionFormateada = formatearFecha($fechaActualizacion, $meses);
+                                    $mes = $meses[$fechaMatriculacion->format('m')];
+                                    $anio = $fechaMatriculacion->format('Y');
+                                    $fechaMatriculacionFormateada = "$mes de $anio";
+
+                                    echo "
+                                        <div class='card mb-3'>
+                                            <div class='card-body'>
+                                                <h5 class='card-title'>" . $vehiculo['marca'] . " " . $vehiculo['modelo'] . "</h5>
+                                                <p class='card-text'>Fecha matriculación: " . ucfirst($fechaMatriculacionFormateada) . "</p>
+                                                <p class='card-text'>Matrícula: " . $vehiculo['matricula'] . "</p>
+                                                <p class='card-text'>Kilometraje: " . $vehiculo['kilometros'] . "</p>
+                                                <p class='card-text'>Tipo: " . ucfirst($vehiculo['tipo']) . "</p>
+                                                <p class='card-text'>Fecha de registro: " . $fechaRegistroFormateada . "</p>
+                                                <p class='card-text'>Última actualización: " . $fechaActualizacionFormateada . "</p>
+                                                <a href='../coche/editar_coche?matricula=" . $vehiculo['matricula'] . "' class='btn btn-primary me-2'>Editar</a>
+                                                <a href='../coche/eliminar_coche?matricula=" . $vehiculo['matricula'] . "' class='btn btn-danger'>Eliminar</a>
                                             </div>
-                                        ";
-                                    }
-                                    echo "</div>";                               
+                                        </div>
+                                    ";
+                                }
+                                echo "</div>";                           
                                 }
                             ?>
                             
