@@ -22,6 +22,7 @@
         $telefono = depurar($_POST["telefono"]);
         $tipo_identificacion = isset($_POST["tipo_identificacion"]) ? depurar($_POST["tipo_identificacion"]) : '';
         $identificacion = depurar($_POST["identificacion"]);
+        $fecha_nacimiento = depurar($_POST["fecha_nacimiento"]);
 
         $confirmar = true;
 
@@ -147,11 +148,29 @@
             }
         }
 
+        /* Validar fecha de nacimiento */
+        if ($fecha_nacimiento == '') {
+            $confirmar = false;
+            $err_fecha_nacimiento = "La fecha de nacimiento es obligatoria";
+        } else {
+            $fecha_actual = date("Y-m-d");
+            if ($fecha_nacimiento > $fecha_actual) {
+                $confirmar = false;
+                $err_fecha_nacimiento = "La fecha de nacimiento no puede ser mayor a la fecha actual";
+            } else {
+                if (date("Y") - date("Y", strtotime($fecha_nacimiento)) < 18) {
+                    $confirmar = false;
+                    $err_fecha_nacimiento = "Tienes que ser mayor de edad para registrarte";
+                }
+            }
+        }
+
         if ($confirmar) {
-            $sql = "INSERT INTO usuario (identificacion,tipo_identificacion , nombre, apellido, correo, telefono, contrasena,
-            fecha_registro, fecha_update, foto_perfil, ruta_img_dni, ruta_img_carnet, verificado)
-            VALUES ('$identificacion', '$tipo_identificacion' , '$nombre', '$apellido', '$correo', '$telefono',
-            '$contrasena_cifrada', NOW(), NOW(), NULL, NULL, NULL, 0)";
+            $sql = "INSERT INTO usuario (identificacion, tipo_identificacion, nombre, apellido, correo, 
+            contrasena, telefono, foto_perfil, ruta_img_dni, ruta_img_carnet, verificado, fecha_nacimiento,
+            estado)
+            VALUES ('$identificacion', '$tipo_identificacion' , '$nombre', '$apellido', '$correo', '$contrasena_cifrada',
+            '$telefono', NULL, NULL, NULL, 0, '$fecha_nacimiento', 1)";
             
             if ($_conexion->query($sql)) {
 
@@ -207,6 +226,11 @@
                 </div>
 
                 <div class="row justify-content-center">
+                    <div class="mb-3 col-8">
+                        <input class="form-control" placeholder="Fecha de nacimiento*" id="fecha_nacimiento" name="fecha_nacimiento" type="date">
+                        <?php if (isset($err_fecha_nacimiento)) echo "<span class='error'>$err_fecha_nacimiento</span>" ?>
+                    </div>
+
                     <div class="mb-3 col-8">
                         <input class="form-control" type="email" placeholder="Correo electronico*" name="correo" value="<?php if (isset($correo)) echo "$correo" ?>">
                         <?php if (isset($err_correo)) echo "<span class='error'>$err_correo</span>" ?>
