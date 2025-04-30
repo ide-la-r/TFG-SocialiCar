@@ -1,4 +1,3 @@
-<!-- Footer estilo minimalista y alineado como en el ejemplo proporcionado -->
 <footer class="bg-light mt-auto" style="background-color: #F2F2F2!important; color: #595959; font-size: 1.08rem; padding-top: 2.5rem; padding-bottom: 1.5rem; border-top: 1px solid #B0D5D9;">
   <div class="container">
     <div class="row mb-3 gy-4 align-items-start">
@@ -59,17 +58,3 @@
 <script src="/src/js/precio_coche.js"></script>
 
 <!-- Estilos específicos para los iconos sociales del footer -->
-<style>
-.footer-social-icons a {
-  display: inline-block;
-  margin-right: 1rem;
-  font-size: 1.35em;
-  color: #6BBFBF;
-}
-.footer-social-icons a:last-child {
-  margin-right: 0;
-}
-.footer-social-icons i {
-  vertical-align: middle;
-}
-</style>
