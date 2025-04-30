@@ -13,11 +13,11 @@
       <div class="col-md-4 mb-4 mb-md-0">
         <h6 class="fw-semibold mb-2" style="color: #6BBFBF; font-size: 1.15em;">Información</h6>
         <ul class="list-unstyled mb-0" style="font-size: 1em;">
-          <li class="mb-1"><a href="/socialicar/index.php" class="text-decoration-none" style="color: #595959;">Inicio</a></li>
-          <li class="mb-1"><a href="/socialicar/src/pages/informacion/trabaja.php" class="text-decoration-none" style="color: #595959;">Trabaja con nosotros</a></li>
-          <li class="mb-1"><a href="/socialicar/src/pages/rentacar/mostrar_coches.php" class="text-decoration-none" style="color: #595959;">Encontrar un coche</a></li>
-          <li class="mb-1"><a href="/socialicar/src/pages/informacion/descarga_app.php" class="text-decoration-none" style="color: #595959;">Descarga nuestra app</a></li>
-          <li><a href="/socialicar/src/pages/informacion/proposito.php" class="text-decoration-none" style="color: #595959;">Propósito</a></li>
+          <li class="mb-1"><a href="/" class="text-decoration-none" style="color: #595959;">Inicio</a></li>
+          <li class="mb-1"><a href="/src/pages/informacion/trabaja" class="text-decoration-none" style="color: #595959;">Trabaja con nosotros</a></li>
+          <li class="mb-1"><a href="/src/pages/rentacar/mostrar_coches" class="text-decoration-none" style="color: #595959;">Encontrar un coche</a></li>
+          <li class="mb-1"><a href="/src/pages/informacion/descarga_app" class="text-decoration-none" style="color: #595959;">Descarga nuestra app</a></li>
+          <li><a href="/src/pages/informacion/proposito" class="text-decoration-none" style="color: #595959;">Propósito</a></li>
         </ul>
       </div>
       <!-- Contacto -->
@@ -55,8 +55,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
-<script src="/socialicar/src/js/mostrar_marcas.js"></script>
-<script src="/socialicar/src/js/precio_coche.js"></script>
+<script src="/src/js/mostrar_marcas.js"></script>
+<script src="/src/js/precio_coche.js"></script>
 
 <!-- Estilos específicos para los iconos sociales del footer -->
 <style>

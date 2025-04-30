@@ -288,7 +288,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="submit" class="btn col-4" value="Registrarse">
             </form>
             <div class="mb-3 iniciar_sesion_pregunta">
-                <p>¿Ya tienes cuenta? <a href="./iniciar_sesion.php">Iniciar sesión</a></p>
+                <p>¿Ya tienes cuenta? <a href="./iniciar_sesion">Iniciar sesión</a></p>
             </div>
         </div>
     </div>

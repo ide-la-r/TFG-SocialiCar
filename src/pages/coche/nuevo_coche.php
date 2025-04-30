@@ -455,17 +455,20 @@
 
                     <div class="mb-3 col-6">
                         <?php
-                        // API para obtener las marcas de coches
-                        $apiUrlMarcas = "https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json";
+                            // API para obtener las marcas de coches
+                            $apiUrlMarcas = "https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json";
 
-                        $curl = curl_init();
-                        curl_setopt($curl, CURLOPT_URL, $apiUrlMarcas);
-                        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-                        $respuesta = curl_exec($curl);
-                        curl_close($curl);
+                            $curl = curl_init();
+                            curl_setopt($curl, CURLOPT_URL, $apiUrlMarcas);
+                            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+                            $respuesta = curl_exec($curl);
+                            curl_close($curl);
 
-                        $datos = json_decode($respuesta, true);
-                        $marcas = $datos['Results'];
+                            $datos = json_decode($respuesta, true);
+                            $marcas = $datos['Results'];
+
+                            $marcaSeleccionada = isset($_POST['marca']) ? $_POST['marca'] : '';
+                            $modeloSeleccionado = isset($_POST['modelo']) ? $_POST['modelo'] : '';
                         ?>
 
                         <select class="form-select" id="marca" name="marca">
@@ -484,7 +487,7 @@
                         ?>
                     </div>
                     <div class="mb-3 col-6">
-                        <select class="form-select" id="modelo" name="modelo">
+                        <select class="form-select" id="modelo" name="modelo" data-selected="<?php echo htmlspecialchars($modeloSeleccionado); ?>">
                             <option disabled selected hidden>Modelo*</option>
                         </select>
                         <?php
@@ -996,6 +999,7 @@
     ?>
     <?php include_once '../../components/footer.php'; ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/src/js/mostrar_marcas.js"></script>
 
 </body>
 

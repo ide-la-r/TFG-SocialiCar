@@ -1,13 +1,13 @@
 @font-face {
     font-family: "Roboto";
-    src: url("/socialicar/src/fonts/Roboto/Roboto-Regular.ttf") format("woff2");
+    src: url("/src/fonts/Roboto/Roboto-Regular.ttf") format("woff2");
     font-weight: 700;
     font-display: swap;
 }
 
 @font-face {
     font-family: "Teko";
-    src: url("/socialicar/src/fonts/Teko/Teko-Bold.ttf") format("woff2");
+    src: url("/src/fonts/Teko/Teko-Bold.ttf") format("woff2");
     font-weight: 700;
     font-display: swap;
 }
