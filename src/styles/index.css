@@ -1,0 +1,192 @@
+#opciones-equipamiento {
+    display: none;
+    margin-top: -2vh;
+    margin-left: 4vh;
+}
+
+.equipamiento {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin-bottom: 3vh;
+}
+
+.flecha {
+    margin-left: 8px;
+    font-size: 10px;
+    color: black;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.flecha.girada {
+    transform: rotate(90deg);
+}
+
+.form-label {
+    font-weight: bold;
+}
+
+/* BANNER */
+.banner-video-container {
+    position: relative;
+    height: 70vh;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.banner-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+    z-index: 1;
+}
+
+.banner-content {
+    position: relative;
+    z-index: 2;
+}
+
+
+/* BARRA DE BUSQUEDA */
+.busqueda {
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    width: 70%;
+    margin-top: 0;
+}
+
+/* Animación de los títulos */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.banner-content h1 {
+    font-size: 3.5rem;
+    animation: fadeInUp 1s ease-out forwards;
+    opacity: 0;
+}
+
+.banner-content h3 {
+    animation: fadeInUp 1.2s ease-out forwards;
+    opacity: 0;
+}
+
+.banner-content h3 {
+    animation-delay: 0.7s;
+}
+
+
+/* video inicial*/
+#video {
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 4;
+    animation: difuminarVideo 3.9s forwards;
+}
+
+#contenido {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    opacity: 1;
+    z-index: 20;
+    background: none;
+}
+
+/* difuminar el video */
+@keyframes difuminarVideo {
+    0% {
+        opacity: 1;
+        filter: blur(0px);
+    }
+
+    100% {
+        opacity: 0;
+        filter: blur(5px);
+    }
+}
+
+/* CARTAS DE LOS COCHES */
+.card {
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+
+.card:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+.card-img-premium {
+    height: 40vh;
+    object-fit: cover;
+    width: 100%;
+}
+
+.card-img-top {
+    height: 20vh;
+    object-fit: cover;
+    width: 100%;
+}
+
+
+
+/* MENU DE FILTROS */
+#toggleFiltros {
+    position: absolute;
+    right: -15px;
+    top: 20px;
+    margin-top: 3vh;
+}
+
+.menu-de-filtros {
+    transition: all 0.3s ease;
+    background: rgb(248, 248, 248);
+    position: relative;
+    padding-top: 3vh;
+    margin-top: 3vh !important;
+    width: 25%;
+}
+
+.contenido-filtros {
+    transition: opacity 0.2s ease;
+    padding-left: 5vh;
+    padding-right: 3vh;
+}
+
+.menu-colapsado {
+    width: 0 !important;
+    padding: 0 !important;
+}
+
+.menu-colapsado .contenido-filtros {
+    opacity: 0;
+    padding: 0;
+    height: 0;
+    overflow: hidden;
+}
