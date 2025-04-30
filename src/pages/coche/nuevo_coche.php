@@ -8,6 +8,7 @@
     <?php include_once '../../components/links.php'; ?>
     <link rel="icon" href="../../../src/img/favicon.png" />
     <link rel="stylesheet" href="../../styles/boton.css">
+    <link rel="stylesheet" href="../../styles/nuevo_coche.css">
 
     <?php
     error_reporting(E_ALL);
@@ -437,38 +438,32 @@
     ?>
 
     <?php include_once '../../components/navbar.php'; ?>
-    <div class="container mt-5 pt-5">
-        <h1 class="text-center">Añadir coche</h1>
-        <div class="container card text-center">
 
-            <form action="#" method="post">
+    <br>
+    <br>
+    <form action="#" method="post">
+        <!-- INFORMACION DEL VEHICULO (MARCA MODELO Y ANNO DE MATRICULACION) -->
+
+        <div class="container mt-5 pt-5">
+            <div class="container card py-4">
+                <h3 class="text-start">Informacion basica</h3>
                 <div class="row justify-content-center pt-3">
-
-                    <div class="mb-3 col-6">
-                        <input class="form-control" id="matricula" type="text" placeholder="Matricula*" name="matricula" value="<?php if (isset($matricula)) echo "$matricula" ?>">
+                    <div class="col">
                         <?php
-                        if (isset($err_matricula)) {
-                            echo "<span class='error'>$err_matricula</span>";
-                        }
-                        ?>
-                    </div>
+                        // API para obtener las marcas de coches
+                        $apiUrlMarcas = "https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json";
 
-                    <div class="mb-3 col-6">
-                        <?php
-                            // API para obtener las marcas de coches
-                            $apiUrlMarcas = "https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json";
+                        $curl = curl_init();
+                        curl_setopt($curl, CURLOPT_URL, $apiUrlMarcas);
+                        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+                        $respuesta = curl_exec($curl);
+                        curl_close($curl);
 
-                            $curl = curl_init();
-                            curl_setopt($curl, CURLOPT_URL, $apiUrlMarcas);
-                            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-                            $respuesta = curl_exec($curl);
-                            curl_close($curl);
+                        $datos = json_decode($respuesta, true);
+                        $marcas = $datos['Results'];
 
-                            $datos = json_decode($respuesta, true);
-                            $marcas = $datos['Results'];
-
-                            $marcaSeleccionada = isset($_POST['marca']) ? $_POST['marca'] : '';
-                            $modeloSeleccionado = isset($_POST['modelo']) ? $_POST['modelo'] : '';
+                        $marcaSeleccionada = isset($_POST['marca']) ? $_POST['marca'] : '';
+                        $modeloSeleccionado = isset($_POST['modelo']) ? $_POST['modelo'] : '';
                         ?>
 
                         <select class="form-select" id="marca" name="marca">
@@ -486,7 +481,7 @@
                         }
                         ?>
                     </div>
-                    <div class="mb-3 col-6">
+                    <div class="col">
                         <select class="form-select" id="modelo" name="modelo" data-selected="<?php echo htmlspecialchars($modeloSeleccionado); ?>">
                             <option disabled selected hidden>Modelo*</option>
                         </select>
@@ -496,8 +491,7 @@
                         }
                         ?>
                     </div>
-
-                    <div class="mb-3 col-6">
+                    <div class="col">
                         <input class="form-control" placeholder="Selecciona el año de matriculacion" id="inputMes" type="month" name="anno_matriculacion" value="<?php if (isset($_POST['anno_matriculacion'])) echo htmlspecialchars($_POST['anno_matriculacion']); ?>">
                         <?php
                         if (isset($err_anno_matriculacion)) {
@@ -505,6 +499,44 @@
                         }
                         ?>
                     </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+
+        <div class="container mt-5 pt-5">
+            <div class="container card py-4">
+                <h3 class="text-start">MATRICULA</h3>
+                <div class="row justify-content-center pt-3">
+                    <div class="col">
+                        <input class="form-control" id="matricula" type="text" placeholder="Matricula*" name="matricula" value="<?php if (isset($matricula)) echo "$matricula" ?>">
+                        <?php
+                        if (isset($err_matricula)) {
+                            echo "<span class='error'>$err_matricula</span>";
+                        }
+                        ?>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+
+
+
+
+
+        <div class="container mt-5 pt-5">
+
+            <div class="container card">
+                <br>
+                <h3>Informacion del vehiculo</h3>
+                <div class="row justify-content-center pt-3">
                     <div class="mb-3 col-6">
                         <input class="form-control" id="kilometros" type="number" placeholder="Kilómetros*" name="kilometros" value="<?php if (isset($kilometros)) echo "$kilometros" ?>">
                         <?php
@@ -513,46 +545,8 @@
                         }
                         ?>
                     </div>
-
                     <div class="mb-3 col-6">
-                        <input class="form-control" id="direccion" type="text" placeholder="Direccion*" name="direccion" value="<?php if (isset($direccion)) echo "$direccion" ?>">
-                        <?php
-                        if (isset($err_direccion)) {
-                            echo "<span class='error'>$err_direccion</span>";
-                        }
-                        ?>
-                    </div>
-
-
-                    <div class="mb-3 col-6">
-                        <input class="form-control" id="cp" type="number" placeholder="Código Postal*" name="cp" value="<?php if (isset($cp)) echo "$cp" ?>">
-                        <?php
-                        if (isset($err_cp)) {
-                            echo "<span class='error'>$err_cp</span>";
-                        }
-                        ?>
-                    </div>
-
-                    <div class="mb-3 col-6">
-                        <input class="form-control" id="provincia" type="text" placeholder="Provincia*" name="provincia" value="<?php if (isset($provincia)) echo "$provincia" ?>">
-                        <?php
-                        if (isset($err_provincia)) {
-                            echo "<span class='error'>$err_provincia</span>";
-                        }
-                        ?>
-                    </div>
-
-                    <div class="mb-3 col-6">
-                        <input class="form-control" id="ciudad" type="text" placeholder="Ciudad*" name="ciudad" value="<?php if (isset($ciudad)) echo "$ciudad" ?>">
-                        <?php
-                        if (isset($err_ciudad)) {
-                            echo "<span class='error'>$err_ciudad</span>";
-                        }
-                        ?>
-                    </div>
-
-                    <div class="mb-3 col-6">
-                        <Select class="form-select" id="tipo_combustible" name="tipo_combustible" form-select">
+                        <Select class="form-select" id="tipo_combustible" name="tipo_combustible">
                             <option disabled selected hidden>Tipo de combustible*</option>
                             <option value="gasolina"
                                 <?php if (isset($_POST['tipo_combustible']) && $_POST['tipo_combustible'] == "gasolina") echo "selected"; ?>>
@@ -659,8 +653,94 @@
                         }
                         ?>
                     </div>
+                    <div class="mb-3 col-6">
+                        <select class="form-select" id="color" name="color" required>
+                            <option disabled selected hidden>Color*</option>
+                            <option value="white">Blanco</option>
+                            <option value="black">Negro</option>
+                            <option value="gray">Gris</option>
+                            <option value="red">Rojo</option>
+                            <option value="blue">Azul</option>
+                            <option value="green">Verde</option>
+                            <option value="yellow">Amarillo</option>
+                            <option value="orange">Naranja</option>
+                            <option value="brown">Marrón</option>
+                            <option value="others">Otros</option>
+                        </select>
+                    </div>
+                    <div class="mb-3 col-6">
+                        <input class="form-control" id="potencia" type="number" placeholder="caballos*" name="Potencia" value="">
+                    </div>
+                    <div class="mb-3 col-6">
+                        <input class="form-control" id="numero_puertas" type="number" placeholder="Numero de puertas*" name="numero_puertas" value="">
+                    </div>
+                    <div class="mb-3 col-6">
+                        <input class="form-control" id="numero_plazas" type="number" placeholder="Numero de plazas*" name="numero_plazas" value="">
+                    </div>
+                    <div>
+                        <textarea class="form-control" name="descripcion" id="exampleFormControlTextarea1" rows="3" placeholder="Descripcion*"></textarea>
+                    </div>
+
+                </div>
+            </div>
+        </div>
 
 
+        <div class="container mt-5 pt-5">
+            <div class="container card py-4">
+                <h3 class="text-start">Precio</h3>
+
+                <div class="d-flex flex-column align-items-center">
+                    <label id="totalPrecio" class="form-label fw-bold">Precio Diario: <span id="mostrarPrecio">15€</span></label>
+
+                    <input type="range" class="form-range w-75" name="precio" id="precio" min="15" max="500" step="1" value="15">
+
+                    <div class="d-flex justify-content-between text-muted mt-1 w-75">
+                        <span>15€</span>
+                        <span>500€</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="container mt-5 pt-5">
+            <div class="container card py-4">
+                <h3 class="text-start">Ubicacion</h3>
+                <div class="row justify-content-center pt-3">
+                    <div class="mb-3 col-6">
+                        <input class="form-control" id="direccion" type="text" placeholder="Direccion*" name="direccion" value="<?php if (isset($direccion)) echo "$direccion" ?>">
+                        <?php
+                        if (isset($err_direccion)) {
+                            echo "<span class='error'>$err_direccion</span>";
+                        }
+                        ?>
+                    </div>
+                    <div class="mb-3 col-6">
+                        <input class="form-control" id="cp" type="number" placeholder="Código Postal*" name="cp" value="<?php if (isset($cp)) echo "$cp" ?>">
+                        <?php
+                        if (isset($err_cp)) {
+                            echo "<span class='error'>$err_cp</span>";
+                        }
+                        ?>
+                    </div>
+                    <div class="mb-3 col-6">
+                        <input class="form-control" id="provincia" type="text" placeholder="Provincia*" name="provincia" value="<?php if (isset($provincia)) echo "$provincia" ?>">
+                        <?php
+                        if (isset($err_provincia)) {
+                            echo "<span class='error'>$err_provincia</span>";
+                        }
+                        ?>
+                    </div>
+                    <div class="mb-3 col-6">
+                        <input class="form-control" id="ciudad" type="text" placeholder="Ciudad*" name="ciudad" value="<?php if (isset($ciudad)) echo "$ciudad" ?>">
+                        <?php
+                        if (isset($err_ciudad)) {
+                            echo "<span class='error'>$err_ciudad</span>";
+                        }
+                        ?>
+                    </div>
                     <div class="mb-3 col-6">
                         <Select class="form-select" id="tipo_aparcamiento" name="tipo_aparcamiento">
                             <option disabled selected hidden>Tipo de aparcamiento*</option>
@@ -683,50 +763,68 @@
                         }
                         ?>
                     </div>
+                </div>
 
 
+            </div>
+        </div>
+
+
+        <div class="container mt-5 pt-5">
+            <div class="container card py-4">
+                <h3 class="text-start">SEGURO</h3>
+                <div class="row justify-content-center pt-3">
                     <div class="mb-3 col-6">
-                        <label id="totalPrecio" class="form-label fw-bold">Precio Diario: <span id="mostrarPrecio">15€</span></label>
-
-                        <input type="range" class="form-range" name="precio" id="precio" min="15" max="500" step="1" value="15">
-
-                        <div class="d-flex justify-content-between text-muted mt-1">
-                            <span>15€</span>
-                            <span>500€</span>
+                        <div class=" mb-3 col-6 form-switch">
+                            <input type="checkbox" class="form-check-input" role="switch" id="flexSwitchCheckChecked" name="seguro" checked <?php if (isset($_POST['seguro'])) echo 'checked'; ?>>
+                            <label class="form-check-label" for="flexSwitchCheckChecked">
+                                Seguro
+                            </label>
                         </div>
                     </div>
-
-                    <p>La media de precio para tu coche es de <span>0€</span></p>
-
-
-                    <!-- INICIO SECCION DE IMAGENES -->
-
-                    <!-- FIN SECCION DE IMAGENES -->
-
-
-                    <!--BOTON VENTANA MODAL CON BOOTSTRAP-->
-
-                    <div class=" mb-3 col-6 form-switch">
-                        <input type="checkbox" class="form-check-input" role="switch" id="flexSwitchCheckChecked" name="seguro" checked <?php if (isset($_POST['seguro'])) echo 'checked'; ?>>
-                        <label class="form-check-label" for="flexSwitchCheckChecked">
-                            Seguro
-                        </label>
-                    </div>
-
-                    <div class="mb-3">
-                        <button type="button" class=" w-75" data-bs-toggle="modal" data-bs-target="#miModal">
-                            Extras
-                        </button>
-
-                    </div>
-                    <!--BOTON PARA ENVIAR EL FORMULARIO -->
-                    <div class="mb-3">
-                        <button type="submit" class=" w-75">
-                            Confirmar
-                        </button>
-                    </div>
-            </form>
+                </div>
+            </div>
         </div>
+
+
+
+
+
+
+
+        <div class="mb-3">
+            <button type="submit" class=" w-75">
+                Confirmar
+            </button>
+        </div>
+    </form>
+
+
+
+
+
+    <p>La media de precio para tu coche es de <span>0€</span></p>
+
+
+    <!-- INICIO SECCION DE IMAGENES -->
+
+    <!-- FIN SECCION DE IMAGENES -->
+
+
+    <!--BOTON VENTANA MODAL CON BOOTSTRAP-->
+
+
+
+    <div class="mb-3">
+        <button type="button" class=" w-75" data-bs-toggle="modal" data-bs-target="#miModal">
+            Extras
+        </button>
+
+    </div>
+    <!--BOTON PARA ENVIAR EL FORMULARIO -->
+
+
+    </div>
     </div>
     <!-- VENTANA MODAL CON BOOTSTRAP -->
     <div class="modal fade" id="miModal" tabindex="-1" aria-labelledby="miModalLabel" aria-hidden="true">
@@ -1000,6 +1098,7 @@
     <?php include_once '../../components/footer.php'; ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/src/js/mostrar_marcas.js"></script>
+    <script src="../../js/nuevo_coche.js"></script>
 
 </body>
 
