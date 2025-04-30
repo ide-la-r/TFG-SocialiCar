@@ -301,7 +301,7 @@ require(__DIR__ . "/src/config/conexion.php");
                                 foreach ($vehiculos_premiums as $vehiculo_premium) {
                                     echo "
                                         <div class='col'>
-                                            <a href='/src/pages/coche/coche?matricula=" . $vehiculo_premium['matricula'] . "' class='text-decoration-none text-dark'>
+                                            <a href='/src/pages/rentacar/coche?matricula=" . $vehiculo_premium['matricula'] . "' class='text-decoration-none text-dark'>
                                             <div class='card h-100 shadow-lg border-warning'>
                                                 <img src='" . $vehiculo_premium['ruta_img_coche'] . "' class='card-img-top'>
                                                 <div class='card-body'>
@@ -342,7 +342,7 @@ require(__DIR__ . "/src/config/conexion.php");
                                 foreach ($vehiculos_plus as $vehiculo_plus) {
                                     echo "
                                         <div class='col'>
-                                            <a href='/src/pages/coche/coche?matricula=" . $vehiculo_plus['matricula'] . "' class='text-decoration-none text-dark'>
+                                            <a href='/src/pages/rentacar/coche?matricula=" . $vehiculo_plus['matricula'] . "' class='text-decoration-none text-dark'>
                                             <div class='card shadow'>
                                                 <img src='" . $vehiculo_plus['ruta_img_coche'] . "' class='card-img-top'>
                                                 <div class='card-body'>
@@ -381,7 +381,7 @@ require(__DIR__ . "/src/config/conexion.php");
                                 foreach ($vehiculos_normales as $vehiculo_normal) {
                                     echo "
                                         <div class='col'>
-                                            <a href='/src/pages/coche/coche?matricula=" . $vehiculo_normal['matricula'] . "' class='text-decoration-none text-dark'>
+                                            <a href='/src/pages/rentacar/coche?matricula=" . $vehiculo_normal['matricula'] . "' class='text-decoration-none text-dark'>
                                             <div class='card shadow'>
                                                 <img src='" . $vehiculo_normal['ruta_img_coche'] . "' class='card-img-top'>
                                                 <div class='card-body'>
