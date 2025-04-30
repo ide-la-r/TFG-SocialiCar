@@ -131,7 +131,7 @@
                                     <li><strong>Teléfono:</strong> <?php echo $_SESSION["usuario"]["telefono"]; ?></li>
                                 </ul>
                                 <div class="text-center mt-4">
-                                    <a href="/socialicar/src/pages/usuario/editar_usuario" class="btn btn-outline-primary btn-sm">Editar datos</a>
+                                    <a href="/src/pages/usuario/editar_usuario" class="btn btn-outline-primary btn-sm">Editar datos</a>
                                 </div>
                             </div>
                         </div>

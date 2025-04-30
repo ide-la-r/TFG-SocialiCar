@@ -20,7 +20,7 @@ require(__DIR__ . "/src/config/conexion.php");
 <body class="d-flex flex-column min-vh-100 bg-light">
 
     <video id="video" autoplay muted playsinline>
-        <source src="/socialicar/src/video/socialicar_2.mp4" type="video/mp4">
+        <source src="/src/video/socialicar_2.mp4" type="video/mp4">
         Tu navegador no soporta el formato de video.
     </video>
     <script>
@@ -34,7 +34,7 @@ require(__DIR__ . "/src/config/conexion.php");
     <!-- BANNER (Hero) -->
     <div class="banner-video-container d-flex justify-content-center align-items-center text-center">
         <video autoplay muted loop playsinline class="banner-video">
-            <source src="/socialicar/src/video/socialicar_3.mp4" type="video/mp4" />
+            <source src="/src/video/socialicar_3.mp4" type="video/mp4" />
         </video>
         <div class="banner-content text-white">
             <h1>Encuentra tu <i>vehiculo</i> ideal</h1>
@@ -301,7 +301,7 @@ require(__DIR__ . "/src/config/conexion.php");
                                 foreach ($vehiculos_premiums as $vehiculo_premium) {
                                     echo "
                                         <div class='col'>
-                                            <a href='/socialicar/src/pages/coche/coche?matricula=" . $vehiculo_premium['matricula'] . "' class='text-decoration-none text-dark'>
+                                            <a href='/src/pages/coche/coche?matricula=" . $vehiculo_premium['matricula'] . "' class='text-decoration-none text-dark'>
                                             <div class='card h-100 shadow-lg border-warning'>
                                                 <img src='" . $vehiculo_premium['ruta_img_coche'] . "' class='card-img-top'>
                                                 <div class='card-body'>
@@ -342,7 +342,7 @@ require(__DIR__ . "/src/config/conexion.php");
                                 foreach ($vehiculos_plus as $vehiculo_plus) {
                                     echo "
                                         <div class='col'>
-                                            <a href='/socialicar/src/pages/coche/coche?matricula=" . $vehiculo_plus['matricula'] . "' class='text-decoration-none text-dark'>
+                                            <a href='/src/pages/coche/coche?matricula=" . $vehiculo_plus['matricula'] . "' class='text-decoration-none text-dark'>
                                             <div class='card shadow'>
                                                 <img src='" . $vehiculo_plus['ruta_img_coche'] . "' class='card-img-top'>
                                                 <div class='card-body'>
@@ -381,7 +381,7 @@ require(__DIR__ . "/src/config/conexion.php");
                                 foreach ($vehiculos_normales as $vehiculo_normal) {
                                     echo "
                                         <div class='col'>
-                                            <a href='/socialicar/src/pages/coche/coche?matricula=" . $vehiculo_normal['matricula'] . "' class='text-decoration-none text-dark'>
+                                            <a href='/src/pages/coche/coche?matricula=" . $vehiculo_normal['matricula'] . "' class='text-decoration-none text-dark'>
                                             <div class='card shadow'>
                                                 <img src='" . $vehiculo_normal['ruta_img_coche'] . "' class='card-img-top'>
                                                 <div class='card-body'>
