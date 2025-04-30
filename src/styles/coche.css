@@ -1,0 +1,25 @@
+.product-image {
+    max-height: 400px;
+    object-fit: cover; /* Asegura que la imagen se ajuste bien al contenedor */
+    width: 100%; /* Se ajusta al 100% del contenedor, asegurando un comportamiento más flexible */
+}
+
+.thumbnail {
+    width: 80px;
+    height: 80px;
+    object-fit: cover; /* Asegura que la miniatura se recorte correctamente */
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.3s ease, transform 0.3s ease; /* Agrega una animación suave cuando se seleccione */
+    border-radius: 4px; /* Agrega bordes redondeados a las miniaturas */
+}
+
+.thumbnail:hover, .thumbnail.active {
+    opacity: 1; /* Hace la miniatura completamente visible al pasar el cursor o cuando está activa */
+    transform: scale(1.1); /* Aumenta ligeramente el tamaño de la miniatura al hacer hover */
+}
+
+.thumbnail.selected {
+    border: 2px solid #6BBFBF; /* Agrega un borde para resaltar la miniatura seleccionada */
+    opacity: 1; /* Se asegura de que la miniatura seleccionada sea completamente visible */
+}
