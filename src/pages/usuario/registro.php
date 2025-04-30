@@ -177,7 +177,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             ) VALUES (?, ?, ?, ?, ?, ?, ?, NULL, NULL, NULL, 0, ?, 1)");
 
         $sql->bind_param(
-            "sssssss",
+            "ssssssss",
             $identificacion,
             $tipo_identificacion,
             $nombre,
