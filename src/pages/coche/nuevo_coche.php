@@ -492,7 +492,7 @@
                         ?>
                     </div>
                     <div class="col">
-                        <input class="form-control" placeholder="Selecciona el año de matriculacion" id="inputMes" type="month" name="anno_matriculacion" value="<?php if (isset($_POST['anno_matriculacion'])) echo htmlspecialchars($_POST['anno_matriculacion']); ?>">
+                        <input class="form-control" placeholder="Año de matriculacion" id="inputMes" type="month" name="anno_matriculacion" value="<?php if (isset($_POST['anno_matriculacion'])) echo htmlspecialchars($_POST['anno_matriculacion']); ?>">
                         <?php
                         if (isset($err_anno_matriculacion)) {
                             echo "<span class='error'>$err_anno_matriculacion</span>";
@@ -679,6 +679,7 @@
                     </div>
                     <div>
                         <textarea class="form-control" name="descripcion" id="exampleFormControlTextarea1" rows="3" placeholder="Descripcion*"></textarea>
+                        <br>
                     </div>
 
                 </div>
@@ -770,60 +771,45 @@
         </div>
 
 
-        <div class="container mt-5 pt-5">
+<!--         <div class="container mt-5 pt-5">
             <div class="container card py-4">
                 <h3 class="text-start">SEGURO</h3>
                 <div class="row justify-content-center pt-3">
                     <div class="mb-3 col-6">
                         <div class=" mb-3 col-6 form-switch">
-                            <input type="checkbox" class="form-check-input" role="switch" id="flexSwitchCheckChecked" name="seguro" checked <?php if (isset($_POST['seguro'])) echo 'checked'; ?>>
-                            <label class="form-check-label" for="flexSwitchCheckChecked">
-                                Seguro
+                            <input type="checkbox" class="custom-switch" role="switch" id="flexSwitchCheckChecked" name="seguro" checked <?php if (isset($_POST['seguro'])) echo 'checked'; ?>>
+                            <label class="" for="flexSwitchCheckChecked">
+                                Dispone de seguro actualmente?
                             </label>
                         </div>
                     </div>
                 </div>
             </div>
+        </div> -->
+
+
+        <div class="container mt-5 pt-5">
+            <div class="card py-4">
+
+                <div class="row justify-content-center pt-3">
+                    <div class="col-auto">
+                        <button type="button" class="boton-redondo" data-bs-toggle="modal" data-bs-target="#miModal">
+                            Extras
+                        </button>
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="boton-redondo">
+                            Confirmar
+                        </button>
+                    </div>
+                </div>
+
+            </div>
         </div>
 
 
-
-
-
-
-
-        <div class="mb-3">
-            <button type="submit" class=" w-75">
-                Confirmar
-            </button>
-        </div>
     </form>
-
-
-
-
-
-    <p>La media de precio para tu coche es de <span>0€</span></p>
-
-
-    <!-- INICIO SECCION DE IMAGENES -->
-
-    <!-- FIN SECCION DE IMAGENES -->
-
-
-    <!--BOTON VENTANA MODAL CON BOOTSTRAP-->
-
-
-
-    <div class="mb-3">
-        <button type="button" class=" w-75" data-bs-toggle="modal" data-bs-target="#miModal">
-            Extras
-        </button>
-
-    </div>
-    <!--BOTON PARA ENVIAR EL FORMULARIO -->
-
-
+<br>
     </div>
     </div>
     <!-- VENTANA MODAL CON BOOTSTRAP -->
