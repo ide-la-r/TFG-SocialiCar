@@ -12,4 +12,6 @@
 # Build data
 /build/
 
+# Ignore
 /principal
+/clients
