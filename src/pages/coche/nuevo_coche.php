@@ -273,7 +273,6 @@
                 $err_modelo = "El modelo no puede tener más de 50 caracteres";
             } else {
                 $modelo = $tmp_modelo; /* Agregar más adelante la comprovación con la API de los modelos */
-                $ruta_img_coche = __DIR__ . "/../../../clients/img/coche/" . $_SESSION["usuario"]["identificacion"] . "/" . $marca . "_" . $modelo . "/";
             }
         }
 
@@ -434,6 +433,48 @@
         }
 
         /* Validación de fotos */
+        if (!isset($_FILES['img']) || empty($_FILES['img']['name'][0])) {
+            $err_imagen = "Debes subir al menos una imagen de tu coche";
+            $imagen_ubi = null;
+        } else {
+            $tmp_imagen_nombres = $_FILES['img']['name'];
+            $tmp_imagen_ubi = $_FILES['img']['tmp_name'];
+            $tmp_imagen_tipos = $_FILES['img']['type'];
+            $imagen_errores = $_FILES['img']['error'];
+            $rutas_imagenes = [];
+
+            for ($i = 0; $i < count($tmp_imagen_nombres); $i++) {
+                if ($imagen_errores[$i] === 0 && isset($matricula, $marca)) {
+
+                    // Obtener la extensión de la imagen
+                    $tmp_imagen_tipos[$i] = str_replace("image/", ".", $tmp_imagen_tipos[$i]);
+
+                    // Generar un nuevo nombre de imagen
+                    $nuevo_nombre = $marca . "_img" . ($i + 1) . $tmp_imagen_tipos[$i];
+
+                    // Carpeta de destino final
+                    $imagen_ubi = __DIR__ . "/../../../clients/img/coche/" . $_SESSION["usuario"]["identificacion"] . "/" . $matricula;
+                    $imagen_ubi_final = $imagen_ubi . "/" . $nuevo_nombre;
+
+                    // Crear la carpeta si no existe
+                    if (!is_dir($imagen_ubi)) {
+                        mkdir($imagen_ubi, 0777, true);
+                    }
+
+                    // Mover la imagen a la carpeta de destino
+                    if (move_uploaded_file($tmp_imagen_ubi[$i], $imagen_ubi_final)) {
+                        $ruta_relativa = "clients/img/coche/" . $_SESSION["usuario"]["identificacion"] . "/" . $matricula . "/" . $nuevo_nombre;
+                        $rutas_imagenes[] = $ruta_relativa;
+                    } else {
+                        $err_imagen = "Error al mover la imagen " . htmlspecialchars($tmp_imagen_nombres[$i]);
+                    }
+                } else {
+                    $err_imagen = "Error en la imagen " . htmlspecialchars($tmp_imagen_nombres[$i]);
+                }
+            }
+        }
+
+
     }
     ?>
 
@@ -441,8 +482,24 @@
 
     <br>
     <br>
-    <form action="#" method="post">
+    <form action="#" method="post" enctype="multipart/form-data">
         <!-- INFORMACION DEL VEHICULO (MARCA MODELO Y ANNO DE MATRICULACION) -->
+
+        <div class="container mt-5 pt-5">
+            <div class="container card py-4">
+                <h3>Imagenes</h3>
+                <div class="row justify-content-center pt-3">
+                    <div class="col">
+                        <input class="form-control" id="img" type="file" name="img[]" multiple accept="image/png, image/jpg, image/jpeg">
+                            <?php
+                            if (isset($err_imagen)) {
+                                echo "<span class='error'>$err_imagen</span>";
+                            }
+                            ?>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class="container mt-5 pt-5">
             <div class="container card py-4">
@@ -1011,25 +1068,10 @@
             die('Error en prepare coche: ' . $_conexion->error);
         }
 
-        $enviarCoche->bind_param(
-            "ssisssissssissssi",
-            $matricula,
-            $id_usuario,
-            $seguro,
-            $marca,
-            $modelo,
-            $anno_matriculacion,
-            $kilometros,
-            $tipo_combustible,
-            $transmision,
-            $provincia,
-            $ciudad,
-            $cp,
-            $direccion,
-            $tipo_aparcamiento,
-            $ruta_img_coche,
-            $tipo,
-            $precio
+        $enviarCoche->bind_param("ssisssissssissssi",
+            $matricula, $id_usuario, $seguro, $marca, $modelo, $anno_matriculacion, $kilometros,
+            $tipo_combustible, $transmision, $provincia, $ciudad, $cp, $direccion, 
+            $tipo_aparcamiento, $imagen_ubi, $tipo, $precio
         );
 
         if (!$enviarCoche->execute()) {
@@ -1049,28 +1091,11 @@
             die('Error en prepare extras: ' . $_conexion->error);
         }
 
-        $enviarExtras->bind_param(
-            "siiiiiiiiiiiiiiiiiiii",
-            $matricula,
-            $aire_acondicionado,
-            $gps,
-            $wifi,
-            $sensores_aparcamiento,
-            $camara_trasera,
-            $control_de_crucero,
-            $asientos_calefactables,
-            $bola_remolque,
-            $fijacion_isofix,
-            $apple_carplay,
-            $android_carplay,
-            $baca,
-            $portabicicletas,
-            $portaequipajes,
-            $portaesquis,
-            $bluetooth,
-            $cuatro_x_cuatro,
-            $mascota,
-            $fumar,
+        $enviarExtras->bind_param("siiiiiiiiiiiiiiiiiiii",
+            $matricula, $aire_acondicionado, $gps, $wifi, $sensores_aparcamiento, 
+            $camara_trasera, $control_de_crucero, $asientos_calefactables, $bola_remolque, 
+            $fijacion_isofix, $apple_carplay, $android_carplay, $baca, $portabicicletas,
+            $portaequipajes, $portaesquis, $bluetooth, $cuatro_x_cuatro, $mascota, $fumar,
             $movilidad_reducida
         );
 
@@ -1078,6 +1103,21 @@
             die('Error al insertar extras: ' . $enviarExtras->error);
         }
 
+        $enviarImagenes = $_conexion->prepare("INSERT INTO imagen_coche (id_coche, ruta_img_coche) VALUES (?, ?)");
+
+        if (!$enviarImagenes) {
+            die('Error en prepare imagenes: ' . $_conexion->error);
+        }
+
+        if (isset($rutas_imagenes) && is_array($rutas_imagenes)) {
+            foreach ($rutas_imagenes as $ruta) {
+                $enviarImagenes->bind_param("ss", $matricula, $ruta);
+                if (!$enviarImagenes->execute()) {
+                    die('Error al insertar imagen: ' . $enviarImagenes->error);
+                }
+            }
+        }
+        
         echo "<script>alert('Coche añadido correctamente');</script>";
     }
     ?>
