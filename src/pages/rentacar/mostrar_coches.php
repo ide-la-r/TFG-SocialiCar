@@ -46,13 +46,60 @@
     </div>
 
     <!-- BARRA DE BUSQUEDA -->
-    <form class="w-75 mx-auto busqueda">
+    <form class="w-75 mx-auto busqueda" method="POST" action="">
         <div class="input-group">
-            <input type="text" class="form-control" placeholder="buscar vehiculo">
+            <input type="text" name="buscar" id="buscar" class="form-control" placeholder="Buscar vehículo" value="<?php echo isset($_POST['buscar']) ? $_POST['buscar'] : ''; ?>">
             <button class="btn btn-primary" type="submit">Buscar</button>
         </div>
     </form>
     <br><br>
+    <?php
+        if (isset($_POST["buscar"])) {
+            $buscar = mysqli_real_escape_string($_conexion, $_POST["buscar"]);
+
+            $sql = mysqli_query($_conexion, "SELECT * FROM coche 
+                WHERE 
+                    precio LIKE '%$buscar%' OR
+                    marca LIKE '%$buscar%' OR 
+                    modelo LIKE '%$buscar%' OR 
+                    ciudad LIKE '%$buscar%' OR 
+                    codigo_postal LIKE '%$buscar%' OR 
+                    color LIKE '%$buscar%' OR
+                    descripcion LIKE '%$buscar%' OR
+                    combustible LIKE '%$buscar%' OR
+                    transmision LIKE '%$buscar%' OR
+                    provincia LIKE '%$buscar%' OR
+                    tipo_aparcamiento LIKE '%$buscar%'");
+
+            $numeroSql = mysqli_num_rows($sql);
+
+            echo "<p class='text-success fw-bold mt-3'>
+                <i class='mdi mdi-car-search'></i> $numeroSql resultados encontrados
+            </p>";
+
+            echo "<div class='row row-cols-1 row-cols-md-3 g-4 mt-3'>";
+
+            while ($row = mysqli_fetch_assoc($sql)) {
+                echo "
+                    <div class='col'>
+                        <a href='/src/pages/rentacar/coche?matricula=" . $row['matricula'] . "' class='text-decoration-none text-dark'>
+                            <div class='card h-100 shadow-sm border-primary'>
+                                <img src='" . htmlspecialchars($row['ruta_img_coche']) . "' class='card-img-top' alt='Imagen del coche'>
+                                <div class='card-body'>
+                                    <h5 class='card-title'>" . htmlspecialchars($row['marca']) . " " . htmlspecialchars($row['modelo']) . "</h5>
+                                    <p class='card-text'><strong>" . htmlspecialchars($row['marca']) . "</strong></p>
+                                    <p class='card-text'><strong>" . htmlspecialchars($row['codigo_postal']) . " " . htmlspecialchars($row['ciudad']) . "</strong></p>
+                                    <p class='card-text text-success'>" . htmlspecialchars($row['precio']) . "€/día</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                ";
+            }
+
+            echo "</div><br>";
+        }
+    ?>
 
 
 
@@ -310,6 +357,7 @@
                                                 <div class='card-body'>
                                                     <h5 class='card-title'>" . $vehiculo_premium['marca'] . " " . $vehiculo_premium['modelo'] . "</h5>
                                                     <p class='card-text'><strong>" . $vehiculo_premium['marca'] . "</strong></p>
+                                                    <p class='card-text'><strong>" . $vehiculo_premium['codigo_postal'] . " " . $vehiculo_premium['ciudad'] . "</strong></p>
                                                     <p class='card-text text-success'>" . $vehiculo_premium['precio'] . "€/día</p>
                                                     <p class='badge bg-warning'>¡Premium!</p>
                                                 </div>
@@ -349,8 +397,9 @@
                                             <div class='card shadow'>
                                                 <img src='" . $vehiculo_plus['ruta_img_coche'] . "' class='card-img-top'>
                                                 <div class='card-body'>
-                                                    <h5 class='card-title'>" . $vehiculo_normal['marca'] . "</h5>
-                                                    <p class='card-text'><strong>" . $vehiculo_normal['modelo'] . "</strong></p>
+                                                    <h5 class='card-title'>" . $vehiculo_plus['marca'] . "</h5>
+                                                    <p class='card-text'><strong>" . $vehiculo_plus['modelo'] . "</strong></p>
+                                                    <p class='card-text'><strong>" . $vehiculo_plus['codigo_postal'] . " " . $vehiculo_plus['ciudad'] . "</strong></p>
                                                     <p class='card-text text-success'>" . $vehiculo_plus['precio'] . "€/día</p>
                                                 </div>
                                             </div>
@@ -390,6 +439,7 @@
                                                 <div class='card-body'>
                                                     <h5 class='card-title'>" . $vehiculo_normal['marca'] . "</h5>
                                                     <p class='card-text'><strong>" . $vehiculo_normal['modelo'] . "</strong></p>
+                                                    <p class='card-text'><strong>" . $vehiculo_normal['codigo_postal'] . " " . $vehiculo_normal['ciudad'] . "</strong></p>
                                                     <p class='card-text text-success'>" . $vehiculo_normal['precio'] . "€/día</p>
                                                 </div>
                                             </div>

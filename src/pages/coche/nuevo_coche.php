@@ -224,15 +224,16 @@
                 if (strlen($tmp_matricula) > 7) {
                     $err_matricula = "La matricula no puede tener más de 7 caracteres";
                 } else {
-                    if (!preg_match("/^[0-9]{4}[A-Z]{3}$/", $tmp_matricula)) {
+                    $tmp_matricula = strtoupper($tmp_matricula);
+                    $tmp_matricula = str_replace(" ", "", $tmp_matricula);
+                    $tmp_matricula = str_replace("-", "", $tmp_matricula);
+                    $tmp_matricula = str_replace(".", "", $tmp_matricula);
+                    $tmp_matricula = str_replace(",", "", $tmp_matricula);
+                    $tmp_matricula = str_replace(":", "", $tmp_matricula);
+                    $patron_matricula = "/^[0-9]{4}[BCDFGHJKLMNPRSTVWXYZ]{3}$/";
+                    if (!preg_match($patron_matricula, $tmp_matricula)) {
                         $err_matricula = "La matricula no es válida";
                     } else {
-                        $tmp_matricula = strtoupper($tmp_matricula);
-                        $tmp_matricula = str_replace(" ", "", $tmp_matricula);
-                        $tmp_matricula = str_replace("-", "", $tmp_matricula);
-                        $tmp_matricula = str_replace(".", "", $tmp_matricula);
-                        $tmp_matricula = str_replace(",", "", $tmp_matricula);
-                        $tmp_matricula = str_replace(":", "", $tmp_matricula);
                         $matricula = $tmp_matricula;
                     }
                 }
@@ -445,12 +446,17 @@
 
             for ($i = 0; $i < count($tmp_imagen_nombres); $i++) {
                 if ($imagen_errores[$i] === 0 && isset($matricula, $marca)) {
+                    $lista_imagenes = ["image/jpeg", "image/png", "image/jpg"];
+                    if (!in_array($tmp_imagen_tipos[$i], $lista_imagenes)) {
+                        $err_imagen = "El tipo de la imagen " . htmlspecialchars($tmp_imagen_nombres[$i]) . " no es válido";
+                        continue;
+                    }
 
                     // Obtener la extensión de la imagen
-                    $tmp_imagen_tipos[$i] = str_replace("image/", ".", $tmp_imagen_tipos[$i]);
+                    $extension = str_replace("image/", ".", $tmp_imagen_tipos[$i]);
 
                     // Generar un nuevo nombre de imagen
-                    $nuevo_nombre = $marca . "_img" . ($i + 1) . $tmp_imagen_tipos[$i];
+                    $nuevo_nombre = $marca . "_img" . ($i + 1) . $extension;
 
                     // Carpeta de destino final
                     $imagen_ubi = __DIR__ . "/../../../clients/img/coche/" . $_SESSION["usuario"]["identificacion"] . "/" . $matricula;
