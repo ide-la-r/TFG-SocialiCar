@@ -50,14 +50,22 @@
             $tmp_modelo = "";
         }
 
+        if (isset($_POST['color'])) {
+            $tmp_color = depurar($_POST['color']);
+        } else {
+            $tmp_color = "";
+        }
+
         $tmp_anno_matriculacion = depurar($_POST['anno_matriculacion']);
         $tmp_kilometros = depurar($_POST['kilometros']);
         $tmp_direccion = depurar($_POST['direccion']);
         $tmp_cp = depurar($_POST['cp']);
         $tmp_provincia = depurar($_POST['provincia']);
         $tmp_ciudad = depurar($_POST['ciudad']);
-
-        echo $_POST['movilidad_reducia'];
+        $tmp_descripcion = depurar($_POST['descripcion']);
+        $tmp_potencia = $_POST['potencia'];
+        $tmp_numero_puertas = $_POST['numero_puertas'];
+        $tmp_numero_plazas = $_POST['numero_plazas'];
 
 
         if (isset($_POST['movilidad_reducia']) && $_POST['movilidad_reducia'] == 'on') {
@@ -484,6 +492,87 @@
         }
 
 
+        /* Validación de color */
+        if ($tmp_color == "") {
+            $err_color = "Debes indicar el color de tu coche";
+        } else {
+            $lista_colores = ["white", "black", "gray", "red", "blue", "green", "yellow", "orange", "brown", "others"];
+            if (!in_array($tmp_color, $lista_colores)) {
+                $err_color = "El color no es válido";
+            } else {
+                $tmp_color = strtolower($tmp_color);
+                $color = $tmp_color;
+            }
+        }
+
+        /* Validación de descripción */
+        if (strlen($tmp_descripcion) > 200) {
+            $err_descripcion = "La descripción no puede tener más de 200 caracteres";
+        } else {
+            $descripcion = $tmp_descripcion;
+        }
+
+        /* Validación de potencia */
+        if ($tmp_potencia == "") {
+            $err_potencia = "Debes indicar la potencia de tu coche";
+        } else {
+            if (!is_numeric($tmp_potencia)) {
+                $err_potencia = "La potencia debe ser un número";
+            } else {
+                if ($tmp_potencia < 0) {
+                    $err_potencia = "La potencia no puede ser negativa";
+                } else {
+                    if ($tmp_potencia > 2000) {
+                        $err_potencia = "La potencia no puede ser mayor a 2000";
+                    } else {
+                        $tmp_potencia = str_replace(",", ".", $tmp_potencia);
+                        $tmp_potencia = str_replace(".", "", $tmp_potencia);
+                        $potencia = $tmp_potencia;
+                    }
+                }
+            }
+        }
+
+        /* Validación de número de puertas */
+        if ($tmp_numero_puertas == "") {
+            $err_numero_puertas = "Debes indicar el número de puertas de tu coche";
+        } else {
+            if (!is_numeric($tmp_numero_puertas)) {
+                $err_numero_puertas = "El número de puertas debe ser un número";
+            } else {
+                if ($tmp_numero_puertas < 0) {
+                    $err_numero_puertas = "El número de puertas no puede ser negativo";
+                } else {
+                    if ($tmp_numero_puertas > 5) {
+                        $err_numero_puertas = "El número de puertas no puede ser mayor a 5";
+                    } else {
+                        $puertas = $tmp_numero_puertas;
+                    }
+                    
+                }
+            }
+        }
+
+        /* Validación de número de plazas */
+        if ($tmp_numero_plazas == "") {
+            $err_numero_plazas = "Debes indicar el número de plazas de tu coche";
+        } else {
+            if (!is_numeric($tmp_numero_plazas)) {
+                $err_numero_plazas = "El número de plazas debe ser un número";
+            } else {
+                if ($tmp_numero_plazas < 0) {
+                    $err_numero_plazas = "El número de plazas no puede ser negativo";
+                } else {
+                    if ($tmp_numero_plazas > 9) {
+                        $err_numero_plazas = "El número de plazas no puede ser mayor a 9";
+                    } else {
+                        $plazas = $tmp_numero_plazas;
+                    }
+                }
+            }
+        }
+
+
     }
     ?>
 
@@ -491,7 +580,7 @@
 
     <br>
     <br>
-    <form action="#" method="post" enctype="multipart/form-data">
+    <form action="#" id="formulario" method="post" enctype="multipart/form-data">
         <!-- INFORMACION DEL VEHICULO (MARCA MODELO Y ANNO DE MATRICULACION) -->
 
         <div class="container mt-5 pt-5">
@@ -507,6 +596,7 @@
                             ?>
                     </div>
                 </div>
+                <div id="mostrar_img" class="d-flex flex-wrap gap-2 mt-3"></div>
             </div>
         </div>
 
@@ -586,14 +676,8 @@
                         ?>
                     </div>
                 </div>
-
-
             </div>
         </div>
-
-
-
-
 
 
 
@@ -733,18 +817,43 @@
                             <option value="brown">Marrón</option>
                             <option value="others">Otros</option>
                         </select>
+                        <?php
+                        if (isset($err_color)) {
+                            echo "<span class='error'>$err_color</span>";
+                        }
+                        ?>
                     </div>
                     <div class="mb-3 col-6">
-                        <input class="form-control" id="potencia" type="number" placeholder="caballos*" name="Potencia" value="">
+                        <input class="form-control" min="30" max="2000" id="potencia" type="number" placeholder="Potencia*" name="potencia" value="<?php if (isset($potencia)) echo "$potencia" ?>">
+                        <?php
+                        if (isset($err_potencia)) {
+                            echo "<span class='error'>$err_potencia</span>";
+                        }
+                        ?>
                     </div>
                     <div class="mb-3 col-6">
-                        <input class="form-control" id="numero_puertas" type="number" placeholder="Numero de puertas*" name="numero_puertas" value="">
+                        <input class="form-control" min="2" max="5" id="numero_puertas" type="number" placeholder="Numero de puertas*" name="numero_puertas" value="<?php if (isset($puertas)) echo "$puertas" ?>">
+                        <?php
+                        if (isset($err_numero_puertas)) {
+                            echo "<span class='error'>$err_numero_puertas</span>";
+                        }
+                        ?>
                     </div>
                     <div class="mb-3 col-6">
-                        <input class="form-control" id="numero_plazas" type="number" placeholder="Numero de plazas*" name="numero_plazas" value="">
+                        <input class="form-control" min="1" max="9" id="numero_plazas" type="number" placeholder="Numero de plazas*" name="numero_plazas" value="<?php if (isset($plazas)) echo "$plazas" ?>">
+                        <?php
+                        if (isset($err_numero_plazas)) {
+                            echo "<span class='error'>$err_numero_plazas</span>";
+                        }
+                        ?>
                     </div>
                     <div>
-                        <textarea class="form-control" name="descripcion" id="exampleFormControlTextarea1" rows="3" placeholder="Descripcion*"></textarea>
+                        <textarea class="form-control" name="descripcion" id="exampleFormControlTextarea1" rows="3" placeholder="Descripcion*"><?php if (isset($descripcion)) echo "$descripcion"; ?></textarea>
+                        <?php
+                        if (isset($err_descripcion)) {
+                            echo "<span class='error'>$err_descripcion</span>";
+                        }
+                        ?>
                         <br>
                     </div>
 
@@ -766,6 +875,11 @@
                         <span>15€</span>
                         <span>500€</span>
                     </div>
+                    <?php
+                    if (isset($err_precio)) {
+                        echo "<span class='error'>$err_precio</span>";
+                    }
+                    ?>
                 </div>
             </div>
         </div>
@@ -1065,22 +1179,24 @@
     </form>
 
     <?php
-    if (isset($matricula, $marca, $modelo, $precio, $anno_matriculacion, $kilometros, $direccion, $cp, $provincia, $ciudad, $tipo_combustible, $transmision, $tipo_aparcamiento, $tipo)) {
+    if (isset($matricula, $marca, $modelo, $precio, $anno_matriculacion, $kilometros, $direccion, $cp, $provincia, $ciudad, $tipo_combustible, $transmision, $tipo_aparcamiento, $tipo, $precio, $color, $plazas, $puertas, $potencia, $descripcion)) {
         /* Insertar coche */
         $enviarCoche = $_conexion->prepare("INSERT INTO coche (
                 matricula, id_usuario, seguro, marca, modelo, anno_matriculacion, kilometros,
                 combustible, transmision, provincia, ciudad, codigo_postal, direccion,
-                tipo_aparcamiento, ruta_img_coche, tipo, precio
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                tipo_aparcamiento, ruta_img_coche, tipo, precio, descripcion, color, plazas,
+                puertas, potencia
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
         if (!$enviarCoche) {
             die('Error en prepare coche: ' . $_conexion->error);
         }
 
-        $enviarCoche->bind_param("ssisssissssissssi",
+        $enviarCoche->bind_param("ssisssissssissssissiii",
             $matricula, $id_usuario, $seguro, $marca, $modelo, $anno_matriculacion, $kilometros,
             $tipo_combustible, $transmision, $provincia, $ciudad, $cp, $direccion, 
-            $tipo_aparcamiento, $ruta_relativa, $tipo, $precio
+            $tipo_aparcamiento, $ruta_relativa, $tipo, $precio, $descripcion, $color, $plazas,
+            $puertas, $potencia
         );
 
         if (!$enviarCoche->execute()) {
@@ -1128,13 +1244,15 @@
             }
         }
         
-        echo "<script>alert('Coche añadido correctamente');</script>";
+        /* echo "<script>alert('Coche añadido correctamente');</script>"; */
     }
     ?>
     <?php include_once '../../components/footer.php'; ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/src/js/mostrar_marcas.js"></script>
+    <script src="../../js/mostrar_marcas.js"></script>
     <script src="../../js/nuevo_coche.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script> -->
+    <script src="../../js/pre_imagen.js"></script>
 
 </body>
 

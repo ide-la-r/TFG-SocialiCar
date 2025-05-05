@@ -4,7 +4,7 @@ require(__DIR__ . "/../../config/conexion.php");
 if (isset($_GET['matricula'])) {
     $matricula = $_GET['matricula'];
 
-    // Paso 1: Obtener la ruta de una imagen del coche
+    // Obtener la ruta de una imagen del coche
     $stmt_ruta = $_conexion->prepare("SELECT ruta_img_coche FROM imagen_coche WHERE id_coche = ? LIMIT 1");
     $stmt_ruta->bind_param("s", $matricula);
     $stmt_ruta->execute();
@@ -14,18 +14,18 @@ if (isset($_GET['matricula'])) {
 
     if ($resultado_ruta->num_rows > 0) {
         $ruta_relativa = $resultado_ruta->fetch_assoc()['ruta_img_coche'];
-        $directorio_coche = dirname($ruta_relativa); // Ej: clients/img/74943933C/coche/1234SZH
+        $directorio_coche = dirname($ruta_relativa);
     }
 
     $stmt_ruta->close();
 
-    // Paso 2: Eliminar carpeta si existe (usando ruta absoluta)
+    // Eliminar carpeta si existe
     if ($directorio_coche) {
         $ruta_absoluta = $_SERVER['DOCUMENT_ROOT'] . '/' . $directorio_coche;
 
         if (is_dir($ruta_absoluta)) {
             function eliminarDirectorio($ruta) {
-                $archivos = array_diff(scandir($ruta), ['.', '.']);
+                $archivos = array_diff(scandir($ruta), ['.', '..']);
                 foreach ($archivos as $archivo) {
                     $ruta_completa = $ruta . '/' . $archivo;
                     if (is_dir($ruta_completa)) {
@@ -41,7 +41,7 @@ if (isset($_GET['matricula'])) {
         }
     }
 
-    // Paso 3: Eliminar el coche
+    // Eliminar el coche
     $stmt = $_conexion->prepare("DELETE FROM coche WHERE matricula = ?");
     $stmt->bind_param("s", $matricula);
 
