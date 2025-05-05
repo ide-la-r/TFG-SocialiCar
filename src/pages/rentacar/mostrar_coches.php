@@ -8,6 +8,7 @@
     <?php include_once '../../components/links.php'; ?>
     <link rel="icon" href="../../../src/img/favicon.png" />
     <link rel="stylesheet" href="../../../src/styles/index.css">
+    
 
     <?php
     error_reporting(E_ALL);
