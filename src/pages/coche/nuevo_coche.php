@@ -7,8 +7,8 @@
     <title>SocialiCar - Comparte tu coche</title>
     <?php include_once '../../components/links.php'; ?>
     <link rel="icon" href="../../../src/img/favicon.png" />
-    <link rel="stylesheet" href="../../styles/boton.css">
-    <link rel="stylesheet" href="../../styles/nuevo_coche.css">
+    <link rel="stylesheet" href="../../../styles/boton.css">
+    <link rel="stylesheet" href="../../../styles/nuevo_coche.css">
 
     <?php
     error_reporting(E_ALL);
@@ -436,7 +436,7 @@
         /* Validación de fotos */
         if (!isset($_FILES['img']) || empty($_FILES['img']['name'][0])) {
             $err_imagen = "Debes subir al menos una imagen de tu coche";
-            $imagen_ubi = null;
+            $rutas_imagenes = [];
         } else {
             $tmp_imagen_nombres = $_FILES['img']['name'];
             $tmp_imagen_ubi = $_FILES['img']['tmp_name'];
@@ -458,19 +458,22 @@
                     // Generar un nuevo nombre de imagen
                     $nuevo_nombre = $marca . "_img" . ($i + 1) . $extension;
 
-                    // Carpeta de destino final
-                    $imagen_ubi = __DIR__ . "/../../../clients/img/coche/" . $_SESSION["usuario"]["identificacion"] . "/" . $matricula;
-                    $imagen_ubi_final = $imagen_ubi . "/" . $nuevo_nombre;
+                    // Ruta relativa
+                    $ruta_relativa = "/clients/img/" . $_SESSION["usuario"]["identificacion"] . "/coche/" . $matricula;
+                    $ruta_relativa_con_nombre = $ruta_relativa . "/" . $nuevo_nombre;
 
-                    // Crear la carpeta si no existe
-                    if (!is_dir($imagen_ubi)) {
-                        mkdir($imagen_ubi, 0777, true);
+                    // Ruta absoluta del sistema
+                    $ruta_absoluta = $_SERVER['DOCUMENT_ROOT'] . $ruta_relativa;
+                    $ruta_absoluta_con_nombre = $ruta_absoluta . "/" . $nuevo_nombre;
+
+                    // Crear carpeta si no existe
+                    if (!is_dir($ruta_absoluta)) {
+                        mkdir($ruta_absoluta, 0777, true);
                     }
 
-                    // Mover la imagen a la carpeta de destino
-                    if (move_uploaded_file($tmp_imagen_ubi[$i], $imagen_ubi_final)) {
-                        $ruta_relativa = "clients/img/coche/" . $_SESSION["usuario"]["identificacion"] . "/" . $matricula . "/" . $nuevo_nombre;
-                        $rutas_imagenes[] = $ruta_relativa;
+                    // Mover imagen a la carpeta destino
+                    if (move_uploaded_file($tmp_imagen_ubi[$i], $ruta_absoluta_con_nombre)) {
+                        $rutas_imagenes[] = $ruta_relativa_con_nombre;
                     } else {
                         $err_imagen = "Error al mover la imagen " . htmlspecialchars($tmp_imagen_nombres[$i]);
                     }
@@ -1077,7 +1080,7 @@
         $enviarCoche->bind_param("ssisssissssissssi",
             $matricula, $id_usuario, $seguro, $marca, $modelo, $anno_matriculacion, $kilometros,
             $tipo_combustible, $transmision, $provincia, $ciudad, $cp, $direccion, 
-            $tipo_aparcamiento, $imagen_ubi, $tipo, $precio
+            $tipo_aparcamiento, $ruta_relativa, $tipo, $precio
         );
 
         if (!$enviarCoche->execute()) {
