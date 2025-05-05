@@ -10,11 +10,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $correo = $_POST["correo"];
     $contrasena = $_POST["contrasena"];
 
-    $sql = $_conexion -> prepare("SELECT * FROM usuario WHERE correo = ?");
-    $sql -> bind_param("s", $correo);
-    $sql -> execute();
-    $resultado = $sql -> get_result();
-    $_conexion -> close();
+    $sql = $_conexion->prepare("SELECT * FROM usuario WHERE correo = ?");
+    $sql->bind_param("s", $correo);
+    $sql->execute();
+    $resultado = $sql->get_result();
+    $_conexion->close();
 
     if ($resultado->num_rows == 0) {
         $err_correo = "El correo electronico no existe";
@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body class="d-flex flex-column min-vh-100">
     <?php include_once '../../components/navbar.php'; ?>
     <div class="container mt-5 pt-5">
-        
+
         <div class="container card text-center card-sesion" style="width: 40rem;">
             <h1 class="title">Iniciar sesión</h1>
             <form method="post" action="" class="form-floating">
@@ -73,7 +73,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
     <?php include_once '../../components/footer.php'; ?>
-
 </body>
 
 </html>
