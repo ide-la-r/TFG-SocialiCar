@@ -25,7 +25,7 @@ session_start();
         background-repeat: no-repeat;
     }
 
-    .custom-card {
+    .card {
         height: 70vh;
         width: 50vh;
     }
@@ -37,12 +37,17 @@ session_start();
     }
 
     .first-card {
-    background: linear-gradient(to bottom, rgb(145, 198, 255), #ffffff); /* Gradiente azul a blanco */
-}
+        background: linear-gradient(to bottom, rgb(145, 198, 255), #ffffff);
+    }
 
-.second-card {
-    background: linear-gradient(to bottom, rgb(255, 236, 129), #ffffff); /* Otro gradiente (coral a blanco) */
-}
+    .second-card {
+        background: linear-gradient(to bottom, rgb(255, 236, 129), #ffffff);
+    }
+
+    .btn {
+        width: 15vh; 
+        margin: 0 auto; 
+    }
 </style>
 
 <body>
@@ -56,10 +61,10 @@ session_start();
 
             <!-- Tarjeta Básica (Primera tarjeta) -->
             <div class="col d-flex justify-content-center">
-                <div class="card text-center shadow-lg border-primary border-4 hover-shadow transition custom-card first-card">
+                <div class="card text-center shadow-lg border-primary border-4 hover-shadow transition first-card">
                     <div class="card-body">
                         <h3 class="card-title text-primary mb-3 fs-1">
-                            <i class="bi bi-star-fill fs-1"></i> Suscripción Básica
+                            Suscripción Básica
                         </h3>
                         <p class="card-text">
                             <span class="badge bg-primary mb-2">OFERTAS EXCLUSIVAS</span><br>
@@ -76,14 +81,15 @@ session_start();
                 <div class="card text-center shadow-lg border-warning border-4 hover-shadow transition custom-card second-card">
                     <div class="card-body">
                         <h3 class="card-title text-warning mb-3 fs-1">
-                            <i class="bi bi-gem fs-1"></i> Suscripción Premium
+                           Suscripción Premium
                         </h3>
                         <p class="card-text">
                             <span class="badge bg-warning text-dark mb-2">VEHÍCULOS EXCLUSIVOS</span><br>
                             Posiciona tus vehículos siempre en las primeras posiciones, accede a vehículos reservados solo para nuestros usuarios Premium, disfruta de reservas prioritarias, ofertas y descuentos únicos.
                         </p>
                         <h4 class="text-warning mt-3">19,99€/mes</h4>
-                        <a href="" class="btn btn-warning mt-3 text-white">Suscribirse</a>
+                        <a href="" class="btn btn-outline-warning mt-3">Suscribirse</a>
+
                     </div>
                 </div>
             </div>

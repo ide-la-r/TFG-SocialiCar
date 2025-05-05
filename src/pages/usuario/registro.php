@@ -1,5 +1,4 @@
 <?php
-
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 
@@ -222,6 +221,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <style>
         .error {
             color: red;
+        }
+
+        body {
+            background-image:
+                linear-gradient(to bottom right, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0)),
+                url('../../img/papel_roto.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
         }
     </style>
 </head>
