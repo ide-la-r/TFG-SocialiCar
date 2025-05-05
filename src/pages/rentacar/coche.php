@@ -81,6 +81,38 @@
                     $precio = $fila['precio'];
                     $descripcion = $fila['descripcion'];
                     $color = $fila['color'];
+                    switch ($color) {
+                        case "white":
+                            $color_esp = "Blanco";
+                            break;
+                        case "black":
+                            $color_esp = "Negro";
+                            break;
+                        case "gray":
+                            $color_esp = "Gris";
+                            break;
+                        case "red":
+                            $color_esp = "Rojo";
+                            break;
+                        case "blue":
+                            $color_esp = "Azul";
+                            break;
+                        case "green":
+                            $color_esp = "Verde";
+                            break;
+                        case "yellow":
+                            $color_esp = "Amarillo";
+                            break;
+                        case "orange":
+                            $color_esp = "Naranja";
+                            break;
+                        case "brown":
+                            $color_esp = "Marrón";
+                            break;
+                        case "other":
+                            $color_esp = "Otros";
+                            break;
+                    }
                     $kilometros = $fila['kilometros'];
                     $transmision = $fila['transmision'];
                     $combustible = $fila['combustible'];
@@ -109,8 +141,15 @@
                     <h5>Color:</h5>
                     <div class='btn-group' role='group' aria-label='Color selection'>
                         <input type='radio' class='btn-check' name='color' id='<?php echo $color; ?>' autocomplete='off' checked>
-                        <label class='btn btn-outline-secondary' for='<?php echo $color; ?>' style="background-color: <?php echo $color; ?>; color: white;">
-                            <?php echo ucfirst($color); ?>
+                        <label class='btn btn-outline-secondary' for='<?php echo $color; ?>' style="background-color:
+                        <?php
+                            if ($color_esp == "Otros") {
+                                echo "#808080";
+                            } else {
+                                echo $color;
+                            }
+                        ?>; color: white;">
+                            <?php echo ucfirst($color_esp); ?>
                         </label>
                     </div>
                 </div>
