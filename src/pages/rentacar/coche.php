@@ -154,6 +154,12 @@
                     </div>
                 </div>
 
+                <div class="mb-4">
+                    <a href="/src/pages/chat/chat.php?matricula=<?php echo $matricula; ?>" class="btn btn-outline-primary">
+                        <i class="bi bi-message"></i> Chat
+                    </a>
+                </div>
+
                 <!-- Botones -->
                 <button class="btn btn-primary btn-lg mb-3 me-2" id="btn-alquilar">
                     <i class="bi bi-cart-plus"></i> ¡Alquilar!
