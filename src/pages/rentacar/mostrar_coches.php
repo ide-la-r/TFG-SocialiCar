@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -428,14 +427,34 @@
                             $obtener_coche_normal->execute();
                             $resultado = $obtener_coche_normal->get_result();
                             $vehiculos_normales = $resultado->fetch_all(MYSQLI_ASSOC);
-                            
+
                             if (count($vehiculos_normales) > 0) {
                                 foreach ($vehiculos_normales as $vehiculo_normal) {
+
+                                    // Consulta para obtener la primera imagen del coche
+                                    $obtener_primera_imagen = $_conexion->prepare("
+                                        SELECT ruta_img_coche
+                                        FROM imagen_coche
+                                        WHERE id_coche = ?
+                                        LIMIT 1
+                                    ");
+                                    $obtener_primera_imagen->bind_param("s", $vehiculo_normal['matricula']);
+                                    $obtener_primera_imagen->execute();
+                                    $resultado_imagen = $obtener_primera_imagen->get_result();
+
+                                    // Verificar si se encontró una imagen
+                                    if ($resultado_imagen->num_rows > 0) {
+                                        $imagen_normal = $resultado_imagen->fetch_assoc();
+                                        $imagen_normal = $imagen_normal['ruta_img_coche'];
+                                    } else {
+                                        $imagen_normal = 'ruta/por/defecto.jpg'; // Imagen por defecto si no se encuentra
+                                    }
+
                                     echo "
                                         <div class='col'>
                                             <a href='/src/pages/rentacar/coche?matricula=" . $vehiculo_normal['matricula'] . "' class='text-decoration-none text-dark'>
                                             <div class='card shadow'>
-                                                <img src='" . $vehiculo_normal['ruta_img_coche'] . "' class='card-img-top'>
+                                                <img src='" . $imagen_normal . "' class='card-img-top'>
                                                 <div class='card-body'>
                                                     <h5 class='card-title'>" . $vehiculo_normal['marca'] . "</h5>
                                                     <p class='card-text'><strong>" . $vehiculo_normal['modelo'] . "</strong></p>
