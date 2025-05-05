@@ -64,7 +64,7 @@
 }
 
 /* Animación de los títulos */
-@keyframes fadeInUp {
+@keyframes aparecer {
     0% {
         opacity: 0;
         transform: translateY(20px);
@@ -78,12 +78,12 @@
 
 .banner-content h1 {
     font-size: 3.5rem;
-    animation: fadeInUp 1s ease-out forwards;
+    animation: aparecer 1s ease-out forwards;
     opacity: 0;
 }
 
 .banner-content h3 {
-    animation: fadeInUp 1.2s ease-out forwards;
+    animation: aparecer 1.2s ease-out forwards;
     opacity: 0;
 }
 
