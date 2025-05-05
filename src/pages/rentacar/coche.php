@@ -18,6 +18,7 @@
     require(__DIR__ . "/../../config/conexion.php");
 
     session_start();
+    $matricula = $_GET['matricula'];
     ?>
 </head>
 
@@ -27,12 +28,41 @@
         <div class="row">
             <!-- Imagenes del coche -->
             <div class="col-md-6 mb-4">
-                <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHwxfHxoZWFkcGhvbmV8ZW58MHwwfHx8MTcyMTMwMzY5MHww&ixlib=rb-4.0.3&q=80&w=1080" alt="Product" class="img-fluid rounded mb-3 product-image" id="mainImage">
+                <?php
+                    $obtener_imagenes = $_conexion->prepare("
+                        SELECT ruta_img_coche
+                        FROM imagen_coche
+                        WHERE id_coche = ?
+                    ");
+                    $obtener_imagenes->bind_param("s", $matricula);
+                    $obtener_imagenes->execute();
+                    $resultado_imagenes = $obtener_imagenes->get_result();
+
+                    // Verificar si se encontraron imágenes
+                    if ($resultado_imagenes->num_rows > 0) {
+                        $imagenes = [];
+                        // Almacenar todas las imágenes en un array
+                        while ($imagen = $resultado_imagenes->fetch_assoc()) {
+                            $imagenes[] = $imagen['ruta_img_coche'];
+                        }
+                    } else {
+                        $imagenes = ['ruta/por/defecto.jpg']; // Imagen por defecto si no se encuentran imágenes
+                    }
+                    
+                    // Mostrar la primera imagen
+                    $imagen_principal = $imagenes[0];
+                ?>
+                
+                <!-- Imagen principal -->
+                <img src="<?php echo $imagen_principal; ?>" alt="Imagen coche" class="img-fluid rounded mb-3 product-image" id="mainImage">
+                
                 <div class="d-flex justify-content-between">
-                    <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHwxfHxoZWFkcGhvbmV8ZW58MHwwfHx8MTcyMTMwMzY5MHww&ixlib=rb-4.0.3&q=80&w=1080" alt="Thumbnail 1" class="thumbnail rounded active" onclick="changeImage(event, this.src)">
-                    <img src="https://images.unsplash.com/photo-1528148343865-51218c4a13e6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHwzfHxoZWFkcGhvbmV8ZW58MHwwfHx8MTcyMTMwMzY5MHww&ixlib=rb-4.0.3&q=80&w=1080" alt="Thumbnail 2" class="thumbnail rounded" onclick="changeImage(event, this.src)">
-                    <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHwxfHxoZWFkcGhvbmV8ZW58MHwwfHx8MTcyMTMwMzY5MHww&ixlib=rb-4.0.3&q=80&w=1080" alt="Thumbnail 3" class="thumbnail rounded" onclick="changeImage(event, this.src)">
-                    <img src="https://images.unsplash.com/photo-1528148343865-51218c4a13e6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHwzfHxoZWFkcGhvbmV8ZW58MHwwfHx8MTcyMTMwMzY5MHww&ixlib=rb-4.0.3&q=80&w=1080" alt="Thumbnail 4" class="thumbnail rounded" onclick="changeImage(event, this.src)">
+                    <?php
+                        // Mostrar miniaturas
+                        foreach ($imagenes as $imagen) {
+                            echo "<img src='$imagen' alt='Imagen coche' class='thumbnail rounded' onclick='changeImage(event, this.src)'>";
+                        }
+                    ?>
                 </div>
             </div>
 
@@ -40,8 +70,6 @@
             <div class="col-md-6">
 
                 <?php
-                    $matricula = $_GET['matricula'];
-
                     $sql = $_conexion -> prepare("SELECT * FROM coche WHERE matricula = ?");
                     $sql -> bind_param("s", $matricula);
                     $sql -> execute();
