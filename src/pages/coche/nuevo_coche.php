@@ -7,7 +7,7 @@
     <title>SocialiCar - Comparte tu coche</title>
     <?php include_once '../../components/links.php'; ?>
     <link rel="icon" href="../../../src/img/favicon.png" />
-    <link rel="stylesheet" href="../../../styles/nuevo_coche.css">
+    <link rel="stylesheet" href="../../styles/nuevo_coche.css">
 
     <?php
     error_reporting(E_ALL);
@@ -57,6 +57,7 @@
         $tmp_provincia = depurar($_POST['provincia']);
         $tmp_ciudad = depurar($_POST['ciudad']);
 
+        echo $_POST['movilidad_reducia'];
 
 
         if (isset($_POST['movilidad_reducia']) && $_POST['movilidad_reducia'] == 'on') {
@@ -873,7 +874,7 @@
         </div>
 
 
-    </form>
+    
 <br>
     </div>
     </div>
@@ -893,14 +894,14 @@
                         </div>
                         <div>
                             <div>
-                                <input type="checkbox" name="mascota" <?php if (isset($_POST['mascota'])) echo 'checked'; ?>>
-                                <label>
+                                <input type="checkbox" id="mascota" name="mascota" <?php if (isset($_POST['mascota'])) echo 'checked'; ?>>
+                                <label for="mascota">
                                     Permito mascotas
                                 </label>
                             </div>
                             <div>
-                                <input type="checkbox" name="fumar" <?php if (isset($_POST['fumar'])) echo 'checked'; ?>>
-                                <label>
+                                <input type="checkbox" id="fumar" name="fumar" <?php if (isset($_POST['fumar'])) echo 'checked'; ?>>
+                                <label for="fumar">
                                     Permito fumar
                                 </label>
                             </div>
@@ -914,32 +915,32 @@
                         </div>
                         <div>
                             <div>
-                                <input type="checkbox" name="gps" <?php if (isset($_POST['gps'])) echo 'checked'; ?>>
-                                <label>
+                                <input type="checkbox" id="gps" name="gps" <?php if (isset($_POST['gps'])) echo 'checked'; ?>>
+                                <label for="gps">
                                     GPS
                                 </label>
                             </div>
                             <div>
-                                <input type="checkbox" name="sensores_aparcamiento" <?php if (isset($_POST['sensores_aparcamiento'])) echo 'checked'; ?>>
-                                <label>
+                                <input type="checkbox" id="sensores_aparcamiento" name="sensores_aparcamiento" <?php if (isset($_POST['sensores_aparcamiento'])) echo 'checked'; ?>>
+                                <label for="sensores_aparcamiento">
                                     Sensores de aparcamiento
                                 </label>
                             </div>
                             <div>
-                                <input type="checkbox" name="camara_trasera" <?php if (isset($_POST['camara_trasera'])) echo 'checked'; ?>>
-                                <label>
+                                <input type="checkbox" id="camara_trasera" name="camara_trasera" <?php if (isset($_POST['camara_trasera'])) echo 'checked'; ?>>
+                                <label for="camara_trasera">
                                     Cámara de reversa
                                 </label>
                             </div>
                             <div>
-                                <input type="checkbox" name="control_de_crucero" <?php if (isset($_POST['control_de_crucero'])) echo 'checked'; ?>>
-                                <label>
+                                <input type="checkbox" id="control_de_crucero" name="control_de_crucero" <?php if (isset($_POST['control_de_crucero'])) echo 'checked'; ?>>
+                                <label for="control_de_crucero">
                                     Control de crucero
                                 </label>
                             </div>
                             <div>
-                                <input type="checkbox" name="cuatro_x_cuatro" <?php if (isset($_POST['cuatro_x_cuatro'])) echo 'checked'; ?>>
-                                <label>
+                                <input type="checkbox" id="cuatro_x_cuatro" name="cuatro_x_cuatro" <?php if (isset($_POST['cuatro_x_cuatro'])) echo 'checked'; ?>>
+                                <label for="cuatro_x_cuatro">
                                     Tracción 4x4
                                 </label>
                             </div>
@@ -953,32 +954,32 @@
                         </div>
                         <div>
                             <div>
-                                <input type="checkbox" name="baca" <?php if (isset($_POST['baca'])) echo 'checked'; ?>>
-                                <label>
+                                <input type="checkbox" id="baca" name="baca" <?php if (isset($_POST['baca'])) echo 'checked'; ?>>
+                                <label for="baca">
                                     Baca
                                 </label>
                             </div>
                             <div>
-                                <input type="checkbox" name="portabicicletas" <?php if (isset($_POST['portabicicletas'])) echo 'checked'; ?>>
-                                <label>
+                                <input type="checkbox" id="portabicicletas" name="portabicicletas" <?php if (isset($_POST['portabicicletas'])) echo 'checked'; ?>>
+                                <label for="portabicicletas">
                                     Portabicicletas
                                 </label>
                             </div>
                             <div>
-                                <input type="checkbox" name="portaequipajes" <?php if (isset($_POST['portaequipajes'])) echo 'checked'; ?>>
-                                <label>
+                                <input type="checkbox" id="portaequipajes" name="portaequipajes" <?php if (isset($_POST['portaequipajes'])) echo 'checked'; ?>>
+                                <label for="portaequipajes">
                                     Portaequipajes
                                 </label>
                             </div>
                             <div>
-                                <input type="checkbox" name="portaesquis" <?php if (isset($_POST['portaesquis'])) echo 'checked'; ?>>
-                                <label>
+                                <input type="checkbox" id="portaesquis" name="portaesquis" <?php if (isset($_POST['portaesquis'])) echo 'checked'; ?>>
+                                <label for="portaesquis">
                                     Portaesquís
                                 </label>
                             </div>
                             <div>
-                                <input type="checkbox" name="bola_remolque" <?php if (isset($_POST['bola_remolque'])) echo 'checked'; ?>>
-                                <label>
+                                <input type="checkbox" id="bola_remolque" name="bola_remolque" <?php if (isset($_POST['bola_remolque'])) echo 'checked'; ?>>
+                                <label for="bola_remolque">
                                     Bola de remolque
                                 </label>
                             </div>
@@ -992,26 +993,26 @@
                         </div>
                         <div>
                             <div>
-                                <input type="checkbox" name="bluetooth" <?php if (isset($_POST['bluetooth'])) echo 'checked'; ?>>
-                                <label>
+                                <input type="checkbox" id="bluetooth" name="bluetooth" <?php if (isset($_POST['bluetooth'])) echo 'checked'; ?>>
+                                <label for="bluetooth">
                                     Bluetooth
                                 </label>
                             </div>
                             <div>
-                                <input type="checkbox" name="wifi" <?php if (isset($_POST['wifi'])) echo 'checked'; ?>>
-                                <label>
+                                <input type="checkbox" id="wifi" name="wifi" <?php if (isset($_POST['wifi'])) echo 'checked'; ?>>
+                                <label for="wifi">
                                     WiFi
                                 </label>
                             </div>
                             <div>
-                                <input type="checkbox" name="android_carplay" <?php if (isset($_POST['android_carplay'])) echo 'checked'; ?>>
-                                <label>
+                                <input type="checkbox" id="android_carplay" name="android_carplay" <?php if (isset($_POST['android_carplay'])) echo 'checked'; ?>>
+                                <label for="android_carplay">
                                     Android CarPlay
                                 </label>
                             </div>
                             <div>
-                                <input type="checkbox" name="apple_carplay" <?php if (isset($_POST['apple_carplay'])) echo 'checked'; ?>>
-                                <label>
+                                <input type="checkbox" id="apple_carplay" name="apple_carplay" <?php if (isset($_POST['apple_carplay'])) echo 'checked'; ?>>
+                                <label for="apple_carplay">
                                     Apple CarPlay
                                 </label>
                             </div>
@@ -1025,26 +1026,26 @@
                         </div>
                         <div>
                             <div>
-                                <input type="checkbox" name="aire_acondicionado" <?php if (isset($_POST['aire_acondicionado'])) echo 'checked'; ?>>
-                                <label>
+                                <input type="checkbox" id="aire_acondicionado" name="aire_acondicionado" <?php if (isset($_POST['aire_acondicionado'])) echo 'checked'; ?>>
+                                <label for="aire_acondicionado">
                                     Aire acondicionado
                                 </label>
                             </div>
                             <div>
-                                <input type="checkbox" name="asientos_calefactables" <?php if (isset($_POST['asientos_calefactables'])) echo 'checked'; ?>>
-                                <label>
+                                <input type="checkbox" id="asientos_calefactables" name="asientos_calefactables" <?php if (isset($_POST['asientos_calefactables'])) echo 'checked'; ?>>
+                                <label for="asientos_calefactables">
                                     Asientos calefactables
                                 </label>
                             </div>
                             <div>
-                                <input type="checkbox" name="fijacion_isofix" <?php if (isset($_POST['fijacion_isofix'])) echo 'checked'; ?>>
-                                <label>
+                                <input type="checkbox" id="fijacion_isofix" name="fijacion_isofix" <?php if (isset($_POST['fijacion_isofix'])) echo 'checked'; ?>>
+                                <label for="fijacion_isofix">
                                     Fijaciones ISOFIX
                                 </label>
                             </div>
                             <div>
-                                <input type="checkbox" name="movilidad_reducia" <?php if (isset($_POST['movilidad_reducia'])) echo 'checked'; ?>>
-                                <label>
+                                <input type="checkbox" id="movilidad_reducia" name="movilidad_reducia" <?php if (isset($_POST['movilidad_reducia'])) echo 'checked'; ?>>
+                                <label for="movilidad_reducia">
                                     Adaptado para personas con movilidad reducida
                                 </label>
                             </div>
@@ -1111,6 +1112,7 @@
             die('Error al insertar extras: ' . $enviarExtras->error);
         }
 
+        /* Insertar imagenes */
         $enviarImagenes = $_conexion->prepare("INSERT INTO imagen_coche (id_coche, ruta_img_coche) VALUES (?, ?)");
 
         if (!$enviarImagenes) {

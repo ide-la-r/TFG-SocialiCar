@@ -165,15 +165,6 @@
                         <div class="mt-4">
 
                 <?php
-                        // Imprimir el resultado de la consulta
-                        var_dump($resultado_extras);
-
-                        // Imprimir el número de filas en el resultado
-                        echo "Resultado rows: " . $resultado_extras->num_rows;
-
-                        // Imprimir la variable aire_acondicionado
-                        echo "Aire: " . $aire_acondicionado;
-
                         if ($resultado_extras -> num_rows > 0) {
                             echo "<h5>Extras del vehículo</h5>";
                             echo "<ul class='list-group'>";
