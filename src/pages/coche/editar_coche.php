@@ -22,16 +22,7 @@
     <form action="#" method="post" enctype="multipart/form-data">
         <!-- INFORMACION DEL VEHICULO (MARCA MODELO Y ANNO DE MATRICULACION) -->
 
-        <div class="container mt-5 pt-5">
-            <div class="container card py-4">
-                <h3>Imagenes</h3>
-                <div class="row justify-content-center pt-3">
-                    <div class="col">
-                        <input class="form-control" id="img" type="file" name="img[]" multiple accept="image/png, image/jpg, image/jpeg">
-                    </div>
-                </div>
-            </div>
-        </div>
+
 
         <div class="container mt-5 pt-5">
             <div class="container card py-4">
@@ -54,34 +45,52 @@
                         $marcaSeleccionada = isset($_POST['marca']) ? $_POST['marca'] : '';
                         $modeloSeleccionado = isset($_POST['modelo']) ? $_POST['modelo'] : '';
                         ?>
+                        <div class="form-floating">
+                            <select class="form-select" id="floatingSelect" name="marca">
+                                <option disabled selected hidden>Marca*</option>
+                                <?php foreach ($marcas as $marcaItem) { ?>
+                                    <option value="<?php echo $marcaItem["MakeName"]; ?>"
+                                        <?php if (isset($_POST['marca']) && $_POST['marca'] == $marcaItem["MakeName"]) echo "selected"; ?>>
+                                        <?php echo $marcaItem["MakeName"]; ?>
+                                    </option>
+                                <?php } ?>
+                            </select>
+                            <label for="floatingSelect">Marca</label>
 
-                        <select class="form-select" id="marca" name="marca">
-                            <option disabled selected hidden>Marca*</option>
-                            <?php foreach ($marcas as $marcaItem) { ?>
-                                <option value="<?php echo $marcaItem["MakeName"]; ?>"
-                                    <?php if (isset($_POST['marca']) && $_POST['marca'] == $marcaItem["MakeName"]) echo "selected"; ?>>
-                                    <?php echo $marcaItem["MakeName"]; ?>
-                                </option>
-                            <?php } ?>
-                        </select>
-                        <?php
-                        if (isset($err_marca)) {
-                            echo "<span class='error'>$err_marca</span>";
-                        }
-                        ?>
+                            <?php
+                            if (isset($err_marca)) {
+                                echo "<span class='is-invalid'>$err_marca</span>";
+                            }
+                            ?>
+                        </div>
+
                     </div>
                     <div class="col">
-                        <select class="form-select" id="modelo" name="modelo" data-selected="<?php echo htmlspecialchars($modeloSeleccionado); ?>">
-                            <option disabled selected hidden>Modelo*</option>
-                        </select>
-                        <?php
-                        if (isset($err_modelo)) {
-                            echo "<span class='error'>$err_modelo</span>";
-                        }
-                        ?>
+                        <div class="form-floating">
+                            <select class="form-select" id="modelo" name="modelo" data-selected="<?php echo htmlspecialchars($modeloSeleccionado); ?>">
+                                <option disabled selected hidden>Modelo*</option>
+                            </select>
+                            <label for="floatingSelect">Modelo</label>
+                            <?php
+                            if (isset($err_modelo)) {
+                                echo "<span class='error'>$err_modelo</span>";
+                            }
+                            ?>
+                        </div>
+
                     </div>
                     <div class="col">
-                        <input class="form-control" placeholder="Año de matriculacion" id="inputMes" type="month" name="anno_matriculacion" value="<?php if (isset($_POST['anno_matriculacion'])) echo htmlspecialchars($_POST['anno_matriculacion']); ?>">
+                        <div class="form-floating">
+                            <input class="form-control" placeholder="Año de matriculacion" id="inputMes" type="month" name="anno_matriculacion" value="<?php if (isset($_POST['anno_matriculacion'])) echo htmlspecialchars($_POST['anno_matriculacion']); ?>">
+                            <label for="floatingInput">Año de matriculacion</label>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-floating">
+                            <input class="form-control" id="floatingInput" type="text" placeholder="Matricula*" name="matricula" value="">
+                            <label for="floatingInput">Matricula</label>
+                        </div>
                     </div>
                 </div>
 
@@ -91,21 +100,9 @@
 
 
 
-        <div class="container mt-5 pt-5">
-            <div class="container card py-4">
-                <h3 class="text-start">MATRICULA</h3>
-                <div class="row justify-content-center pt-3">
-                    <div class="col">
-                        <input class="form-control" id="matricula" type="text" placeholder="Matricula*" name="matricula" value="">
-                    </div>
-                </div>
 
 
-            </div>
-        </div>
-
-
-
+        <!-- INFORMACION DEL VEHICULO (KILOMETROS, TIPO DE COMBUSTIBLE, TIPO DE COCHE, TRANSMISION, COLOR, POTENCIA, NUMERO DE PUERTAS, NUMERO DE PLAZAS) -->
         <div class="container mt-5 pt-5">
 
             <div class="container card">
@@ -113,110 +110,146 @@
                 <h3>Informacion del vehiculo</h3>
                 <div class="row justify-content-center pt-3">
                     <div class="mb-3 col-6">
-                        <input class="form-control" id="kilometros" type="number" placeholder="Kilómetros*" name="kilometros" value="">
-                    </div>
-                    <div class="mb-3 col-6">
-                        <Select class="form-select" id="tipo_combustible" name="tipo_combustible">
-                            <option disabled selected hidden>Tipo de combustible*</option>
-                            <option value="gasolina">
-                                Gasolina
-                            </option>
-                            <option value="diesel">
-                                Diesel
-                            </option>
-                            <option value="hibrido">
-                                Hibrido
-                            </option>
-                            <option value="electrico">
-                                Eléctrico
-                            </option>
-                            <option value="glp">
-                                GLP
-                            </option>
-                            <option value="gnc">
-                                GNC
-                            </option>
-                        </Select>
-                    </div>
-
-                    <div class="mb-3 col-6">
-                        <select class="form-select" id="tipo" name="tipo">
-                            <option disabled selected hidden>Tipo de coche*</option>
-                            <option value="berlina">
-                                Berlina
-                            </option>
-                            <option value="coupe">
-                                Coupé
-                            </option>
-                            <option value="deportivo">
-                                Deportivo
-                            </option>
-                            <option value="furgoneta">
-                                Furgoneta
-                            </option>
-                            <option value="monovolumen">
-                                Monovolumen
-                            </option>
-                            <option value="suv">
-                                SUV
-                            </option>
-                            <option value="pick-up">
-                                Pick-up
-                            </option>
-                            <option value="roadster">
-                                Roadster
-                            </option>
-                            <option value="utilitario">
-                                Utilitario
-                            </option>
-                            <option value="familiar">
-                                Familiar
-                            </option>
-                            <option value="autocaravana">
-                                Autocaravana
-                            </option>
-                        </select>
+                        <div class="form-floating">
+                            <input class="form-control" id="floatingInput" type="number" placeholder="Kilómetros*" name="kilometros" value="">
+                            <label for="floatingInput">kilometros</label>
+                        </div>
 
                     </div>
                     <div class="mb-3 col-6">
-                        <Select class="form-select" id="transmision" name="transmision">
-                            <option disabled selected hidden>Transmisión*</option>
-                            <option value="manual">
-                                Manual
-                            </option>
-                            <option value="automatico">
-                                Automática
-                            </option>
-                        </Select>
+                        <div class="form-floating">
+                            <Select class="form-select" id="floatingSelect" name="tipo_combustible">
+                                <option disabled selected hidden>Tipo de combustible*</option>
+                                <option value="gasolina">
+                                    Gasolina
+                                </option>
+                                <option value="diesel">
+                                    Diesel
+                                </option>
+                                <option value="hibrido">
+                                    Hibrido
+                                </option>
+                                <option value="electrico">
+                                    Eléctrico
+                                </option>
+                                <option value="glp">
+                                    GLP
+                                </option>
+                                <option value="gnc">
+                                    GNC
+                                </option>
+                            </Select>
+
+                            <label for="floatingSelect">Tipo de combustible</label>
+
+                        </div>
+
+                    </div>
+
+                    <div class="mb-3 col-6">
+                        <div class="form-floating">
+                            <select class="form-select " id="floatingSelect" name="tipo">
+                                <option disabled selected hidden>Tipo de coche*</option>
+                                <option value="berlina">
+                                    Berlina
+                                </option>
+                                <option value="coupe">
+                                    Coupé
+                                </option>
+                                <option value="deportivo">
+                                    Deportivo
+                                </option>
+                                <option value="furgoneta">
+                                    Furgoneta
+                                </option>
+                                <option value="monovolumen">
+                                    Monovolumen
+                                </option>
+                                <option value="suv">
+                                    SUV
+                                </option>
+                                <option value="pick-up">
+                                    Pick-up
+                                </option>
+                                <option value="roadster">
+                                    Roadster
+                                </option>
+                                <option value="utilitario">
+                                    Utilitario
+                                </option>
+                                <option value="familiar">
+                                    Familiar
+                                </option>
+                                <option value="autocaravana">
+                                    Autocaravana
+                                </option>
+                            </select>
+                            <label for="floatingSelect">Tipo de coche</label>
+                        </div>
+
 
                     </div>
                     <div class="mb-3 col-6">
-                        <select class="form-select" id="color" name="color" required>
-                            <option disabled selected hidden>Color*</option>
-                            <option value="white">Blanco</option>
-                            <option value="black">Negro</option>
-                            <option value="gray">Gris</option>
-                            <option value="red">Rojo</option>
-                            <option value="blue">Azul</option>
-                            <option value="green">Verde</option>
-                            <option value="yellow">Amarillo</option>
-                            <option value="orange">Naranja</option>
-                            <option value="brown">Marrón</option>
-                            <option value="others">Otros</option>
-                        </select>
+                        <div class="form-floating">
+                            <Select class="form-select" id="floatingSelect" name="transmision">
+                                <option disabled selected hidden>Transmisión*</option>
+                                <option value="manual">
+                                    Manual
+                                </option>
+                                <option value="automatico">
+                                    Automática
+                                </option>
+                            </Select>
+                            <label for="floatingSelect">Tipo de Transmision</label>
+                        </div>
+
                     </div>
                     <div class="mb-3 col-6">
-                        <input class="form-control" id="potencia" type="number" placeholder="caballos*" name="Potencia" value="">
+                        <div class="form-floating">
+                            <select class="form-select" id="floatingSelect" name="color" required>
+                                <option disabled selected hidden>Color*</option>
+                                <option value="white">Blanco</option>
+                                <option value="black">Negro</option>
+                                <option value="gray">Gris</option>
+                                <option value="red">Rojo</option>
+                                <option value="blue">Azul</option>
+                                <option value="green">Verde</option>
+                                <option value="yellow">Amarillo</option>
+                                <option value="orange">Naranja</option>
+                                <option value="brown">Marrón</option>
+                                <option value="others">Otros</option>
+                            </select>
+                            <label for="floatingSelect">Color</label>
+                        </div>
+
                     </div>
                     <div class="mb-3 col-6">
-                        <input class="form-control" id="numero_puertas" type="number" placeholder="Numero de puertas*" name="numero_puertas" value="">
+                        <div class="form-floating">
+                            <input class="form-control" id="floatingInput" type="number" placeholder="caballos*" name="Potencia" value="">
+                            <label for="floatingInput">Caballos</label>
+                        </div>
                     </div>
                     <div class="mb-3 col-6">
-                        <input class="form-control" id="numero_plazas" type="number" placeholder="Numero de plazas*" name="numero_plazas" value="">
+                        <div class="form-floating">
+                            <input class="form-control" id="floatingInput" type="number" placeholder="Numero de puertas*" name="numero_puertas" value="">
+
+                            <label for="floatingInput">Numero de puertas</label>
+                        </div>
+                    </div>
+                    <div class="mb-3 col-6">
+                        <div class="form-floating">
+                            <input class="form-control" id="floatingInput" type="number" placeholder="Numero de plazas*" name="numero_plazas" value="">
+                            <label for="floatingInput">Numero de plazas</label>
+                        </div>
+
                     </div>
                     <div>
-                        <textarea class="form-control" name="descripcion" id="exampleFormControlTextarea1" rows="3" placeholder="Descripcion*"></textarea>
-                        <br>
+                        <div class="form-floating">
+                            <textarea class="form-control" name="descripcion" id="exampleFormControlTextarea1" id="floatingTextarea2" style="height: 100px" rows="3" placeholder="Descripcion*"></textarea>
+                            <label for="floatingTextarea2">Descripcion</label>
+                            <br>
+                        </div>
+
                     </div>
 
                 </div>
@@ -241,41 +274,63 @@
             </div>
         </div>
 
-
+        <!-- Plantillas para los inputs flotantes -->
+        <div class="form-floating">
+            <label for="floatingInput"></label>
+        </div>
+        <!-- Plantillas para los inputs flotantes -->
 
         <div class="container mt-5 pt-5">
             <div class="container card py-4">
                 <h3 class="text-start">Ubicacion</h3>
                 <div class="row justify-content-center pt-3">
                     <div class="mb-3 col-6">
-                        <input class="form-control" id="direccion" type="text" placeholder="Direccion*" name="direccion" value="">
+                        <div class="form-floating">
+                            <input class="form-control" id="floatingInput" type="text" placeholder="Direccion*" name="direccion" value="">
+                            <label for="floatingInput">Direccion</label>
+                        </div>
+
 
                     </div>
                     <div class="mb-3 col-6">
-                        <input class="form-control" id="cp" type="number" placeholder="Código Postal*" name="cp" value="">
+                        <div class="form-floating">
+                            <input class="form-control" id="floatingInput" type="number" placeholder="Código Postal*" name="cp" value="">
+                            <label for="floatingInput">Codigo Postal</label>
+                        </div>
+
 
                     </div>
                     <div class="mb-3 col-6">
-                        <input class="form-control" id="provincia" type="text" placeholder="Provincia*" name="provincia" value="">
- 
-                    </div>
-                    <div class="mb-3 col-6">
-                        <input class="form-control" id="ciudad" type="text" placeholder="Ciudad*" name="ciudad" value="">
+                        <div class="form-floating">
+                            <input class="form-control" id="floatingInput" type="text" placeholder="Provincia*" name="provincia" value="">
+                            <label for="floatingInput">Provincia</label>
+                        </div>
 
                     </div>
                     <div class="mb-3 col-6">
-                        <Select class="form-select" id="tipo_aparcamiento" name="tipo_aparcamiento">
-                            <option disabled selected hidden>Tipo de aparcamiento*</option>
-                            <option value="calle">
-                                Calle
-                            </option>
-                            <option value="garaje">
-                                Garaje
-                            </option>
-                            <option value="parking">
-                                Parking
-                            </option>
-                        </Select>
+                        <div class="form-floating">
+                            <input class="form-control" id="floatingInput" type="text" placeholder="Ciudad*" name="ciudad" value="">
+                            <label for="floatingInput">Ciudad</label>
+                        </div>
+
+                    </div>
+                    <div class="mb-3 col-6">
+                        <div class="form-floating">
+                            <Select class="form-select" id="floatingSelect" name="tipo_aparcamiento">
+                                <option disabled selected hidden>Tipo de aparcamiento*</option>
+                                <option value="calle">
+                                    Calle
+                                </option>
+                                <option value="garaje">
+                                    Garaje
+                                </option>
+                                <option value="parking">
+                                    Parking
+                                </option>
+                            </Select>
+                            <label for="floatingInput">Tipo de aparcamiento</label>
+                        </div>
+
                     </div>
                 </div>
 
@@ -283,8 +338,19 @@
             </div>
         </div>
 
+        <div class="container mt-5 pt-5">
+            <div class="container card py-4">
+                <h3>Imagenes</h3>
+                <div class="row justify-content-center pt-3">
+                    <div class="col">
+                        <input class="form-control" id="img" type="file" name="img[]" multiple accept="image/png, image/jpg, image/jpeg">
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<!--         <div class="container mt-5 pt-5">
+
+        <!--         <div class="container mt-5 pt-5">
             <div class="container card py-4">
                 <h3 class="text-start">SEGURO</h3>
                 <div class="row justify-content-center pt-3">
@@ -320,193 +386,193 @@
             </div>
         </div>
 
-<br>
-    </div>
-    </div>
-    <!-- VENTANA MODAL CON BOOTSTRAP -->
-    <div class="modal fade" id="miModal" tabindex="-1" aria-labelledby="miModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="miModalLabel">Selecciona los extras</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- Sección Características Básicas -->
-                    <div>
-                        <div>
-                            <h6>Características Básicas</h6>
-                        </div>
+        <br>
+        </div>
+        </div>
+        <!-- VENTANA MODAL CON BOOTSTRAP -->
+        <div class="modal fade" id="miModal" tabindex="-1" aria-labelledby="miModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="miModalLabel">Selecciona los extras</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Sección Características Básicas -->
                         <div>
                             <div>
-                                <input type="checkbox" name="mascota">
-                                <label>
-                                    Permito mascotas
-                                </label>
+                                <h6>Características Básicas</h6>
                             </div>
                             <div>
-                                <input type="checkbox" name="fumar">
-                                <label>
-                                    Permito fumar
-                                </label>
+                                <div>
+                                    <input type="checkbox" name="mascota">
+                                    <label>
+                                        Permito mascotas
+                                    </label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="fumar">
+                                    <label>
+                                        Permito fumar
+                                    </label>
+                                </div>
                             </div>
                         </div>
+
+                        <!-- Sección Asistencia a la Conducción -->
+                        <div>
+                            <div>
+                                <h6>Asistencia a la Conducción</h6>
+                            </div>
+                            <div>
+                                <div>
+                                    <input type="checkbox" name="gps">
+                                    <label>
+                                        GPS
+                                    </label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="sensores_aparcamiento">
+                                    <label>
+                                        Sensores de aparcamiento
+                                    </label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="camara_trasera">
+                                    <label>
+                                        Cámara de reversa
+                                    </label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="control_de_crucero">
+                                    <label>
+                                        Control de crucero
+                                    </label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="cuatro_x_cuatro">
+                                    <label>
+                                        Tracción 4x4
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sección Portaequipajes y Accesorios -->
+                        <div>
+                            <div>
+                                <h6>Portaequipajes y Accesorios</h6>
+                            </div>
+                            <div>
+                                <div>
+                                    <input type="checkbox" name="baca">
+                                    <label>
+                                        Baca
+                                    </label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="portabicicletas">
+                                    <label>
+                                        Portabicicletas
+                                    </label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="portaequipajes">
+                                    <label>
+                                        Portaequipajes
+                                    </label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="portaesquis">
+                                    <label>
+                                        Portaesquís
+                                    </label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="bola_remolque">
+                                    <label>
+                                        Bola de remolque
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sección Tecnología y Navegación -->
+                        <div>
+                            <div>
+                                <h6>Tecnología y Navegación</h6>
+                            </div>
+                            <div>
+                                <div>
+                                    <input type="checkbox" name="bluetooth">
+                                    <label>
+                                        Bluetooth
+                                    </label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="wifi">
+                                    <label>
+                                        WiFi
+                                    </label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="android_carplay">
+                                    <label>
+                                        Android CarPlay
+                                    </label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="apple_carplay">
+                                    <label>
+                                        Apple CarPlay
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sección Confort y Equipamiento -->
+                        <div>
+                            <div>
+                                <h6>Confort y Equipamiento</h6>
+                            </div>
+                            <div>
+                                <div>
+                                    <input type="checkbox" name="aire_acondicionado">
+                                    <label>
+                                        Aire acondicionado
+                                    </label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="asientos_calefactables">
+                                    <label>
+                                        Asientos calefactables
+                                    </label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="fijacion_isofix">
+                                    <label>
+                                        Fijaciones ISOFIX
+                                    </label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="movilidad_reducia">
+                                    <label>
+                                        Adaptado para personas con movilidad reducida
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
 
-                    <!-- Sección Asistencia a la Conducción -->
-                    <div>
-                        <div>
-                            <h6>Asistencia a la Conducción</h6>
-                        </div>
-                        <div>
-                            <div>
-                                <input type="checkbox" name="gps">
-                                <label>
-                                    GPS
-                                </label>
-                            </div>
-                            <div>
-                                <input type="checkbox" name="sensores_aparcamiento">
-                                <label>
-                                    Sensores de aparcamiento
-                                </label>
-                            </div>
-                            <div>
-                                <input type="checkbox" name="camara_trasera">
-                                <label>
-                                    Cámara de reversa
-                                </label>
-                            </div>
-                            <div>
-                                <input type="checkbox" name="control_de_crucero">
-                                <label>
-                                    Control de crucero
-                                </label>
-                            </div>
-                            <div>
-                                <input type="checkbox" name="cuatro_x_cuatro">
-                                <label>
-                                    Tracción 4x4
-                                </label>
-                            </div>
-                        </div>
+                    <!-- BOTÓN CERRAR DE LA VENTANA MODAL -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                     </div>
-
-                    <!-- Sección Portaequipajes y Accesorios -->
-                    <div>
-                        <div>
-                            <h6>Portaequipajes y Accesorios</h6>
-                        </div>
-                        <div>
-                            <div>
-                                <input type="checkbox" name="baca">
-                                <label>
-                                    Baca
-                                </label>
-                            </div>
-                            <div>
-                                <input type="checkbox" name="portabicicletas" >
-                                <label>
-                                    Portabicicletas
-                                </label>
-                            </div>
-                            <div>
-                                <input type="checkbox" name="portaequipajes" >
-                                <label>
-                                    Portaequipajes
-                                </label>
-                            </div>
-                            <div>
-                                <input type="checkbox" name="portaesquis" >
-                                <label>
-                                    Portaesquís
-                                </label>
-                            </div>
-                            <div>
-                                <input type="checkbox" name="bola_remolque">
-                                <label>
-                                    Bola de remolque
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Sección Tecnología y Navegación -->
-                    <div>
-                        <div>
-                            <h6>Tecnología y Navegación</h6>
-                        </div>
-                        <div>
-                            <div>
-                                <input type="checkbox" name="bluetooth" >
-                                <label>
-                                    Bluetooth
-                                </label>
-                            </div>
-                            <div>
-                                <input type="checkbox" name="wifi" >
-                                <label>
-                                    WiFi
-                                </label>
-                            </div>
-                            <div>
-                                <input type="checkbox" name="android_carplay" >
-                                <label>
-                                    Android CarPlay
-                                </label>
-                            </div>
-                            <div>
-                                <input type="checkbox" name="apple_carplay" >
-                                <label>
-                                    Apple CarPlay
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Sección Confort y Equipamiento -->
-                    <div>
-                        <div>
-                            <h6>Confort y Equipamiento</h6>
-                        </div>
-                        <div>
-                            <div>
-                                <input type="checkbox" name="aire_acondicionado" >
-                                <label>
-                                    Aire acondicionado
-                                </label>
-                            </div>
-                            <div>
-                                <input type="checkbox" name="asientos_calefactables">
-                                <label>
-                                    Asientos calefactables
-                                </label>
-                            </div>
-                            <div>
-                                <input type="checkbox" name="fijacion_isofix">
-                                <label>
-                                    Fijaciones ISOFIX
-                                </label>
-                            </div>
-                            <div>
-                                <input type="checkbox" name="movilidad_reducia">
-                                <label>
-                                    Adaptado para personas con movilidad reducida
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- BOTÓN CERRAR DE LA VENTANA MODAL -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
-    </div>
-    </div>
+        </div>
     </form>
     <?php include_once '../../components/footer.php'; ?>
 
