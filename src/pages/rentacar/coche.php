@@ -20,6 +20,12 @@
     session_start();
     $matricula = $_GET['matricula'];
     ?>
+
+    <style>
+        .text-shadow {
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+    </style>
 </head>
 
 <body>
@@ -141,7 +147,7 @@
                     <h5>Color:</h5>
                     <div class='btn-group' role='group' aria-label='Color selection'>
                         <input type='radio' class='btn-check' name='color' id='<?php echo $color; ?>' autocomplete='off' checked>
-                        <label class='btn btn-outline-secondary' for='<?php echo $color; ?>' style="background-color:
+                        <label class='btn btn-outline-secondary text-shadow' for='<?php echo $color; ?>' style="background-color:
                         <?php
                             if ($color_esp == "Otros") {
                                 echo "#808080";
