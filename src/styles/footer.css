@@ -1,0 +1,16 @@
+.footer-social-icons a {
+    display: inline-block;
+    margin-right: 1rem;
+    font-size: 1.35em;
+    color: #6BBFBF;
+  }
+  .footer-social-icons a:last-child {
+    margin-right: 0;
+  }
+  .footer-social-icons i {
+    vertical-align: middle;
+
+
+
+    
+  }

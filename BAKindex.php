@@ -1,3 +1,9 @@
+<?php
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+session_start();
+require(__DIR__ . "/src/config/conexion.php");
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -5,19 +11,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SocialiCar - Comparte tu coche</title>
-    <?php include_once '../../components/links.php'; ?>
-    <link rel="icon" href="../../../src/img/favicon.png" />
-    <link rel="stylesheet" href="../../../src/styles/index.css">
-    
-
-    <?php
-    error_reporting(E_ALL);
-    ini_set("display_errors", 1);
-
-    require(__DIR__ . "/../../config/conexion.php");
-
-    session_start();
-    ?>
+    <link rel="stylesheet" href="src/styles/index.css">
+    <link rel="icon" href="src/img/favicon.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <?php include_once 'src/components/links.php'; ?>
 </head>
 
 <body class="d-flex flex-column min-vh-100 bg-light">
@@ -32,7 +29,7 @@
 
 
     <!-- NAVBAR -->
-    <?php include_once '../../components/navbar.php'; ?>
+    <?php include_once 'src/components/navbar.php'; ?>
 
     <!-- BANNER (Hero) -->
     <div class="banner-video-container d-flex justify-content-center align-items-center text-center">
@@ -46,60 +43,13 @@
     </div>
 
     <!-- BARRA DE BUSQUEDA -->
-    <form class="w-75 mx-auto busqueda" method="POST" action="">
+    <form class="w-75 mx-auto busqueda">
         <div class="input-group">
-            <input type="text" name="buscar" id="buscar" class="form-control" placeholder="Buscar vehículo" value="<?php echo isset($_POST['buscar']) ? $_POST['buscar'] : ''; ?>">
+            <input type="text" class="form-control" placeholder="buscar vehiculo">
             <button class="btn btn-primary" type="submit">Buscar</button>
         </div>
     </form>
     <br><br>
-    <?php
-        if (isset($_POST["buscar"])) {
-            $buscar = mysqli_real_escape_string($_conexion, $_POST["buscar"]);
-
-            $sql = mysqli_query($_conexion, "SELECT * FROM coche 
-                WHERE 
-                    precio LIKE '%$buscar%' OR
-                    marca LIKE '%$buscar%' OR 
-                    modelo LIKE '%$buscar%' OR 
-                    ciudad LIKE '%$buscar%' OR 
-                    codigo_postal LIKE '%$buscar%' OR 
-                    color LIKE '%$buscar%' OR
-                    descripcion LIKE '%$buscar%' OR
-                    combustible LIKE '%$buscar%' OR
-                    transmision LIKE '%$buscar%' OR
-                    provincia LIKE '%$buscar%' OR
-                    tipo_aparcamiento LIKE '%$buscar%'");
-
-            $numeroSql = mysqli_num_rows($sql);
-
-            echo "<p class='text-success fw-bold mt-3'>
-                <i class='mdi mdi-car-search'></i> $numeroSql resultados encontrados
-            </p>";
-
-            echo "<div class='row row-cols-1 row-cols-md-3 g-4 mt-3'>";
-
-            while ($row = mysqli_fetch_assoc($sql)) {
-                echo "
-                    <div class='col'>
-                        <a href='/src/pages/rentacar/coche?matricula=" . $row['matricula'] . "' class='text-decoration-none text-dark'>
-                            <div class='card h-100 shadow-sm border-primary'>
-                                <img src='" . htmlspecialchars($row['ruta_img_coche']) . "' class='card-img-top' alt='Imagen del coche'>
-                                <div class='card-body'>
-                                    <h5 class='card-title'>" . htmlspecialchars($row['marca']) . " " . htmlspecialchars($row['modelo']) . "</h5>
-                                    <p class='card-text'><strong>" . htmlspecialchars($row['marca']) . "</strong></p>
-                                    <p class='card-text'><strong>" . htmlspecialchars($row['codigo_postal']) . " " . htmlspecialchars($row['ciudad']) . "</strong></p>
-                                    <p class='card-text text-success'>" . htmlspecialchars($row['precio']) . "€/día</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                ";
-            }
-
-            echo "</div><br>";
-        }
-    ?>
 
 
 
@@ -357,7 +307,6 @@
                                                 <div class='card-body'>
                                                     <h5 class='card-title'>" . $vehiculo_premium['marca'] . " " . $vehiculo_premium['modelo'] . "</h5>
                                                     <p class='card-text'><strong>" . $vehiculo_premium['marca'] . "</strong></p>
-                                                    <p class='card-text'><strong>" . $vehiculo_premium['codigo_postal'] . " " . $vehiculo_premium['ciudad'] . "</strong></p>
                                                     <p class='card-text text-success'>" . $vehiculo_premium['precio'] . "€/día</p>
                                                     <p class='badge bg-warning'>¡Premium!</p>
                                                 </div>
@@ -397,9 +346,8 @@
                                             <div class='card shadow'>
                                                 <img src='" . $vehiculo_plus['ruta_img_coche'] . "' class='card-img-top'>
                                                 <div class='card-body'>
-                                                    <h5 class='card-title'>" . $vehiculo_plus['marca'] . "</h5>
-                                                    <p class='card-text'><strong>" . $vehiculo_plus['modelo'] . "</strong></p>
-                                                    <p class='card-text'><strong>" . $vehiculo_plus['codigo_postal'] . " " . $vehiculo_plus['ciudad'] . "</strong></p>
+                                                    <h5 class='card-title'>" . $vehiculo_normal['marca'] . "</h5>
+                                                    <p class='card-text'><strong>" . $vehiculo_normal['modelo'] . "</strong></p>
                                                     <p class='card-text text-success'>" . $vehiculo_plus['precio'] . "€/día</p>
                                                 </div>
                                             </div>
@@ -428,38 +376,17 @@
                             $obtener_coche_normal->execute();
                             $resultado = $obtener_coche_normal->get_result();
                             $vehiculos_normales = $resultado->fetch_all(MYSQLI_ASSOC);
-
+                            
                             if (count($vehiculos_normales) > 0) {
                                 foreach ($vehiculos_normales as $vehiculo_normal) {
-
-                                    // Consulta para obtener la primera imagen del coche
-                                    $obtener_primera_imagen = $_conexion->prepare("
-                                        SELECT ruta_img_coche
-                                        FROM imagen_coche
-                                        WHERE id_coche = ?
-                                        LIMIT 1
-                                    ");
-                                    $obtener_primera_imagen->bind_param("s", $vehiculo_normal['matricula']);
-                                    $obtener_primera_imagen->execute();
-                                    $resultado_imagen = $obtener_primera_imagen->get_result();
-
-                                    // Verificar si se encontró una imagen
-                                    if ($resultado_imagen->num_rows > 0) {
-                                        $imagen_normal = $resultado_imagen->fetch_assoc();
-                                        $imagen_normal = $imagen_normal['ruta_img_coche'];
-                                    } else {
-                                        $imagen_normal = 'ruta/por/defecto.jpg'; // Imagen por defecto si no se encuentra
-                                    }
-
                                     echo "
                                         <div class='col'>
                                             <a href='/src/pages/rentacar/coche?matricula=" . $vehiculo_normal['matricula'] . "' class='text-decoration-none text-dark'>
                                             <div class='card shadow'>
-                                                <img src='" . $imagen_normal . "' class='card-img-top'>
+                                                <img src='" . $vehiculo_normal['ruta_img_coche'] . "' class='card-img-top'>
                                                 <div class='card-body'>
                                                     <h5 class='card-title'>" . $vehiculo_normal['marca'] . "</h5>
                                                     <p class='card-text'><strong>" . $vehiculo_normal['modelo'] . "</strong></p>
-                                                    <p class='card-text'><strong>" . $vehiculo_normal['codigo_postal'] . " " . $vehiculo_normal['ciudad'] . "</strong></p>
                                                     <p class='card-text text-success'>" . $vehiculo_normal['precio'] . "€/día</p>
                                                 </div>
                                             </div>
@@ -476,7 +403,7 @@
     </div>
 
     <!-- FOOTER -->
-    <?php include_once '../../components/footer.php'; ?>
+    <?php include_once 'src/components/footer.php'; ?>
 
     <!-- FUNCIONES -->
     <script>

@@ -1,0 +1,60 @@
+.boton-redondo {
+    background-color: #3ddbc1; /* verde agua */
+    color: #222;
+    font-weight: bold;
+    border: none;
+    padding: 0.75rem 2rem;
+    border-radius: 999px;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .boton-redondo:hover {
+    background-color: #2ccbb1;
+    transform: scale(1.02);
+    cursor: pointer;
+  }
+
+
+  /* Contenedor para alineación */
+.switch-wrap {
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Estilo personalizado para el switch */
+  .custom-switch {
+    appearance: none;
+    width: 50px;
+    height: 26px;
+    background-color: #ccc;
+    border-radius: 50px;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .custom-switch::before {
+    content: "";
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    top: 2px;
+    left: 2px;
+    background-color: white;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+  }
+  
+  .custom-switch:checked {
+    background-color: #3ddbc1;
+  }
+  
+  .custom-switch:checked::before {
+    transform: translateX(24px);
+  }
+  
+  

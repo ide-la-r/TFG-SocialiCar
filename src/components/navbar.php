@@ -13,11 +13,14 @@
     </button>
 
     <!-- Logo -->
-    <a class="navbar-brand mt-2 mt-lg-0 logo ps-3" href="/socialicar/">
+    <a class="navbar-brand mt-2 mt-lg-0 logo ps-3" href="/">
       <img
         src="/src/img/LogoSocialicar.png"
         alt="SocialiCar Logo"
         loading="lazy" />
+
+
+        
     </a>
 
     <!-- Contenido colapsable -->

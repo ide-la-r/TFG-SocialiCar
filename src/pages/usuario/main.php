@@ -2,26 +2,26 @@
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 session_start();
-require(__DIR__ . "/src/config/conexion.php");
 ?>
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SocialiCar - Comparte tu coche</title>
-    
+    <?php include_once '../../components/links.php'; ?>
     <link rel="icon" href="src/img/favicon.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <?php include_once 'src/components/links.php'; ?>
+
+    <link rel="icon" href="../../../src/img/favicon.png" />
 </head>
 
 <style>
     body {
         background-image:
             linear-gradient(to bottom right, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0)),
-            url('src/img/fondo_index.jpg');
+            url('../../img/fondo_index.jpg');
         background-size: cover;
         background-position: center;
         background-attachment: fixed;
@@ -94,7 +94,7 @@ require(__DIR__ . "/src/config/conexion.php");
 
 <body>
     <!-- Navbar -->
-    <?php include_once 'src/components/navbar.php'; ?>
+    <?php include_once '../../components/navbar.php'; ?>
 
     <div style="margin-top: 10vh; margin-bottom: 15vh; height: 40vh; text-align: center;">
     <h1 class="bienvenido">BIENVENIDO A</h1>
@@ -143,7 +143,7 @@ require(__DIR__ . "/src/config/conexion.php");
         <div class="row justify-content-center align-items-center">
             <!-- imagen -->
             <div class="col-md-6 mb-4 mb-md-0 text-center">
-                <img src="src/img/gente_feliz.webp" class="img" style="height: 370px; width: 500px;">
+                <img src="../../img/gente_feliz.webp" class="img" style="height: 370px; width: 500px;">
             </div>
 
             <!-- texto -->
@@ -175,7 +175,7 @@ require(__DIR__ . "/src/config/conexion.php");
             <!-- imagen -->
             <div class="col-md-6 mt-md-0">
                 <img
-                    src="src/img/dinerito.png"
+                    src="../../img/dinerito.png"
                     style="transform: rotate(2deg); height: 300px; width: 300px;">
             </div>
         </div>
@@ -187,7 +187,7 @@ require(__DIR__ . "/src/config/conexion.php");
         <div class="row justify-content-center align-items-center text-center">
             <!-- imagen -->
             <div class="col-md-5 mb-4 mb-md-0 d-flex justify-content-center">
-                <img src="src/img/reseñas.png" class="img" style="height: 200px; width: 220px;">
+                <img src="../../img/reseñas.png" class="img" style="height: 200px; width: 220px;">
             </div>
 
             <!-- texto -->
@@ -230,7 +230,7 @@ require(__DIR__ . "/src/config/conexion.php");
 
 
     <!-- Footer -->
-    <?php include_once 'src/components/footer.php'; ?>
+    <?php include_once '../../components/footer.php'; ?>
 </body>
 
 </html>

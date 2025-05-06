@@ -7,7 +7,7 @@
     <title>SocialiCar - Comparte tu coche</title>
     <?php include_once '../../components/links.php'; ?>
     <link rel="icon" href="../../../src/img/favicon.png" />
-    <link rel="stylesheet" href="../../styles/boton.css">
+    <link rel="stylesheet" href="../../styles/nuevo_coche.css">
 
     <?php
     error_reporting(E_ALL);
@@ -50,13 +50,22 @@
             $tmp_modelo = "";
         }
 
+        if (isset($_POST['color'])) {
+            $tmp_color = depurar($_POST['color']);
+        } else {
+            $tmp_color = "";
+        }
+
         $tmp_anno_matriculacion = depurar($_POST['anno_matriculacion']);
         $tmp_kilometros = depurar($_POST['kilometros']);
         $tmp_direccion = depurar($_POST['direccion']);
         $tmp_cp = depurar($_POST['cp']);
         $tmp_provincia = depurar($_POST['provincia']);
         $tmp_ciudad = depurar($_POST['ciudad']);
-
+        $tmp_descripcion = depurar($_POST['descripcion']);
+        $tmp_potencia = $_POST['potencia'];
+        $tmp_numero_puertas = $_POST['numero_puertas'];
+        $tmp_numero_plazas = $_POST['numero_plazas'];
 
 
         if (isset($_POST['movilidad_reducia']) && $_POST['movilidad_reducia'] == 'on') {
@@ -223,15 +232,16 @@
                 if (strlen($tmp_matricula) > 7) {
                     $err_matricula = "La matricula no puede tener más de 7 caracteres";
                 } else {
-                    if (!preg_match("/^[0-9]{4}[A-Z]{3}$/", $tmp_matricula)) {
+                    $tmp_matricula = strtoupper($tmp_matricula);
+                    $tmp_matricula = str_replace(" ", "", $tmp_matricula);
+                    $tmp_matricula = str_replace("-", "", $tmp_matricula);
+                    $tmp_matricula = str_replace(".", "", $tmp_matricula);
+                    $tmp_matricula = str_replace(",", "", $tmp_matricula);
+                    $tmp_matricula = str_replace(":", "", $tmp_matricula);
+                    $patron_matricula = "/^[0-9]{4}[BCDFGHJKLMNPRSTVWXYZ]{3}$/";
+                    if (!preg_match($patron_matricula, $tmp_matricula)) {
                         $err_matricula = "La matricula no es válida";
                     } else {
-                        $tmp_matricula = strtoupper($tmp_matricula);
-                        $tmp_matricula = str_replace(" ", "", $tmp_matricula);
-                        $tmp_matricula = str_replace("-", "", $tmp_matricula);
-                        $tmp_matricula = str_replace(".", "", $tmp_matricula);
-                        $tmp_matricula = str_replace(",", "", $tmp_matricula);
-                        $tmp_matricula = str_replace(":", "", $tmp_matricula);
                         $matricula = $tmp_matricula;
                     }
                 }
@@ -272,7 +282,6 @@
                 $err_modelo = "El modelo no puede tener más de 50 caracteres";
             } else {
                 $modelo = $tmp_modelo; /* Agregar más adelante la comprovación con la API de los modelos */
-                $ruta_img_coche = __DIR__ . "/../../../clients/img/coche/" . $_SESSION["usuario"]["identificacion"] . "/" . $marca . "_" . $modelo . "/";
             }
         }
 
@@ -433,42 +442,184 @@
         }
 
         /* Validación de fotos */
+        if (!isset($_FILES['img']) || empty($_FILES['img']['name'][0])) {
+            $err_imagen = "Debes subir al menos una imagen de tu coche";
+            $rutas_imagenes = [];
+        } else {
+            $tmp_imagen_nombres = $_FILES['img']['name'];
+            $tmp_imagen_ubi = $_FILES['img']['tmp_name'];
+            $tmp_imagen_tipos = $_FILES['img']['type'];
+            $imagen_errores = $_FILES['img']['error'];
+            $rutas_imagenes = [];
+
+            for ($i = 0; $i < count($tmp_imagen_nombres); $i++) {
+                if ($imagen_errores[$i] === 0 && isset($matricula, $marca)) {
+                    $lista_imagenes = ["image/jpeg", "image/png", "image/jpg"];
+                    if (!in_array($tmp_imagen_tipos[$i], $lista_imagenes)) {
+                        $err_imagen = "El tipo de la imagen " . htmlspecialchars($tmp_imagen_nombres[$i]) . " no es válido";
+                        continue;
+                    }
+
+                    // Obtener la extensión de la imagen
+                    $extension = str_replace("image/", ".", $tmp_imagen_tipos[$i]);
+
+                    // Generar un nuevo nombre de imagen
+                    $nuevo_nombre = $marca . "_img" . ($i + 1) . $extension;
+
+                    // Ruta relativa
+                    $ruta_relativa = "/clients/img/" . $_SESSION["usuario"]["identificacion"] . "/coche/" . $matricula;
+                    $ruta_relativa_con_nombre = $ruta_relativa . "/" . $nuevo_nombre;
+
+                    // Ruta absoluta del sistema
+                    $ruta_absoluta = $_SERVER['DOCUMENT_ROOT'] . $ruta_relativa;
+                    $ruta_absoluta_con_nombre = $ruta_absoluta . "/" . $nuevo_nombre;
+
+                    // Crear carpeta si no existe
+                    if (!is_dir($ruta_absoluta)) {
+                        mkdir($ruta_absoluta, 0777, true);
+                    }
+
+                    // Mover imagen a la carpeta destino
+                    if (move_uploaded_file($tmp_imagen_ubi[$i], $ruta_absoluta_con_nombre)) {
+                        $rutas_imagenes[] = $ruta_relativa_con_nombre;
+                    } else {
+                        $err_imagen = "Error al mover la imagen " . htmlspecialchars($tmp_imagen_nombres[$i]);
+                    }
+                } else {
+                    $err_imagen = "Error en la imagen " . htmlspecialchars($tmp_imagen_nombres[$i]);
+                }
+            }
+        }
+
+
+        /* Validación de color */
+        if ($tmp_color == "") {
+            $err_color = "Debes indicar el color de tu coche";
+        } else {
+            $lista_colores = ["white", "black", "gray", "red", "blue", "green", "yellow", "orange", "brown", "others"];
+            if (!in_array($tmp_color, $lista_colores)) {
+                $err_color = "El color no es válido";
+            } else {
+                $tmp_color = strtolower($tmp_color);
+                $color = $tmp_color;
+            }
+        }
+
+        /* Validación de descripción */
+        if (strlen($tmp_descripcion) > 200) {
+            $err_descripcion = "La descripción no puede tener más de 200 caracteres";
+        } else {
+            $descripcion = $tmp_descripcion;
+        }
+
+        /* Validación de potencia */
+        if ($tmp_potencia == "") {
+            $err_potencia = "Debes indicar la potencia de tu coche";
+        } else {
+            if (!is_numeric($tmp_potencia)) {
+                $err_potencia = "La potencia debe ser un número";
+            } else {
+                if ($tmp_potencia < 0) {
+                    $err_potencia = "La potencia no puede ser negativa";
+                } else {
+                    if ($tmp_potencia > 2000) {
+                        $err_potencia = "La potencia no puede ser mayor a 2000";
+                    } else {
+                        $tmp_potencia = str_replace(",", ".", $tmp_potencia);
+                        $tmp_potencia = str_replace(".", "", $tmp_potencia);
+                        $potencia = $tmp_potencia;
+                    }
+                }
+            }
+        }
+
+        /* Validación de número de puertas */
+        if ($tmp_numero_puertas == "") {
+            $err_numero_puertas = "Debes indicar el número de puertas de tu coche";
+        } else {
+            if (!is_numeric($tmp_numero_puertas)) {
+                $err_numero_puertas = "El número de puertas debe ser un número";
+            } else {
+                if ($tmp_numero_puertas < 0) {
+                    $err_numero_puertas = "El número de puertas no puede ser negativo";
+                } else {
+                    if ($tmp_numero_puertas > 5) {
+                        $err_numero_puertas = "El número de puertas no puede ser mayor a 5";
+                    } else {
+                        $puertas = $tmp_numero_puertas;
+                    }
+                    
+                }
+            }
+        }
+
+        /* Validación de número de plazas */
+        if ($tmp_numero_plazas == "") {
+            $err_numero_plazas = "Debes indicar el número de plazas de tu coche";
+        } else {
+            if (!is_numeric($tmp_numero_plazas)) {
+                $err_numero_plazas = "El número de plazas debe ser un número";
+            } else {
+                if ($tmp_numero_plazas < 0) {
+                    $err_numero_plazas = "El número de plazas no puede ser negativo";
+                } else {
+                    if ($tmp_numero_plazas > 9) {
+                        $err_numero_plazas = "El número de plazas no puede ser mayor a 9";
+                    } else {
+                        $plazas = $tmp_numero_plazas;
+                    }
+                }
+            }
+        }
+
+
     }
     ?>
 
     <?php include_once '../../components/navbar.php'; ?>
-    <div class="container mt-5 pt-5">
-        <h1 class="text-center">Añadir coche</h1>
-        <div class="container card text-center">
 
-            <form action="#" method="post">
+    <br>
+    <br>
+    <form action="#" id="formulario" method="post" enctype="multipart/form-data">
+        <!-- INFORMACION DEL VEHICULO (MARCA MODELO Y ANNO DE MATRICULACION) -->
+
+        <div class="container mt-5 pt-5">
+            <div class="container card py-4">
+                <h3>Imagenes</h3>
                 <div class="row justify-content-center pt-3">
-
-                    <div class="mb-3 col-6">
-                        <input class="form-control" id="matricula" type="text" placeholder="Matricula*" name="matricula" value="<?php if (isset($matricula)) echo "$matricula" ?>">
-                        <?php
-                        if (isset($err_matricula)) {
-                            echo "<span class='error'>$err_matricula</span>";
-                        }
-                        ?>
+                    <div class="col">
+                        <input class="form-control" id="img" type="file" name="img[]" multiple accept="image/png, image/jpg, image/jpeg">
+                            <?php
+                            if (isset($err_imagen)) {
+                                echo "<span class='error'>$err_imagen</span>";
+                            }
+                            ?>
                     </div>
+                </div>
+                <div id="mostrar_img" class="d-flex flex-wrap gap-2 mt-3"></div>
+            </div>
+        </div>
 
-                    <div class="mb-3 col-6">
+        <div class="container mt-5 pt-5">
+            <div class="container card py-4">
+                <h3 class="text-start">Informacion basica</h3>
+                <div class="row justify-content-center pt-3">
+                    <div class="col">
                         <?php
-                            // API para obtener las marcas de coches
-                            $apiUrlMarcas = "https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json";
+                        // API para obtener las marcas de coches
+                        $apiUrlMarcas = "https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json";
 
-                            $curl = curl_init();
-                            curl_setopt($curl, CURLOPT_URL, $apiUrlMarcas);
-                            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-                            $respuesta = curl_exec($curl);
-                            curl_close($curl);
+                        $curl = curl_init();
+                        curl_setopt($curl, CURLOPT_URL, $apiUrlMarcas);
+                        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+                        $respuesta = curl_exec($curl);
+                        curl_close($curl);
 
-                            $datos = json_decode($respuesta, true);
-                            $marcas = $datos['Results'];
+                        $datos = json_decode($respuesta, true);
+                        $marcas = $datos['Results'];
 
-                            $marcaSeleccionada = isset($_POST['marca']) ? $_POST['marca'] : '';
-                            $modeloSeleccionado = isset($_POST['modelo']) ? $_POST['modelo'] : '';
+                        $marcaSeleccionada = isset($_POST['marca']) ? $_POST['marca'] : '';
+                        $modeloSeleccionado = isset($_POST['modelo']) ? $_POST['modelo'] : '';
                         ?>
 
                         <select class="form-select" id="marca" name="marca">
@@ -486,7 +637,7 @@
                         }
                         ?>
                     </div>
-                    <div class="mb-3 col-6">
+                    <div class="col">
                         <select class="form-select" id="modelo" name="modelo" data-selected="<?php echo htmlspecialchars($modeloSeleccionado); ?>">
                             <option disabled selected hidden>Modelo*</option>
                         </select>
@@ -496,15 +647,46 @@
                         }
                         ?>
                     </div>
-
-                    <div class="mb-3 col-6">
-                        <input class="form-control" placeholder="Selecciona el año de matriculacion" id="inputMes" type="month" name="anno_matriculacion" value="<?php if (isset($_POST['anno_matriculacion'])) echo htmlspecialchars($_POST['anno_matriculacion']); ?>">
+                    <div class="col">
+                        <input class="form-control" placeholder="Año de matriculacion" id="inputMes" type="month" name="anno_matriculacion" value="<?php if (isset($_POST['anno_matriculacion'])) echo htmlspecialchars($_POST['anno_matriculacion']); ?>">
                         <?php
                         if (isset($err_anno_matriculacion)) {
                             echo "<span class='error'>$err_anno_matriculacion</span>";
                         }
                         ?>
                     </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+
+        <div class="container mt-5 pt-5">
+            <div class="container card py-4">
+                <h3 class="text-start">MATRICULA</h3>
+                <div class="row justify-content-center pt-3">
+                    <div class="col">
+                        <input class="form-control" id="matricula" type="text" placeholder="Matricula*" name="matricula" value="<?php if (isset($matricula)) echo "$matricula" ?>">
+                        <?php
+                        if (isset($err_matricula)) {
+                            echo "<span class='error'>$err_matricula</span>";
+                        }
+                        ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="container mt-5 pt-5">
+
+            <div class="container card">
+                <br>
+                <h3>Informacion del vehiculo</h3>
+                <div class="row justify-content-center pt-3">
                     <div class="mb-3 col-6">
                         <input class="form-control" id="kilometros" type="number" placeholder="Kilómetros*" name="kilometros" value="<?php if (isset($kilometros)) echo "$kilometros" ?>">
                         <?php
@@ -513,46 +695,8 @@
                         }
                         ?>
                     </div>
-
                     <div class="mb-3 col-6">
-                        <input class="form-control" id="direccion" type="text" placeholder="Direccion*" name="direccion" value="<?php if (isset($direccion)) echo "$direccion" ?>">
-                        <?php
-                        if (isset($err_direccion)) {
-                            echo "<span class='error'>$err_direccion</span>";
-                        }
-                        ?>
-                    </div>
-
-
-                    <div class="mb-3 col-6">
-                        <input class="form-control" id="cp" type="number" placeholder="Código Postal*" name="cp" value="<?php if (isset($cp)) echo "$cp" ?>">
-                        <?php
-                        if (isset($err_cp)) {
-                            echo "<span class='error'>$err_cp</span>";
-                        }
-                        ?>
-                    </div>
-
-                    <div class="mb-3 col-6">
-                        <input class="form-control" id="provincia" type="text" placeholder="Provincia*" name="provincia" value="<?php if (isset($provincia)) echo "$provincia" ?>">
-                        <?php
-                        if (isset($err_provincia)) {
-                            echo "<span class='error'>$err_provincia</span>";
-                        }
-                        ?>
-                    </div>
-
-                    <div class="mb-3 col-6">
-                        <input class="form-control" id="ciudad" type="text" placeholder="Ciudad*" name="ciudad" value="<?php if (isset($ciudad)) echo "$ciudad" ?>">
-                        <?php
-                        if (isset($err_ciudad)) {
-                            echo "<span class='error'>$err_ciudad</span>";
-                        }
-                        ?>
-                    </div>
-
-                    <div class="mb-3 col-6">
-                        <Select class="form-select" id="tipo_combustible" name="tipo_combustible" form-select">
+                        <Select class="form-select" id="tipo_combustible" name="tipo_combustible">
                             <option disabled selected hidden>Tipo de combustible*</option>
                             <option value="gasolina"
                                 <?php if (isset($_POST['tipo_combustible']) && $_POST['tipo_combustible'] == "gasolina") echo "selected"; ?>>
@@ -659,8 +803,125 @@
                         }
                         ?>
                     </div>
+                    <div class="mb-3 col-6">
+                        <select class="form-select" id="color" name="color" required>
+                            <option disabled selected hidden>Color*</option>
+                            <option value="white">Blanco</option>
+                            <option value="black">Negro</option>
+                            <option value="gray">Gris</option>
+                            <option value="red">Rojo</option>
+                            <option value="blue">Azul</option>
+                            <option value="green">Verde</option>
+                            <option value="yellow">Amarillo</option>
+                            <option value="orange">Naranja</option>
+                            <option value="brown">Marrón</option>
+                            <option value="others">Otros</option>
+                        </select>
+                        <?php
+                        if (isset($err_color)) {
+                            echo "<span class='error'>$err_color</span>";
+                        }
+                        ?>
+                    </div>
+                    <div class="mb-3 col-6">
+                        <input class="form-control" min="30" max="2000" id="potencia" type="number" placeholder="Potencia*" name="potencia" value="<?php if (isset($potencia)) echo "$potencia" ?>">
+                        <?php
+                        if (isset($err_potencia)) {
+                            echo "<span class='error'>$err_potencia</span>";
+                        }
+                        ?>
+                    </div>
+                    <div class="mb-3 col-6">
+                        <input class="form-control" min="2" max="5" id="numero_puertas" type="number" placeholder="Numero de puertas*" name="numero_puertas" value="<?php if (isset($puertas)) echo "$puertas" ?>">
+                        <?php
+                        if (isset($err_numero_puertas)) {
+                            echo "<span class='error'>$err_numero_puertas</span>";
+                        }
+                        ?>
+                    </div>
+                    <div class="mb-3 col-6">
+                        <input class="form-control" min="1" max="9" id="numero_plazas" type="number" placeholder="Numero de plazas*" name="numero_plazas" value="<?php if (isset($plazas)) echo "$plazas" ?>">
+                        <?php
+                        if (isset($err_numero_plazas)) {
+                            echo "<span class='error'>$err_numero_plazas</span>";
+                        }
+                        ?>
+                    </div>
+                    <div>
+                        <textarea class="form-control" name="descripcion" id="exampleFormControlTextarea1" rows="3" placeholder="Descripcion*"><?php if (isset($descripcion)) echo "$descripcion"; ?></textarea>
+                        <?php
+                        if (isset($err_descripcion)) {
+                            echo "<span class='error'>$err_descripcion</span>";
+                        }
+                        ?>
+                        <br>
+                    </div>
+
+                </div>
+            </div>
+        </div>
 
 
+        <div class="container mt-5 pt-5">
+            <div class="container card py-4">
+                <h3 class="text-start">Precio</h3>
+
+                <div class="d-flex flex-column align-items-center">
+                    <label id="totalPrecio" class="form-label fw-bold">Precio Diario: <span id="mostrarPrecio">15€</span></label>
+
+                    <input type="range" class="form-range w-75" name="precio" id="precio" min="15" max="500" step="1" value="15">
+
+                    <div class="d-flex justify-content-between text-muted mt-1 w-75">
+                        <span>15€</span>
+                        <span>500€</span>
+                    </div>
+                    <?php
+                    if (isset($err_precio)) {
+                        echo "<span class='error'>$err_precio</span>";
+                    }
+                    ?>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="container mt-5 pt-5">
+            <div class="container card py-4">
+                <h3 class="text-start">Ubicacion</h3>
+                <div class="row justify-content-center pt-3">
+                    <div class="mb-3 col-6">
+                        <input class="form-control" id="direccion" type="text" placeholder="Direccion*" name="direccion" value="<?php if (isset($direccion)) echo "$direccion" ?>">
+                        <?php
+                        if (isset($err_direccion)) {
+                            echo "<span class='error'>$err_direccion</span>";
+                        }
+                        ?>
+                    </div>
+                    <div class="mb-3 col-6">
+                        <input class="form-control" id="cp" type="number" placeholder="Código Postal*" name="cp" value="<?php if (isset($cp)) echo "$cp" ?>">
+                        <?php
+                        if (isset($err_cp)) {
+                            echo "<span class='error'>$err_cp</span>";
+                        }
+                        ?>
+                    </div>
+                    <div class="mb-3 col-6">
+                        <input class="form-control" id="provincia" type="text" placeholder="Provincia*" name="provincia" value="<?php if (isset($provincia)) echo "$provincia" ?>">
+                        <?php
+                        if (isset($err_provincia)) {
+                            echo "<span class='error'>$err_provincia</span>";
+                        }
+                        ?>
+                    </div>
+                    <div class="mb-3 col-6">
+                        <input class="form-control" id="ciudad" type="text" placeholder="Ciudad*" name="ciudad" value="<?php if (isset($ciudad)) echo "$ciudad" ?>">
+                        <?php
+                        if (isset($err_ciudad)) {
+                            echo "<span class='error'>$err_ciudad</span>";
+                        }
+                        ?>
+                    </div>
                     <div class="mb-3 col-6">
                         <Select class="form-select" id="tipo_aparcamiento" name="tipo_aparcamiento">
                             <option disabled selected hidden>Tipo de aparcamiento*</option>
@@ -683,50 +944,53 @@
                         }
                         ?>
                     </div>
+                </div>
 
 
+            </div>
+        </div>
+
+
+<!--         <div class="container mt-5 pt-5">
+            <div class="container card py-4">
+                <h3 class="text-start">SEGURO</h3>
+                <div class="row justify-content-center pt-3">
                     <div class="mb-3 col-6">
-                        <label id="totalPrecio" class="form-label fw-bold">Precio Diario: <span id="mostrarPrecio">15€</span></label>
-
-                        <input type="range" class="form-range" name="precio" id="precio" min="15" max="500" step="1" value="15">
-
-                        <div class="d-flex justify-content-between text-muted mt-1">
-                            <span>15€</span>
-                            <span>500€</span>
+                        <div class=" mb-3 col-6 form-switch">
+                            <input type="checkbox" class="custom-switch" role="switch" id="flexSwitchCheckChecked" name="seguro" checked <?php if (isset($_POST['seguro'])) echo 'checked'; ?>>
+                            <label class="" for="flexSwitchCheckChecked">
+                                Dispone de seguro actualmente?
+                            </label>
                         </div>
                     </div>
-
-                    <p>La media de precio para tu coche es de <span>0€</span></p>
-
-
-                    <!-- INICIO SECCION DE IMAGENES -->
-
-                    <!-- FIN SECCION DE IMAGENES -->
+                </div>
+            </div>
+        </div> -->
 
 
-                    <!--BOTON VENTANA MODAL CON BOOTSTRAP-->
+        <div class="container mt-5 pt-5">
+            <div class="card py-4">
 
-                    <div class=" mb-3 col-6 form-switch">
-                        <input type="checkbox" class="form-check-input" role="switch" id="flexSwitchCheckChecked" name="seguro" checked <?php if (isset($_POST['seguro'])) echo 'checked'; ?>>
-                        <label class="form-check-label" for="flexSwitchCheckChecked">
-                            Seguro
-                        </label>
-                    </div>
-
-                    <div class="mb-3">
-                        <button type="button" class=" w-75" data-bs-toggle="modal" data-bs-target="#miModal">
+                <div class="row justify-content-center pt-3">
+                    <div class="col-auto">
+                        <button type="button" class="boton-redondo" data-bs-toggle="modal" data-bs-target="#miModal">
                             Extras
                         </button>
-
                     </div>
-                    <!--BOTON PARA ENVIAR EL FORMULARIO -->
-                    <div class="mb-3">
-                        <button type="submit" class=" w-75">
+                    <div class="col-auto">
+                        <button type="submit" class="boton-redondo">
                             Confirmar
                         </button>
                     </div>
-            </form>
+                </div>
+
+            </div>
         </div>
+
+
+    
+<br>
+    </div>
     </div>
     <!-- VENTANA MODAL CON BOOTSTRAP -->
     <div class="modal fade" id="miModal" tabindex="-1" aria-labelledby="miModalLabel" aria-hidden="true">
@@ -744,14 +1008,14 @@
                         </div>
                         <div>
                             <div>
-                                <input type="checkbox" name="mascota" <?php if (isset($_POST['mascota'])) echo 'checked'; ?>>
-                                <label>
+                                <input type="checkbox" id="mascota" name="mascota" <?php if (isset($_POST['mascota'])) echo 'checked'; ?>>
+                                <label for="mascota">
                                     Permito mascotas
                                 </label>
                             </div>
                             <div>
-                                <input type="checkbox" name="fumar" <?php if (isset($_POST['fumar'])) echo 'checked'; ?>>
-                                <label>
+                                <input type="checkbox" id="fumar" name="fumar" <?php if (isset($_POST['fumar'])) echo 'checked'; ?>>
+                                <label for="fumar">
                                     Permito fumar
                                 </label>
                             </div>
@@ -765,32 +1029,32 @@
                         </div>
                         <div>
                             <div>
-                                <input type="checkbox" name="gps" <?php if (isset($_POST['gps'])) echo 'checked'; ?>>
-                                <label>
+                                <input type="checkbox" id="gps" name="gps" <?php if (isset($_POST['gps'])) echo 'checked'; ?>>
+                                <label for="gps">
                                     GPS
                                 </label>
                             </div>
                             <div>
-                                <input type="checkbox" name="sensores_aparcamiento" <?php if (isset($_POST['sensores_aparcamiento'])) echo 'checked'; ?>>
-                                <label>
+                                <input type="checkbox" id="sensores_aparcamiento" name="sensores_aparcamiento" <?php if (isset($_POST['sensores_aparcamiento'])) echo 'checked'; ?>>
+                                <label for="sensores_aparcamiento">
                                     Sensores de aparcamiento
                                 </label>
                             </div>
                             <div>
-                                <input type="checkbox" name="camara_trasera" <?php if (isset($_POST['camara_trasera'])) echo 'checked'; ?>>
-                                <label>
+                                <input type="checkbox" id="camara_trasera" name="camara_trasera" <?php if (isset($_POST['camara_trasera'])) echo 'checked'; ?>>
+                                <label for="camara_trasera">
                                     Cámara de reversa
                                 </label>
                             </div>
                             <div>
-                                <input type="checkbox" name="control_de_crucero" <?php if (isset($_POST['control_de_crucero'])) echo 'checked'; ?>>
-                                <label>
+                                <input type="checkbox" id="control_de_crucero" name="control_de_crucero" <?php if (isset($_POST['control_de_crucero'])) echo 'checked'; ?>>
+                                <label for="control_de_crucero">
                                     Control de crucero
                                 </label>
                             </div>
                             <div>
-                                <input type="checkbox" name="cuatro_x_cuatro" <?php if (isset($_POST['cuatro_x_cuatro'])) echo 'checked'; ?>>
-                                <label>
+                                <input type="checkbox" id="cuatro_x_cuatro" name="cuatro_x_cuatro" <?php if (isset($_POST['cuatro_x_cuatro'])) echo 'checked'; ?>>
+                                <label for="cuatro_x_cuatro">
                                     Tracción 4x4
                                 </label>
                             </div>
@@ -804,32 +1068,32 @@
                         </div>
                         <div>
                             <div>
-                                <input type="checkbox" name="baca" <?php if (isset($_POST['baca'])) echo 'checked'; ?>>
-                                <label>
+                                <input type="checkbox" id="baca" name="baca" <?php if (isset($_POST['baca'])) echo 'checked'; ?>>
+                                <label for="baca">
                                     Baca
                                 </label>
                             </div>
                             <div>
-                                <input type="checkbox" name="portabicicletas" <?php if (isset($_POST['portabicicletas'])) echo 'checked'; ?>>
-                                <label>
+                                <input type="checkbox" id="portabicicletas" name="portabicicletas" <?php if (isset($_POST['portabicicletas'])) echo 'checked'; ?>>
+                                <label for="portabicicletas">
                                     Portabicicletas
                                 </label>
                             </div>
                             <div>
-                                <input type="checkbox" name="portaequipajes" <?php if (isset($_POST['portaequipajes'])) echo 'checked'; ?>>
-                                <label>
+                                <input type="checkbox" id="portaequipajes" name="portaequipajes" <?php if (isset($_POST['portaequipajes'])) echo 'checked'; ?>>
+                                <label for="portaequipajes">
                                     Portaequipajes
                                 </label>
                             </div>
                             <div>
-                                <input type="checkbox" name="portaesquis" <?php if (isset($_POST['portaesquis'])) echo 'checked'; ?>>
-                                <label>
+                                <input type="checkbox" id="portaesquis" name="portaesquis" <?php if (isset($_POST['portaesquis'])) echo 'checked'; ?>>
+                                <label for="portaesquis">
                                     Portaesquís
                                 </label>
                             </div>
                             <div>
-                                <input type="checkbox" name="bola_remolque" <?php if (isset($_POST['bola_remolque'])) echo 'checked'; ?>>
-                                <label>
+                                <input type="checkbox" id="bola_remolque" name="bola_remolque" <?php if (isset($_POST['bola_remolque'])) echo 'checked'; ?>>
+                                <label for="bola_remolque">
                                     Bola de remolque
                                 </label>
                             </div>
@@ -843,26 +1107,26 @@
                         </div>
                         <div>
                             <div>
-                                <input type="checkbox" name="bluetooth" <?php if (isset($_POST['bluetooth'])) echo 'checked'; ?>>
-                                <label>
+                                <input type="checkbox" id="bluetooth" name="bluetooth" <?php if (isset($_POST['bluetooth'])) echo 'checked'; ?>>
+                                <label for="bluetooth">
                                     Bluetooth
                                 </label>
                             </div>
                             <div>
-                                <input type="checkbox" name="wifi" <?php if (isset($_POST['wifi'])) echo 'checked'; ?>>
-                                <label>
+                                <input type="checkbox" id="wifi" name="wifi" <?php if (isset($_POST['wifi'])) echo 'checked'; ?>>
+                                <label for="wifi">
                                     WiFi
                                 </label>
                             </div>
                             <div>
-                                <input type="checkbox" name="android_carplay" <?php if (isset($_POST['android_carplay'])) echo 'checked'; ?>>
-                                <label>
+                                <input type="checkbox" id="android_carplay" name="android_carplay" <?php if (isset($_POST['android_carplay'])) echo 'checked'; ?>>
+                                <label for="android_carplay">
                                     Android CarPlay
                                 </label>
                             </div>
                             <div>
-                                <input type="checkbox" name="apple_carplay" <?php if (isset($_POST['apple_carplay'])) echo 'checked'; ?>>
-                                <label>
+                                <input type="checkbox" id="apple_carplay" name="apple_carplay" <?php if (isset($_POST['apple_carplay'])) echo 'checked'; ?>>
+                                <label for="apple_carplay">
                                     Apple CarPlay
                                 </label>
                             </div>
@@ -876,26 +1140,26 @@
                         </div>
                         <div>
                             <div>
-                                <input type="checkbox" name="aire_acondicionado" <?php if (isset($_POST['aire_acondicionado'])) echo 'checked'; ?>>
-                                <label>
+                                <input type="checkbox" id="aire_acondicionado" name="aire_acondicionado" <?php if (isset($_POST['aire_acondicionado'])) echo 'checked'; ?>>
+                                <label for="aire_acondicionado">
                                     Aire acondicionado
                                 </label>
                             </div>
                             <div>
-                                <input type="checkbox" name="asientos_calefactables" <?php if (isset($_POST['asientos_calefactables'])) echo 'checked'; ?>>
-                                <label>
+                                <input type="checkbox" id="asientos_calefactables" name="asientos_calefactables" <?php if (isset($_POST['asientos_calefactables'])) echo 'checked'; ?>>
+                                <label for="asientos_calefactables">
                                     Asientos calefactables
                                 </label>
                             </div>
                             <div>
-                                <input type="checkbox" name="fijacion_isofix" <?php if (isset($_POST['fijacion_isofix'])) echo 'checked'; ?>>
-                                <label>
+                                <input type="checkbox" id="fijacion_isofix" name="fijacion_isofix" <?php if (isset($_POST['fijacion_isofix'])) echo 'checked'; ?>>
+                                <label for="fijacion_isofix">
                                     Fijaciones ISOFIX
                                 </label>
                             </div>
                             <div>
-                                <input type="checkbox" name="movilidad_reducia" <?php if (isset($_POST['movilidad_reducia'])) echo 'checked'; ?>>
-                                <label>
+                                <input type="checkbox" id="movilidad_reducia" name="movilidad_reducia" <?php if (isset($_POST['movilidad_reducia'])) echo 'checked'; ?>>
+                                <label for="movilidad_reducia">
                                     Adaptado para personas con movilidad reducida
                                 </label>
                             </div>
@@ -915,37 +1179,24 @@
     </form>
 
     <?php
-    if (isset($matricula, $marca, $modelo, $precio, $anno_matriculacion, $kilometros, $direccion, $cp, $provincia, $ciudad, $tipo_combustible, $transmision, $tipo_aparcamiento, $tipo)) {
+    if (isset($matricula, $marca, $modelo, $precio, $anno_matriculacion, $kilometros, $direccion, $cp, $provincia, $ciudad, $tipo_combustible, $transmision, $tipo_aparcamiento, $tipo, $precio, $color, $plazas, $puertas, $potencia, $descripcion)) {
         /* Insertar coche */
         $enviarCoche = $_conexion->prepare("INSERT INTO coche (
                 matricula, id_usuario, seguro, marca, modelo, anno_matriculacion, kilometros,
                 combustible, transmision, provincia, ciudad, codigo_postal, direccion,
-                tipo_aparcamiento, ruta_img_coche, tipo, precio
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                tipo_aparcamiento, ruta_img_coche, tipo, precio, descripcion, color, plazas,
+                puertas, potencia
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
         if (!$enviarCoche) {
             die('Error en prepare coche: ' . $_conexion->error);
         }
 
-        $enviarCoche->bind_param(
-            "ssisssissssissssi",
-            $matricula,
-            $id_usuario,
-            $seguro,
-            $marca,
-            $modelo,
-            $anno_matriculacion,
-            $kilometros,
-            $tipo_combustible,
-            $transmision,
-            $provincia,
-            $ciudad,
-            $cp,
-            $direccion,
-            $tipo_aparcamiento,
-            $ruta_img_coche,
-            $tipo,
-            $precio
+        $enviarCoche->bind_param("ssisssissssissssissiii",
+            $matricula, $id_usuario, $seguro, $marca, $modelo, $anno_matriculacion, $kilometros,
+            $tipo_combustible, $transmision, $provincia, $ciudad, $cp, $direccion, 
+            $tipo_aparcamiento, $ruta_relativa, $tipo, $precio, $descripcion, $color, $plazas,
+            $puertas, $potencia
         );
 
         if (!$enviarCoche->execute()) {
@@ -965,28 +1216,11 @@
             die('Error en prepare extras: ' . $_conexion->error);
         }
 
-        $enviarExtras->bind_param(
-            "siiiiiiiiiiiiiiiiiiii",
-            $matricula,
-            $aire_acondicionado,
-            $gps,
-            $wifi,
-            $sensores_aparcamiento,
-            $camara_trasera,
-            $control_de_crucero,
-            $asientos_calefactables,
-            $bola_remolque,
-            $fijacion_isofix,
-            $apple_carplay,
-            $android_carplay,
-            $baca,
-            $portabicicletas,
-            $portaequipajes,
-            $portaesquis,
-            $bluetooth,
-            $cuatro_x_cuatro,
-            $mascota,
-            $fumar,
+        $enviarExtras->bind_param("siiiiiiiiiiiiiiiiiiii",
+            $matricula, $aire_acondicionado, $gps, $wifi, $sensores_aparcamiento, 
+            $camara_trasera, $control_de_crucero, $asientos_calefactables, $bola_remolque, 
+            $fijacion_isofix, $apple_carplay, $android_carplay, $baca, $portabicicletas,
+            $portaequipajes, $portaesquis, $bluetooth, $cuatro_x_cuatro, $mascota, $fumar,
             $movilidad_reducida
         );
 
@@ -994,12 +1228,31 @@
             die('Error al insertar extras: ' . $enviarExtras->error);
         }
 
-        echo "<script>alert('Coche añadido correctamente');</script>";
+        /* Insertar imagenes */
+        $enviarImagenes = $_conexion->prepare("INSERT INTO imagen_coche (id_coche, ruta_img_coche) VALUES (?, ?)");
+
+        if (!$enviarImagenes) {
+            die('Error en prepare imagenes: ' . $_conexion->error);
+        }
+
+        if (isset($rutas_imagenes) && is_array($rutas_imagenes)) {
+            foreach ($rutas_imagenes as $ruta) {
+                $enviarImagenes->bind_param("ss", $matricula, $ruta);
+                if (!$enviarImagenes->execute()) {
+                    die('Error al insertar imagen: ' . $enviarImagenes->error);
+                }
+            }
+        }
+        
+        /* echo "<script>alert('Coche añadido correctamente');</script>"; */
     }
     ?>
     <?php include_once '../../components/footer.php'; ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/src/js/mostrar_marcas.js"></script>
+    <script src="../../js/mostrar_marcas.js"></script>
+    <script src="../../js/nuevo_coche.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script> -->
+    <script src="../../js/pre_imagen.js"></script>
 
 </body>
 
