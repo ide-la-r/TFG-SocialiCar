@@ -275,9 +275,9 @@
         </div>
 
         <!-- Plantillas para los inputs flotantes -->
-        <div class="form-floating">
+<!--         <div class="form-floating">
             <label for="floatingInput"></label>
-        </div>
+        </div> -->
         <!-- Plantillas para los inputs flotantes -->
 
         <div class="container mt-5 pt-5">
