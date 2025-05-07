@@ -602,7 +602,7 @@
             <!-- Marca -->
             <div class="col">
                 <div class="form-floating">
-                    <select class="form-select" id="floatingSelect" name="marca">
+                    <select class="form-select" id="marca" name="marca">
                         <option disabled selected hidden>Marca*</option>
                         <?php foreach ($marcas as $marcaItem) { ?>
                             <option value="<?php echo $marcaItem["MakeName"]; ?>"
@@ -611,7 +611,7 @@
                             </option>
                         <?php } ?>
                     </select>
-                    <label for="floatingSelect">Marca</label>
+                    <label for="marca">Marca</label>
                     <?php
                     if (isset($err_marca)) {
                         echo "<span class='error'>$err_marca</span>";
