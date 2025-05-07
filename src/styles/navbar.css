@@ -4,6 +4,10 @@
     background-color: #C4EEF2 !important;
   }
 
+  .btn {
+    border-radius: 25px !important;
+  }
+
   .btn-custom {
     background-color: #6BBFBF;
     color: black;

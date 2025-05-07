@@ -14,7 +14,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql->bind_param("s", $correo);
     $sql->execute();
     $resultado = $sql->get_result();
-    $_conexion->close();
 
     if ($resultado->num_rows == 0) {
         $err_correo = "El correo electronico no existe";
@@ -24,10 +23,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($acceso_concedido) {
             $_SESSION["usuario"] = $datos_usuario;
+        
+            // Actualizar el estado del usuario a 1 (online)
+            $sql = $_conexion->prepare("UPDATE usuario SET estado = 1 WHERE identificacion = ?");
+            $sql->bind_param("s", $datos_usuario["identificacion"]);
+            $sql->execute();
+            $sql->close();
+        
+            // Cierra la conexión después de todas las consultas
+            $_conexion->close();
+        
+            // Redirigir a la página de inicio
             header("location: ../../../index.php");
             exit();
+        
         } else {
             $err_contrasena = "La contraseña es incorrecta";
+            $_conexion->close();
         }
     }
 }
@@ -65,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <?php if (isset($err_contrasena)) echo "<span class='error'>$err_contrasena</span>" ?>
                     </div>
                 </div>
-                <input type="submit" class="btn col-4" value="Iniciar sesión">
+                <input type="submit" class=" btn btn-primary" value="Iniciar sesión">
             </form>
             <div class="mb-3 iniciar_sesion_pregunta">
                 <p>¿Todavía no tienes cuenta? <a href="./registro">Registrarse</a></p>

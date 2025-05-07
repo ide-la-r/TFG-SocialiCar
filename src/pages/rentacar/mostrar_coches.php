@@ -23,11 +23,11 @@
 <body class="d-flex flex-column min-vh-100 bg-light">
 
     <video id="video" autoplay muted playsinline>
-        <source src="/src/video/socialicar_2.mp4" type="video/mp4">
+        <source src="/src/video/socialicar_2" type="video/mp4">
         Tu navegador no soporta el formato de video.
     </video>
     <script>
-        document.getElementById('video').playbackRate = 2; // se reproduce a x2
+        document.getElementById('video').playbackRate = 1.5; // se reproduce a x1.5
     </script>
 
 
@@ -37,7 +37,7 @@
     <!-- BANNER (Hero) -->
     <div class="banner-video-container d-flex justify-content-center align-items-center text-center">
         <video autoplay muted loop playsinline class="banner-video">
-            <source src="/src/video/socialicar_3.mp4" type="video/mp4" />
+            <source src="/src/video/socialicar_3.webm" type="video/mp4" />
         </video>
         <div class="banner-content text-white">
             <h1>Encuentra tu <i>vehiculo</i> ideal</h1>
