@@ -548,7 +548,6 @@
                     } else {
                         $puertas = $tmp_numero_puertas;
                     }
-                    
                 }
             }
         }
@@ -571,8 +570,6 @@
                 }
             }
         }
-
-
     }
     ?>
 
@@ -581,103 +578,93 @@
     <br>
     <br>
     <form action="#" id="formulario" method="post" enctype="multipart/form-data">
-        <!-- INFORMACION DEL VEHICULO (MARCA MODELO Y ANNO DE MATRICULACION) -->
+    <div class="container mt-5 pt-5">
+    <div class="container card py-4">
+        <h3 class="text-start">Informacion basica</h3>
+        <div class="row justify-content-center pt-3">
+            <?php
+            // API para obtener las marcas de coches
+            $apiUrlMarcas = "https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json";
 
-        <div class="container mt-5 pt-5">
-            <div class="container card py-4">
-                <h3>Imagenes</h3>
-                <div class="row justify-content-center pt-3">
-                    <div class="col">
-                        <input class="form-control" id="img" type="file" name="img[]" multiple accept="image/png, image/jpg, image/jpeg">
-                            <?php
-                            if (isset($err_imagen)) {
-                                echo "<span class='error'>$err_imagen</span>";
-                            }
-                            ?>
-                    </div>
+            $curl = curl_init();
+            curl_setopt($curl, CURLOPT_URL, $apiUrlMarcas);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            $respuesta = curl_exec($curl);
+            curl_close($curl);
+
+            $datos = json_decode($respuesta, true);
+            $marcas = $datos['Results'];
+
+            $marcaSeleccionada = isset($_POST['marca']) ? $_POST['marca'] : '';
+            $modeloSeleccionado = isset($_POST['modelo']) ? $_POST['modelo'] : '';
+            ?>
+
+            <!-- Marca -->
+            <div class="col">
+                <div class="form-floating">
+                    <select class="form-select" id="floatingSelect" name="marca">
+                        <option disabled selected hidden>Marca*</option>
+                        <?php foreach ($marcas as $marcaItem) { ?>
+                            <option value="<?php echo $marcaItem["MakeName"]; ?>"
+                                <?php if ($marcaSeleccionada === $marcaItem["MakeName"]) echo "selected"; ?>>
+                                <?php echo $marcaItem["MakeName"]; ?>
+                            </option>
+                        <?php } ?>
+                    </select>
+                    <label for="floatingSelect">Marca</label>
+                    <?php
+                    if (isset($err_marca)) {
+                        echo "<span class='error'>$err_marca</span>";
+                    }
+                    ?>
                 </div>
-                <div id="mostrar_img" class="d-flex flex-wrap gap-2 mt-3"></div>
             </div>
-        </div>
 
-        <div class="container mt-5 pt-5">
-            <div class="container card py-4">
-                <h3 class="text-start">Informacion basica</h3>
-                <div class="row justify-content-center pt-3">
-                    <div class="col">
-                        <?php
-                        // API para obtener las marcas de coches
-                        $apiUrlMarcas = "https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json";
-
-                        $curl = curl_init();
-                        curl_setopt($curl, CURLOPT_URL, $apiUrlMarcas);
-                        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-                        $respuesta = curl_exec($curl);
-                        curl_close($curl);
-
-                        $datos = json_decode($respuesta, true);
-                        $marcas = $datos['Results'];
-
-                        $marcaSeleccionada = isset($_POST['marca']) ? $_POST['marca'] : '';
-                        $modeloSeleccionado = isset($_POST['modelo']) ? $_POST['modelo'] : '';
-                        ?>
-
-                        <select class="form-select" id="marca" name="marca">
-                            <option disabled selected hidden>Marca*</option>
-                            <?php foreach ($marcas as $marcaItem) { ?>
-                                <option value="<?php echo $marcaItem["MakeName"]; ?>"
-                                    <?php if (isset($_POST['marca']) && $_POST['marca'] == $marcaItem["MakeName"]) echo "selected"; ?>>
-                                    <?php echo $marcaItem["MakeName"]; ?>
-                                </option>
-                            <?php } ?>
-                        </select>
-                        <?php
-                        if (isset($err_marca)) {
-                            echo "<span class='error'>$err_marca</span>";
-                        }
-                        ?>
-                    </div>
-                    <div class="col">
-                        <select class="form-select" id="modelo" name="modelo" data-selected="<?php echo htmlspecialchars($modeloSeleccionado); ?>">
-                            <option disabled selected hidden>Modelo*</option>
-                        </select>
-                        <?php
-                        if (isset($err_modelo)) {
-                            echo "<span class='error'>$err_modelo</span>";
-                        }
-                        ?>
-                    </div>
-                    <div class="col">
-                        <input class="form-control" placeholder="Año de matriculacion" id="inputMes" type="month" name="anno_matriculacion" value="<?php if (isset($_POST['anno_matriculacion'])) echo htmlspecialchars($_POST['anno_matriculacion']); ?>">
-                        <?php
-                        if (isset($err_anno_matriculacion)) {
-                            echo "<span class='error'>$err_anno_matriculacion</span>";
-                        }
-                        ?>
-                    </div>
+            <!-- Modelo -->
+            <div class="col">
+                <div class="form-floating">
+                    <select class="form-select" id="modelo" name="modelo" data-selected="<?php echo htmlspecialchars($modeloSeleccionado); ?>">
+                        <option disabled selected hidden>Modelo*</option>
+                    </select>
+                    <label for="modelo">Modelo</label>
+                    <?php
+                    if (isset($err_modelo)) {
+                        echo "<span class='error'>$err_modelo</span>";
+                    }
+                    ?>
                 </div>
-
-
             </div>
-        </div>
 
+            <!-- Año de matriculación -->
+            <div class="col">
+                <div class="form-floating">
+                    <input class="form-control" placeholder="Año de matriculacion" id="inputMes" type="month" name="anno_matriculacion" value="<?php if (isset($_POST['anno_matriculacion'])) echo htmlspecialchars($_POST['anno_matriculacion']); ?>">
+                    <label for="inputMes">Año de matriculacion</label>
+                    <?php
+                    if (isset($err_anno_matriculacion)) {
+                        echo "<span class='error'>$err_anno_matriculacion</span>";
+                    }
+                    ?>
+                </div>
+            </div>
 
-
-        <div class="container mt-5 pt-5">
-            <div class="container card py-4">
-                <h3 class="text-start">MATRICULA</h3>
-                <div class="row justify-content-center pt-3">
-                    <div class="col">
-                        <input class="form-control" id="matricula" type="text" placeholder="Matricula*" name="matricula" value="<?php if (isset($matricula)) echo "$matricula" ?>">
-                        <?php
-                        if (isset($err_matricula)) {
-                            echo "<span class='error'>$err_matricula</span>";
-                        }
-                        ?>
-                    </div>
+            <!-- Matrícula -->
+            <div class="col">
+                <div class="form-floating">
+                    <input class="form-control" id="floatingInput" type="text" placeholder="Matricula*" name="matricula" value="<?php if (isset($matricula)) echo htmlspecialchars($matricula); ?>">
+                    <label for="floatingInput">Matricula</label>
+                    <?php
+                    if (isset($err_matricula)) {
+                        echo "<span class='error'>$err_matricula</span>";
+                    }
+                    ?>
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+
 
 
 
@@ -950,8 +937,25 @@
             </div>
         </div>
 
+        <div class="container mt-5 pt-5">
+            <div class="container card py-4">
+                <h3>Imagenes</h3>
+                <div class="row justify-content-center pt-3">
+                    <div class="col">
+                        <input class="form-control" id="img" type="file" name="img[]" multiple accept="image/png, image/jpg, image/jpeg">
+                        <?php
+                        if (isset($err_imagen)) {
+                            echo "<span class='error'>$err_imagen</span>";
+                        }
+                        ?>
+                    </div>
+                </div>
+                <div id="mostrar_img" class="d-flex flex-wrap gap-2 mt-3"></div>
+            </div>
+        </div>
 
-<!--         <div class="container mt-5 pt-5">
+
+        <!--         <div class="container mt-5 pt-5">
             <div class="container card py-4">
                 <h3 class="text-start">SEGURO</h3>
                 <div class="row justify-content-center pt-3">
@@ -988,194 +992,194 @@
         </div>
 
 
-    
-<br>
-    </div>
-    </div>
-    <!-- VENTANA MODAL CON BOOTSTRAP -->
-    <div class="modal fade" id="miModal" tabindex="-1" aria-labelledby="miModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="miModalLabel">Selecciona los extras</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- Sección Características Básicas -->
-                    <div>
-                        <div>
-                            <h6>Características Básicas</h6>
-                        </div>
+
+        <br>
+        </div>
+        </div>
+        <!-- VENTANA MODAL CON BOOTSTRAP -->
+        <div class="modal fade" id="miModal" tabindex="-1" aria-labelledby="miModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="miModalLabel">Selecciona los extras</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Sección Características Básicas -->
                         <div>
                             <div>
-                                <input type="checkbox" id="mascota" name="mascota" <?php if (isset($_POST['mascota'])) echo 'checked'; ?>>
-                                <label for="mascota">
-                                    Permito mascotas
-                                </label>
+                                <h6>Características Básicas</h6>
                             </div>
                             <div>
-                                <input type="checkbox" id="fumar" name="fumar" <?php if (isset($_POST['fumar'])) echo 'checked'; ?>>
-                                <label for="fumar">
-                                    Permito fumar
-                                </label>
+                                <div>
+                                    <input type="checkbox" id="mascota" name="mascota" <?php if (isset($_POST['mascota'])) echo 'checked'; ?>>
+                                    <label for="mascota">
+                                        Permito mascotas
+                                    </label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="fumar" name="fumar" <?php if (isset($_POST['fumar'])) echo 'checked'; ?>>
+                                    <label for="fumar">
+                                        Permito fumar
+                                    </label>
+                                </div>
                             </div>
                         </div>
+
+                        <!-- Sección Asistencia a la Conducción -->
+                        <div>
+                            <div>
+                                <h6>Asistencia a la Conducción</h6>
+                            </div>
+                            <div>
+                                <div>
+                                    <input type="checkbox" id="gps" name="gps" <?php if (isset($_POST['gps'])) echo 'checked'; ?>>
+                                    <label for="gps">
+                                        GPS
+                                    </label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="sensores_aparcamiento" name="sensores_aparcamiento" <?php if (isset($_POST['sensores_aparcamiento'])) echo 'checked'; ?>>
+                                    <label for="sensores_aparcamiento">
+                                        Sensores de aparcamiento
+                                    </label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="camara_trasera" name="camara_trasera" <?php if (isset($_POST['camara_trasera'])) echo 'checked'; ?>>
+                                    <label for="camara_trasera">
+                                        Cámara de reversa
+                                    </label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="control_de_crucero" name="control_de_crucero" <?php if (isset($_POST['control_de_crucero'])) echo 'checked'; ?>>
+                                    <label for="control_de_crucero">
+                                        Control de crucero
+                                    </label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="cuatro_x_cuatro" name="cuatro_x_cuatro" <?php if (isset($_POST['cuatro_x_cuatro'])) echo 'checked'; ?>>
+                                    <label for="cuatro_x_cuatro">
+                                        Tracción 4x4
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sección Portaequipajes y Accesorios -->
+                        <div>
+                            <div>
+                                <h6>Portaequipajes y Accesorios</h6>
+                            </div>
+                            <div>
+                                <div>
+                                    <input type="checkbox" id="baca" name="baca" <?php if (isset($_POST['baca'])) echo 'checked'; ?>>
+                                    <label for="baca">
+                                        Baca
+                                    </label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="portabicicletas" name="portabicicletas" <?php if (isset($_POST['portabicicletas'])) echo 'checked'; ?>>
+                                    <label for="portabicicletas">
+                                        Portabicicletas
+                                    </label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="portaequipajes" name="portaequipajes" <?php if (isset($_POST['portaequipajes'])) echo 'checked'; ?>>
+                                    <label for="portaequipajes">
+                                        Portaequipajes
+                                    </label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="portaesquis" name="portaesquis" <?php if (isset($_POST['portaesquis'])) echo 'checked'; ?>>
+                                    <label for="portaesquis">
+                                        Portaesquís
+                                    </label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="bola_remolque" name="bola_remolque" <?php if (isset($_POST['bola_remolque'])) echo 'checked'; ?>>
+                                    <label for="bola_remolque">
+                                        Bola de remolque
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sección Tecnología y Navegación -->
+                        <div>
+                            <div>
+                                <h6>Tecnología y Navegación</h6>
+                            </div>
+                            <div>
+                                <div>
+                                    <input type="checkbox" id="bluetooth" name="bluetooth" <?php if (isset($_POST['bluetooth'])) echo 'checked'; ?>>
+                                    <label for="bluetooth">
+                                        Bluetooth
+                                    </label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="wifi" name="wifi" <?php if (isset($_POST['wifi'])) echo 'checked'; ?>>
+                                    <label for="wifi">
+                                        WiFi
+                                    </label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="android_carplay" name="android_carplay" <?php if (isset($_POST['android_carplay'])) echo 'checked'; ?>>
+                                    <label for="android_carplay">
+                                        Android CarPlay
+                                    </label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="apple_carplay" name="apple_carplay" <?php if (isset($_POST['apple_carplay'])) echo 'checked'; ?>>
+                                    <label for="apple_carplay">
+                                        Apple CarPlay
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sección Confort y Equipamiento -->
+                        <div>
+                            <div>
+                                <h6>Confort y Equipamiento</h6>
+                            </div>
+                            <div>
+                                <div>
+                                    <input type="checkbox" id="aire_acondicionado" name="aire_acondicionado" <?php if (isset($_POST['aire_acondicionado'])) echo 'checked'; ?>>
+                                    <label for="aire_acondicionado">
+                                        Aire acondicionado
+                                    </label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="asientos_calefactables" name="asientos_calefactables" <?php if (isset($_POST['asientos_calefactables'])) echo 'checked'; ?>>
+                                    <label for="asientos_calefactables">
+                                        Asientos calefactables
+                                    </label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="fijacion_isofix" name="fijacion_isofix" <?php if (isset($_POST['fijacion_isofix'])) echo 'checked'; ?>>
+                                    <label for="fijacion_isofix">
+                                        Fijaciones ISOFIX
+                                    </label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="movilidad_reducia" name="movilidad_reducia" <?php if (isset($_POST['movilidad_reducia'])) echo 'checked'; ?>>
+                                    <label for="movilidad_reducia">
+                                        Adaptado para personas con movilidad reducida
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
 
-                    <!-- Sección Asistencia a la Conducción -->
-                    <div>
-                        <div>
-                            <h6>Asistencia a la Conducción</h6>
-                        </div>
-                        <div>
-                            <div>
-                                <input type="checkbox" id="gps" name="gps" <?php if (isset($_POST['gps'])) echo 'checked'; ?>>
-                                <label for="gps">
-                                    GPS
-                                </label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="sensores_aparcamiento" name="sensores_aparcamiento" <?php if (isset($_POST['sensores_aparcamiento'])) echo 'checked'; ?>>
-                                <label for="sensores_aparcamiento">
-                                    Sensores de aparcamiento
-                                </label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="camara_trasera" name="camara_trasera" <?php if (isset($_POST['camara_trasera'])) echo 'checked'; ?>>
-                                <label for="camara_trasera">
-                                    Cámara de reversa
-                                </label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="control_de_crucero" name="control_de_crucero" <?php if (isset($_POST['control_de_crucero'])) echo 'checked'; ?>>
-                                <label for="control_de_crucero">
-                                    Control de crucero
-                                </label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="cuatro_x_cuatro" name="cuatro_x_cuatro" <?php if (isset($_POST['cuatro_x_cuatro'])) echo 'checked'; ?>>
-                                <label for="cuatro_x_cuatro">
-                                    Tracción 4x4
-                                </label>
-                            </div>
-                        </div>
+                    <!-- BOTÓN CERRAR DE LA VENTANA MODAL -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                     </div>
-
-                    <!-- Sección Portaequipajes y Accesorios -->
-                    <div>
-                        <div>
-                            <h6>Portaequipajes y Accesorios</h6>
-                        </div>
-                        <div>
-                            <div>
-                                <input type="checkbox" id="baca" name="baca" <?php if (isset($_POST['baca'])) echo 'checked'; ?>>
-                                <label for="baca">
-                                    Baca
-                                </label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="portabicicletas" name="portabicicletas" <?php if (isset($_POST['portabicicletas'])) echo 'checked'; ?>>
-                                <label for="portabicicletas">
-                                    Portabicicletas
-                                </label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="portaequipajes" name="portaequipajes" <?php if (isset($_POST['portaequipajes'])) echo 'checked'; ?>>
-                                <label for="portaequipajes">
-                                    Portaequipajes
-                                </label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="portaesquis" name="portaesquis" <?php if (isset($_POST['portaesquis'])) echo 'checked'; ?>>
-                                <label for="portaesquis">
-                                    Portaesquís
-                                </label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="bola_remolque" name="bola_remolque" <?php if (isset($_POST['bola_remolque'])) echo 'checked'; ?>>
-                                <label for="bola_remolque">
-                                    Bola de remolque
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Sección Tecnología y Navegación -->
-                    <div>
-                        <div>
-                            <h6>Tecnología y Navegación</h6>
-                        </div>
-                        <div>
-                            <div>
-                                <input type="checkbox" id="bluetooth" name="bluetooth" <?php if (isset($_POST['bluetooth'])) echo 'checked'; ?>>
-                                <label for="bluetooth">
-                                    Bluetooth
-                                </label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="wifi" name="wifi" <?php if (isset($_POST['wifi'])) echo 'checked'; ?>>
-                                <label for="wifi">
-                                    WiFi
-                                </label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="android_carplay" name="android_carplay" <?php if (isset($_POST['android_carplay'])) echo 'checked'; ?>>
-                                <label for="android_carplay">
-                                    Android CarPlay
-                                </label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="apple_carplay" name="apple_carplay" <?php if (isset($_POST['apple_carplay'])) echo 'checked'; ?>>
-                                <label for="apple_carplay">
-                                    Apple CarPlay
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Sección Confort y Equipamiento -->
-                    <div>
-                        <div>
-                            <h6>Confort y Equipamiento</h6>
-                        </div>
-                        <div>
-                            <div>
-                                <input type="checkbox" id="aire_acondicionado" name="aire_acondicionado" <?php if (isset($_POST['aire_acondicionado'])) echo 'checked'; ?>>
-                                <label for="aire_acondicionado">
-                                    Aire acondicionado
-                                </label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="asientos_calefactables" name="asientos_calefactables" <?php if (isset($_POST['asientos_calefactables'])) echo 'checked'; ?>>
-                                <label for="asientos_calefactables">
-                                    Asientos calefactables
-                                </label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="fijacion_isofix" name="fijacion_isofix" <?php if (isset($_POST['fijacion_isofix'])) echo 'checked'; ?>>
-                                <label for="fijacion_isofix">
-                                    Fijaciones ISOFIX
-                                </label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="movilidad_reducia" name="movilidad_reducia" <?php if (isset($_POST['movilidad_reducia'])) echo 'checked'; ?>>
-                                <label for="movilidad_reducia">
-                                    Adaptado para personas con movilidad reducida
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- BOTÓN CERRAR DE LA VENTANA MODAL -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
-    </div>
-    </div>
+        </div>
     </form>
 
     <?php
@@ -1192,11 +1196,30 @@
             die('Error en prepare coche: ' . $_conexion->error);
         }
 
-        $enviarCoche->bind_param("ssisssissssissssissiii",
-            $matricula, $id_usuario, $seguro, $marca, $modelo, $anno_matriculacion, $kilometros,
-            $tipo_combustible, $transmision, $provincia, $ciudad, $cp, $direccion, 
-            $tipo_aparcamiento, $ruta_relativa, $tipo, $precio, $descripcion, $color, $plazas,
-            $puertas, $potencia
+        $enviarCoche->bind_param(
+            "ssisssissssissssissiii",
+            $matricula,
+            $id_usuario,
+            $seguro,
+            $marca,
+            $modelo,
+            $anno_matriculacion,
+            $kilometros,
+            $tipo_combustible,
+            $transmision,
+            $provincia,
+            $ciudad,
+            $cp,
+            $direccion,
+            $tipo_aparcamiento,
+            $ruta_relativa,
+            $tipo,
+            $precio,
+            $descripcion,
+            $color,
+            $plazas,
+            $puertas,
+            $potencia
         );
 
         if (!$enviarCoche->execute()) {
@@ -1216,11 +1239,28 @@
             die('Error en prepare extras: ' . $_conexion->error);
         }
 
-        $enviarExtras->bind_param("siiiiiiiiiiiiiiiiiiii",
-            $matricula, $aire_acondicionado, $gps, $wifi, $sensores_aparcamiento, 
-            $camara_trasera, $control_de_crucero, $asientos_calefactables, $bola_remolque, 
-            $fijacion_isofix, $apple_carplay, $android_carplay, $baca, $portabicicletas,
-            $portaequipajes, $portaesquis, $bluetooth, $cuatro_x_cuatro, $mascota, $fumar,
+        $enviarExtras->bind_param(
+            "siiiiiiiiiiiiiiiiiiii",
+            $matricula,
+            $aire_acondicionado,
+            $gps,
+            $wifi,
+            $sensores_aparcamiento,
+            $camara_trasera,
+            $control_de_crucero,
+            $asientos_calefactables,
+            $bola_remolque,
+            $fijacion_isofix,
+            $apple_carplay,
+            $android_carplay,
+            $baca,
+            $portabicicletas,
+            $portaequipajes,
+            $portaesquis,
+            $bluetooth,
+            $cuatro_x_cuatro,
+            $mascota,
+            $fumar,
             $movilidad_reducida
         );
 
@@ -1243,7 +1283,7 @@
                 }
             }
         }
-        
+
         /* echo "<script>alert('Coche añadido correctamente');</script>"; */
     }
     ?>
