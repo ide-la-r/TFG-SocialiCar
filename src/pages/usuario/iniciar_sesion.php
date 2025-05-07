@@ -14,7 +14,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql->bind_param("s", $correo);
     $sql->execute();
     $resultado = $sql->get_result();
-    $_conexion->close();
 
     if ($resultado->num_rows == 0) {
         $err_correo = "El correo electronico no existe";
@@ -24,10 +23,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($acceso_concedido) {
             $_SESSION["usuario"] = $datos_usuario;
+        
+            // Actualizar el estado del usuario a 1 (online)
+            $sql = $_conexion->prepare("UPDATE usuario SET estado = 1 WHERE identificacion = ?");
+            $sql->bind_param("s", $datos_usuario["identificacion"]);
+            $sql->execute();
+            $sql->close();
+        
+            // Cierra la conexión después de todas las consultas
+            $_conexion->close();
+        
+            // Redirigir a la página de inicio
             header("location: ../../../index.php");
             exit();
+        
         } else {
             $err_contrasena = "La contraseña es incorrecta";
+            $_conexion->close();
         }
     }
 }

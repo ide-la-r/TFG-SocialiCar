@@ -6,6 +6,11 @@
     <title>Trabaja con nosotros</title>
     <?php include_once '../../components/links.php'; ?>
     <link rel="icon" href="../../../src/img/favicon.png" />
+    <?php
+        error_reporting(E_ALL);
+        ini_set("display_errors", 1);
+        session_start();
+    ?>
 </head>
 <body>
 <?php include_once '../../components/navbar.php'; ?>
