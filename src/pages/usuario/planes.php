@@ -28,6 +28,7 @@ session_start();
         position: relative;
         width: 100%;
         height: 100vh;
+        z-index: 0;
     }
 
     .video {
@@ -50,7 +51,6 @@ session_start();
         z-index: 1;
     }
 
-    /* NUEVOS ESTILOS AÑADIDOS */
     .card-container {
         position: relative;
         height: 180px;
@@ -98,6 +98,7 @@ session_start();
         margin: 0 auto;
         border-radius: 25px !important;
     }
+
 </style>
 
 <body>

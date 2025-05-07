@@ -222,15 +222,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .error {
             color: red;
         }
-
+        
         body {
-            background-image:
-                linear-gradient(to bottom right, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0)),
-                url('../../img/papel_roto.jpeg');
+            background-image: url('../../img/fondo_login.jpg');
             background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            background-repeat: no-repeat;
+            background-position: center -25vh;
+        }
+
+        .card {
+            height: 39vh;
+            background-color: rgba(255, 255, 255, 0.91);
+            margin-bottom: 10vh;
         }
     </style>
 </head>
@@ -238,8 +240,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body class="d-flex flex-column min-vh-100">
     <?php include_once '../../components/navbar.php'; ?>
     <div class="container mt-5 pt-5">
-        <div class="container card text-center card_registro" style="width: 40rem;">
-            <h1 class="register">Registrarse</h1>
+        <div class="container card text-center card_registro" style="width: 40rem; width: 35rem; border-radius: 40px; height: 60vh">
+            <h1 class="register pt-4">Registrarse</h1>
             <form action="" method="post" class="form-floating">
                 <div class="row justify-content-center">
                     <div class="mb-3 col-4">
@@ -296,7 +298,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <input type="submit" class="btn col-4" value="Registrarse">
             </form>
-            <div class="mb-3 iniciar_sesion_pregunta">
+            <div class="iniciar_sesion_pregunta">
                 <p>¿Ya tienes cuenta? <a href="./iniciar_sesion">Iniciar sesión</a></p>
             </div>
         </div>
