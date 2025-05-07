@@ -57,21 +57,14 @@
 
       <!-- Notificaciones -->
       <?php
-      if (isset($_SESSION['usuario'])) {
-      echo "
-        <div class='dropdown me-3'>
-          <a
-            class='text-reset'
-            href='#'
-            role='button'
-            data-bs-toggle='dropdown'
-            aria-expanded='false'>
-            <i class='fa-regular fa-comment-dots fa-flip-horizontal'></i>
-            <span class='badge rounded-pill bg-danger'>1</span>
-          </a>
-        </div>
-      ";
-      }
+        if (isset($_SESSION['usuario'])) {
+          echo "
+            <a href='/src/pages/chat/chat' class='btn btn-outline-primary d-flex align-items-center me-3'>
+              <i class='bi bi-chat-dots me-2'></i>
+              <span class='d-none d-lg-inline'>Chat</span>
+            </a>
+          ";
+        }
       ?>
 
       <!-- Avatar usuario -->
