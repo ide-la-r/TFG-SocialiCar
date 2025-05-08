@@ -6,12 +6,6 @@ session_start();
 require(__DIR__ . "/../../config/conexion.php");
 require(__DIR__ . "/../../config/depurar.php");
 
-// Verificar si la conexión está funcionando correctamente
-if (!$_conexion) {
-    echo "Error en la conexión a la base de datos.";
-    exit();
-}
-
 // Redirigir si no hay sesión iniciada
 if (!isset($_SESSION['usuario'])) {
     header("Location: ../../../");
@@ -19,53 +13,52 @@ if (!isset($_SESSION['usuario'])) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_FILES["foto_perfil"]) && $_FILES["foto_perfil"]["error"] == 0) {
-        $fotoPerfil = $_FILES["foto_perfil"];
-        $nombreArchivo = $fotoPerfil["name"];
-        $rutaTemporal = $fotoPerfil["tmp_name"];
-        $dniUsuario = $_SESSION["usuario"]["dni"];
-        $rutaDestino = __DIR__ . "/../../../../public/img/perfil/" . $dniUsuario;
 
-        // Depuración: Verificar la ruta de destino
-        echo "Ruta destino: " . $rutaDestino . "<br>";
+    $nombre = $_SESSION["usuario"]["nombre"];
+    $identificacion = $_SESSION["usuario"]["identificacion"];
 
-        // Verificar las extensiones permitidas
-        $lista_extensiones = ["image/jpg", "image/jpeg", "image/png", "image/webp"];
-        if (!in_array($fotoPerfil["type"], $lista_extensiones)) {
-            $err_fotoPerfil = "Formato de imagen no válido. Solo se permiten JPG, JPEG, PNG y WEBP.";
+    if (!isset($_FILES['img_perfil']) || $_FILES['img_perfil']['error'] !== 0) {
+        $err_imagen_perfil = "Debes subir una imagen válida.";
+    } else {
+        $tipo = $_FILES['img_perfil']['type'];
+        $nombre_original = $_FILES['img_perfil']['name'];
+        $temporal = $_FILES['img_perfil']['tmp_name'];
+
+        $extensiones_permitidas = ["image/jpeg", "image/png", "image/jpg", "image/webp"];
+
+        if (!in_array($tipo, $extensiones_permitidas)) {
+            $err_imagen_perfil = "El tipo de imagen no es válido.";
         } else {
-            // Crear la carpeta si no existe
-            if (!is_dir($rutaDestino)) {
-                echo "Creando carpeta: " . $rutaDestino . "<br>";
-                if (mkdir($rutaDestino, 0777, true)) {
-                    echo "Carpeta creada correctamente: " . $rutaDestino . "<br>";
-                } else {
-                    echo "No se pudo crear la carpeta: " . $rutaDestino . "<br>";
-                }
+            // Obtener la extensión
+            $extension = pathinfo($nombre_original, PATHINFO_EXTENSION);
+            $nuevo_nombre = "img_perfil." . $extension;
+
+            // Ruta relativa y absoluta
+            $ruta_relativa = "/clients/img/" . $identificacion . "/perfil";
+            $ruta_absoluta = $_SERVER['DOCUMENT_ROOT'] . $ruta_relativa;
+
+            // Crear carpeta si no existe
+            if (!is_dir($ruta_absoluta)) {
+                mkdir($ruta_absoluta, 0777, true);
             }
 
-            // Mover la imagen a la carpeta del usuario
-            if (move_uploaded_file($rutaTemporal, $rutaDestino . "/" . $nombreArchivo)) {
-                $rutaRelativaBD = "public/img/perfil/" . $dniUsuario . "/" . $nombreArchivo;
+            $ruta_final = $ruta_absoluta . "/" . $nuevo_nombre;
+            $ruta_relativa_final = $ruta_relativa . "/" . $nuevo_nombre;
 
-                // Actualizar la base de datos
-                $sql = "UPDATE usuario SET foto_perfil = ? WHERE identificacion = ?";
-                $stmt = $_conexion->prepare($sql);
-                $stmt->bind_param("ss", $rutaRelativaBD, $dniUsuario);
+            // Mover imagen
+            if (move_uploaded_file($temporal, $ruta_final)) {
+                $ruta_img_guardada = $ruta_relativa_final;
 
-                if ($stmt->execute()) {
-                    $_SESSION["usuario"]["foto_perfil"] = $rutaRelativaBD;
-                    header("Location: " . $_SERVER["PHP_SELF"]);
-                    exit();
-                } else {
-                    $err_fotoPerfil = "Error al actualizar la foto en la base de datos.";
-                }
+                $ruta_bbdd = $ruta_relativa . "/" . $nuevo_nombre;
+
+                $sql = $_conexion->prepare("UPDATE usuario SET foto_perfil = ? WHERE identificacion = ?");
+                $sql->bind_param("ss", $ruta_bbdd, $identificacion);
+                $sql->execute();
+
             } else {
-                $err_fotoPerfil = "Error al mover la imagen.";
+                $err_imagen_perfil = "No se pudo guardar la imagen.";
             }
         }
-    } else {
-        $err_fotoPerfil = "No se ha seleccionado una imagen válida.";
     }
 }
 ?>
@@ -99,39 +92,56 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="col-lg-10">
                 <div class="card shadow rounded-4 p-4">
                     <div class="row g-4 mb-4">
+
                         <!-- FOTO DE PERFIL -->
                         <div class="col-md-4 d-flex justify-content-center align-items-center">
-                            <div class="bg-light rounded-4 shadow-sm p-4 w-100 text-center">
-                                <?php
-                                $stmt = $_conexion->prepare("SELECT foto_perfil FROM usuario WHERE identificacion = ?");
-                                $stmt->bind_param("s", $_SESSION["usuario"]["dni"]);
-                                $stmt->execute();
-                                $resultado = $stmt->get_result();
+                            <div class="container card py-4">
+                                <h3 class="text-center">Foto Perfil</h3>
+                                <div class="row justify-content-center pt-3">
+                                    <div class="col-auto text-center">
+                                        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data" id="formFotoPerfil" class="d-flex flex-column align-items-center">
+                                            
+                                            <!-- Botón Subir foto -->
+                                            <label for="img" class="btn btn-outline-success fw-bold mb-3" style="border-radius: 2rem; cursor:pointer;">
+                                                Subir foto
+                                            </label>
 
-                                if ($resultado->num_rows > 0) {
-                                    $usuario = $resultado->fetch_assoc();
-                                    $rutaFotoPerfil = $usuario["foto_perfil"];
-                                    if ($rutaFotoPerfil) {
-                                        echo "<img src='../../../$rutaFotoPerfil' alt='Imagen del usuario' class='rounded-circle mb-3' width='100' height='100'>";
-                                    } else {
-                                        echo "<img src='../../../src/img/perfil.png' alt='Imagen del usuario' class='rounded-circle mb-3' width='100' height='100'>";
-                                    }
-                                }
-                                ?>
-                                <h6 class="mb-0">Foto Perfil</h6>
-                                <div class="text-center mt-4">
-                                    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data" id="formFotoPerfil">
-                                        <label for="foto_perfil" class="btn btn-outline-success fw-bold me-3 mb-0" style="border-radius: 2rem; cursor:pointer;">
-                                            Subir foto
-                                        </label>
-                                        <input type="file" id="foto_perfil" name="foto_perfil"
-                                            accept="image/jpg, image/jpeg, image/png, image/webp"
-                                            style="display:none;" onchange="document.getElementById('formFotoPerfil').submit();">
-                                    </form>
+                                            <!-- Input oculto -->
+                                            <input 
+                                                class="form-control <?php if (isset($err_imagen_perfil)) echo 'is-invalid'; ?>" 
+                                                id="img" 
+                                                type="file" 
+                                                name="img_perfil" 
+                                                accept="image/png, image/jpg, image/jpeg, image/webp" 
+                                                style="display:none;" 
+                                                onchange="mostrarImagen(this);">
+                                            
+                                            <!-- Mostrar errores -->
+                                            <?php
+                                            if (isset($err_imagen_perfil)) {
+                                                echo "<span class='error'>$err_imagen_perfil</span>";
+                                            }
+                                            ?>
+                                        </form>
+
+                                        <!-- Previsualización de imagen -->
+                                        <div id="mostrar_img" class="d-flex flex-wrap gap-2 mt-3 justify-content-center"></div>
+
+                                        <!-- Botones después de previsualización -->
+                                        <div id="botones_accion" class="d-none flex-column align-items-center mt-3">
+                                            <button type="submit" form="formFotoPerfil" class="btn btn-primary mb-2" style="border-radius: 2rem;">
+                                                Guardar
+                                            </button>
+                                            <button type="button" class="btn btn-danger" style="border-radius: 2rem;" onclick="borrarImagen();">
+                                                Borrar
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
+                        
                         <!-- DATOS PERSONALES -->
                         <div class="col-md-8">
                             <div class="bg-light rounded-4 shadow-sm p-4 h-100">
@@ -250,6 +260,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
     <?php include_once '../../components/footer.php'; ?>
+    <script src="../../js/borrar_imagen.js"></script>
 </body>
 
 </html>

@@ -75,7 +75,14 @@
           role="button"
           data-bs-toggle="dropdown"
           aria-expanded="false">
-          <img src="/src/img/perfil.png" class="rounded-circle" height="30" alt="Avatar" loading="lazy" />
+          <?php
+            if ($_SESSION["usuario"]["foto_perfil"] != "") {
+                echo '<img src="' . $_SESSION['usuario']['foto_perfil'] . '" class="rounded-circle" height="30" width="30" alt="Avatar" loading="lazy" />';
+            } else {
+                echo '<img src="/src/img/perfil.png" class="rounded-circle" height="30" alt="Avatar" loading="lazy" />';
+            }
+          ?>
+          
         </a>
 
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
