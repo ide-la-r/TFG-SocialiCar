@@ -117,7 +117,7 @@
 
                             // Verificar que el usuario no sea el mismo que el dueño del coche
                             if ($usuario_sesion !== $duenio_id) {
-                                echo "<a href='/src/pages/chat/chat.php?matricula=$matricula&chat_con=$duenio_id' class='btn btn-outline-primary'>
+                                echo "<a href='/src/pages/chat/conversa?matricula=$matricula&chat_con=$duenio_id' class='btn btn-outline-primary'>
                                         <i class='bi bi-chat-dots'></i> Chat
                                     </a>";
                             }
