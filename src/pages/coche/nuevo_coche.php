@@ -1269,6 +1269,16 @@
 
         if (!$enviarCoche->execute()) {
             die('Error al insertar coche: ' . $enviarCoche->error);
+        } else{
+            $sql = $_conexion->prepare("SELECT * FROM coche WHERE matricula = ?");
+            $sql->bind_param("s", $matricula);
+            $sql->execute();
+            $resultado = $sql->get_result();
+
+            if ($resultado->num_rows === 1) {
+                $datos_coche = $resultado->fetch_assoc();
+                $_SESSION["coche"] = $datos_coche;
+            }
         }
 
         /* Insertar los extras */
