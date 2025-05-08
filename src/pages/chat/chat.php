@@ -120,7 +120,7 @@ if ($matricula !== null) {
 
                 <?php if ($otro_usuario): ?>
                     <form class="typing-area" autocomplete="off" id="messageForm">
-                        <input type="text" name="mensaje" class="input-field" id="mensajeInput" placeholder="Escribe un mensaje...">
+                        <textarea name="mensaje" class="input-field" id="mensajeInput" placeholder="Escribe un mensaje..."></textarea>
                         <button type="submit"><i class="fab fa-telegram-plane"></i></button>
                     </form>
                 <?php else: ?>

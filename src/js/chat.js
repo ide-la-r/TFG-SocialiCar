@@ -20,12 +20,11 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(data => {
                 chatBox.innerHTML = data;  // Cargar los mensajes en el contenedor
                 chatBox.scrollTop = chatBox.scrollHeight;  // Mantener el scroll en el fondo
-                console.log('Mensajes cargados:', data);  // Ver en la consola si los mensajes se cargan correctamente
             })
             .catch(error => console.error('Error al cargar los mensajes:', error));
     }
 
-    setInterval(cargarMensajes, 3000);  // Recargar los mensajes cada 3 segundos
+    setInterval(cargarMensajes, 4000);  // Recargar los mensajes cada 4 segundos
     cargarMensajes();  // Llamar una vez al cargar la página
 
     // Manejar el envío de mensajes
@@ -51,4 +50,17 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         .catch(error => console.error('Error al enviar el mensaje:', error));
     });
+
+
+    const mensajeInput = document.getElementById('mensajeInput');
+    const messageForm = document.getElementById('messageForm');
+
+    if (mensajeInput && messageForm) {
+        mensajeInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                messageForm.requestSubmit();
+            }
+        });
+    }
 });
