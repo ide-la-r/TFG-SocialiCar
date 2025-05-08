@@ -8,7 +8,6 @@
     <?php include_once '../../components/links.php'; ?>
     <link rel="icon" href="../../../src/img/favicon.png" />
     <link rel="stylesheet" href="../../styles/nuevo_coche.css">
-
     <?php
     error_reporting(E_ALL);
     ini_set("display_errors", 1);
@@ -1343,15 +1342,20 @@
             }
         }
 
-        /* echo "<script>alert('Coche añadido correctamente');</script>"; */
+        /* Redirigir a la página de inicio */
+        echo "<script>
+                window.location.href = '/src/pages/rentacar/coche?matricula=" . $matricula . "';
+              </script>";
+        exit();
     }
     ?>
     <?php include_once '../../components/footer.php'; ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../../js/mostrar_marcas.js"></script>
     <script src="../../js/nuevo_coche.js"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script> -->
     <script src="../../js/pre_imagen.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 
 </body>
 
