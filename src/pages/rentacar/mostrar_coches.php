@@ -198,7 +198,7 @@
                     </div><br>
 
 
-                    <!-- FECHAS (DISPONIBILIDAD) HABRA QUE EL FIN NO SEA ANTERIOR AL INICIO-->
+                    <!-- FECHAS (D6ISPONIBILIDAD) HABRA QUE EL FIN NO SEA ANTERIOR AL INICIO-->
                     <div>
                         <label class="form-label">Disponibilidad</label>
                         <div class="d-flex gap-2">
