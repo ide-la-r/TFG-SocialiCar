@@ -45,6 +45,7 @@ if (!isset($_SESSION['usuario'])) {
 <body>
     <?php include_once '../../components/navbar.php'; ?>
     <?php $total_precio = floatval($_GET["total_precio"]); ?>
+    <?php $page = isset($_GET["page"]) ? $_GET["page"] : ""; ?>
     <div class="container py-5">
         <div class="row justify-content-center">
             <div class="col-lg-10">
@@ -58,6 +59,8 @@ if (!isset($_SESSION['usuario'])) {
         </div>
     </div>
     <script>
+        const page = <?= json_encode($page) ?>;
+
         paypal.Buttons({
             style:{
                 color: 'blue',
@@ -72,6 +75,7 @@ if (!isset($_SESSION['usuario'])) {
                     }] 
                 });
             },
+            //hacer aqui todo lo de la base de datos cuando se efectue el pago
             onApprove: function(data, actions){
                 actions.order.capture().then(function(detalles){
                     console.log(detalles);
@@ -79,6 +83,13 @@ if (!isset($_SESSION['usuario'])) {
             },
             onCancel: function(data){
                 alert("Compra cancelada");
+                console.log("el valor de page es:", page)
+
+                if (page != ""){
+                    window.location.href = "../usuario/planes.php";
+                } else{
+                    window.location.href = "../rentacar/mostrar_coches.php";
+                }
             }
         }).render('#paypal-button-conteiner')
     </script>
