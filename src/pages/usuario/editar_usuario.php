@@ -3,6 +3,12 @@ error_reporting(E_ALL);
 ini_set("display_errors", 1);
 session_start();
 
+// Redirigir si no hay sesión iniciada
+if (!isset($_SESSION['usuario'])) {
+    header("Location: ../../../");
+    exit();
+}
+
 require(__DIR__ . "/../../config/conexion.php");
 require(__DIR__ . "/../../config/depurar.php");
 
