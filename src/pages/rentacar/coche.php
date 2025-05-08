@@ -129,9 +129,9 @@
                     ?>
                 </div>
 
-                <button class="btn btn-primary btn-lg mb-3 me-2" id="btn-alquilar">
+                <a href="../pago/paypal.php?total_precio=<?= $precio; ?>" class="btn btn-primary btn-lg mb-3 me-2" id="btn-alquilar">
                     <i class="bi bi-cart-plus"></i> ¡Alquilar!
-                </button>
+                </a>
 
                 <button class="btn btn-outline-secondary btn-lg mb-3">
                     <i class="bi bi-heart"></i> Agregar a favoritos

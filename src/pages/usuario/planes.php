@@ -49,7 +49,7 @@ session_start();
                                     Disfruta de descuentos exclusivos y posiciona tu vehículo en las primeras posiciones una vez por semana.
                                 </p>
                                 <h4 class="mt-3 precio" style="color: rgba(101, 255, 81, 0.99); font-size: 2rem;">9,99€/mes</h4>
-                                <a href="../pago/paypal.php?total_precio=<?= $sub_basica; ?>" class="btn btn-outline-primary mt-3 boton2" style="color: white; background-color: rgba(17, 112, 255, 0.99)">Suscribirse</a>
+                                <a href="../pago/paypal.php?page=<?= "planes" ?>&total_precio=<?= $sub_basica; ?>" class="btn btn-outline-primary mt-3 boton2" style="color: white; background-color: rgba(17, 112, 255, 0.99)">Suscribirse</a>
                             </div>
                         </div>
                     </div>
@@ -72,7 +72,7 @@ session_start();
                                     - Ofertas y descuentos únicos.
                                 </p>
                                 <h4 class="my-4 precio" style="color: rgba(101, 255, 81, 0.99); font-size: 2rem;">19,99€/mes</h4>
-                                <a href="../pago/paypal.php?total_precio=<?= $sub_premium; ?>" class="btn btn-outline-warning boton1" style="background-color:rgba(242, 255, 0, 0.18); color: white">Suscribirse</a>
+                                <a href="../pago/paypal.php?page=<?= "planes" ?>&total_precio=<?= $sub_premium; ?>" class="btn btn-outline-warning boton1" style="background-color:rgba(242, 255, 0, 0.18); color: white">Suscribirse</a>
                             </div>
                         </div>
                     </div>
