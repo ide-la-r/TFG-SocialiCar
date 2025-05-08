@@ -22,6 +22,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tipo_identificacion = isset($_POST["tipo_identificacion"]) ? depurar($_POST["tipo_identificacion"]) : '';
     $identificacion = depurar($_POST["identificacion"]);
     $fecha_nacimiento = depurar($_POST["fecha_nacimiento"]);
+    $foto_perfil = "";
+    $ruta_img_identificacion = "";
+    $ruta_img_carnet = "";
 
     $confirmar = true;
 
@@ -171,12 +174,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($confirmar) {
         $sql = $_conexion->prepare("INSERT INTO usuario (
                 identificacion, tipo_identificacion, nombre, apellido, correo, 
-                contrasena, telefono, foto_perfil, ruta_img_dni, ruta_img_carnet, 
-                verificado, fecha_nacimiento, estado
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, NULL, NULL, NULL, 0, ?, 1)");
+                contrasena, telefono, foto_perfil, ruta_img_identificacion, 
+                ruta_img_carnet, verificado, fecha_nacimiento, estado
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?, 1)");
 
         $sql->bind_param(
-            "ssssssss",
+            "sssssssssss",
             $identificacion,
             $tipo_identificacion,
             $nombre,
@@ -184,6 +187,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $correo,
             $contrasena_cifrada,
             $telefono,
+            $foto_perfil,
+            $ruta_img_identificacion,
+            $ruta_img_carnet,
             $fecha_nacimiento
         );
 
