@@ -222,7 +222,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .error {
             color: red;
         }
-        
+
         body {
             background-image: url('../../img/fondo_login.jpg');
             background-size: cover;
@@ -230,9 +230,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         .card {
-            height: 39vh;
+            height: auto !important;
             background-color: rgba(255, 255, 255, 0.91);
             margin-bottom: 10vh;
+            padding: 1rem;
+            border-radius: 1rem;
+            box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+        }
+        
+        .registrarse {
+            color: rgba(30, 71, 255, 0.91);
         }
     </style>
 </head>
@@ -245,43 +258,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <form action="" method="post" class="form-floating">
                 <div class="row justify-content-center">
                     <div class="mb-3 col-4">
-                        <input class="form-control" type="text" placeholder="Nombre*" name="nombre" value="<?php if (isset($nombre)) echo "$nombre" ?>">
-                        <?php if (isset($err_nombre)) echo "<span class='error'>$err_nombre</span>" ?>
+                        <input class="form-control <?php if (isset($err_nombre)) echo 'is-invalid'; ?>" type="text" placeholder="Nombre*" name="nombre" value="<?php if (isset($nombre)) echo $nombre; ?>">
+                        <?php if (isset($err_nombre)) echo "<span class='error'>$err_nombre</span>"; ?>
                     </div>
+
                     <div class="mb-3 col-4">
-                        <input class="form-control" type="text" placeholder="Apellidos*" name="apellido" value="<?php if (isset($apellido)) echo "$apellido" ?>">
-                        <?php if (isset($err_apellido)) echo "<span class='error'>$err_apellido</span>" ?>
+                        <input class="form-control <?php if (isset($err_apellido)) echo 'is-invalid'; ?>" type="text" placeholder="Apellidos*" name="apellido" value="<?php if (isset($apellido)) echo $apellido; ?>">
+                        <?php if (isset($err_apellido)) echo "<span class='error'>$err_apellido</span>"; ?>
                     </div>
+
                 </div>
 
                 <div class="row justify-content-center">
                     <div class="mb-3 col-8">
-                        <input class="form-control" placeholder="Fecha de nacimiento*" id="fecha_nacimiento" name="fecha_nacimiento" type="date">
-                        <?php if (isset($err_fecha_nacimiento)) echo "<span class='error'>$err_fecha_nacimiento</span>" ?>
+                        <input class="form-control <?php if (isset($err_fecha_nacimiento)) echo 'is-invalid'; ?>" placeholder="Fecha de nacimiento*" id="fecha_nacimiento" name="fecha_nacimiento" type="date" value="<?php if (isset($fecha_nacimiento)) echo $fecha_nacimiento; ?>">
+                        <?php if (isset($err_fecha_nacimiento)) echo "<span class='error'>$err_fecha_nacimiento</span>"; ?>
                     </div>
 
                     <div class="mb-3 col-8">
-                        <input class="form-control" type="email" placeholder="Correo electronico*" name="correo" value="<?php if (isset($correo)) echo "$correo" ?>">
-                        <?php if (isset($err_correo)) echo "<span class='error'>$err_correo</span>" ?>
+                        <input class="form-control <?php if (isset($err_correo)) echo 'is-invalid'; ?>" type="email" placeholder="Correo electrónico*" name="correo" value="<?php if (isset($correo)) echo $correo; ?>">
+                        <?php if (isset($err_correo)) echo "<span class='error'>$err_correo</span>"; ?>
                     </div>
 
                     <div class="mb-3 col-8">
-                        <input id="contrasena" class="form-control" type="password" placeholder="Contraseña*" name="contrasena" value="<?php if (isset($contrasena)) echo "$contrasena" ?>">
-                        <?php if (isset($err_contrasena)) echo "<span class='error'>$err_contrasena</span>" ?>
+                        <input id="contrasena" class="form-control <?php if (isset($err_contrasena)) echo 'is-invalid'; ?>" type="password" placeholder="Contraseña*" name="contrasena" value="<?php if (isset($contrasena)) echo $contrasena; ?>">
+                        <?php if (isset($err_contrasena)) echo "<span class='error'>$err_contrasena</span>"; ?>
                     </div>
 
                     <div class="mb-3 col-8">
-                        <input id="validarContrasena" class="form-control" type="password" hidden placeholder="Confirmar contraseña*" name="confirma_contrasena">
-                        <?php if (isset($err_confirma_contrasena)) echo "<span class='error'>$err_confirma_contrasena</span>" ?>
+                        <input id="validarContrasena" class="form-control <?php if (isset($err_confirma_contrasena)) echo 'is-invalid'; ?>" type="password" hidden placeholder="Confirmar contraseña*" name="confirma_contrasena">
+                        <?php if (isset($err_confirma_contrasena)) echo "<span class='error'>$err_confirma_contrasena</span>"; ?>
                     </div>
 
                     <div class="mb-3 col-8">
-                        <input class="form-control" type="text" placeholder="Teléfono*" name="telefono" value="<?php if (isset($telefono)) echo "$telefono" ?>">
-                        <?php if (isset($err_telefono)) echo "<span class='error'>$err_telefono</span>" ?>
+                        <input class="form-control <?php if (isset($err_telefono)) echo 'is-invalid'; ?>" type="text" placeholder="Teléfono*" name="telefono" value="<?php if (isset($telefono)) echo $telefono; ?>">
+                        <?php if (isset($err_telefono)) echo "<span class='error'>$err_telefono</span>"; ?>
                     </div>
 
+
                     <div class="mb-3 col-8">
-                        <select id="tipoIdentificacion" class="form-select" name="tipo_identificacion">
+                        <select id="tipoIdentificacion" class="form-select <?php if (isset($err_tipo_identificacion)) echo 'is-invalid'; ?>" name="tipo_identificacion">
                             <option disabled hidden value="" <?php if (!isset($tipo_identificacion) || $tipo_identificacion == '') echo 'selected'; ?>>Tipo de identificación*</option>
                             <option value="dni" <?php if (isset($tipo_identificacion) && $tipo_identificacion == 'dni') echo 'selected'; ?>>DNI</option>
                             <option value="nie" <?php if (isset($tipo_identificacion) && $tipo_identificacion == 'nie') echo 'selected'; ?>>NIE</option>
@@ -290,16 +306,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <?php if (isset($err_tipo_identificacion)) echo "<span class='error'>$err_tipo_identificacion</span>"; ?>
                     </div>
 
+
                     <div class="mb-3 col-8">
                         <input class="form-control" placeholder="Identificación*" id="identificacion" name="identificacion" type="text" hidden>
                         <?php if (isset($err_identificacion) && $tipo_identificacion != "") echo "<span class='error'>$err_identificacion</span>" ?>
                     </div>
                 </div>
 
-                <input type="submit" class="btn col-4" value="Registrarse">
+                <input type="submit" class="btn col-4 registrarse" value="Registrarse">
             </form>
             <div class="iniciar_sesion_pregunta">
-                <p>¿Ya tienes cuenta? <a href="./iniciar_sesion">Iniciar sesión</a></p>
+                <p>¿Ya tienes cuenta? <a href="./iniciar_sesion" class="registrarse">Iniciar sesión</a></p>
             </div>
         </div>
     </div>

@@ -64,9 +64,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         .card {
-            height: 35vh;
+            height: auto !important;
             background-color: rgba(255, 255, 255, 0.91);
+            margin-bottom: 10vh;
+            padding: 1rem;
+            border-radius: 1rem;
+            box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
         }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+        }
+        
     </style>
 </head>
 
@@ -78,14 +89,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h1 class="title pt-4">Iniciar sesión</h1>
             <form method="post" action="" class="form-floating">
                 <div class="row justify-content-center">
-                    <div class="mb-3 col-8">
-                        <input name="correo" class="form-control" type="text" placeholder="Correo electronico*">
-                        <?php if (isset($err_correo)) echo "<span class='error'>$err_correo</span>" ?>
-                    </div>
-                    <div class="mb-3 col-8">
-                        <input name="contrasena" class="form-control" type="password" placeholder="Contraseña*">
-                        <?php if (isset($err_contrasena)) echo "<span class='error'>$err_contrasena</span>" ?>
-                    </div>
+                <div class="mb-3 col-8">
+    <input name="correo" class="form-control <?php if (isset($err_correo)) echo 'is-invalid'; ?>" type="text" placeholder="Correo electronico*">
+    <?php if (isset($err_correo)) echo "<span class='error'>$err_correo</span>" ?>
+</div>
+<div class="mb-3 col-8">
+    <input name="contrasena" class="form-control <?php if (isset($err_contrasena)) echo 'is-invalid'; ?>" type="password" placeholder="Contraseña*">
+    <?php if (isset($err_contrasena)) echo "<span class='error'>$err_contrasena</span>" ?>
+</div>
+
                 </div>
                 <input type="submit" class=" btn btn-primary" value="Iniciar sesión">
             </form>
