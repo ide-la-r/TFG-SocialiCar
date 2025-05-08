@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 // Redirigir si no hay sesión iniciada
 if (!isset($_SESSION['usuario'])) {
     header("Location: ../../../");
