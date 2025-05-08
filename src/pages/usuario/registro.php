@@ -198,7 +198,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($resultado->num_rows === 1) {
                 $datos_usuario = $resultado->fetch_assoc();
                 $_SESSION["usuario"] = $datos_usuario;
-                header("Location: ../../../index.php");
+                header("Location: ../../../");
                 exit();
             }
         }
