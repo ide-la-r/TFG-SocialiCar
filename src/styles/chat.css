@@ -126,6 +126,7 @@ header {
     background-color: #dc3545;
 }
 
+/* Contenedor del chat */
 .chat-box {
     height: 400px; /* Fija la altura para el área del chat */
     overflow-y: auto;
@@ -133,13 +134,17 @@ header {
     padding: 10px;
     margin-bottom: 20px;
     border-radius: 10px;
+    word-wrap: break-word;  /* Rompe las palabras largas */
+    white-space: pre-wrap;  /* Mantiene los saltos de línea y ajusta el texto */
 }
 
+/* Área de escritura */
 .typing-area {
     display: flex;
     align-items: center;
 }
 
+/* Estilo para el textarea */
 .input-field {
     width: 100%;
     padding: 10px;
@@ -147,6 +152,12 @@ header {
     border-radius: 20px;
     margin-right: 10px;
     font-size: 16px;
+    white-space: pre-wrap; /* Permite el salto de línea */
+    word-wrap: break-word; /* Permite que las palabras largas se rompan si es necesario */
+    resize: none; /* Evita que el textarea sea redimensionable */
+    min-height: 40px; /* Altura mínima para que se vea bien */
+    max-height: 120px; /* Limita la altura máxima */
+    overflow-y: auto; /* Muestra el scroll vertical cuando el texto excede el tamaño */
 }
 
 .typing-area button {
@@ -171,22 +182,41 @@ header {
     max-width: 70%;
     display: flex;
     flex-direction: column; /* Coloca el nombre arriba y el mensaje abajo */
+    word-wrap: break-word;  /* Rompe las palabras largas en lugar de desbordar */
+    white-space: pre-wrap;  /* Ajusta el texto y mantiene los saltos de línea */
 }
 
-/* Mensajes enviados por el usuario (mensaje-emisor) */
-.chat-box .mensaje-emisor {
-    background-color: #d1ecf1; /* Fondo azul claro */
-    align-self: flex-start; /* Alineación a la izquierda */
-    text-align: left; /* Alinea el texto a la izquierda */
-}
-
-/* Mensajes recibidos por el usuario (mensaje-receptor) */
+/* Mensajes enviados por el usuario (mensaje-receptor) */
 .chat-box .mensaje-receptor {
-    background-color: #f8d7da; /* Fondo rosa claro */
-    align-self: flex-end; /* Alineación a la derecha */
-    text-align: left; /* Alinea el texto a la izquierda */
-    margin-left: auto; /* Asegura que el contenedor de mensaje-receptor esté a la derecha */
-    align-items: flex-end; /* Alinea el contenido (nombre y mensaje) a la derecha */
+    background-color: #dcf8c6; /* Verde claro tipo WhatsApp */
+    align-self: flex-end; /* Alineado a la derecha */
+    text-align: left;
+    margin-left: auto;
+    align-items: flex-end;
+    border-radius: 10px 10px 0 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+    max-width: 75%;
+}
+
+/* Mensajes recibidos por el usuario (mensaje-emisor) */
+.chat-box .mensaje-emisor {
+    background-color: #ffffff; /* Blanco tipo WhatsApp */
+    align-self: flex-start; /* Alineado a la izquierda */
+    text-align: left;
+    border-radius: 10px 10px 10px 0;
+    padding: 10px;
+    margin-bottom: 10px;
+    max-width: 75%;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.05);
+}
+
+/* Estilos para el texto del remitente */
+.chat-box .mensaje-emisor .sender,
+.chat-box .mensaje-receptor .sender {
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 5px;
 }
 
 /* Alineación de los nombres */
@@ -210,10 +240,11 @@ header {
 }
 
 /* Estilos para la hora */
-.hora-receptor, .hora-emisor {
-    font-size: 12px; /* Hace la hora más pequeña */
-    color: #999; /* Color gris claro */
-    margin-top: 5px; /* Espaciado superior */
+.hora-receptor,
+.hora-emisor {
+    font-size: 11px;
+    color: #999;
+    margin-top: 5px;
 }
 
 .hora-receptor {
@@ -228,9 +259,14 @@ header {
 
 /* Ajustar tamaño del chat-container cuando se llena */
 #chat-container {
-    height: 400px;
+    height: 70vh; 
     overflow-y: auto;
     flex-grow: 1;
+    background-color: #e9ecef;
+    padding: 10px;
+    border-radius: 10px;
+    word-wrap: break-word;  /* Rompe las palabras largas */
+    white-space: pre-wrap;  /* Mantiene los saltos de línea y ajusta el texto */
 }
 
 #chat-container::-webkit-scrollbar {
