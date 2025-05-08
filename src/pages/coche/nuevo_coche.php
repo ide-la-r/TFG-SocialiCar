@@ -859,7 +859,7 @@
                     <div class="mb-3 col-6">
                         <div class="form-floating">
                             <input class="form-control" min="1" max="9" id="numero_plazas" type="number" placeholder="Numero de plazas*" name="numero_plazas" value="<?php if (isset($plazas)) echo "$plazas" ?>">
-                            <label for="numero_puertas">Numero de puertas</label>
+                            <label for="numero_plazas">Numero de plazas</label>
 
                             <?php
                             if (isset($err_numero_plazas)) {
