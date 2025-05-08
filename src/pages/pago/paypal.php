@@ -29,7 +29,7 @@ if (!isset($_SESSION['usuario'])) {
     <title>Perfil de usuario</title>
     <?php include_once '../../components/links.php'; ?>
     <link rel="icon" href="../../../src/img/favicon.png" />
-    <script src="https://www.paypal.com/sdk/js?client-id=ASaIpZ9AP6RkpKYB4dWGHafi71n5tEcfPp5LekIM9kW-kFcHlsrM36OD1kn6aOF2aHm8EboE_kHkSNn7&currency=EUR"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=AacZbISDuTSpYnWbcg7nWx5DvHfRfVy-PEwgA1O63HkmtG6yhPnzY3tcCmm8iaU1dORsjBSJHXGH6159&currency=EUR"></script>
 </head>
 <style>
     body {
@@ -83,7 +83,6 @@ if (!isset($_SESSION['usuario'])) {
             },
             onCancel: function(data){
                 alert("Compra cancelada");
-                console.log("el valor de page es:", page)
 
                 if (page != ""){
                     window.location.href = "../usuario/planes.php";
