@@ -57,21 +57,14 @@
 
       <!-- Notificaciones -->
       <?php
-      if (isset($_SESSION['usuario'])) {
-      echo "
-        <div class='dropdown me-3'>
-          <a
-            class='text-reset'
-            href='#'
-            role='button'
-            data-bs-toggle='dropdown'
-            aria-expanded='false'>
-            <i class='fa-regular fa-comment-dots fa-flip-horizontal'></i>
-            <span class='badge rounded-pill bg-danger'>1</span>
-          </a>
-        </div>
-      ";
-      }
+        if (isset($_SESSION['usuario'])) {
+          echo "
+            <a href='/src/pages/chat/conversa' class='btn btn-outline-primary d-flex align-items-center me-3'>
+              <i class='bi bi-chat-dots me-2'></i>
+              <span class='d-none d-lg-inline'>Chat</span>
+            </a>
+          ";
+        }
       ?>
 
       <!-- Avatar usuario -->
@@ -82,7 +75,14 @@
           role="button"
           data-bs-toggle="dropdown"
           aria-expanded="false">
-          <img src="/src/img/perfil.png" class="rounded-circle" height="30" alt="Avatar" loading="lazy" />
+          <?php
+            if ($_SESSION["usuario"]["foto_perfil"] != "") {
+                echo '<img src="' . $_SESSION['usuario']['foto_perfil'] . '" class="rounded-circle" height="30" width="30" alt="Avatar" loading="lazy" />';
+            } else {
+                echo '<img src="/src/img/perfil.png" class="rounded-circle" height="30" alt="Avatar" loading="lazy" />';
+            }
+          ?>
+          
         </a>
 
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">

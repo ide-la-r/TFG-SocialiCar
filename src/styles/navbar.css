@@ -89,14 +89,14 @@
 .navbar {
   overflow: visible !important;
   position: relative;
-  z-index: 1;
+  z-index: 50;
 }
 
 .logo {
   display: flex;
   align-items: center;
   position: relative;
-  z-index: 10;
+  z-index: 100;
 }
 
 .logo img {

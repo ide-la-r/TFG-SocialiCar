@@ -20,9 +20,8 @@
         exit;
 
     } else {
-        
-        // Si no hay sesión activa, redirigir a la página de inicio
-        header("location: ../../../index.php");
-        exit;
+        // Redirigir si no hay sesión iniciada
+        header("Location: ../../../");
+        exit();
     }
 ?>

@@ -14,16 +14,26 @@
     session_start();
     require(__DIR__ . "/../../config/conexion.php");
     require(__DIR__ . "/../../config/depurar.php");
+
+    // Redirigir si no hay sesión iniciada
+    if (!isset($_SESSION['usuario'])) {
+        header("Location: ../../../");
+        exit();
+    }
     ?>
 </head>
 
 <body>
     <?php include_once '../../components/navbar.php'; ?>
+
+    <?php
+
+    ?>
+
+
+
     <form action="#" method="post" enctype="multipart/form-data">
         <!-- INFORMACION DEL VEHICULO (MARCA MODELO Y ANNO DE MATRICULACION) -->
-
-
-
         <div class="container mt-5 pt-5">
             <div class="container card py-4">
                 <h3 class="text-start">Informacion basica</h3>

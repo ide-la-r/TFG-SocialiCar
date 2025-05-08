@@ -1,4 +1,11 @@
 <?php
+
+// Redirigir si no hay sesión iniciada
+if (!isset($_SESSION['usuario'])) {
+    header("Location: ../../../");
+    exit();
+}
+
 require(__DIR__ . "/../../config/conexion.php");
 
 if (isset($_GET['matricula'])) {

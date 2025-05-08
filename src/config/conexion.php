@@ -1,8 +1,10 @@
 <?php
-    $_servidor = "127.0.0.1";
-    $_usuario = "root";
-    $_contrasena = "";
-    $_base_de_datos = "socialicar";
+    $env = parse_ini_file(__DIR__ . '/../../.env');
+
+    $_servidor = $env['BBDD_SERVER'];
+    $_usuario = $env['BBDD_USER'];
+    $_contrasena = $env['BBDD_PASS'];
+    $_base_de_datos = $env['BBDD_NAME'];
 
     $_conexion = new Mysqli($_servidor, $_usuario, $_contrasena, $_base_de_datos);
     
