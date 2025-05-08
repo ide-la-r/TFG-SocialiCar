@@ -44,7 +44,7 @@ if ($matricula !== null) {
     <title>SocialiCar - Mis Chats</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="../../../src/img/favicon.png" />
-    <link rel="stylesheet" href="../../../src/styles/chat.css">
+    <link rel="stylesheet" href="../../../src/styles/conversa.css">
     <?php include_once '../../components/links.php'; ?>
 </head>
 <body>
@@ -84,7 +84,7 @@ if ($matricula !== null) {
                     $mensaje = htmlspecialchars($fila["ultimo_mensaje"]);
                     $hora = date("H:i", strtotime($fila["ultima_fecha"]));
                 ?>
-                    <a href="chat.php?chat_con=<?= urlencode($otro) ?>" class="chat-item">
+                    <a href="conversa?chat_con=<?= urlencode($otro) ?>" class="chat-item">
                         <img src="<?= $foto ?>" alt="Perfil">
                         <div class="contenido-chat">
                             <span class="nombre"><?= $nombre ?></span>  <!-- Muestra el nombre aquí -->
@@ -130,7 +130,7 @@ if ($matricula !== null) {
         </div>
     </div>
 
-    <script src="../../js/chat.js"></script>
+    <script src="../../js/conversa.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
 </body>
