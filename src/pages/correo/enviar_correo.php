@@ -1,4 +1,11 @@
 <?php
+
+// Redirigir si no hay sesión iniciada
+if (!isset($_SESSION['usuario'])) {
+    header("Location: ../../../");
+    exit();
+}
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 

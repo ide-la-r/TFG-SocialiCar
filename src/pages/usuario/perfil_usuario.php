@@ -12,8 +12,9 @@ if (!$_conexion) {
     exit();
 }
 
-if (!isset($_SESSION["usuario"])) {
-    header("location: ../../../index.php");
+// Redirigir si no hay sesión iniciada
+if (!isset($_SESSION['usuario'])) {
+    header("Location: ../../../");
     exit();
 }
 
