@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 // Redirigir si no hay sesión iniciada
 if (!isset($_SESSION['usuario'])) {
     header("Location: ../../../");
@@ -53,7 +53,7 @@ if (isset($_GET['matricula'])) {
     $stmt->bind_param("s", $matricula);
 
     if ($stmt->execute()) {
-        header("Location: ../usuario/perfil_usuario.php");
+        header("Location: /src/pages//usuario/perfil_usuario");
         exit();
     } else {
         echo "Error al eliminar el coche: " . $stmt->error;
