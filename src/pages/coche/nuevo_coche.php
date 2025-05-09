@@ -725,52 +725,54 @@
                         </div>
                     </div>
 
+                    <div class="mb-3 col-6">
+                        <div class="form-floating">
+                            <select class="form-select <?php if (isset($err_tipo)) echo 'is-invalid'; ?>" id="tipo" name="tipo">
+                                <option disabled selected hidden>Tipo de coche*</option>
+                                <option value="berlina" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "berlina") echo "selected"; ?>>
+                                    Berlina
+                                </option>
+                                <option value="coupe" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "coupe") echo "selected"; ?>>
+                                    Coupé
+                                </option>
+                                <option value="deportivo" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "deportivo") echo "selected"; ?>>
+                                    Deportivo
+                                </option>
+                                <option value="furgoneta" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "furgoneta") echo "selected"; ?>>
+                                    Furgoneta
+                                </option>
+                                <option value="monovolumen" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "monovolumen") echo "selected"; ?>>
+                                    Monovolumen
+                                </option>
+                                <option value="suv" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "suv") echo "selected"; ?>>
+                                    SUV
+                                </option>
+                                <option value="pick-up" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "pick-up") echo "selected"; ?>>
+                                    Pick-up
+                                </option>
+                                <option value="roadster" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "roadster") echo "selected"; ?>>
+                                    Roadster
+                                </option>
+                                <option value="utilitario" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "utilitario") echo "selected"; ?>>
+                                    Utilitario
+                                </option>
+                                <option value="familiar" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "familiar") echo "selected"; ?>>
+                                    Familiar
+                                </option>
+                                <option value="autocaravana" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "autocaravana") echo "selected"; ?>>
+                                    Autocaravana
+                                </option>
+                            </select>
+                            <label for="tipo_combustible">Tipo de coche</label>
 
-                    <div class="form-floating">
-                        <select class="form-select <?php if (isset($err_tipo)) echo 'is-invalid'; ?>" id="tipo" name="tipo">
-                            <option disabled selected hidden>Tipo de coche*</option>
-                            <option value="berlina" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "berlina") echo "selected"; ?>>
-                                Berlina
-                            </option>
-                            <option value="coupe" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "coupe") echo "selected"; ?>>
-                                Coupé
-                            </option>
-                            <option value="deportivo" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "deportivo") echo "selected"; ?>>
-                                Deportivo
-                            </option>
-                            <option value="furgoneta" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "furgoneta") echo "selected"; ?>>
-                                Furgoneta
-                            </option>
-                            <option value="monovolumen" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "monovolumen") echo "selected"; ?>>
-                                Monovolumen
-                            </option>
-                            <option value="suv" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "suv") echo "selected"; ?>>
-                                SUV
-                            </option>
-                            <option value="pick-up" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "pick-up") echo "selected"; ?>>
-                                Pick-up
-                            </option>
-                            <option value="roadster" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "roadster") echo "selected"; ?>>
-                                Roadster
-                            </option>
-                            <option value="utilitario" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "utilitario") echo "selected"; ?>>
-                                Utilitario
-                            </option>
-                            <option value="familiar" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "familiar") echo "selected"; ?>>
-                                Familiar
-                            </option>
-                            <option value="autocaravana" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "autocaravana") echo "selected"; ?>>
-                                Autocaravana
-                            </option>
-                        </select>
-                        <label for="tipo_combustible">Tipo de coche</label>
-
-                        <?php
-                        if (isset($err_tipo)) {
-                            echo "<span class='error'>$err_tipo</span>";
-                        }
-                        ?>
+                            <?php
+                            if (isset($err_tipo)) {
+                                echo "<span class='error'>$err_tipo</span>";
+                            }
+                            ?>
+                        </div>
                     </div>
+
 
                     <div class="mb-3 col-6">
                         <div class="form-floating">
