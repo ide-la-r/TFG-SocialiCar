@@ -36,7 +36,7 @@
         <!-- INFORMACION DEL VEHICULO (MARCA MODELO Y ANNO DE MATRICULACION) -->
         <div class="container mt-5 pt-5">
             <div class="container card py-4">
-                <h3 class="text-start">Informacion basica</h3>
+                <h3 class="text-start">Información básica</h3>
                 <div class="row justify-content-center pt-3">
                     <div class="col">
                         <?php
@@ -99,7 +99,7 @@
                     <div class="col">
                         <div class="form-floating">
                             <input class="form-control" id="floatingInput" type="text" placeholder="Matricula*" name="matricula" value="">
-                            <label for="floatingInput">Matricula</label>
+                            <label for="floatingInput">Matrícula</label>
                         </div>
                     </div>
                 </div>
@@ -117,12 +117,12 @@
 
             <div class="container card">
                 <br>
-                <h3>Informacion del vehiculo</h3>
+                <h3>Información del vehículo</h3>
                 <div class="row justify-content-center pt-3">
                     <div class="mb-3 col-6">
                         <div class="form-floating">
                             <input class="form-control" id="floatingInput" type="number" placeholder="Kilómetros*" name="kilometros" value="">
-                            <label for="floatingInput">kilometros</label>
+                            <label for="floatingInput">Kilómetros</label>
                         </div>
 
                     </div>
@@ -210,7 +210,7 @@
                                     Automática
                                 </option>
                             </Select>
-                            <label for="floatingSelect">Tipo de Transmision</label>
+                            <label for="floatingSelect">Tipo de transmisión</label>
                         </div>
 
                     </div>
@@ -243,20 +243,20 @@
                         <div class="form-floating">
                             <input class="form-control" id="floatingInput" type="number" placeholder="Numero de puertas*" name="numero_puertas" value="">
 
-                            <label for="floatingInput">Numero de puertas</label>
+                            <label for="floatingInput">Número de puertas</label>
                         </div>
                     </div>
                     <div class="mb-3 col-6">
                         <div class="form-floating">
                             <input class="form-control" id="floatingInput" type="number" placeholder="Numero de plazas*" name="numero_plazas" value="">
-                            <label for="floatingInput">Numero de plazas</label>
+                            <label for="floatingInput">Número de plazas</label>
                         </div>
 
                     </div>
                     <div>
                         <div class="form-floating">
                             <textarea class="form-control" name="descripcion" id="exampleFormControlTextarea1" id="floatingTextarea2" style="height: 100px" rows="3" placeholder="Descripcion*"></textarea>
-                            <label for="floatingTextarea2">Descripcion</label>
+                            <label for="floatingTextarea2">Descripción</label>
                             <br>
                         </div>
 
@@ -292,12 +292,12 @@
 
         <div class="container mt-5 pt-5">
             <div class="container card py-4">
-                <h3 class="text-start">Ubicacion</h3>
+                <h3 class="text-start">Ubicación</h3>
                 <div class="row justify-content-center pt-3">
                     <div class="mb-3 col-6">
                         <div class="form-floating">
                             <input class="form-control" id="floatingInput" type="text" placeholder="Direccion*" name="direccion" value="">
-                            <label for="floatingInput">Direccion</label>
+                            <label for="floatingInput">Dirección</label>
                         </div>
 
 
@@ -305,7 +305,7 @@
                     <div class="mb-3 col-6">
                         <div class="form-floating">
                             <input class="form-control" id="floatingInput" type="number" placeholder="Código Postal*" name="cp" value="">
-                            <label for="floatingInput">Codigo Postal</label>
+                            <label for="floatingInput">Código Postal</label>
                         </div>
 
 
@@ -350,7 +350,7 @@
 
         <div class="container mt-5 pt-5">
             <div class="container card py-4">
-                <h3>Imagenes</h3>
+                <h3>Imágenes</h3>
                 <div class="row justify-content-center pt-3">
                     <div class="col">
                         <input class="form-control" id="img" type="file" name="img[]" multiple accept="image/png, image/jpg, image/jpeg">

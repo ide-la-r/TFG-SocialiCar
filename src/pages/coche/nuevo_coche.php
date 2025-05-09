@@ -580,7 +580,7 @@
     <form action="#" id="formulario" method="post" enctype="multipart/form-data">
         <div class="container mt-5 pt-5">
             <div class="container card py-4">
-                <h3 class="text-start">Informacion basica</h3>
+                <h3 class="text-start">Información básica</h3>
                 <div class="row justify-content-center pt-3">
                     <?php
                     // API para obtener las marcas de coches
@@ -639,7 +639,7 @@
                     <div class="col">
                         <div class="form-floating">
                             <input class="form-control <?php if (isset($err_anno_matriculacion)) echo 'is-invalid'; ?>" placeholder="Año de matriculacion" id="inputMes" type="month" name="anno_matriculacion" value="<?php if (isset($_POST['anno_matriculacion'])) echo htmlspecialchars($_POST['anno_matriculacion']); ?>">
-                            <label for="inputMes">Año de matriculacion</label>
+                            <label for="inputMes">Año de matriculación</label>
                             <?php
                             if (isset($err_anno_matriculacion)) {
                                 echo "<span class='error'>$err_anno_matriculacion</span>";
@@ -652,7 +652,7 @@
                     <div class="col">
                         <div class="form-floating">
                             <input class="form-control <?php if (isset($err_matricula)) echo 'is-invalid'; ?>" id="floatingInput" type="text" placeholder="Matricula*" name="matricula" value="<?php if (isset($matricula)) echo htmlspecialchars($matricula); ?>">
-                            <label for="floatingInput">Matricula</label>
+                            <label for="floatingInput">Matrícula</label>
                             <?php
                             if (isset($err_matricula)) {
                                 echo "<span class='error'>$err_matricula</span>";
@@ -673,12 +673,12 @@
 
             <div class="container card">
                 <br>
-                <h3>Informacion del vehiculo</h3>
+                <h3>Información del vehículo</h3>
                 <div class="row justify-content-center pt-3">
                     <div class="mb-3 col-6">
                         <div class="form-floating">
                             <input class="form-control <?php if (isset($err_kilometros)) echo 'is-invalid'; ?>" id="kilometros" type="number" placeholder="Kilómetros*" name="kilometros" value="<?php if (isset($kilometros)) echo "$kilometros" ?>">
-                            <label for="kilometros">Kilometros</label>
+                            <label for="kilometros">Kilómetros</label>
                             <?php
                             if (isset($err_kilometros)) {
                                 echo "<span class='error'>$err_kilometros</span>";
@@ -763,7 +763,7 @@
                                     Autocaravana
                                 </option>
                             </select>
-                            <label for="tipo_combustible">Tipo de coche</label>
+                            <label for="tipo">Tipo de coche</label>
 
                             <?php
                             if (isset($err_tipo)) {
@@ -901,12 +901,12 @@
 
         <div class="container mt-5 pt-5">
             <div class="container card py-4">
-                <h3 class="text-start">Ubicacion</h3>
+                <h3 class="text-start">Ubicación</h3>
                 <div class="row justify-content-center pt-3">
                     <div class="mb-3 col-6">
                         <div class="form-floating">
                             <input class="form-control <?php if (isset($err_direccion)) echo 'is-invalid'; ?>" id="direccion" type="text" placeholder="Direccion*" name="direccion" value="<?php if (isset($direccion)) echo "$direccion" ?>">
-                            <label for="direccion">Direccion</label>
+                            <label for="direccion">Dirección</label>
                             <?php
                             if (isset($err_direccion)) {
                                 echo "<span class='error'>$err_direccion</span>";
@@ -986,7 +986,7 @@
 
         <div class="container mt-5 pt-5">
             <div class="container card py-4">
-                <h3>Imagenes</h3>
+                <h3>Imágenes</h3>
                 <div class="row justify-content-center pt-3">
                     <div class="col">
                         <input class="form-control <?php if (isset($err_imagen)) echo 'is-invalid'; ?>" id="img" type="file" name="img[]" multiple accept="image/png, image/jpg, image/jpeg">
