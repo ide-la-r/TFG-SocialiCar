@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Descarga la app</title>
-    <?php include_once '../../components/links.php'; ?>
+    <?php 
+    include_once '../../components/links.php';
+    require(__DIR__ . "/../../config/conexion.php"); 
+    ?>
     <link rel="icon" href="../../../src/img/favicon.png" />
     <?php
         error_reporting(E_ALL);

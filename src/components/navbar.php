@@ -77,15 +77,29 @@
           aria-expanded="false">
           <?php
             if (!isset($_SESSION['usuario'])) {
-              echo '<img src="/src/img/perfil.png" class="rounded-circle" height="30" alt="Avatar" loading="lazy" />';
+              // No hay sesión, mostrar imagen por defecto
+              echo '<img style="object-fit: cover; border-radius: 50%; overflow: hidden; border: 4px solid #6BBFBF; background-color: #F2F2F2;" src="/src/img/perfil.png" class="rounded-circle" height="35" alt="Avatar" loading="lazy" />';
             } else {
-              if ($_SESSION["usuario"]["foto_perfil"] != "") {
-                echo '<img src="' . $_SESSION['usuario']['foto_perfil'] . '" class="rounded-circle" height="30" width="30" alt="Avatar" loading="lazy" />';
+              // Asumimos que $_SESSION['usuario'] guarda el DNI o ID del usuario
+              $sql = $_conexion->prepare("SELECT foto_perfil FROM usuario WHERE identificacion = ?");
+              $sql->bind_param("s", $_SESSION['usuario']['identificacion']);
+              $sql->execute();
+              $resultado = $sql->get_result();
+
+              if ($resultado->num_rows > 0) {
+                $fila = $resultado->fetch_assoc();
+                $foto_perfil = $fila['foto_perfil'];
+
+                if (!empty($foto_perfil)) {
+                  echo '<img style="object-fit: cover; border-radius: 50%; overflow: hidden; border: 2px solid #6BBFBF; background-color: #F2F2F2;" src="' . htmlspecialchars($foto_perfil) . '" class="rounded-circle" height="35" width="35" alt="Avatar" loading="lazy" />';
+                } else {
+                  echo '<img style="object-fit: cover; border-radius: 50%; overflow: hidden; border: 2px solid #6BBFBF; background-color: #F2F2F2;" src="/src/img/perfil.png" class="rounded-circle" height="35" alt="Avatar" loading="lazy" />';
+                }
               } else {
+                // Si no se encuentra el usuario en la base de datos
                 echo '<img src="/src/img/perfil.png" class="rounded-circle" height="30" alt="Avatar" loading="lazy" />';
               }
             }
-
           ?>
           
         </a>

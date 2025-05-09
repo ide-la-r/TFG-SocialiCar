@@ -100,48 +100,71 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <div class="row justify-content-center pt-3">
                                     <div class="col-auto text-center">
                                         <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data" id="formFotoPerfil" class="d-flex flex-column align-items-center">
-                                            
-                                            <!-- Botón Subir foto -->
-                                            <label for="img" class="btn btn-outline-success fw-bold mb-3" style="border-radius: 2rem; cursor:pointer;">
-                                                Subir foto
-                                            </label>
 
-                                            <!-- Input oculto -->
-                                            <input 
-                                                class="form-control <?php if (isset($err_imagen_perfil)) echo 'is-invalid'; ?>" 
-                                                id="img" 
-                                                type="file" 
-                                                name="img_perfil" 
-                                                accept="image/png, image/jpg, image/jpeg, image/webp" 
-                                                style="display:none;" 
-                                                onchange="mostrarImagen(this);">
-                                            
+                                            <!-- Contenedor de imagen + botón -->
+                                            <div class="d-flex flex-column align-items-center mb-3 position-relative" style="padding-top: 50px;">
+
+                                                <!-- Imagen circular -->
+                                                <div style="width: 100px; height: 100px; border-radius: 50%; overflow: hidden; border: 4px solid #6BBFBF; background-color: #F2F2F2; position: absolute; top: 0;">
+                                                    <?php 
+                                                        $img_sql = $_conexion->prepare("SELECT foto_perfil FROM usuario WHERE identificacion = ?");
+                                                        $img_sql->bind_param("s", $_SESSION['usuario']['identificacion']);
+                                                        $img_sql->execute();
+                                                        $resultado = $img_sql->get_result();
+                                                        $fila = $resultado->fetch_assoc();
+
+                                                        if (!empty($fila['foto_perfil'])) {
+                                                            // Mostrar la imagen desde la base de datos
+                                                            echo '<img id="preview_perfil" src="' . htmlspecialchars($fila['foto_perfil']) . '" alt="Foto de perfil" style="width: 100%; height: 100%; object-fit: cover;">';
+                                                        } else {
+                                                            // Mostrar imagen por defecto
+                                                            echo '<img id="preview_perfil" src="/src/img/perfil.png" alt="Foto de perfil" style="width: 100%; height: 100%; object-fit: cover;">';
+                                                        }
+                                                    ?>
+                                                </div>
+
+                                                <!-- Espacio para que no se solape con la imagen -->
+                                                <div style="height: 100px;"></div>
+
+                                                <!-- Botón subir foto -->
+                                                <label for="img" class="btn btn-outline-success fw-bold" style="border-radius: 2rem; cursor:pointer;">
+                                                    Subir foto
+                                                </label>
+
+                                                <!-- Input oculto -->
+                                                <input 
+                                                    class="form-control <?php if (isset($err_imagen_perfil)) echo 'is-invalid'; ?>" 
+                                                    id="img" 
+                                                    type="file" 
+                                                    name="img_perfil" 
+                                                    accept="image/png, image/jpg, image/jpeg, image/webp" 
+                                                    style="display:none;" 
+                                                    onchange="mostrarImagen(this);">
+                                            </div>
+
                                             <!-- Mostrar errores -->
                                             <?php
                                             if (isset($err_imagen_perfil)) {
                                                 echo "<span class='error'>$err_imagen_perfil</span>";
                                             }
                                             ?>
+
+                                            <!-- Botones de acción -->
+                                            <div id="botones_accion" class="d-none flex-column align-items-center mt-3">
+                                                <button type="submit" form="formFotoPerfil" class="btn btn-primary mb-2" style="border-radius: 2rem;">
+                                                    Guardar
+                                                </button>
+                                                <button type="button" class="btn btn-danger" style="border-radius: 2rem;" onclick="borrarImagen();">
+                                                    Borrar
+                                                </button>
+                                            </div>
+
                                         </form>
-
-                                        <!-- Previsualización de imagen -->
-                                        <div id="mostrar_img" class="d-flex flex-wrap gap-2 mt-3 justify-content-center"></div>
-
-                                        <!-- Botones después de previsualización -->
-                                        <div id="botones_accion" class="d-none flex-column align-items-center mt-3">
-                                            <button type="submit" form="formFotoPerfil" class="btn btn-primary mb-2" style="border-radius: 2rem;">
-                                                Guardar
-                                            </button>
-                                            <button type="button" class="btn btn-danger" style="border-radius: 2rem;" onclick="borrarImagen();">
-                                                Borrar
-                                            </button>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        
                         <!-- DATOS PERSONALES -->
                         <div class="col-md-8">
                             <div class="bg-light rounded-4 shadow-sm p-4 h-100">

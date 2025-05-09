@@ -80,12 +80,12 @@ if ($matricula !== null) {
                     $usuario_data = $usuario_stmt->get_result()->fetch_assoc();
 
                     $nombre = $usuario_data["nombre"] ?? "Usuario";
-                    $foto = $usuario_data["foto_perfil"] ?? '../../../src/img/default-profile.png';
+                    $foto = !empty($usuario_data["foto_perfil"]) ? $usuario_data["foto_perfil"] : '/src/img/perfil.png'; // Asegurarse de que no esté vacío
                     $mensaje = htmlspecialchars($fila["ultimo_mensaje"]);
                     $hora = date("H:i", strtotime($fila["ultima_fecha"]));
                 ?>
                     <a href="conversa?chat_con=<?= urlencode($otro) ?>" class="chat-item">
-                        <img src="<?= $foto ?>" alt="Perfil">
+                        <img src="<?= htmlspecialchars($foto) ?>" alt="Perfil">
                         <div class="contenido-chat">
                             <span class="nombre"><?= $nombre ?></span>  <!-- Muestra el nombre aquí -->
                             <span class="mensaje"><?= $mensaje ?></span>
@@ -103,7 +103,6 @@ if ($matricula !== null) {
                         <i class="fas fa-arrow-left"></i>
                     </a>
                     <?php if ($datos): ?>
-                        <img src="<?= htmlspecialchars($datos["foto_perfil"] ?? '../../../src/img/default-profile.png') ?>" alt="Foto de perfil">
                         <div class="details">
                             <div class="usuario-estado">
                                 <span class="nombre-usuario"><?= htmlspecialchars($datos["nombre"]) ?></span>  <!-- Muestra el nombre aquí -->
