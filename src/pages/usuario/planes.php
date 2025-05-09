@@ -10,7 +10,10 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SocialiCar - Comparte tu coche</title>
-    <?php include_once '../../components/links.php'; ?>
+    <?php 
+        include_once '../../components/links.php'; 
+        require(__DIR__ . "/../../config/conexion.php");
+    ?>
     <link rel="icon" href="../../../src/img/favicon.png" />
     <link rel="stylesheet" href="../../../src/styles/planes.css">
 </head>
