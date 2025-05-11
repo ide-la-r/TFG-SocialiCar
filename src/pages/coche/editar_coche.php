@@ -21,12 +21,50 @@
         exit();
     }
     ?>
+
+    <style>
+        .error {
+            color: #e03131;
+            font-size: 1em;
+        }
+    </style>
 </head>
 
 <body>
     <?php include_once '../../components/navbar.php'; ?>
 
     <?php
+
+    if (isset($_GET['matricula'])) {
+        $matricula_obtenida = $_GET["matricula"];
+
+        $consulta_coche = $_conexion->prepare("SELECT * FROM coche WHERE matricula = ?");
+        $consulta_coche->bind_param("s", $matricula_obtenida);
+        $consulta_coche->execute();
+        $datos_coche = $consulta_coche->get_result();
+
+        while ($fila = $datos_coche -> fetch_assoc()) {
+            $marca = $fila["marca"];
+            $modelo = $fila["modelo"];
+            $anno_matriculacion = substr($fila["anno_matriculacion"], 0, 7);
+            $kilometros = $fila["kilometros"];
+            $combustible = $fila["combustible"];
+            $transmision = $fila["transmision"];
+            $provincia = $fila["provincia"];
+            $ciudad = $fila["ciudad"];
+            $codigo_postal = $fila["codigo_postal"];
+            $direccion = $fila["direccion"];
+            $tipo_aparcamiento = $fila["tipo_aparcamiento"];
+            $tipo = $fila["tipo"];
+            $precio = $fila["precio"];
+            $descripcion = $fila["descripcion"];
+            $color = $fila["color"];
+            $plazas = $fila["plazas"];
+            $puertas = $fila["puertas"];
+            $potencia = $fila["potencia"];
+        }
+    }
+
 
     ?>
 
@@ -38,73 +76,89 @@
             <div class="container card py-4">
                 <h3 class="text-start">Información básica</h3>
                 <div class="row justify-content-center pt-3">
+                    <?php
+                    // API para obtener las marcas de coches
+                    $apiUrlMarcas = "https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json";
+
+                    $curl = curl_init();
+                    curl_setopt($curl, CURLOPT_URL, $apiUrlMarcas);
+                    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+                    $respuesta = curl_exec($curl);
+                    curl_close($curl);
+
+                    $datos = json_decode($respuesta, true);
+                    $marcas = $datos['Results'];
+
+                    $marcaSeleccionada = isset($_POST['marca']) ? $_POST['marca'] : '';
+                    $modeloSeleccionado = isset($_POST['modelo']) ? $_POST['modelo'] : '';
+                    ?>
+
+                    <!-- Marca -->
                     <div class="col">
-                        <?php
-                        // API para obtener las marcas de coches
-                        $apiUrlMarcas = "https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json";
-
-                        $curl = curl_init();
-                        curl_setopt($curl, CURLOPT_URL, $apiUrlMarcas);
-                        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-                        $respuesta = curl_exec($curl);
-                        curl_close($curl);
-
-                        $datos = json_decode($respuesta, true);
-                        $marcas = $datos['Results'];
-
-                        $marcaSeleccionada = isset($_POST['marca']) ? $_POST['marca'] : '';
-                        $modeloSeleccionado = isset($_POST['modelo']) ? $_POST['modelo'] : '';
-                        ?>
                         <div class="form-floating">
-                            <select class="form-select" id="floatingSelect" name="marca">
-                                <option disabled selected hidden>Marca*</option>
+                            <select class="form-select <?php if (isset($err_marca)) echo 'is-invalid'; ?>" id="marca" name="marca">
+                                <option disabled selected hidden><?php if(!isset($nueva_marca)) echo $marca ?></option>
                                 <?php foreach ($marcas as $marcaItem) { ?>
                                     <option value="<?php echo $marcaItem["MakeName"]; ?>"
-                                        <?php if (isset($_POST['marca']) && $_POST['marca'] == $marcaItem["MakeName"]) echo "selected"; ?>>
+                                        <?php if ($marcaSeleccionada === $marcaItem["MakeName"]) echo "selected"; ?>>
                                         <?php echo $marcaItem["MakeName"]; ?>
                                     </option>
                                 <?php } ?>
                             </select>
-                            <label for="floatingSelect">Marca</label>
-
+                            <label for="marca">Marca</label>
                             <?php
                             if (isset($err_marca)) {
-                                echo "<span class='is-invalid'>$err_marca</span>";
+                                echo "<span class='error'>$err_marca</span>";
                             }
                             ?>
                         </div>
-
                     </div>
+
+                    <!-- Modelo -->
                     <div class="col">
                         <div class="form-floating">
-                            <select class="form-select" id="modelo" name="modelo" data-selected="<?php echo htmlspecialchars($modeloSeleccionado); ?>">
-                                <option disabled selected hidden>Modelo*</option>
+                            <select class="form-select <?php if (isset($err_modelo)) echo 'is-invalid'; ?>" id="modelo" name="modelo" data-selected="<?php echo htmlspecialchars($modeloSeleccionado); ?>">
+                                <option disabled selected hidden><?php if(!isset($nueva_modelo)) echo $modelo ?></option>
                             </select>
-                            <label for="floatingSelect">Modelo</label>
+                            <label for="modelo">Modelo</label>
                             <?php
                             if (isset($err_modelo)) {
                                 echo "<span class='error'>$err_modelo</span>";
                             }
                             ?>
                         </div>
-
                     </div>
+
+                    <!-- Año de matriculación -->
                     <div class="col">
                         <div class="form-floating">
-                            <input class="form-control" placeholder="Año de matriculacion" id="inputMes" type="month" name="anno_matriculacion" value="<?php if (isset($_POST['anno_matriculacion'])) echo htmlspecialchars($_POST['anno_matriculacion']); ?>">
-                            <label for="floatingInput">Año de matriculacion</label>
+                            <input class="form-control <?php if (isset($err_anno_matriculacion)) echo 'is-invalid'; ?>" placeholder="Año de matriculacion" id="inputMes" type="month" name="anno_matriculacion" value="<?php echo $anno_matriculacion; if (isset($_POST['anno_matriculacion'])) echo htmlspecialchars($_POST['anno_matriculacion']); ?>">
+                            <label for="inputMes">Año de matriculación</label>
+                            <?php
+                            if (isset($err_anno_matriculacion)) {
+                                echo "<span class='error'>$err_anno_matriculacion</span>";
+                            }
+                            ?>
                         </div>
                     </div>
 
+                    <!-- Matrícula -->
                     <div class="col">
                         <div class="form-floating">
-                            <input class="form-control" id="floatingInput" type="text" placeholder="Matricula*" name="matricula" value="">
+                            <div class="form-control" 
+                                style="pointer-events: none; user-select: none; cursor: not-allowed; background-color: #e9ecef;">
+                                <?php echo htmlspecialchars($matricula_obtenida); ?>
+                            </div>
                             <label for="floatingInput">Matrícula</label>
+                            <?php
+                            if (isset($err_matricula)) {
+                                echo "<span class='error'>$err_matricula</span>";
+                            }
+                            ?>
                         </div>
                     </div>
+
                 </div>
-
-
             </div>
         </div>
 
@@ -112,7 +166,6 @@
 
 
 
-        <!-- INFORMACION DEL VEHICULO (KILOMETROS, TIPO DE COMBUSTIBLE, TIPO DE COCHE, TRANSMISION, COLOR, POTENCIA, NUMERO DE PUERTAS, NUMERO DE PLAZAS) -->
         <div class="container mt-5 pt-5">
 
             <div class="container card">
@@ -121,102 +174,126 @@
                 <div class="row justify-content-center pt-3">
                     <div class="mb-3 col-6">
                         <div class="form-floating">
-                            <input class="form-control" id="floatingInput" type="number" placeholder="Kilómetros*" name="kilometros" value="">
-                            <label for="floatingInput">Kilómetros</label>
+                            <input class="form-control <?php if (isset($err_kilometros)) echo 'is-invalid'; ?>" id="kilometros" type="number" placeholder="Kilómetros*" name="kilometros" value="<?php if (isset($kilometros)) echo "$kilometros" ?>">
+                            <label for="kilometros">Kilómetros</label>
+                            <?php
+                            if (isset($err_kilometros)) {
+                                echo "<span class='error'>$err_kilometros</span>";
+                            }
+                            ?>
                         </div>
-
                     </div>
+
                     <div class="mb-3 col-6">
                         <div class="form-floating">
-                            <Select class="form-select" id="floatingSelect" name="tipo_combustible">
+                            <select class="form-select <?php if (isset($err_tipo_combustible)) echo 'is-invalid'; ?>" id="tipo_combustible" name="tipo_combustible">
                                 <option disabled selected hidden>Tipo de combustible*</option>
-                                <option value="gasolina">
+                                <option value="gasolina"
+                                    <?php if (isset($_POST['tipo_combustible']) && $_POST['tipo_combustible'] == "gasolina") echo "selected"; ?>>
                                     Gasolina
                                 </option>
-                                <option value="diesel">
+                                <option value="diesel"
+                                    <?php if (isset($_POST['tipo_combustible']) && $_POST['tipo_combustible'] == "diesel") echo "selected"; ?>>
                                     Diesel
                                 </option>
-                                <option value="hibrido">
-                                    Hibrido
+                                <option value="hibrido"
+                                    <?php if (isset($_POST['tipo_combustible']) && $_POST['tipo_combustible'] == "hibrido") echo "selected"; ?>>
+                                    Híbrido
                                 </option>
-                                <option value="electrico">
+                                <option value="electrico"
+                                    <?php if (isset($_POST['tipo_combustible']) && $_POST['tipo_combustible'] == "electrico") echo "selected"; ?>>
                                     Eléctrico
                                 </option>
-                                <option value="glp">
+                                <option value="glp"
+                                    <?php if (isset($_POST['tipo_combustible']) && $_POST['tipo_combustible'] == "glp") echo "selected"; ?>>
                                     GLP
                                 </option>
-                                <option value="gnc">
+                                <option value="gnc"
+                                    <?php if (isset($_POST['tipo_combustible']) && $_POST['tipo_combustible'] == "gnc") echo "selected"; ?>>
                                     GNC
                                 </option>
-                            </Select>
-
-                            <label for="floatingSelect">Tipo de combustible</label>
-
+                            </select>
+                            <label for="tipo_combustible">Tipo de combustible</label>
+                            <?php
+                            if (isset($err_tipo_combustible)) {
+                                echo "<span class='error'>$err_tipo_combustible</span>";
+                            }
+                            ?>
                         </div>
-
                     </div>
 
                     <div class="mb-3 col-6">
                         <div class="form-floating">
-                            <select class="form-select " id="floatingSelect" name="tipo">
+                            <select class="form-select <?php if (isset($err_tipo)) echo 'is-invalid'; ?>" id="tipo" name="tipo">
                                 <option disabled selected hidden>Tipo de coche*</option>
-                                <option value="berlina">
+                                <option value="berlina" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "berlina") echo "selected"; ?>>
                                     Berlina
                                 </option>
-                                <option value="coupe">
+                                <option value="coupe" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "coupe") echo "selected"; ?>>
                                     Coupé
                                 </option>
-                                <option value="deportivo">
+                                <option value="deportivo" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "deportivo") echo "selected"; ?>>
                                     Deportivo
                                 </option>
-                                <option value="furgoneta">
+                                <option value="furgoneta" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "furgoneta") echo "selected"; ?>>
                                     Furgoneta
                                 </option>
-                                <option value="monovolumen">
+                                <option value="monovolumen" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "monovolumen") echo "selected"; ?>>
                                     Monovolumen
                                 </option>
-                                <option value="suv">
+                                <option value="suv" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "suv") echo "selected"; ?>>
                                     SUV
                                 </option>
-                                <option value="pick-up">
+                                <option value="pick-up" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "pick-up") echo "selected"; ?>>
                                     Pick-up
                                 </option>
-                                <option value="roadster">
+                                <option value="roadster" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "roadster") echo "selected"; ?>>
                                     Roadster
                                 </option>
-                                <option value="utilitario">
+                                <option value="utilitario" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "utilitario") echo "selected"; ?>>
                                     Utilitario
                                 </option>
-                                <option value="familiar">
+                                <option value="familiar" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "familiar") echo "selected"; ?>>
                                     Familiar
                                 </option>
-                                <option value="autocaravana">
+                                <option value="autocaravana" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "autocaravana") echo "selected"; ?>>
                                     Autocaravana
                                 </option>
                             </select>
-                            <label for="floatingSelect">Tipo de coche</label>
+                            <label for="tipo">Tipo de coche</label>
+
+                            <?php
+                            if (isset($err_tipo)) {
+                                echo "<span class='error'>$err_tipo</span>";
+                            }
+                            ?>
                         </div>
-
-
                     </div>
+
+
                     <div class="mb-3 col-6">
                         <div class="form-floating">
-                            <Select class="form-select" id="floatingSelect" name="transmision">
+                            <select class="form-select <?php if (isset($err_transmision)) echo 'is-invalid'; ?>" id="transmision" name="transmision">
                                 <option disabled selected hidden>Transmisión*</option>
-                                <option value="manual">
+                                <option value="manual" <?php if (isset($_POST['transmision']) && $_POST['transmision'] == "manual") echo "selected"; ?>>
                                     Manual
                                 </option>
-                                <option value="automatico">
+                                <option value="automatico" <?php if (isset($_POST['transmision']) && $_POST['transmision'] == "automatico") echo "selected"; ?>>
                                     Automática
                                 </option>
-                            </Select>
-                            <label for="floatingSelect">Tipo de transmisión</label>
+                            </select>
+                            <label for="transmision">Transmisión</label>
+                            <?php
+                            if (isset($err_transmision)) {
+                                echo "<span class='error'>$err_transmision</span>";
+                            }
+                            ?>
                         </div>
-
                     </div>
+
                     <div class="mb-3 col-6">
                         <div class="form-floating">
-                            <select class="form-select" id="floatingSelect" name="color" required>
+                            <select class="form-select <?php if (isset($err_color)) echo 'is-invalid'; ?>" id="color" name="color" required>
                                 <option disabled selected hidden>Color*</option>
                                 <option value="white">Blanco</option>
                                 <option value="black">Negro</option>
@@ -229,38 +306,65 @@
                                 <option value="brown">Marrón</option>
                                 <option value="others">Otros</option>
                             </select>
-                            <label for="floatingSelect">Color</label>
-                        </div>
+                            <label for="color">Color</label>
 
+                            <?php
+                            if (isset($err_color)) {
+                                echo "<span class='error'>$err_color</span>";
+                            }
+                            ?>
+                        </div>
                     </div>
+
                     <div class="mb-3 col-6">
                         <div class="form-floating">
-                            <input class="form-control" id="floatingInput" type="number" placeholder="caballos*" name="Potencia" value="">
-                            <label for="floatingInput">Caballos</label>
+                            <input class="form-control <?php if (isset($err_potencia)) echo 'is-invalid'; ?>" min="30" max="2000" id="potencia" type="number" placeholder="Potencia*" name="potencia" value="<?php if (isset($potencia)) echo "$potencia" ?>">
+                            <label for="potencia">Potencia</label>
+                            <?php
+                            if (isset($err_potencia)) {
+                                echo "<span class='error'>$err_potencia</span>";
+                            }
+                            ?>
                         </div>
                     </div>
+
                     <div class="mb-3 col-6">
                         <div class="form-floating">
-                            <input class="form-control" id="floatingInput" type="number" placeholder="Numero de puertas*" name="numero_puertas" value="">
-
-                            <label for="floatingInput">Número de puertas</label>
+                            <input class="form-control <?php if (isset($err_numero_puertas)) echo 'is-invalid'; ?>" min="2" max="5" id="numero_puertas" type="number" placeholder="Numero de puertas*" name="numero_puertas" value="<?php if (isset($puertas)) echo "$puertas" ?>">
+                            <label for="numero_puertas">Numero de puertas</label>
+                            <?php
+                            if (isset($err_numero_puertas)) {
+                                echo "<span class='error'>$err_numero_puertas</span>";
+                            }
+                            ?>
                         </div>
                     </div>
+
                     <div class="mb-3 col-6">
                         <div class="form-floating">
-                            <input class="form-control" id="floatingInput" type="number" placeholder="Numero de plazas*" name="numero_plazas" value="">
-                            <label for="floatingInput">Número de plazas</label>
+                            <input class="form-control <?php if (isset($err_numero_plazas)) echo 'is-invalid'; ?>" min="1" max="9" id="numero_plazas" type="number" placeholder="Numero de plazas*" name="numero_plazas" value="<?php if (isset($plazas)) echo "$plazas" ?>">
+                            <label for="numero_plazas">Numero de plazas</label>
+                            <?php
+                            if (isset($err_numero_plazas)) {
+                                echo "<span class='error'>$err_numero_plazas</span>";
+                            }
+                            ?>
                         </div>
-
                     </div>
+
                     <div>
                         <div class="form-floating">
-                            <textarea class="form-control" name="descripcion" id="exampleFormControlTextarea1" id="floatingTextarea2" style="height: 100px" rows="3" placeholder="Descripcion*"></textarea>
-                            <label for="floatingTextarea2">Descripción</label>
+                            <textarea class="form-control <?php if (isset($err_descripcion)) echo 'is-invalid'; ?>" name="descripcion" id="floatingTextarea2" rows="3" style="height: 100px" placeholder="Descripcion*"><?php if (isset($descripcion)) echo "$descripcion"; ?></textarea>
+                            <label for="floatingTextarea2">Descripcion</label>
+                            <?php
+                            if (isset($err_descripcion)) {
+                                echo "<span class='error'>$err_descripcion</span>";
+                            }
+                            ?>
                             <br>
                         </div>
-
                     </div>
+
 
                 </div>
             </div>
@@ -585,6 +689,12 @@
         </div>
     </form>
     <?php include_once '../../components/footer.php'; ?>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/mostrar_marcas.js"></script>
+    <script src="../../js/nuevo_coche.js"></script>
+    <script src="../../js/pre_imagen.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 
 </body>
 
