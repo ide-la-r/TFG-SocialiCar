@@ -876,7 +876,7 @@
 
         <div class="container mt-5 pt-5">
             <div class="container card py-4">
-                <h3 class="text-start">Precio</h3>
+                <h3 class="text-start">Precio por día</h3>
 
                 <div class="d-flex flex-column align-items-center">
                     <label id="totalPrecio" class="form-label fw-bold">Precio Diario: <span id="mostrarPrecio">15€</span></label>
@@ -898,92 +898,27 @@
         </div>
 
 
-
+        <!-- Dirección -->
         <div class="container mt-5 pt-5">
             <div class="container card py-4">
-                <h3 class="text-start">Ubicación</h3>
+                <h3 class="text-start">Ubicación del vehículo</h3>
                 <div class="row justify-content-center pt-3">
-                    <div class="mb-3 col-6">
+                    <div class="mb-3 col-12">
                         <div class="form-floating">
-                            <input class="form-control <?php if (isset($err_direccion)) echo 'is-invalid'; ?>" id="direccion" type="text" placeholder="Direccion*" name="direccion" value="<?php if (isset($direccion)) echo "$direccion" ?>">
-                            <label for="direccion">Dirección</label>
-                            <?php
-                            if (isset($err_direccion)) {
-                                echo "<span class='error'>$err_direccion</span>";
-                            }
-                            ?>
+                            <input type="text" class="form-control" id="autocomplete" name="direccion" placeholder="Ej: Calle Larios, Málaga">
+                            <label for="autocomplete" class="form-label">Dirección*</label>
+                            <div id="sugerencias" class="list-group mt-2" style="z-index:1000; position: absolute;"></div>
                         </div>
-                    </div>
-
-                    <div class="mb-3 col-6">
-                        <div class="form-floating">
-                            <input class="form-control <?php if (isset($err_cp)) echo 'is-invalid'; ?>" id="cp" type="number" placeholder="Código Postal*" name="cp" value="<?php if (isset($cp)) echo "$cp" ?>">
-                            <label for="cp">Código Postal</label>
-                            <?php
-                            if (isset($err_cp)) {
-                                echo "<span class='error'>$err_cp</span>";
-                            }
-                            ?>
-                        </div>
-                    </div>
-
-                    <div class="mb-3 col-6">
-                        <div class="form-floating">
-                            <input class="form-control <?php if (isset($err_provincia)) echo 'is-invalid'; ?>" id="provincia" type="text" placeholder="Provincia*" name="provincia" value="<?php if (isset($provincia)) echo "$provincia" ?>">
-                            <label for="provincia">Provincia</label>
-                            <?php
-                            if (isset($err_provincia)) {
-                                echo "<span class='error'>$err_provincia</span>";
-                            }
-                            ?>
-                        </div>
-                    </div>
-
-                    <div class="mb-3 col-6">
-                        <div class="form-floating">
-                            <input class="form-control <?php if (isset($err_ciudad)) echo 'is-invalid'; ?>" id="ciudad" type="text" placeholder="Ciudad*" name="ciudad" value="<?php if (isset($ciudad)) echo "$ciudad" ?>">
-                            <label for="ciudad">Ciudad</label>
-                            <?php
-                            if (isset($err_ciudad)) {
-                                echo "<span class='error'>$err_ciudad</span>";
-                            }
-                            ?>
-                        </div>
-                    </div>
-
-                    <div class="mb-3 col-6">
-                        <div class="form-floating">
-                            <select class="form-select <?php if (isset($err_tipo_aparcamiento)) echo 'is-invalid'; ?>" id="tipo_aparcamiento" name="tipo_aparcamiento">
-                                <option disabled selected hidden>Tipo de aparcamiento*</option>
-                                <option value="calle"
-                                    <?php if (isset($_POST['tipo_aparcamiento']) && $_POST['tipo_aparcamiento'] == "calle") echo "selected"; ?>>
-                                    Calle
-                                </option>
-                                <option value="garaje"
-                                    <?php if (isset($_POST['tipo_aparcamiento']) && $_POST['tipo_aparcamiento'] == "garaje") echo "selected"; ?>>
-                                    Garaje
-                                </option>
-                                <option value="parking"
-                                    <?php if (isset($_POST['tipo_aparcamiento']) && $_POST['tipo_aparcamiento'] == "parking") echo "selected"; ?>>
-                                    Parking
-                                </option>
-                            </select>
-                            <label for="tipo_aparcamiento">Tipo de aparcamiento</label>
-                            <?php
-                            if (isset($err_tipo_aparcamiento)) {
-                                echo "<span class='error'>$err_tipo_aparcamiento</span>";
-                            }
-                            ?>
-                        </div>
-
-
                     </div>
                 </div>
 
-
+                <input type="hidden" name="lat" id="lat">
+                <input type="hidden" name="lon" id="lon">
             </div>
         </div>
 
+
+        <!-- Imagenes -->
         <div class="container mt-5 pt-5">
             <div class="container card py-4">
                 <h3>Imágenes</h3>
@@ -1235,17 +1170,16 @@
         /* Insertar coche */
         $enviarCoche = $_conexion->prepare("INSERT INTO coche (
                 matricula, id_usuario, seguro, marca, modelo, anno_matriculacion, kilometros,
-                combustible, transmision, provincia, ciudad, codigo_postal, direccion,
-                tipo_aparcamiento, ruta_img_coche, tipo, precio, descripcion, color, plazas,
-                puertas, potencia
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                combustible, transmision, direccion, tipo_aparcamiento, ruta_img_coche, tipo, 
+                precio, descripcion, color, plazas, puertas, potencia
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
         if (!$enviarCoche) {
             die('Error en prepare coche: ' . $_conexion->error);
         }
 
         $enviarCoche->bind_param(
-            "ssisssissssissssissiii",
+            "ssisssissssssissiii",
             $matricula,
             $id_usuario,
             $seguro,
@@ -1255,9 +1189,6 @@
             $kilometros,
             $tipo_combustible,
             $transmision,
-            $provincia,
-            $ciudad,
-            $cp,
             $direccion,
             $tipo_aparcamiento,
             $ruta_relativa,
@@ -1344,6 +1275,7 @@
     <script src="../../js/mostrar_marcas.js"></script>
     <script src="../../js/nuevo_coche.js"></script>
     <script src="../../js/pre_imagen.js"></script>
+    <script src="../../js/obtener_direccion.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 
