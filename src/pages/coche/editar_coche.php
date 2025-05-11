@@ -97,7 +97,7 @@
                     <div class="col">
                         <div class="form-floating">
                             <select class="form-select <?php if (isset($err_marca)) echo 'is-invalid'; ?>" id="marca" name="marca">
-                                <option disabled selected hidden><?php if(!isset($nueva_marca)) echo $marca ?></option>
+                                <option disabled selected hidden><?php if(!isset($marca_nuevo)) echo $marca; ?></option>
                                 <?php foreach ($marcas as $marcaItem) { ?>
                                     <option value="<?php echo $marcaItem["MakeName"]; ?>"
                                         <?php if ($marcaSeleccionada === $marcaItem["MakeName"]) echo "selected"; ?>>
@@ -118,7 +118,7 @@
                     <div class="col">
                         <div class="form-floating">
                             <select class="form-select <?php if (isset($err_modelo)) echo 'is-invalid'; ?>" id="modelo" name="modelo" data-selected="<?php echo htmlspecialchars($modeloSeleccionado); ?>">
-                                <option disabled selected hidden><?php if(!isset($nueva_modelo)) echo $modelo ?></option>
+                                <option disabled selected hidden><?php if(!isset($modelo_nuevo)) echo $modelo; ?></option>
                             </select>
                             <label for="modelo">Modelo</label>
                             <?php
@@ -174,7 +174,7 @@
                 <div class="row justify-content-center pt-3">
                     <div class="mb-3 col-6">
                         <div class="form-floating">
-                            <input class="form-control <?php if (isset($err_kilometros)) echo 'is-invalid'; ?>" id="kilometros" type="number" placeholder="Kilómetros*" name="kilometros" value="<?php if (isset($kilometros)) echo "$kilometros" ?>">
+                            <input class="form-control <?php if (isset($err_kilometros)) echo 'is-invalid'; ?>" id="kilometros" type="number" placeholder="Kilómetros*" name="kilometros" value="<?php if (!isset($kilometros_nuevo)) echo "$kilometros" ?>">
                             <label for="kilometros">Kilómetros</label>
                             <?php
                             if (isset($err_kilometros)) {
