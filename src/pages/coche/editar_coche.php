@@ -73,9 +73,10 @@
     <form action="#" method="post" enctype="multipart/form-data">
         <!-- INFORMACION DEL VEHICULO (MARCA MODELO Y ANNO DE MATRICULACION) -->
         <div class="container mt-5 pt-5">
-            <div class="container card py-4">
-                <h3 class="text-start">Información básica</h3>
-                <div class="row justify-content-center pt-3">
+    <div class="card py-4 px-2 px-md-4">
+        <h3 class="text-start mb-4">Información básica</h3>
+        <div class="row gy-3 justify-content-center">
+
                     <?php
                     // API para obtener las marcas de coches
                     $apiUrlMarcas = "https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json";
@@ -94,69 +95,69 @@
                     ?>
 
                     <!-- Marca -->
-                    <div class="col">
-                        <div class="form-floating">
-                            <select class="form-select <?php if (isset($err_marca)) echo 'is-invalid'; ?>" id="marca" name="marca">
-                                <option disabled selected hidden><?php if(!isset($marca_nuevo)) echo $marca; ?></option>
-                                <?php foreach ($marcas as $marcaItem) { ?>
-                                    <option value="<?php echo $marcaItem["MakeName"]; ?>"
-                                        <?php if ($marcaSeleccionada === $marcaItem["MakeName"]) echo "selected"; ?>>
-                                        <?php echo $marcaItem["MakeName"]; ?>
-                                    </option>
-                                <?php } ?>
-                            </select>
-                            <label for="marca">Marca</label>
-                            <?php
-                            if (isset($err_marca)) {
-                                echo "<span class='error'>$err_marca</span>";
-                            }
-                            ?>
-                        </div>
-                    </div>
+                    <div class="col-12 col-md-3">
+    <div class="form-floating">
+        <select class="form-select <?php if (isset($err_marca)) echo 'is-invalid'; ?>" id="marca" name="marca">
+            <option disabled selected hidden><?php if(!isset($marca_nuevo)) echo $marca; ?></option>
+            <?php foreach ($marcas as $marcaItem) { ?>
+                <option value="<?php echo $marcaItem["MakeName"]; ?>"
+                    <?php if ($marcaSeleccionada === $marcaItem["MakeName"]) echo "selected"; ?>>
+                    <?php echo $marcaItem["MakeName"]; ?>
+                </option>
+            <?php } ?>
+        </select>
+        <label for="marca">Marca</label>
+        <?php
+        if (isset($err_marca)) {
+            echo "<span class='error'>$err_marca</span>";
+        }
+        ?>
+    </div>
+</div>
 
-                    <!-- Modelo -->
-                    <div class="col">
-                        <div class="form-floating">
-                            <select class="form-select <?php if (isset($err_modelo)) echo 'is-invalid'; ?>" id="modelo" name="modelo" data-selected="<?php echo htmlspecialchars($modeloSeleccionado); ?>">
-                                <option disabled selected hidden><?php if(!isset($modelo_nuevo)) echo $modelo; ?></option>
-                            </select>
-                            <label for="modelo">Modelo</label>
-                            <?php
-                            if (isset($err_modelo)) {
-                                echo "<span class='error'>$err_modelo</span>";
-                            }
-                            ?>
-                        </div>
-                    </div>
+<!-- Modelo -->
+<div class="col-12 col-md-3">
+    <div class="form-floating">
+        <select class="form-select <?php if (isset($err_modelo)) echo 'is-invalid'; ?>" id="modelo" name="modelo" data-selected="<?php echo htmlspecialchars($modeloSeleccionado); ?>">
+            <option disabled selected hidden><?php if(!isset($modelo_nuevo)) echo $modelo; ?></option>
+        </select>
+        <label for="modelo">Modelo</label>
+        <?php
+        if (isset($err_modelo)) {
+            echo "<span class='error'>$err_modelo</span>";
+        }
+        ?>
+    </div>
+</div>
 
-                    <!-- Año de matriculación -->
-                    <div class="col">
-                        <div class="form-floating">
-                            <input class="form-control <?php if (isset($err_anno_matriculacion)) echo 'is-invalid'; ?>" placeholder="Año de matriculacion" id="inputMes" type="month" name="anno_matriculacion" value="<?php echo $anno_matriculacion; if (isset($_POST['anno_matriculacion'])) echo htmlspecialchars($_POST['anno_matriculacion']); ?>">
-                            <label for="inputMes">Año de matriculación</label>
-                            <?php
-                            if (isset($err_anno_matriculacion)) {
-                                echo "<span class='error'>$err_anno_matriculacion</span>";
-                            }
-                            ?>
-                        </div>
-                    </div>
+<!-- Año de matriculación -->
+<div class="col-12 col-md-3">
+    <div class="form-floating">
+        <input class="form-control <?php if (isset($err_anno_matriculacion)) echo 'is-invalid'; ?>" placeholder="Año de matriculacion" id="inputMes" type="month" name="anno_matriculacion" value="<?php echo $anno_matriculacion; if (isset($_POST['anno_matriculacion'])) echo htmlspecialchars($_POST['anno_matriculacion']); ?>">
+        <label for="inputMes">Año de matriculación</label>
+        <?php
+        if (isset($err_anno_matriculacion)) {
+            echo "<span class='error'>$err_anno_matriculacion</span>";
+        }
+        ?>
+    </div>
+</div>
 
-                    <!-- Matrícula -->
-                    <div class="col">
-                        <div class="form-floating">
-                            <div class="form-control" 
-                                style="pointer-events: none; user-select: none; cursor: not-allowed; background-color: #e9ecef;">
-                                <?php echo htmlspecialchars($matricula_obtenida); ?>
-                            </div>
-                            <label for="floatingInput">Matrícula</label>
-                            <?php
-                            if (isset($err_matricula)) {
-                                echo "<span class='error'>$err_matricula</span>";
-                            }
-                            ?>
-                        </div>
-                    </div>
+<!-- Matrícula -->
+<div class="col-12 col-md-3">
+    <div class="form-floating">
+        <div class="form-control" 
+            style="pointer-events: none; user-select: none; cursor: not-allowed; background-color: #e9ecef;">
+            <?php echo htmlspecialchars($matricula_obtenida); ?>
+        </div>
+        <label for="floatingInput">Matrícula</label>
+        <?php
+        if (isset($err_matricula)) {
+            echo "<span class='error'>$err_matricula</span>";
+        }
+        ?>
+    </div>
+</div>
 
                 </div>
             </div>

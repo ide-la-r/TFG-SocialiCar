@@ -83,29 +83,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body class="d-flex flex-column min-vh-100">
     <?php include_once '../../components/navbar.php'; ?>
-    <div class="container mt-5 pt-5">
-
-        <div class="container card text-center card-sesion" style="width: 40rem; border-radius: 40px">
-            <h1 class="title pt-4">Iniciar sesión</h1>
-            <form method="post" action="" class="form-floating">
-                <div class="row justify-content-center">
-                <div class="mb-3 col-8">
-    <input name="correo" class="form-control <?php if (isset($err_correo)) echo 'is-invalid'; ?>" type="text" placeholder="Correo electronico*">
-    <?php if (isset($err_correo)) echo "<span class='error'>$err_correo</span>" ?>
-</div>
-<div class="mb-3 col-8">
-    <input name="contrasena" class="form-control <?php if (isset($err_contrasena)) echo 'is-invalid'; ?>" type="password" placeholder="Contraseña*">
-    <?php if (isset($err_contrasena)) echo "<span class='error'>$err_contrasena</span>" ?>
-</div>
-
+    <div class="container mt-5 pt-5 d-flex justify-content-center align-items-center">
+    <div class="card text-center card-sesion w-100 w-md-50 p-4 rounded-4 shadow mx-auto" style="max-width: 420px;">
+        <h1 class="title pt-2 pb-3">Iniciar sesión</h1>
+        <form method="post" action="" class="form-floating">
+            <div class="row justify-content-center">
+                <div class="mb-3 col-12 col-md-8 mx-auto">
+                    <input name="correo" class="form-control <?php if (isset($err_correo)) echo 'is-invalid'; ?>" type="text" placeholder="Correo electronico*">
+                    <?php if (isset($err_correo)) echo "<span class='error'>$err_correo</span>" ?>
                 </div>
-                <input type="submit" class=" btn btn-primary" value="Iniciar sesión">
-            </form>
-            <div class="mb-3 iniciar_sesion_pregunta">
-                <p>¿Todavía no tienes cuenta? <a href="./registro">Registrarse</a></p>
+                <div class="mb-3 col-12 col-md-8 mx-auto">
+                    <input name="contrasena" class="form-control <?php if (isset($err_contrasena)) echo 'is-invalid'; ?>" type="password" placeholder="Contraseña*">
+                    <?php if (isset($err_contrasena)) echo "<span class='error'>$err_contrasena</span>" ?>
+                </div>
             </div>
+            <input type="submit" class="btn btn-primary w-100 mt-2" value="Iniciar sesión">
+        </form>
+        <div class="mb-3 iniciar_sesion_pregunta">
+            <p>¿Todavía no tienes cuenta? <a href="./registro">Registrarse</a></p>
         </div>
     </div>
+</div>
     <?php include_once '../../components/footer.php'; ?>
 </body>
 
