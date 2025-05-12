@@ -59,9 +59,6 @@
         $tmp_anno_matriculacion = depurar($_POST['anno_matriculacion']);
         $tmp_kilometros = depurar($_POST['kilometros']);
         $tmp_direccion = depurar($_POST['direccion']);
-        $tmp_cp = depurar($_POST['cp']);
-        $tmp_provincia = depurar($_POST['provincia']);
-        $tmp_ciudad = depurar($_POST['ciudad']);
         $tmp_descripcion = depurar($_POST['descripcion']);
         $tmp_potencia = $_POST['potencia'];
         $tmp_numero_puertas = $_POST['numero_puertas'];
@@ -327,43 +324,6 @@
                 $err_direccion = "La dirección no puede tener más de 50 caracteres";
             } else {
                 $direccion = $tmp_direccion;
-            }
-        }
-
-        /* Validación de código postal */
-        if ($tmp_cp == "") {
-            $err_cp = "Debes indicar el código postal de tu coche";
-        } else {
-            if (!is_numeric($tmp_cp)) {
-                $err_cp = "El código postal debe ser un número";
-            } else {
-                if (strlen($tmp_cp) != 5) {
-                    $err_cp = "El código postal debe tener 5 dígitos";
-                } else {
-                    $cp = $tmp_cp;
-                }
-            }
-        }
-
-        /* Validación de provincia */
-        if ($tmp_provincia == "") {
-            $err_provincia = "Debes indicar la provincia de tu coche";
-        } else {
-            if (strlen($tmp_provincia) > 20) {
-                $err_provincia = "La provincia no puede tener más de 20 caracteres";
-            } else {
-                $provincia = $tmp_provincia; /* Agregar más adelante la comprovación con la API de las provincias */
-            }
-        }
-
-        /* Validación de ciudad */
-        if ($tmp_ciudad == "") {
-            $err_ciudad = "Debes indicar la ciudad de tu coche";
-        } else {
-            if (strlen($tmp_ciudad) > 20) {
-                $err_ciudad = "La ciudad no puede tener más de 20 caracteres";
-            } else {
-                $ciudad = $tmp_ciudad; /* Agregar más adelante la comprovación con la API de las ciudades */
             }
         }
 
@@ -798,16 +758,16 @@
                         <div class="form-floating">
                             <select class="form-select <?php if (isset($err_color)) echo 'is-invalid'; ?>" id="color" name="color" required>
                                 <option disabled selected hidden>Color*</option>
-                                <option value="white">Blanco</option>
-                                <option value="black">Negro</option>
-                                <option value="gray">Gris</option>
-                                <option value="red">Rojo</option>
-                                <option value="blue">Azul</option>
-                                <option value="green">Verde</option>
-                                <option value="yellow">Amarillo</option>
-                                <option value="orange">Naranja</option>
-                                <option value="brown">Marrón</option>
-                                <option value="others">Otros</option>
+                                <option value="white" <?php if (isset($_POST['color']) && $_POST['color'] == "white") echo "selected"; ?>>Blanco</option>
+                                <option value="black" <?php if (isset($_POST['color']) && $_POST['color'] == "black") echo "selected"; ?>>Negro</option>
+                                <option value="gray" <?php if (isset($_POST['color']) && $_POST['color'] == "gray") echo "selected"; ?>>Gris</option>
+                                <option value="red" <?php if (isset($_POST['color']) && $_POST['color'] == "red") echo "selected"; ?>>Rojo</option>
+                                <option value="blue" <?php if (isset($_POST['color']) && $_POST['color'] == "blue") echo "selected"; ?>>Azul</option>
+                                <option value="green" <?php if (isset($_POST['color']) && $_POST['color'] == "green") echo "selected"; ?>>Verde</option>
+                                <option value="yellow" <?php if (isset($_POST['color']) && $_POST['color'] == "yellow") echo "selected"; ?>>Amarillo</option>
+                                <option value="orange" <?php if (isset($_POST['color']) && $_POST['color'] == "orange") echo "selected"; ?>>Naranja</option>
+                                <option value="brown" <?php if (isset($_POST['color']) && $_POST['color'] == "brown") echo "selected"; ?>>Marrón</option>
+                                <option value="others" <?php if (isset($_POST['color']) && $_POST['color'] == "others") echo "selected"; ?>>Otros</option>
                             </select>
                             <label for="color">Color</label>
 
@@ -879,9 +839,9 @@
                 <h3 class="text-start">Precio por día</h3>
 
                 <div class="d-flex flex-column align-items-center">
-                    <label id="totalPrecio" class="form-label fw-bold">Precio Diario: <span id="mostrarPrecio">15€</span></label>
+                    <label id="totalPrecio" class="form-label fw-bold">Precio Diario: <span id="mostrarPrecio"><?php if (isset($_POST['precio'])) echo $_POST['precio']."€"; else echo "15€"; ?></span></label>
 
-                    <input type="range" class="form-range w-75 <?php if (isset($err_precio)) echo 'is-invalid'; ?>" name="precio" id="precio" min="15" max="500" step="1" value="15">
+                    <input type="range" class="form-range w-75 <?php if (isset($err_precio)) echo 'is-invalid'; ?>" name="precio" id="precio" min="15" max="500" step="1" value="<?php if (isset($_POST['precio'])) echo $_POST['precio']; else echo "15€"; ?>">
 
                     <div class="d-flex justify-content-between text-muted mt-1 w-75">
                         <span>15€</span>
@@ -1166,7 +1126,7 @@
     </form>
 
     <?php
-    if (isset($matricula, $marca, $modelo, $precio, $anno_matriculacion, $kilometros, $direccion, $cp, $provincia, $ciudad, $tipo_combustible, $transmision, $tipo_aparcamiento, $tipo, $precio, $color, $plazas, $puertas, $potencia, $descripcion)) {
+    if (isset($matricula, $marca, $modelo, $precio, $anno_matriculacion, $kilometros, $direccion, $tipo_combustible, $transmision, $tipo_aparcamiento, $tipo, $precio, $color, $plazas, $puertas, $potencia, $descripcion)) {
         /* Insertar coche */
         $enviarCoche = $_conexion->prepare("INSERT INTO coche (
                 matricula, id_usuario, seguro, marca, modelo, anno_matriculacion, kilometros,
