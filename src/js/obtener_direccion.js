@@ -13,6 +13,15 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(res => res.json())
             .then(data => {
                 sugerencias.innerHTML = "";
+
+                if (data.length === 0) {
+                    const noResult = document.createElement("div");
+                    noResult.classList.add("list-group-item", "text-muted");
+                    noResult.textContent = "No se encontraron resultados.";
+                    sugerencias.appendChild(noResult);
+                    return;
+                }
+
                 data.forEach(lugar => {
                     const item = document.createElement("a");
                     item.classList.add("list-group-item", "list-group-item-action");
@@ -27,6 +36,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     });
                     sugerencias.appendChild(item);
                 });
+            })
+            .catch(error => {
+                console.error("Error al obtener las direcciones:", error);
+                sugerencias.innerHTML = "<div class='list-group-item text-danger'>Error al cargar sugerencias.</div>";
             });
     });
 
