@@ -80,7 +80,6 @@
               // No hay sesión, mostrar imagen por defecto
               echo '<img style="object-fit: cover; border-radius: 50%; overflow: hidden; border: 4px solid #6BBFBF; background-color: #F2F2F2;" src="/src/img/perfil.png" class="rounded-circle" height="35" alt="Avatar" loading="lazy" />';
             } else {
-              // Asumimos que $_SESSION['usuario'] guarda el DNI o ID del usuario
               $sql = $_conexion->prepare("SELECT foto_perfil FROM usuario WHERE identificacion = ?");
               $sql->bind_param("s", $_SESSION['usuario']['identificacion']);
               $sql->execute();

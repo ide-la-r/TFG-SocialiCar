@@ -50,11 +50,6 @@
     </div>
   </div>
 </footer>
-<!-- FontAwesome CDN para iconos sociales -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
-<script src="/src/js/mostrar_marcas.js"></script>
-<script src="/src/js/precio_coche.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- Estilos específicos para los iconos sociales del footer -->
