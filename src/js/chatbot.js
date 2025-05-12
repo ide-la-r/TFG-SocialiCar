@@ -29,11 +29,96 @@ function appendMessage(role, content) {
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
 }
 
-// Función para enviar el mensaje al modelo de OpenAI o responder directamente si pregunta por coches baratos
+// Función para enviar el mensaje al modelo de OpenAI o responder directamente si pregunta por coches baratos o suscripciones
 async function sendMessageToOpenAI(message) {
     chatHistory.push({ role: 'user', content: message });
 
     const lowerMessage = message.toLowerCase();
+
+    // Comprobar si la consulta es sobre suscripciones o planes
+    const palabrasClaveSuscripcion = [
+        'suscripción',
+        'suscripciones',
+        'plan de suscripción',
+        'planes premium',
+        'suscripción premium',
+        'suscripción básica',
+        'qué incluye la suscripción',
+        'cómo funciona la suscripción',
+        'plan',
+        'planes',
+        'tipos de planes',
+        'qué tipos de planes',
+        'qué planes',
+        'que tipos de planes',
+        'que planes',
+        'planes de socialicar',
+        'tipos de plan',
+        'qué tipos de plan',
+        'que tipos de plan'
+    ];
+
+    const coincideSuscripcion = palabrasClaveSuscripcion.some(frase => lowerMessage.includes(frase));
+
+    // Comprobación adicional por si el usuario menciona 'plan' o 'planes' junto a 'socialicar'
+    const mencionaPlanes = (lowerMessage.includes('plan') || lowerMessage.includes('planes')) && lowerMessage.includes('socialicar');
+
+    if (coincideSuscripcion || mencionaPlanes) {
+        const respuestaSuscripcion = `¡Claro! En SocialiCar tenemos dos tipos de planes de suscripción pensados para ti:<br><br>
+🟢 <b>Suscripción Básica</b>: Disfruta de descuentos exclusivos y posiciona tu vehículo en las primeras posiciones una vez por semana.<br><br>
+🟣 <b>Suscripción Premium</b>: Posiciona tus vehículos siempre en las primeras posiciones, accede a vehículos reservados solo para usuarios Premium, disfruta de reservas prioritarias y recibe ofertas y descuentos únicos.<br><br>
+Puedes ver todos los detalles y elegir el plan que más te convenga aquí: <a href=\"https://socialicar.wuaze.com/src/pages/usuario/planes\" target=\"_blank\">Ver planes de suscripción</a> 🚗✨<br><br>
+¿Te gustaría que te ayude a elegir el mejor plan para ti o tienes alguna otra duda? 😊`;
+        appendMessage('assistant', respuestaSuscripcion);
+        chatHistory.push({ role: 'assistant', content: respuestaSuscripcion });
+        return;
+    }
+
+    // Respuesta específica para suscripción básica
+    const palabrasClaveBasica = [
+        'suscripción básica',
+        'plan básico',
+        'que incluye la suscripción básica',
+        'que trae la suscripción básica',
+        'beneficios suscripción básica',
+        'ventajas suscripción básica',
+        'que ofrece la suscripción básica',
+        'que incluye el plan básico',
+        'que trae el plan básico',
+        'beneficios plan básico',
+        'ventajas plan básico',
+        'que ofrece el plan básico'
+    ];
+    const coincideBasica = palabrasClaveBasica.some(frase => lowerMessage.includes(frase));
+    if (coincideBasica) {
+        const respuestaBasica = `La <b>suscripción básica</b> de SocialiCar te permite:<br>- Disfrutar de descuentos exclusivos.<br>- Posicionar tu vehículo en las primeras posiciones una vez por semana.<br><br>¿Quieres saber más sobre cómo suscribirte o necesitas ayuda adicional? ¡Estoy aquí para ayudarte! 😊`;
+        appendMessage('assistant', respuestaBasica);
+        chatHistory.push({ role: 'assistant', content: respuestaBasica });
+        return;
+    }
+
+    // Respuesta específica para suscripción premium
+    const palabrasClavePremium = [
+        'suscripción premium',
+        'plan premium',
+        'que incluye la suscripción premium',
+        'que trae la suscripción premium',
+        'beneficios suscripción premium',
+        'ventajas suscripción premium',
+        'que ofrece la suscripción premium',
+        'que incluye el plan premium',
+        'que trae el plan premium',
+        'beneficios plan premium',
+        'ventajas plan premium',
+        'que ofrece el plan premium'
+    ];
+    const coincidePremium = palabrasClavePremium.some(frase => lowerMessage.includes(frase));
+    if (coincidePremium) {
+        const respuestaPremium = `La <b>suscripción premium</b> de SocialiCar te ofrece:<br>- Posicionar tus vehículos siempre en las primeras posiciones.<br>- Acceso a vehículos reservados solo para usuarios Premium.<br>- Reservas prioritarias.<br>- Ofertas y descuentos únicos.<br><br>¿Te gustaría más información sobre cómo obtener la suscripción premium? ¡Estoy aquí para ayudarte! 🚗✨`;
+        appendMessage('assistant', respuestaPremium);
+        chatHistory.push({ role: 'assistant', content: respuestaPremium });
+        return;
+    }
 
     // Comprobar si la consulta es sobre coches baratos
     const palabrasClaveCochesBaratos = [
@@ -43,10 +128,19 @@ async function sendMessageToOpenAI(message) {
         'coche más barato',
         'alquiler barato',
         'rentar coche barato',
-        'alquilar coche barato' // Eliminadas frases genéricas
+        'alquilar coche barato'
     ];
 
-    // Responder sobre alquilar el coche del usuario (ahora antes que coches baratos)
+    const coincideCochesBaratos = palabrasClaveCochesBaratos.some(frase => lowerMessage.includes(frase));
+
+    if (coincideCochesBaratos) {
+        const respuesta = `¡Genial! En SocialiCar tenemos una variedad de coches disponibles para alquilar. Puedes ver todos los coches disponibles y aplicar filtros para encontrar lo que más te convenga en este enlace: <a href="https://socialicar.wuaze.com/src/pages/rentacar/mostrar_coches" target="_blank">Ver coches disponibles</a> 🚗💨`;
+        appendMessage('assistant', respuesta);
+        chatHistory.push({ role: 'assistant', content: respuesta });
+        return;
+    }
+
+    // Responder sobre alquilar el coche del usuario
     const frasesAlquilarPropio = [
         'como alquilo mi coche',
         'cómo alquilo mi coche',
@@ -69,33 +163,6 @@ async function sendMessageToOpenAI(message) {
         const respuestaAlquiler = `Para poder alquilar tu coche en SocialiCar, primero debes <a href="https://socialicar.wuaze.com/src/pages/usuario/iniciar_sesion" target="_blank">iniciar sesión</a> en nuestra app o, si no tienes cuenta, <a href="https://socialicar.wuaze.com/src/pages/usuario/registro" target="_blank">registrarte aquí</a>. Una vez hayas iniciado sesión o te hayas registrado, verás en el navbar un botón para poder alquilar tu coche.`;
         appendMessage('assistant', respuestaAlquiler);
         chatHistory.push({ role: 'assistant', content: respuestaAlquiler });
-        return;
-    }
-
-    // Si el usuario ya está registrado y pregunta qué hacer para alquilar su coche
-    const frasesYaRegistrado = [
-        'ya estoy registrado',
-        'ya tengo cuenta',
-        'ahora que hago',
-        'qué hago ahora',
-        'ya me he registrado',
-        'ya estoy dado de alta',
-        'ya me registré',
-        'ya tengo usuario',
-        'ya inicié sesión',
-        'ya he iniciado sesión'
-    ];
-    const coincideYaRegistrado = frasesYaRegistrado.some(frase => lowerMessage.includes(frase));
-    // Buscar si el mensaje anterior del bot fue sobre alquilar su coche
-    const lastBotMsg = chatHistory.slice().reverse().find(item => item.role === 'assistant');
-    if (
-        coincideYaRegistrado &&
-        lastBotMsg &&
-        lastBotMsg.content.toLowerCase().includes('alquilar tu coche')
-    ) {
-        const respuestaRegistro = `¡Perfecto! Una vez hayas iniciado sesión, verás en el navbar un botón que pone <b>Alquilar coche</b>. Haz clic en ese botón y completa el formulario con los datos de tu coche para ponerlo en alquiler en SocialiCar.`;
-        appendMessage('assistant', respuestaRegistro);
-        chatHistory.push({ role: 'assistant', content: respuestaRegistro });
         return;
     }
 
@@ -132,29 +199,6 @@ async function sendMessageToOpenAI(message) {
         const respuesta = `Puedes ver todos los coches disponibles para alquilar en SocialiCar y aplicar filtros para encontrar el que mejor se adapte a tus necesidades en este enlace: <a href="https://socialicar.wuaze.com/src/pages/rentacar/mostrar_coches" target="_blank">Ver coches disponibles</a> 🚗💨. Te recomiendo usar los filtros de búsqueda para ajustar la zona, fechas y tipo de coche que prefieras.`;
         appendMessage('assistant', respuesta);
         chatHistory.push({ role: 'assistant', content: respuesta });
-        return;
-    }
-
-    // Si el mensaje es sobre coches baratos, responder directamente
-    const coincideCochesBaratos = palabrasClaveCochesBaratos.some(frase => lowerMessage.includes(frase));
-
-    if (coincideCochesBaratos) {
-        const respuesta = `¡Genial! En SocialiCar tenemos una variedad de coches disponibles para alquilar. Puedes ver todos los coches disponibles y aplicar filtros para encontrar lo que más te convenga en este enlace: <a href="https://socialicar.wuaze.com/src/pages/rentacar/mostrar_coches" target="_blank">Ver coches disponibles</a> 🚗💨`;
-        appendMessage('assistant', respuesta);
-        chatHistory.push({ role: 'assistant', content: respuesta });
-        return;
-    }
-
-    // Responder sobre registro de propietario SOLO si la última respuesta fue invitación al registro
-    const lastBotMessage = chatHistory.slice().reverse().find(item => item.role === 'assistant');
-    if (
-        lowerMessage.includes("si") &&
-        lastBotMessage &&
-        lastBotMessage.content.toLowerCase().includes("registro de propietario")
-    ) {
-        const registroLink = `Perfecto. Para comenzar, te recomiendo que accedas al siguiente enlace: <a href="https://socialicar.wuaze.com/src/pages/usuario/registro" target="_blank">Registro de propietario</a>. Una vez allí, sigue los pasos para crear tu cuenta como propietario en nuestra plataforma. ¡Espero que te vaya genial alquilando tu coche a través de SocialiCar! ¿Puedo ayudarte con algo más?`;
-        appendMessage('assistant', registroLink);
-        chatHistory.push({ role: 'assistant', content: registroLink });
         return;
     }
 
@@ -225,4 +269,3 @@ chatToggleButton.addEventListener('click', () => {
         chatWidget.style.display = 'none';
     }
 });
-
