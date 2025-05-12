@@ -25,6 +25,14 @@
         .text-shadow {
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
         }
+        .zona-entrega-tooltip {
+  background: transparent;
+  color: #FF6F61; /* Color suave, en línea con el estilo de Google Maps */
+  font-weight: bold;
+  font-size: 14px;
+  border: none;
+  box-shadow: none;
+}
     </style>
 </head>
 
@@ -74,6 +82,21 @@
                     $transmision = $fila['transmision'];
                     $combustible = $fila['combustible'];
                     $ciudad = $fila['ciudad'];
+                    $direccion = $fila['direccion'];
+                    $codigo_postal = $fila['codigo_postal'];
+
+                    $partes = explode(',', $direccion);
+                    if (is_numeric($partes[0])) {
+                        if (isset($partes[1])) {
+                            $calle = trim($partes[1]);
+                        } else {
+                            $calle = trim($partes[0]);
+                        }
+                    } else {
+                        $calle = trim($partes[0]);
+                    }
+                    $direccion_usable = "$calle, $codigo_postal, $ciudad, España";
+                    echo $direccion_usable;
 
                     $colores = [
                         "white" => "Blanco", "black" => "Negro", "gray" => "Gris", "red" => "Rojo",
@@ -166,10 +189,12 @@
             </div>
 
             <div class="col-md-12">
-                <div id="map" data-direccion="" style="height: 400px;" class="mt-4"></div>
+                <div id="map" data-direccion="<?php echo $direccion_usable; ?>" style="height: 400px;" class="mt-4"></div>
             </div>
         </div>
-    </div>
+    </div><br>
+
+    <?php include_once '../../components/footer.php'; ?>
 
     <script>
         function changeImage(event, src) {
@@ -177,6 +202,6 @@
         }
     </script>
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
-    <script src="/ruta/a/obtener_direccion.js"></script>
+    <script src="../../js/mostrar_mapa.js"></script>
 </body>
 </html>
