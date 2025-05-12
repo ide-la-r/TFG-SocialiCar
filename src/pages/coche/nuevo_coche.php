@@ -275,7 +275,7 @@
         if ($tmp_modelo == "") {
             $err_modelo = "Debes indicar el modelo de tu coche";
         } else {
-            if (strlen($tmp_modelo) > 20) {
+            if (strlen($tmp_modelo) > 50) {
                 $err_modelo = "El modelo no puede tener más de 50 caracteres";
             } else {
                 $modelo = $tmp_modelo; /* Agregar más adelante la comprovación con la API de los modelos */
@@ -1126,7 +1126,7 @@
     </form>
 
     <?php
-    if (isset($matricula, $marca, $modelo, $precio, $anno_matriculacion, $kilometros, $direccion, $tipo_combustible, $transmision, $tipo_aparcamiento, $tipo, $precio, $color, $plazas, $puertas, $potencia, $descripcion)) {
+    if (isset($matricula, $id_usuario, $seguro, $marca, $modelo, $anno_matriculacion, $kilometros, $tipo_combustible, $transmision, $direccion, $tipo_aparcamiento, $ruta_relativa, $tipo, $precio, $descripcion, $color, $plazas, $puertas, $potencia, $aire_acondicionado, $gps, $wifi, $sensores_aparcamiento, $camara_trasera, $control_de_crucero, $asientos_calefactables, $bola_remolque, $fijacion_isofix, $apple_carplay, $android_carplay, $baca, $portabicicletas, $portaequipajes, $portaesquis, $bluetooth, $cuatro_x_cuatro, $mascota, $fumar, $movilidad_reducida, $rutas_imagenes)) {
         /* Insertar coche */
         $enviarCoche = $_conexion->prepare("INSERT INTO coche (
                 matricula, id_usuario, seguro, marca, modelo, anno_matriculacion, kilometros,
@@ -1228,6 +1228,8 @@
                 window.location.href = '/src/pages/rentacar/coche?matricula=" . $matricula . "';
               </script>";
         exit();
+    } else {
+        die("Faltan campos obligatorios para insertar el coche.");
     }
     ?>
     <?php include_once '../../components/footer.php'; ?>
