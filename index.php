@@ -11,12 +11,12 @@ require(__DIR__ . "/src/config/conexion.php");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SocialiCar - Comparte tu coche</title>
-    
+
     <link rel="icon" href="src/img/favicon.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <?php 
-    include_once 'src/components/links.php'; 
+    <?php
+    include_once 'src/components/links.php';
     ?>
 </head>
 
@@ -91,8 +91,6 @@ require(__DIR__ . "/src/config/conexion.php");
         border-radius: 25px !important;
         transition: all 0.3s ease;
     }
-
-
 </style>
 
 <body>
@@ -100,9 +98,9 @@ require(__DIR__ . "/src/config/conexion.php");
     <?php include_once 'src/components/navbar.php'; ?>
 
     <div style="margin-top: 10vh; margin-bottom: 15vh; height: 40vh; text-align: center;">
-    <h1 class="bienvenido">BIENVENIDO A</h1>
-    <h1 class="socialicar">SocialiCar</h1>
-</div>
+        <h1 class="bienvenido">BIENVENIDO A</h1>
+        <h1 class="socialicar">SocialiCar</h1>
+    </div>
 
 
     <style>
@@ -201,8 +199,8 @@ require(__DIR__ . "/src/config/conexion.php");
         </div>
     </div>
 
-     <!-- como funciona -->
-     <section id="funcionamiento" class="py-5" style="background-color: rgba(196, 239, 242, 0.8) ; position: relative; margin-bottom: 3vh">
+    <!-- como funciona -->
+    <section id="funcionamiento" class="py-5" style="background-color: rgba(196, 239, 242, 0.8) ; position: relative; margin-bottom: 3vh">
         <div style="position: absolute; left: 25vh; top: 20px;">
             <a href="https://www.gifsanimados.org/cat-coches-y-automoviles-67.htm">
                 <img src="https://www.gifsanimados.org/data/media/67/coche-y-automovil-imagen-animada-0187.gif" alt="coche-y-automovil-imagen-animada-0187" style="height: 20vh;" />
@@ -228,7 +226,7 @@ require(__DIR__ . "/src/config/conexion.php");
             </div>
         </div>
     </section>
-
+    <script src="/src/js/chatbot.js"></script>
 
 
 
