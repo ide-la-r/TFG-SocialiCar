@@ -33,12 +33,6 @@
     <?php
     require(__DIR__ . "/../../config/depurar.php");
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        var_dump($_POST); // Si los datos vienen por método POST
-        echo "<br>";
-        var_dump($_POST["lat"]);
-        echo "<br>";
-        var_dump($_POST["lon"]);
-        echo "<br>";
         $tmp_matricula = depurar($_POST['matricula']);
         $tmp_precio = depurar($_POST['precio']);
         $id_usuario = $_SESSION["usuario"]["identificacion"];
@@ -46,13 +40,13 @@
         if ($_POST["lat"] != "") {
             $lat = $_POST["lat"];
         } else {
-            $lat = "";
+            $lat = 0;
         }
         
         if ($_POST["lon"] != "") {
             $lon = $_POST["lon"];
         } else {
-            $lon = "";
+            $lon = 0;
         }
 
         if (isset($_POST['marca'])) {
@@ -82,10 +76,10 @@
         $tmp_numero_plazas = $_POST['numero_plazas'];
 
 
-        if (isset($_POST['movilidad_reducia']) && $_POST['movilidad_reducia'] == 'on') {
-            $movilidad_reducia = 1;
+        if (isset($_POST['movilidad_reducida']) && $_POST['movilidad_reducida'] == 'on') {
+            $movilidad_reducida = 1;
         } else {
-            $movilidad_reducia = 0;
+            $movilidad_reducida = 0;
         }
 
         if (isset($_POST['gps']) && $_POST['gps'] == 'on') {
@@ -337,7 +331,33 @@
         if ($tmp_direccion == "") {
             $err_direccion = "Debes indicar la dirección de tu coche";
         } else {
-                $direccion = $tmp_direccion;
+            // Dividimos la dirección por comas
+            $partes_direccion = explode(",", $tmp_direccion);
+            $total = count($partes_direccion);
+
+            // Verificamos que la dirección tiene al menos 5 partes
+            if ($total < 5) {
+                $err_direccion = "La dirección debe tener al menos 5 partes: Calle, Ciudad, Provincia, Código Postal, País.";
+            } else {
+                // Obtenemos las partes de la dirección
+                $ciudad = trim($partes_direccion[$total - 4]);
+                $provincia = trim($partes_direccion[$total - 3]);
+                $cp = trim($partes_direccion[$total - 2]);
+                $pais = trim($partes_direccion[$total - 1]);
+
+                // Validamos el formato del código postal
+                if (!is_numeric($cp) || strlen($cp) != 5) {
+                    $err_direccion = "El código postal no tiene un formato válido. Debe tener 5 dígitos.";
+                    $err_extra_formato = "<br>El formato de dirección debe ser: Calle Ejemplo, Ciudad, Provincia, Codigo Postal (5 dígitos), País.";
+                } else {
+                    if (strtolower($pais) !== "españa") {
+                        $err_direccion = "La dirección debe estar en España.";
+                        $err_extra_formato = "<br>El formato de dirección debe ser: Calle Ejemplo, Ciudad, Provincia, Codigo Postal, España.";
+                    } else {
+                        $direccion = $tmp_direccion;
+                    }
+                }
+            }
         }
 
         /* Validación de tipo de combustible */
@@ -875,20 +895,57 @@
             </div>
         </div>
 
-        <!-- Dirección -->
+        <!-- Dirección y Tipo de aparcamiento -->
         <div class="container mt-5 pt-5">
             <div class="container card py-4">
                 <h3 class="text-start">Ubicación del vehículo</h3>
                 <div class="row justify-content-center pt-3">
-                    <div class="mb-3 col-12">
+                    <!-- Dirección -->
+                    <div class="mb-3 col-12 col-md-6">
                         <div class="form-floating" style="position: relative;">
-                            <input type="text" class="form-control" id="autocomplete" name="direccion" placeholder="Ej: Calle Larios, Málaga" autocomplete="off" value="<?php if (isset($direccion)) echo "$direccion" ?>">
+                            <input type="text" class="form-control <?php if (isset($err_direccion)) echo 'is-invalid'; ?>" id="autocomplete" name="direccion" placeholder="Ej: Calle Ejemplo, Ciudad, Provincia, Codigo Postal, País" autocomplete="off" value="<?php if (isset($direccion)) echo "$direccion" ?>">
                             <label for="autocomplete" class="form-label">Dirección*</label>
+                            <?php
+                            if (isset($err_direccion)) {
+                                echo "<span class='error'>$err_direccion</span>";
+                                if (isset($err_extra_formato)) {
+                                    echo "<span class='error'>$err_extra_formato</span>";
+                                }
+                            }
+                            ?>
                             <div id="sugerencias" class="list-group mt-2" style="z-index:1000; position: absolute; width: 100%; max-height: 300px; overflow-y: auto; background-color: white; border: 1px solid #ccc; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);"></div>
+                        </div>
+                    </div>
+
+                    <!-- Tipo de aparcamiento -->
+                    <div class="mb-3 col-12 col-md-6">
+                        <div class="form-floating">
+                            <select class="form-select <?php if (isset($err_tipo_aparcamiento)) echo 'is-invalid'; ?>" id="tipo_aparcamiento" name="tipo_aparcamiento">
+                                <option disabled selected hidden>Tipo de aparcamiento*</option>
+                                <option value="calle"
+                                    <?php if (isset($_POST['tipo_aparcamiento']) && $_POST['tipo_aparcamiento'] == "calle") echo "selected"; ?>>
+                                    Calle
+                                </option>
+                                <option value="garaje"
+                                    <?php if (isset($_POST['tipo_aparcamiento']) && $_POST['tipo_aparcamiento'] == "garaje") echo "selected"; ?>>
+                                    Garaje
+                                </option>
+                                <option value="parking"
+                                    <?php if (isset($_POST['tipo_aparcamiento']) && $_POST['tipo_aparcamiento'] == "parking") echo "selected"; ?>>
+                                    Parking
+                                </option>
+                            </select>
+                            <label for="tipo_aparcamiento">Tipo de aparcamiento</label>
+                            <?php
+                            if (isset($err_tipo_aparcamiento)) {
+                                echo "<span class='error'>$err_tipo_aparcamiento</span>";
+                            }
+                            ?>
                         </div>
                     </div>
                 </div>
 
+                <!-- Coordenadas ocultas -->
                 <input type="hidden" name="lat" id="lat" value="<?php if (isset($lat)) echo "$lat" ?>">
                 <input type="hidden" name="lon" id="lon" value="<?php if (isset($lon)) echo "$lon" ?>">
             </div>
@@ -1122,8 +1179,8 @@
                                     </label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" id="movilidad_reducia" name="movilidad_reducia" <?php if (isset($_POST['movilidad_reducia'])) echo 'checked'; ?>>
-                                    <label for="movilidad_reducia">
+                                    <input type="checkbox" id="movilidad_reducida" name="movilidad_reducida" <?php if (isset($_POST['movilidad_reducida'])) echo 'checked'; ?>>
+                                    <label for="movilidad_reducida">
                                         Adaptado para personas con movilidad reducida
                                     </label>
                                 </div>
@@ -1150,44 +1207,28 @@
     <script src="../../js/precio_coche.js"></script>
 
     <?php
-    if (isset($matricula, $id_usuario, $seguro, $marca, $modelo, $anno_matriculacion, $kilometros, $tipo_combustible, $transmision, $direccion, $tipo_aparcamiento, $ruta_relativa, $tipo, $precio, $descripcion, $color, $plazas, $puertas, $potencia, $aire_acondicionado, $gps, $wifi, $sensores_aparcamiento, $camara_trasera, $control_de_crucero, $asientos_calefactables, $bola_remolque, $fijacion_isofix, $apple_carplay, $android_carplay, $baca, $portabicicletas, $portaequipajes, $portaesquis, $bluetooth, $cuatro_x_cuatro, $mascota, $fumar, $movilidad_reducida, $rutas_imagenes)) {
+    if (isset($matricula, $id_usuario, $seguro, $marca, $modelo, $anno_matriculacion, $kilometros, $tipo_combustible, $transmision, $direccion, $tipo_aparcamiento, $ruta_relativa, $tipo, $precio, $descripcion, $color, $plazas, $puertas, $potencia, $lat, $lon, $aire_acondicionado, $gps, $wifi, $sensores_aparcamiento, $camara_trasera, $control_de_crucero, $asientos_calefactables, $bola_remolque, $fijacion_isofix, $apple_carplay, $android_carplay, $baca, $portabicicletas, $portaequipajes, $portaesquis, $bluetooth, $cuatro_x_cuatro, $mascota, $fumar, $movilidad_reducida, $rutas_imagenes)) {
         /* Insertar coche */
-        $enviarCoche = $_conexion->prepare("INSERT INTO coche (
-                matricula, id_usuario, seguro, marca, modelo, anno_matriculacion, kilometros,
-                combustible, transmision, direccion, lat, lon, tipo_aparcamiento, ruta_img_coche, tipo, 
-                precio, descripcion, color, plazas, puertas, potencia
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    
-        if (!$enviarCoche) {
+        $enviar_coche = $_conexion->prepare("INSERT INTO coche (
+            matricula, id_usuario, seguro, marca, modelo, anno_matriculacion, kilometros,
+            combustible, transmision, direccion, ciudad, provincia, codigo_postal, pais,
+            lat, lon, tipo_aparcamiento, ruta_img_coche, tipo, precio, descripcion, color,
+             plazas, puertas, potencia) VALUES (
+            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+        if (!$enviar_coche) {
             die('Error en prepare coche: ' . $_conexion->error);
         }
-    
-        $enviarCoche->bind_param(
-            "ssisssisssiisssissiii",
-            $matricula,
-            $id_usuario,
-            $seguro,
-            $marca,
-            $modelo,
-            $anno_matriculacion,
-            $kilometros,
-            $tipo_combustible,
-            $transmision,
-            $direccion,
-            $lat,
-            $lon,
-            $tipo_aparcamiento,
-            $ruta_relativa,
-            $tipo,
-            $precio,
-            $descripcion,
-            $color,
-            $plazas,
-            $puertas,
-            $potencia
+
+        $enviar_coche->bind_param(
+            "ssisssissssisddisssissiii",
+            $matricula, $id_usuario, $seguro, $marca, $modelo, $anno_matriculacion, $kilometros,
+            $tipo_combustible, $transmision, $direccion, $ciudad, $provincia, $cp, $pais, 
+            $lat, $lon, $tipo_aparcamiento, $ruta_relativa, $tipo, $precio, $descripcion, $color, 
+            $plazas, $puertas, $potencia
         );
-    
-        if (!$enviarCoche->execute()) {
+
+        if (!$enviar_coche->execute()) {
             die('Error al insertar coche: ' . $enviarCoche->error);
         }
     
@@ -1254,8 +1295,6 @@
                 window.location.href = '/src/pages/rentacar/coche?matricula=" . $matricula . "';
               </script>";
         exit();
-    } else {
-        die("Faltan campos obligatorios para insertar el coche.");
     }
     ?>
 
