@@ -28,8 +28,6 @@
 </head>
 
 <body class="d-flex flex-column min-vh-100">
-    <?php include_once '../../components/navbar.php'; ?>
-
     <?php
     $correo = $_SESSION["usuario"]["correo"];
 
@@ -143,7 +141,7 @@
         $_conexion->close();
     }
     ?>
-
+    <?php include_once '../../components/navbar.php'; ?>
     <div class="container mt-5 pt-5">
         <div class="container card text-center card-sesion" style="width: 40rem;">
             <h1 class="title">Editar perfil</h1>
@@ -186,6 +184,7 @@
             </form>
         </div>
     </div>
+    <?php include_once '../../components/footer.php'; ?>
 </body>
 
 </html>

@@ -27,7 +27,6 @@
             font-size: 1em;
         }
     </style>
-
 </head>
 
 <body class="d-flex flex-column min-vh-100">
@@ -1125,6 +1124,8 @@
         </div>
     </form>
 
+    <?php include_once '../../components/footer.php'; ?>
+
     <?php
     if (isset($matricula, $id_usuario, $seguro, $marca, $modelo, $anno_matriculacion, $kilometros, $tipo_combustible, $transmision, $direccion, $tipo_aparcamiento, $ruta_relativa, $tipo, $precio, $descripcion, $color, $plazas, $puertas, $potencia, $aire_acondicionado, $gps, $wifi, $sensores_aparcamiento, $camara_trasera, $control_de_crucero, $asientos_calefactables, $bola_remolque, $fijacion_isofix, $apple_carplay, $android_carplay, $baca, $portabicicletas, $portaequipajes, $portaesquis, $bluetooth, $cuatro_x_cuatro, $mascota, $fumar, $movilidad_reducida, $rutas_imagenes)) {
         /* Insertar coche */
@@ -1232,15 +1233,11 @@
         die("Faltan campos obligatorios para insertar el coche.");
     }
     ?>
-    <?php include_once '../../components/footer.php'; ?>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
     <script src="../../js/mostrar_marcas.js"></script>
     <script src="../../js/nuevo_coche.js"></script>
     <script src="../../js/pre_imagen.js"></script>
-    <script src="../../js/obtener_direccion.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
-
+    <script src="../../js/obtener_direccion.js"></script> 
 </body>
 
 </html>

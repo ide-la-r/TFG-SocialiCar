@@ -172,9 +172,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <h5 class="mb-0"><i class="fas fa-user me-2"></i>Datos personales</h5>
                                 </div>
                                 <ul class="list-unstyled mb-0">
-                                    <li><strong>Nombre:</strong> <?php echo $_SESSION["usuario"]["nombre"] . " " . $_SESSION["usuario"]["apellido"]; ?></li>
-                                    <li><strong>Email:</strong> <?php echo $_SESSION["usuario"]["correo"]; ?></li>
-                                    <li><strong>Teléfono:</strong> <?php echo $_SESSION["usuario"]["telefono"]; ?></li>
+                                    <?php
+                                        // Obtener datos usurio
+                                        $sql = $_conexion->prepare("SELECT * FROM usuario WHERE identificacion = ?");
+                                        $sql->bind_param("s", $_SESSION['usuario']['identificacion']);
+                                        $sql->execute();
+                                        $resultado = $sql->get_result();
+
+                                        if ($resultado->num_rows > 0) {
+                                            $fila = $resultado->fetch_assoc();
+                                            $nombre = $fila["nombre"];
+                                            $apellidos = $fila["apellido"];
+                                            $correo = $fila["correo"];
+                                            $telefono = $fila["telefono"];
+                                        }
+
+                                    ?>
+                                    <li><strong>Nombre:</strong> <?php echo $nombre . " " . $apellidos; ?></li>
+                                    <li><strong>Email:</strong> <?php echo $correo; ?></li>
+                                    <li><strong>Teléfono:</strong> <?php echo $telefono; ?></li>
                                 </ul>
                                 <div class="text-center mt-4">
                                     <a href="/src/pages/usuario/editar_usuario" class="btn btn-outline-primary btn-sm">Editar datos</a>
