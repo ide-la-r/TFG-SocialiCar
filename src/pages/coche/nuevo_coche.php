@@ -33,9 +33,27 @@
     <?php
     require(__DIR__ . "/../../config/depurar.php");
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        var_dump($_POST); // Si los datos vienen por método POST
+        echo "<br>";
+        var_dump($_POST["lat"]);
+        echo "<br>";
+        var_dump($_POST["lon"]);
+        echo "<br>";
         $tmp_matricula = depurar($_POST['matricula']);
         $tmp_precio = depurar($_POST['precio']);
         $id_usuario = $_SESSION["usuario"]["identificacion"];
+
+        if ($_POST["lat"] != "") {
+            $lat = $_POST["lat"];
+        } else {
+            $lat = "";
+        }
+        
+        if ($_POST["lon"] != "") {
+            $lon = $_POST["lon"];
+        } else {
+            $lon = "";
+        }
 
         if (isset($_POST['marca'])) {
             $tmp_marca = depurar($_POST['marca']);
@@ -57,7 +75,7 @@
 
         $tmp_anno_matriculacion = depurar($_POST['anno_matriculacion']);
         $tmp_kilometros = depurar($_POST['kilometros']);
-        $tmp_direccion = depurar($_POST['direccion']);
+        $tmp_direccion = $_POST['direccion'];
         $tmp_descripcion = depurar($_POST['descripcion']);
         $tmp_potencia = $_POST['potencia'];
         $tmp_numero_puertas = $_POST['numero_puertas'];
@@ -319,11 +337,7 @@
         if ($tmp_direccion == "") {
             $err_direccion = "Debes indicar la dirección de tu coche";
         } else {
-            if (strlen($tmp_direccion) > 50) {
-                $err_direccion = "La dirección no puede tener más de 50 caracteres";
-            } else {
                 $direccion = $tmp_direccion;
-            }
         }
 
         /* Validación de tipo de combustible */
@@ -838,24 +852,28 @@
                 <h3 class="text-start">Precio por día</h3>
 
                 <div class="d-flex flex-column align-items-center">
-                    <label id="totalPrecio" class="form-label fw-bold">Precio Diario: <span id="mostrarPrecio"><?php if (isset($_POST['precio'])) echo $_POST['precio']."€"; else echo "15€"; ?></span></label>
+                    <label id="totalPrecio" class="form-label fw-bold">
+                        Precio Diario:
+                        <span id="mostrarPrecio">
+                            <?php if (isset($_POST['precio'])) echo $_POST['precio']."€"; else echo "15€"; ?>
+                        </span>
+                    </label>
 
-                    <input type="range" class="form-range w-75 <?php if (isset($err_precio)) echo 'is-invalid'; ?>" name="precio" id="precio" min="15" max="500" step="1" value="<?php if (isset($_POST['precio'])) echo $_POST['precio']; else echo "15€"; ?>">
+                    <input type="range" class="form-range w-75 <?php if (isset($err_precio)) echo 'is-invalid'; ?>" name="precio" id="precio" min="15" max="500" step="1" value="<?php if (isset($_POST['precio'])) echo $_POST['precio']; else echo '15'; ?>">
 
                     <div class="d-flex justify-content-between text-muted mt-1 w-75">
                         <span>15€</span>
                         <span>500€</span>
                     </div>
+
                     <?php
                     if (isset($err_precio)) {
                         echo "<span class='error'>$err_precio</span>";
                     }
                     ?>
                 </div>
-
             </div>
         </div>
-
 
         <!-- Dirección -->
         <div class="container mt-5 pt-5">
@@ -863,16 +881,16 @@
                 <h3 class="text-start">Ubicación del vehículo</h3>
                 <div class="row justify-content-center pt-3">
                     <div class="mb-3 col-12">
-                        <div class="form-floating">
-                            <input type="text" class="form-control" id="autocomplete" name="direccion" placeholder="Ej: Calle Larios, Málaga">
+                        <div class="form-floating" style="position: relative;">
+                            <input type="text" class="form-control" id="autocomplete" name="direccion" placeholder="Ej: Calle Larios, Málaga" autocomplete="off" value="<?php if (isset($direccion)) echo "$direccion" ?>">
                             <label for="autocomplete" class="form-label">Dirección*</label>
-                            <div id="sugerencias" class="list-group mt-2" style="z-index:1000; position: absolute;"></div>
+                            <div id="sugerencias" class="list-group mt-2" style="z-index:1000; position: absolute; width: 100%; max-height: 300px; overflow-y: auto; background-color: white; border: 1px solid #ccc; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);"></div>
                         </div>
                     </div>
                 </div>
 
-                <input type="hidden" name="lat" id="lat">
-                <input type="hidden" name="lon" id="lon">
+                <input type="hidden" name="lat" id="lat" value="<?php if (isset($lat)) echo "$lat" ?>">
+                <input type="hidden" name="lon" id="lon" value="<?php if (isset($lon)) echo "$lon" ?>">
             </div>
         </div>
 
@@ -1125,22 +1143,27 @@
     </form>
 
     <?php include_once '../../components/footer.php'; ?>
+    <script src="../../js/mostrar_marcas.js"></script>
+    <script src="../../js/nuevo_coche.js"></script>
+    <script src="../../js/pre_imagen.js"></script>
+    <script src="../../js/obtener_direccion.js"></script> 
+    <script src="../../js/precio_coche.js"></script>
 
     <?php
     if (isset($matricula, $id_usuario, $seguro, $marca, $modelo, $anno_matriculacion, $kilometros, $tipo_combustible, $transmision, $direccion, $tipo_aparcamiento, $ruta_relativa, $tipo, $precio, $descripcion, $color, $plazas, $puertas, $potencia, $aire_acondicionado, $gps, $wifi, $sensores_aparcamiento, $camara_trasera, $control_de_crucero, $asientos_calefactables, $bola_remolque, $fijacion_isofix, $apple_carplay, $android_carplay, $baca, $portabicicletas, $portaequipajes, $portaesquis, $bluetooth, $cuatro_x_cuatro, $mascota, $fumar, $movilidad_reducida, $rutas_imagenes)) {
         /* Insertar coche */
         $enviarCoche = $_conexion->prepare("INSERT INTO coche (
                 matricula, id_usuario, seguro, marca, modelo, anno_matriculacion, kilometros,
-                combustible, transmision, direccion, tipo_aparcamiento, ruta_img_coche, tipo, 
+                combustible, transmision, direccion, lat, lon, tipo_aparcamiento, ruta_img_coche, tipo, 
                 precio, descripcion, color, plazas, puertas, potencia
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-
+    
         if (!$enviarCoche) {
             die('Error en prepare coche: ' . $_conexion->error);
         }
-
+    
         $enviarCoche->bind_param(
-            "ssisssissssssissiii",
+            "ssisssisssiisssissiii",
             $matricula,
             $id_usuario,
             $seguro,
@@ -1151,6 +1174,8 @@
             $tipo_combustible,
             $transmision,
             $direccion,
+            $lat,
+            $lon,
             $tipo_aparcamiento,
             $ruta_relativa,
             $tipo,
@@ -1161,11 +1186,11 @@
             $puertas,
             $potencia
         );
-
+    
         if (!$enviarCoche->execute()) {
             die('Error al insertar coche: ' . $enviarCoche->error);
         }
-
+    
         /* Insertar los extras */
         $enviarExtras = $_conexion->prepare("INSERT INTO extras_coche (
                 matricula, aire_acondicionado, gps, wifi, sensores_aparcamiento, 
@@ -1174,11 +1199,11 @@
                 portaequipajes, portaesquis, bluetooth, cuatro_x_cuatro, mascota, fumar, 
                 movilidad_reducida
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-
+    
         if (!$enviarExtras) {
             die('Error en prepare extras: ' . $_conexion->error);
         }
-
+    
         $enviarExtras->bind_param(
             "siiiiiiiiiiiiiiiiiiii",
             $matricula,
@@ -1203,18 +1228,18 @@
             $fumar,
             $movilidad_reducida
         );
-
+    
         if (!$enviarExtras->execute()) {
             die('Error al insertar extras: ' . $enviarExtras->error);
         }
-
+    
         /* Insertar imagenes */
         $enviarImagenes = $_conexion->prepare("INSERT INTO imagen_coche (id_coche, ruta_img_coche) VALUES (?, ?)");
-
+    
         if (!$enviarImagenes) {
             die('Error en prepare imagenes: ' . $_conexion->error);
         }
-
+    
         if (isset($rutas_imagenes) && is_array($rutas_imagenes)) {
             foreach ($rutas_imagenes as $ruta) {
                 $enviarImagenes->bind_param("ss", $matricula, $ruta);
@@ -1223,7 +1248,7 @@
                 }
             }
         }
-
+    
         /* Redirigir a la página de inicio */
         echo "<script>
                 window.location.href = '/src/pages/rentacar/coche?matricula=" . $matricula . "';
@@ -1233,11 +1258,8 @@
         die("Faltan campos obligatorios para insertar el coche.");
     }
     ?>
+
     
-    <script src="../../js/mostrar_marcas.js"></script>
-    <script src="../../js/nuevo_coche.js"></script>
-    <script src="../../js/pre_imagen.js"></script>
-    <script src="../../js/obtener_direccion.js"></script> 
 </body>
 
 </html>
