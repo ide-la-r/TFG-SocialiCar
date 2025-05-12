@@ -4,3 +4,11 @@ RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(.+)$ $1.php [QSA,L]
+
+<FilesMatch "^(\.env|.*\.json)$">
+  Order allow,deny
+  Deny from all
+</FilesMatch>
+
+ErrorDocument 403 /src/pages/error/403.php
+ErrorDocument 404 /src/pages/error/404.php

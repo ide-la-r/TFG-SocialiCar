@@ -1,6 +1,6 @@
 <?php
     $env = parse_ini_file(__DIR__ . '/../../.env');
-
+    $apiKey = $env['OPENAI_API_KEY'];
     $_servidor = $env['BBDD_SERVER'];
     $_usuario = $env['BBDD_USER'];
     $_contrasena = $env['BBDD_PASS'];

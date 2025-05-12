@@ -266,7 +266,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                     
                                                     <div class='d-flex justify-content-end'>
                                                         <a href='../coche/editar_coche?matricula=" . $vehiculo['matricula'] . "' class='btn btn-primary me-2'>Editar</a>
-                                                        <a href='../coche/eliminar_coche?matricula=" . $vehiculo['matricula'] . "' class='btn btn-danger'>Eliminar</a>
+                                                        <a href='../coche/eliminar_coche?matricula=" . $vehiculo['matricula'] . "' class='btn btn-danger' onclick='return borrar(\"" . $vehiculo['matricula'] . "\")'>Eliminar</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -284,6 +284,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
     <?php include_once '../../components/footer.php'; ?>
     <script src="../../js/borrar_imagen.js"></script>
+    <script src="../../js/confirmar_borrar.js"></script>
 </body>
 
 </html>
