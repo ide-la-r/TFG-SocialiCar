@@ -88,6 +88,7 @@ session_start();
 
     <!-- Footer -->
     <?php include_once '../../components/footer.php'; ?>
+    <script src="/src/js/chatbot.js"></script>
 </body>
 
 </html>

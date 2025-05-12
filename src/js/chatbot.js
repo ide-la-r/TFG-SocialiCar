@@ -1,24 +1,249 @@
-import { config } from '../config/config.js';
-
-const apiKey = config.API_KEY;
-
-// Elementos del DOM
-const chatToggleButton = document.getElementById('chat-toggle');
-const chatWidget = document.getElementById('chat-widget');
-const userInput = document.getElementById('user-input');
-const messagesContainer = document.getElementById('messages');
-const sendButton = document.getElementById('send-btn');
-
-// Historial de la conversación (contexto)
-let chatHistory = [
-    {
-        role: 'system',
-        content: `Eres un asistente virtual conversacional y amable de SocialiCar, una plataforma de alquiler de coches entre particulares. 
-Responde paso a paso y guía al usuario como lo haría un chatbot profesional como el de Amovens. 
-Si te preguntan por coches, primero pregunta si son propietarios o arrendatarios. 
-No respondas a preguntas que no estén relacionadas con SocialiCar.`
+let apiKey = null;
+(async () => {
+    try {
+        const module = await import('../config/config.js');
+        apiKey = module && module.config && module.config.API_KEY ? module.config.API_KEY : null;
+    } catch (e) {
+        apiKey = null;
     }
+})();
+
+function ensureDOMReady(fn) {
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', fn);
+    } else {
+        fn();
+    }
+}
+
+ensureDOMReady(() => {
+    // 1. Inyectar CSS si no existe
+    if (!document.getElementById('sc-chatbot-style')) {
+    const style = document.createElement('style');
+    style.id = 'sc-chatbot-style';
+    style.innerHTML = `
+        #sc-chat-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #6BBFBF;
+            color: #F2F2F2;
+            padding: 14px 28px;
+            border-radius: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+            cursor: pointer;
+            font-size: 1.3rem;
+            z-index: 9999;
+            border: none;
+            transition: background 0.2s;
+        }
+        #sc-chat-toggle:hover {
+            background: #B0D5D9;
+            color: #595959;
+        }
+        #sc-chat-widget {
+            position: fixed;
+            bottom: 80px;
+            right: 30px;
+            width: 340px;
+            max-width: 95vw;
+            background: #F2F2F2;
+            border-radius: 18px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+            display: none;
+            flex-direction: column;
+            z-index: 10000;
+            overflow: hidden;
+            border: 2px solid #6BBFBF;
+            font-family: inherit;
+        }
+        #sc-chat-widget #sc-messages {
+            padding: 20px 10px 10px 10px;
+            height: 320px;
+            overflow-y: auto;
+            background: #C4EEF2;
+            font-size: 1rem;
+        }
+        #sc-chat-widget input[type="text"] {
+            border: none;
+            border-top: 1px solid #B0D5D9;
+            padding: 12px;
+            width: 70%;
+            outline: none;
+            font-size: 1rem;
+            background: #F2F2F2;
+            color: #595959;
+        }
+        #sc-chat-widget button#sc-send-btn {
+            border: none;
+            background: #6BBFBF;
+            color: #F2F2F2;
+            padding: 12px 18px;
+            border-radius: 0 0 18px 0;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.2s;
+        }
+        #sc-chat-widget button#sc-send-btn:hover {
+            background: #B0D5D9;
+            color: #595959;
+        }
+        #sc-chat-widget .sc-message {
+            margin-bottom: 10px;
+            padding: 10px 14px;
+            border-radius: 14px;
+            max-width: 90%;
+            word-break: break-word;
+        }
+        #sc-chat-widget .sc-message.user {
+            background: #B0D5D9;
+            align-self: flex-end;
+            text-align: right;
+            color: #595959;
+        }
+        #sc-chat-widget .sc-message.assistant {
+            background: #fff;
+            align-self: flex-start;
+            text-align: left;
+            color: #595959;
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+// 2. Crear botón flotante
+let chatToggleButton = document.getElementById('sc-chat-toggle');
+if (!chatToggleButton) {
+    chatToggleButton = document.createElement('button');
+    chatToggleButton.id = 'sc-chat-toggle';
+    chatToggleButton.innerText = 'Chat';
+    document.body.appendChild(chatToggleButton);
+}
+
+// 3. Crear widget de chat
+let chatWidget = document.getElementById('sc-chat-widget');
+if (!chatWidget) {
+    chatWidget = document.createElement('div');
+    chatWidget.id = 'sc-chat-widget';
+    chatWidget.innerHTML = `
+        <div id="sc-messages"></div>
+        <div style="display: flex; border-top: 1px solid #B0D5D9;">
+            <input type="text" id="sc-user-input" placeholder="Escribe un mensaje..." autocomplete="off" />
+            <button id="sc-send-btn">Enviar</button>
+        </div>
+    `;
+    document.body.appendChild(chatWidget);
+}
+
+// 4. Referencias
+let userInput = chatWidget.querySelector('#sc-user-input');
+let messagesContainer = chatWidget.querySelector('#sc-messages');
+let sendButton = chatWidget.querySelector('#sc-send-btn');
+
+// 5. Historial
+let chatHistory = [
+    { role: 'system', content: `Eres un asistente virtual conversacional y amable de SocialiCar, una plataforma de alquiler de coches entre particulares.\nResponde paso a paso y guía al usuario como lo haría un chatbot profesional como el de Amovens.\nSi te preguntan por coches, primero pregunta si son propietarios o arrendatarios.\nNo respondas a preguntas que no estén relacionadas con SocialiCar.` }
 ];
+
+// 6. Mostrar mensajes
+function appendMessage(role, content) {
+    let messageDiv = document.createElement('div');
+    messageDiv.classList.add('sc-message', role);
+    messageDiv.innerHTML = content;
+    messagesContainer.appendChild(messageDiv);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+// 7. Enviar mensaje real a OpenAI
+async function sendMessageToOpenAI(message) {
+    chatHistory.push({ role: 'user', content: message });
+    appendMessage('user', message);
+    userInput.value = '';
+    if (!apiKey) {
+        appendMessage('assistant', '<b>ERROR:</b> No se ha encontrado la API KEY en config.js o el archivo no se ha importado correctamente.<br>Revisa que <code>config.js</code> exista y tenga:<br><pre>export const config = {\n  API_KEY: "TU_API_KEY"\n};</pre>');
+        return;
+    }
+    try {
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}`,
+            },
+            body: JSON.stringify({
+                model: 'gpt-3.5-turbo',
+                messages: chatHistory
+            })
+        });
+        const data = await response.json();
+        let assistantMessage = data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content ? data.choices[0].message.content : 'Lo siento, no he podido obtener respuesta.';
+        chatHistory.push({ role: 'assistant', content: assistantMessage });
+
+        // --- Lógica de redirección/botón ---
+        // Palabras/frases clave para detectar intención de alquilar/buscar coche barato
+        const redirKeywords = [
+            'alquilar un coche',
+            'buscar coche barato',
+            'buscar uno baratito',
+            'quiero alquilar',
+            'quiero buscar coche',
+            'coches baratos',
+            'buscar coches baratos',
+            'ver coches baratos',
+            'quiero ver coches baratos',
+            'quiero ver coches para alquilar',
+            'quiero alquilar un coche',
+            'quiero ver coches',
+            'buscar coches para alquilar',
+            'necesito alquilar un coche'
+        ];
+        const userMsgLower = message.toLowerCase();
+        let shouldSuggest = redirKeywords.some(kw => userMsgLower.includes(kw));
+        // También detecta si el propio mensaje del asistente invita a buscar coches baratos
+        if (!shouldSuggest) {
+            const assistantMsgLower = assistantMessage.toLowerCase();
+            shouldSuggest = redirKeywords.some(kw => assistantMsgLower.includes(kw));
+        }
+        if (shouldSuggest) {
+            // Opción 1: Mostrar botón/enlace en el chat
+            const url = 'https://socialicar.wuaze.com/src/pages/rentacar/mostrar_coches';
+            appendMessage('assistant', `<a href="${url}" target="_blank" style="display:inline-block;margin:10px 0;padding:10px 18px;background:#6BBFBF;color:#fff;border-radius:10px;text-decoration:none;font-weight:bold;">Ver coches baratos en SocialiCar</a>`);
+            // Opción 2: Redirección automática (descomenta para activar)
+            // window.open(url, '_blank'); // o window.location.href = url;
+        }
+        // --- Fin lógica redirección/botón ---
+
+        appendMessage('assistant', assistantMessage);
+    } catch (e) {
+        appendMessage('assistant', 'Lo siento, ocurrió un error al contactar con OpenAI.');
+    }
+}
+
+// 8. Eventos
+sendButton.addEventListener('click', function() {
+    let msg = userInput.value.trim();
+    if (msg) sendMessageToOpenAI(msg);
+});
+userInput.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') sendButton.click();
+});
+chatToggleButton.addEventListener('click', function() {
+    if (chatWidget.style.display === 'none' || chatWidget.style.display === '') {
+        chatWidget.style.display = 'flex';
+        if (!chatWidget.dataset.welcomeShown) {
+            let welcomeMessage = '¡Hola! 👋 Soy el asistente virtual de SocialiCar. ¿Eres propietario de un coche o estás buscando alquilar uno?';
+            appendMessage('assistant', welcomeMessage);
+            chatHistory.push({ role: 'assistant', content: welcomeMessage });
+            chatWidget.dataset.welcomeShown = 'true';
+        }
+    } else {
+        chatWidget.style.display = 'none';
+    }
+});
+
+// El botón y el chat siempre aparecen, aunque la clave no esté disponible
+});
+
 
 // Función para mostrar un mensaje en el chat
 function appendMessage(role, content) {
