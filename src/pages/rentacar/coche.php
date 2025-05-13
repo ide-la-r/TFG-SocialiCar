@@ -153,7 +153,7 @@
                 </div>
 
                 <form action="" method="post">
-                    <a href="../pago/paypal.php?total_precio=<?= $precio; ?>" class="btn btn-primary btn-lg mb-3 me-2" id="btn-alquilar">
+                    <a href="../pago/iniciar_pago.php?tipo=coche&precio_coche=<?= $precio; ?>" class="btn btn-primary btn-lg mb-3 me-2" id="btn-alquilar">
                         <i class="bi bi-cart-plus"></i> ¡Alquilar!
                     </a>
                 </form>
