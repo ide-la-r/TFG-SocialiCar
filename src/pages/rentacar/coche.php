@@ -96,7 +96,6 @@
                         $calle = trim($partes[0]);
                     }
                     $direccion_usable = "$calle, $codigo_postal, $ciudad, España";
-                    echo $direccion_usable;
 
                     $colores = [
                         "white" => "Blanco", "black" => "Negro", "gray" => "Gris", "red" => "Rojo",
@@ -189,6 +188,7 @@
             </div>
 
             <div class="col-md-12">
+                <h5 class="mt-4">Ubicación del vehículo</h5>
                 <div id="map" data-direccion="<?php echo $direccion_usable; ?>" style="height: 400px;" class="mt-4"></div>
             </div>
         </div>
