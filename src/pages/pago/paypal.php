@@ -44,7 +44,10 @@ if (!isset($_SESSION['usuario'])) {
 
 <body>
     <?php include_once '../../components/navbar.php'; ?>
-    <?php $total_precio = floatval($_GET["total_precio"]); ?>
+    <?php 
+    $precio = $_SESSION['precio_pago'] ?? 0.0;
+    $concepto = $_SESSION['concepto_pago'] ?? "Pago desconocido";
+    ?>
     <?php $page = isset($_GET["page"]) ? $_GET["page"] : ""; ?>
     <div class="container py-5">
         <div class="row justify-content-center">
@@ -52,6 +55,10 @@ if (!isset($_SESSION['usuario'])) {
                 <div class="card shadow rounded-4 p-4">
                     <div class="row g-4 mb-4">
                         <h1 class="title pt-4 text-center">Metodo de pago</h1>
+                        <p class="text-center">
+                            <strong>Concepto:</strong> <?= htmlspecialchars($concepto) ?><br>
+                            <strong>Total:</strong> <?= number_format($precio, 2) ?>€
+                        </p>
                         <div id="paypal-button-conteiner"></div>
                     </div>
                 </div>
@@ -60,6 +67,8 @@ if (!isset($_SESSION['usuario'])) {
     </div>
     <script>
         const page = <?= json_encode($page) ?>;
+        const concepto = <?= json_encode($concepto) ?>;
+        const precio = <?= json_encode(number_format($precio, 2, '.', '')) ?>;
 
         paypal.Buttons({
             style:{
@@ -70,15 +79,22 @@ if (!isset($_SESSION['usuario'])) {
                 return actions.order.create({
                     purchase_units:[{
                         amount:{
-                            value: <?php echo $total_precio; ?>
-                        }
+                            value: precio
+                        },
+                        description: concepto
                     }] 
                 });
             },
             //hacer aqui todo lo de la base de datos cuando se efectue el pago
             onApprove: function(data, actions){
                 actions.order.capture().then(function(detalles){
-                    console.log(detalles);
+                    alert("¡Pago realizado con éxito!");
+
+                    if (page !== "") {
+                        window.location.href = "../usuario/planes.php";
+                    } else {
+                        window.location.href = "../rentacar/mostrar_coches.php";
+                    }
                 });
             },
             onCancel: function(data){
