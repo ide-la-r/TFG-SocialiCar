@@ -42,7 +42,7 @@
         } else {
             $lat = 0;
         }
-        
+
         if ($_POST["lon"] != "") {
             $lon = $_POST["lon"];
         } else {
@@ -572,9 +572,9 @@
     <br>
     <form action="#" id="formulario" method="post" enctype="multipart/form-data">
         <div class="container mt-5 pt-5">
-            <div class="container card py-4">
-                <h3 class="text-start">Información básica</h3>
-                <div class="row justify-content-center pt-3">
+            <div class="card py-4 px-2 px-md-4">
+                <h3 class="text-start mb-4">Información básica</h3>
+                <div class="row gy-3 justify-content-center">
                     <?php
                     // API para obtener las marcas de coches
                     $apiUrlMarcas = "https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json";
@@ -593,7 +593,7 @@
                     ?>
 
                     <!-- Marca -->
-                    <div class="col">
+                    <div class="col-12 col-md-3">
                         <div class="form-floating">
                             <select class="form-select <?php if (isset($err_marca)) echo 'is-invalid'; ?>" id="marca" name="marca">
                                 <option disabled selected hidden>Marca*</option>
@@ -614,7 +614,7 @@
                     </div>
 
                     <!-- Modelo -->
-                    <div class="col">
+                    <div class="col-12 col-md-3">
                         <div class="form-floating">
                             <select class="form-select <?php if (isset($err_modelo)) echo 'is-invalid'; ?>" id="modelo" name="modelo" data-selected="<?php echo htmlspecialchars($modeloSeleccionado); ?>">
                                 <option disabled selected hidden>Modelo*</option>
@@ -629,7 +629,7 @@
                     </div>
 
                     <!-- Año de matriculación -->
-                    <div class="col">
+                    <div class="col-12 col-md-3">
                         <div class="form-floating">
                             <input class="form-control <?php if (isset($err_anno_matriculacion)) echo 'is-invalid'; ?>" placeholder="Año de matriculacion" id="inputMes" type="month" name="anno_matriculacion" value="<?php if (isset($_POST['anno_matriculacion'])) echo htmlspecialchars($_POST['anno_matriculacion']); ?>">
                             <label for="inputMes">Año de matriculación</label>
@@ -642,7 +642,7 @@
                     </div>
 
                     <!-- Matrícula -->
-                    <div class="col">
+                    <div class="col-12 col-md-3">
                         <div class="form-floating">
                             <input class="form-control <?php if (isset($err_matricula)) echo 'is-invalid'; ?>" id="floatingInput" type="text" placeholder="Matricula*" name="matricula" value="<?php if (isset($matricula)) echo htmlspecialchars($matricula); ?>">
                             <label for="floatingInput">Matrícula</label>
@@ -875,11 +875,13 @@
                     <label id="totalPrecio" class="form-label fw-bold">
                         Precio Diario:
                         <span id="mostrarPrecio">
-                            <?php if (isset($_POST['precio'])) echo $_POST['precio']."€"; else echo "15€"; ?>
+                            <?php if (isset($_POST['precio'])) echo $_POST['precio'] . "€";
+                            else echo "15€"; ?>
                         </span>
                     </label>
 
-                    <input type="range" class="form-range w-75 <?php if (isset($err_precio)) echo 'is-invalid'; ?>" name="precio" id="precio" min="15" max="500" step="1" value="<?php if (isset($_POST['precio'])) echo $_POST['precio']; else echo '15'; ?>">
+                    <input type="range" class="form-range w-75 <?php if (isset($err_precio)) echo 'is-invalid'; ?>" name="precio" id="precio" min="15" max="500" step="1" value="<?php if (isset($_POST['precio'])) echo $_POST['precio'];
+                                                                                                                                                                                    else echo '15'; ?>">
 
                     <div class="d-flex justify-content-between text-muted mt-1 w-75">
                         <span>15€</span>
@@ -1203,7 +1205,7 @@
     <script src="../../js/mostrar_marcas.js"></script>
     <script src="../../js/nuevo_coche.js"></script>
     <script src="../../js/pre_imagen.js"></script>
-    <script src="../../js/obtener_direccion.js"></script> 
+    <script src="../../js/obtener_direccion.js"></script>
     <script src="../../js/precio_coche.js"></script>
 
     <?php
@@ -1222,16 +1224,37 @@
 
         $enviar_coche->bind_param(
             "ssisssissssisddisssissiii",
-            $matricula, $id_usuario, $seguro, $marca, $modelo, $anno_matriculacion, $kilometros,
-            $tipo_combustible, $transmision, $direccion, $ciudad, $provincia, $cp, $pais, 
-            $lat, $lon, $tipo_aparcamiento, $ruta_relativa, $tipo, $precio, $descripcion, $color, 
-            $plazas, $puertas, $potencia
+            $matricula,
+            $id_usuario,
+            $seguro,
+            $marca,
+            $modelo,
+            $anno_matriculacion,
+            $kilometros,
+            $tipo_combustible,
+            $transmision,
+            $direccion,
+            $ciudad,
+            $provincia,
+            $cp,
+            $pais,
+            $lat,
+            $lon,
+            $tipo_aparcamiento,
+            $ruta_relativa,
+            $tipo,
+            $precio,
+            $descripcion,
+            $color,
+            $plazas,
+            $puertas,
+            $potencia
         );
 
         if (!$enviar_coche->execute()) {
             die('Error al insertar coche: ' . $enviarCoche->error);
         }
-    
+
         /* Insertar los extras */
         $enviarExtras = $_conexion->prepare("INSERT INTO extras_coche (
                 matricula, aire_acondicionado, gps, wifi, sensores_aparcamiento, 
@@ -1240,11 +1263,11 @@
                 portaequipajes, portaesquis, bluetooth, cuatro_x_cuatro, mascota, fumar, 
                 movilidad_reducida
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    
+
         if (!$enviarExtras) {
             die('Error en prepare extras: ' . $_conexion->error);
         }
-    
+
         $enviarExtras->bind_param(
             "siiiiiiiiiiiiiiiiiiii",
             $matricula,
@@ -1269,18 +1292,18 @@
             $fumar,
             $movilidad_reducida
         );
-    
+
         if (!$enviarExtras->execute()) {
             die('Error al insertar extras: ' . $enviarExtras->error);
         }
-    
+
         /* Insertar imagenes */
         $enviarImagenes = $_conexion->prepare("INSERT INTO imagen_coche (id_coche, ruta_img_coche) VALUES (?, ?)");
-    
+
         if (!$enviarImagenes) {
             die('Error en prepare imagenes: ' . $_conexion->error);
         }
-    
+
         if (isset($rutas_imagenes) && is_array($rutas_imagenes)) {
             foreach ($rutas_imagenes as $ruta) {
                 $enviarImagenes->bind_param("ss", $matricula, $ruta);
@@ -1289,7 +1312,7 @@
                 }
             }
         }
-    
+
         /* Redirigir a la página de inicio */
         echo "<script>
                 window.location.href = '/src/pages/rentacar/coche?matricula=" . $matricula . "';
@@ -1298,7 +1321,7 @@
     }
     ?>
 
-    
+
 </body>
 
 </html>
