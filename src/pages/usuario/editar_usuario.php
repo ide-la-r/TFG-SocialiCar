@@ -138,7 +138,7 @@
             header("location: /src/pages/usuario/perfil_usuario");
             exit();
         }
-        $_conexion->close();
+        
     }
     ?>
     <?php include_once '../../components/navbar.php'; ?>

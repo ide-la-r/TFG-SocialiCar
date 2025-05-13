@@ -44,17 +44,23 @@
         $datos_coche = $consulta_coche->get_result();
 
         while ($fila = $datos_coche->fetch_assoc()) {
+            $id_usuario = $fila["id_usuario"];
+            $seguro = $fila["seguro"];
             $marca = $fila["marca"];
             $modelo = $fila["modelo"];
             $anno_matriculacion = substr($fila["anno_matriculacion"], 0, 7);
             $kilometros = $fila["kilometros"];
             $combustible = $fila["combustible"];
             $transmision = $fila["transmision"];
-            $provincia = $fila["provincia"];
-            $ciudad = $fila["ciudad"];
-            $codigo_postal = $fila["codigo_postal"];
             $direccion = $fila["direccion"];
+            $ciudad = $fila["ciudad"];
+            $provincia = $fila["provincia"];
+            $codigo_postal = $fila["codigo_postal"];
+            $pais = $fila["pais"];
+            $lat = $fila["lat"];
+            $lon = $fila["lon"];
             $tipo_aparcamiento = $fila["tipo_aparcamiento"];
+            $ruta_img_coche = $fila["ruta_img_coche"];
             $tipo = $fila["tipo"];
             $precio = $fila["precio"];
             $descripcion = $fila["descripcion"];
@@ -63,6 +69,36 @@
             $puertas = $fila["puertas"];
             $potencia = $fila["potencia"];
         }
+    }
+
+
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $seguro_nuevo = $_POST['seguro'];
+        $marca_nuevo = $_POST['marca'];
+        $modelo_nuevo = $_POST['modelo'];
+        $anno_matriculacion_nuevo = $_POST['anno_matriculacion'];
+        $kilometros_nuevo = $_POST['kilometros'];
+        $combustible_nuevo = $_POST['tipo_combustible'];
+        $transmision_nuevo = $_POST['transmision'];
+        $direccion_nuevo = $_POST['direccion'];
+        $ciudad_nueva = $_POST['ciudad'];
+        $provincia_nueva = $_POST['provincia'];
+        $codigo_postal_nuevo = $_POST['codigo_postal'];
+        $pais_nuevo = $_POST['pais'];
+        $lat_nueva = $_POST['lat'];
+        $lon_nueva = $_POST['lon'];
+        $tipo_aparcamiento_nuevo = $_POST['tipo_aparcamiento'];
+        $tipo_nuevo = $_POST['tipo'];
+        $precio_nuevo = $_POST['precio'];
+        $descripcion_nuevo = $_POST['descripcion'];
+        $color_nuevo = $_POST['color'];
+        $plazas_nuevo = $_POST['numero_plazas'];
+        $puertas_nuevo = $_POST['numero_puertas'];
+        $potencia_nuevo = $_POST['potencia'];
+
+
+
     }
 
 
@@ -375,17 +411,30 @@
 
         <div class="container mt-5 pt-5">
             <div class="container card py-4">
-                <h3 class="text-start">Precio</h3>
+                <h3 class="text-start">Precio por día</h3>
 
                 <div class="d-flex flex-column align-items-center">
-                    <label id="totalPrecio" class="form-label fw-bold">Precio Diario: <span id="mostrarPrecio">15€</span></label>
+                    <label id="totalPrecio" class="form-label fw-bold">
+                        Precio Diario:
+                        <span id="mostrarPrecio">
+                            <?php if (isset($_POST['precio'])) echo $_POST['precio'] . "€";
+                            else echo "15€"; ?>
+                        </span>
+                    </label>
 
-                    <input type="range" class="form-range w-75" name="precio" id="precio" min="15" max="500" step="1" value="15">
+                    <input type="range" class="form-range w-75 <?php if (isset($err_precio)) echo 'is-invalid'; ?>" name="precio" id="precio" min="15" max="500" step="1" value="<?php if (isset($_POST['precio'])) echo $_POST['precio'];
+                                                                                                                                                                                    else echo '15'; ?>">
 
                     <div class="d-flex justify-content-between text-muted mt-1 w-75">
                         <span>15€</span>
                         <span>500€</span>
                     </div>
+
+                    <?php
+                    if (isset($err_precio)) {
+                        echo "<span class='error'>$err_precio</span>";
+                    }
+                    ?>
                 </div>
             </div>
         </div>
@@ -396,61 +445,59 @@
         </div> -->
         <!-- Plantillas para los inputs flotantes -->
 
+        <!-- Dirección y Tipo de aparcamiento -->
         <div class="container mt-5 pt-5">
             <div class="container card py-4">
-                <h3 class="text-start">Ubicación</h3>
+                <h3 class="text-start">Ubicación del vehículo</h3>
                 <div class="row justify-content-center pt-3">
-                    <div class="mb-3 col-6">
-                        <div class="form-floating">
-                            <input class="form-control" id="floatingInput" type="text" placeholder="Direccion*" name="direccion" value="">
-                            <label for="floatingInput">Dirección</label>
+                    <!-- Dirección -->
+                    <div class="mb-3 col-12 col-md-6">
+                        <div class="form-floating" style="position: relative;">
+                            <input type="text" class="form-control <?php if (isset($err_direccion)) echo 'is-invalid'; ?>" id="autocomplete" name="direccion" placeholder="Ej: Calle Ejemplo, Ciudad, Provincia, Codigo Postal, País" autocomplete="off" value="<?php if (isset($direccion)) echo "$direccion" ?>">
+                            <label for="autocomplete" class="form-label">Dirección*</label>
+                            <?php
+                            if (isset($err_direccion)) {
+                                echo "<span class='error'>$err_direccion</span>";
+                                if (isset($err_extra_formato)) {
+                                    echo "<span class='error'>$err_extra_formato</span>";
+                                }
+                            }
+                            ?>
+                            <div id="sugerencias" class="list-group mt-2" style="z-index:1000; position: absolute; width: 100%; max-height: 300px; overflow-y: auto; background-color: white; border: 1px solid #ccc; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);"></div>
                         </div>
-
-
                     </div>
-                    <div class="mb-3 col-6">
-                        <div class="form-floating">
-                            <input class="form-control" id="floatingInput" type="number" placeholder="Código Postal*" name="cp" value="">
-                            <label for="floatingInput">Código Postal</label>
-                        </div>
 
-
-                    </div>
-                    <div class="mb-3 col-6">
+                    <!-- Tipo de aparcamiento -->
+                    <div class="mb-3 col-12 col-md-6">
                         <div class="form-floating">
-                            <input class="form-control" id="floatingInput" type="text" placeholder="Provincia*" name="provincia" value="">
-                            <label for="floatingInput">Provincia</label>
-                        </div>
-
-                    </div>
-                    <div class="mb-3 col-6">
-                        <div class="form-floating">
-                            <input class="form-control" id="floatingInput" type="text" placeholder="Ciudad*" name="ciudad" value="">
-                            <label for="floatingInput">Ciudad</label>
-                        </div>
-
-                    </div>
-                    <div class="mb-3 col-6">
-                        <div class="form-floating">
-                            <Select class="form-select" id="floatingSelect" name="tipo_aparcamiento">
+                            <select class="form-select <?php if (isset($err_tipo_aparcamiento)) echo 'is-invalid'; ?>" id="tipo_aparcamiento" name="tipo_aparcamiento">
                                 <option disabled selected hidden>Tipo de aparcamiento*</option>
-                                <option value="calle">
+                                <option value="calle"
+                                    <?php if (isset($_POST['tipo_aparcamiento']) && $_POST['tipo_aparcamiento'] == "calle") echo "selected"; ?>>
                                     Calle
                                 </option>
-                                <option value="garaje">
+                                <option value="garaje"
+                                    <?php if (isset($_POST['tipo_aparcamiento']) && $_POST['tipo_aparcamiento'] == "garaje") echo "selected"; ?>>
                                     Garaje
                                 </option>
-                                <option value="parking">
+                                <option value="parking"
+                                    <?php if (isset($_POST['tipo_aparcamiento']) && $_POST['tipo_aparcamiento'] == "parking") echo "selected"; ?>>
                                     Parking
                                 </option>
-                            </Select>
-                            <label for="floatingInput">Tipo de aparcamiento</label>
+                            </select>
+                            <label for="tipo_aparcamiento">Tipo de aparcamiento</label>
+                            <?php
+                            if (isset($err_tipo_aparcamiento)) {
+                                echo "<span class='error'>$err_tipo_aparcamiento</span>";
+                            }
+                            ?>
                         </div>
-
                     </div>
                 </div>
 
-
+                <!-- Coordenadas ocultas -->
+                <input type="hidden" name="lat" id="lat" value="<?php if (isset($lat)) echo "$lat" ?>">
+                <input type="hidden" name="lon" id="lon" value="<?php if (isset($lon)) echo "$lon" ?>">
             </div>
         </div>
 
