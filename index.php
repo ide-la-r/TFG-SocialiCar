@@ -231,7 +231,7 @@ require(__DIR__ . "/src/config/conexion.php");
 
 
     <!-- Footer -->
-    <?php include_once 'src/components/footer.php'; ?>
+    <?php include_once 'src/components/footer-example.php'; ?>
 </body>
 
 </html>
