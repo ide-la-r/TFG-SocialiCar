@@ -1,3 +1,7 @@
+<link rel="stylesheet" href="/src/styles/ionicons.min.css">
+<link rel="stylesheet" href="/src/styles/style.css">
+<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+
 <!-- Bootstrap CSS (solo una versión, la más reciente estable) -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -11,3 +15,6 @@
 <link rel="stylesheet" href="/src/styles/global.css">
 <link rel="stylesheet" href="/src/styles/navbar.css">
 <link rel="stylesheet" href="/src/styles/footer.css">
+
+
+	

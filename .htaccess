@@ -3,8 +3,8 @@ RewriteEngine On
 # Bloquear la visualización de índices de directorios en todo el sitio
 Options -Indexes
 
-# Bloquear acceso a archivos sensibles como .env, .json y config.js
-<FilesMatch "^(\.env|.*\.json|config\.js)$">
+# Bloquear acceso a archivos sensibles como .env y .json (se quitó config.js)
+<FilesMatch "^(\.env|.*\.json)$">
   Order allow,deny
   Deny from all
 </FilesMatch>
@@ -33,7 +33,7 @@ RewriteRule ^ - [F,L]
 RewriteCond %{REQUEST_URI} !^/src/pages/(chat|coche|informacion|pago|rentacar|usuario)/
 RewriteRule ^/src/pages/ - [F,L]
 
-# Evitar acceso a directorios específicos dentro de /clients/img/
+# Evitar acceso directo a subdirectorios individuales en /clients/img/
 RewriteCond %{REQUEST_URI} ^/clients/img/[^/]+$
 RewriteRule ^ - [F,L]
 
