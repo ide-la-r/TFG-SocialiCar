@@ -1,0 +1,286 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+}
+
+/* Contenedor principal de los chats */
+.chat-wrapper {
+    display: flex;
+    height: 100vh;
+    background-color: #fff;
+}
+
+/* Contenedor izquierdo (lista de chats) */
+.container.izquierda {
+    width: 30%;
+    background-color: #f1f1f1;
+    border-right: 1px solid #ddd;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+h3 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.lista-chats {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.chat-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    text-decoration: none;
+    color: inherit;
+    transition: background-color 0.3s ease;
+}
+
+.chat-item:hover {
+    background-color: #f0f0f0;
+}
+
+.chat-item img {
+    width: 55px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+    border: 3px solid #6BBFBF;
+}
+
+.contenido-chat {
+    flex: 1;
+}
+
+.nombre {
+    font-weight: bold;
+    display: block;
+}
+
+.mensaje {
+    font-size: 14px;
+    color: #777;
+}
+
+.hora {
+    font-size: 12px;
+    color: #aaa;
+}
+
+/* Contenedor derecho (chat) */
+.container.derecha {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2px; /* Reduce el espacio debajo del header */
+    padding: 10px; /* Añade un poco de padding para que no quede tan pegado */
+}
+
+.back-icon {
+    font-size: 18px; /* Reduce el tamaño del icono de la flecha */
+    color: #007bff;
+    margin-right: 10px; /* Reduce el espacio entre el icono y el texto */
+}
+
+.details {
+    display: flex;
+    flex-direction: column;
+    font-size: 14px; /* Reduce el tamaño del texto general */
+}
+
+.usuario-estado {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px; /* Reduce el espacio entre el nombre y el estado */
+}
+
+.nombre-usuario {
+    font-size: 16px; /* Reduce el tamaño del nombre de usuario */
+    font-weight: bold;
+    color: #333;
+}
+
+.estado {
+    width: 8px; /* Reduce el tamaño del círculo de estado */
+    height: 8px;
+    border-radius: 50%;
+    margin-left: 8px; /* Ajusta el espacio entre el nombre y el estado */
+}
+
+.estado.online {
+    background-color: #28a745;
+}
+
+.estado.offline {
+    background-color: #435352;
+}
+
+/* Contenedor del chat */
+.chat-box {
+    height: 400px; /* Fija la altura para el área del chat */
+    overflow-y: auto;
+    background-color: #e9ecef;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    word-wrap: break-word;  /* Rompe las palabras largas */
+    white-space: pre-wrap;  /* Mantiene los saltos de línea y ajusta el texto */
+}
+
+/* Área de escritura */
+.typing-area {
+    display: flex;
+    align-items: center;
+}
+
+/* Estilo para el textarea */
+.input-field {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    margin-right: 10px;
+    font-size: 16px;
+    white-space: pre-wrap; /* Permite el salto de línea */
+    word-wrap: break-word; /* Permite que las palabras largas se rompan si es necesario */
+    resize: none; /* Evita que el textarea sea redimensionable */
+    min-height: 40px; /* Altura mínima para que se vea bien */
+    max-height: 120px; /* Limita la altura máxima */
+    overflow-y: auto; /* Muestra el scroll vertical cuando el texto excede el tamaño */
+}
+
+.typing-area button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.typing-area button i {
+    font-size: 20px;
+}
+
+/* Estilos para los mensajes del chat */
+.chat-box .mensaje-emisor,
+.chat-box .mensaje-receptor {
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    max-width: 70%;
+    display: flex;
+    flex-direction: column; /* Coloca el nombre arriba y el mensaje abajo */
+    word-wrap: break-word;  /* Rompe las palabras largas en lugar de desbordar */
+    white-space: pre-wrap;  /* Ajusta el texto y mantiene los saltos de línea */
+}
+
+/* Mensajes enviados por el usuario (mensaje-receptor) */
+.chat-box .mensaje-receptor {
+    background-color: #dcf8c6; /* Verde claro tipo WhatsApp */
+    align-self: flex-end; /* Alineado a la derecha */
+    text-align: left;
+    margin-left: auto;
+    align-items: flex-end;
+    border-radius: 10px 10px 0 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+    max-width: 75%;
+}
+
+/* Mensajes recibidos por el usuario (mensaje-emisor) */
+.chat-box .mensaje-emisor {
+    background-color: #ffffff; /* Blanco tipo WhatsApp */
+    align-self: flex-start; /* Alineado a la izquierda */
+    text-align: left;
+    border-radius: 10px 10px 10px 0;
+    padding: 10px;
+    margin-bottom: 10px;
+    max-width: 75%;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.05);
+}
+
+/* Estilos para el texto del remitente */
+.chat-box .mensaje-emisor .sender,
+.chat-box .mensaje-receptor .sender {
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+/* Alineación de los nombres */
+.chat-box .nombre-emisor {
+    text-align: left; /* Alinea el nombre del emisor a la izquierda */
+}
+
+.chat-box .nombre-receptor {
+    text-align: right; /* Alinea el nombre del receptor a la derecha */
+    align-self: flex-end; /* Alinea el nombre del receptor a la derecha */
+}
+
+/* Alineación de los mensajes */
+.chat-box .mensaje-emisor {
+    align-self: flex-start; /* Alinea el mensaje del emisor a la izquierda */
+}
+
+.chat-box .mensaje-receptor {
+    align-self: flex-end; /* Alinea el mensaje del receptor a la derecha */
+    text-align: right; /* Alinea el mensaje del receptor a la derecha */
+}
+
+/* Estilos para la hora */
+.hora-receptor,
+.hora-emisor {
+    font-size: 11px;
+    color: #999;
+    margin-top: 5px;
+}
+
+.hora-receptor {
+    text-align: right; /* Alinea la hora del receptor a la derecha */
+    margin-left: 5px; /* Ajuste fino para la distancia */
+}
+
+.hora-emisor {
+    text-align: left; /* Alinea la hora del emisor a la izquierda */
+    margin-right: 5px; /* Ajuste fino para la distancia */
+}
+
+/* Ajustar tamaño del chat-container cuando se llena */
+#chat-container {
+    height: 70vh; 
+    overflow-y: auto;
+    flex-grow: 1;
+    background-color: #e9ecef;
+    padding: 10px;
+    border-radius: 10px;
+    word-wrap: break-word;  /* Rompe las palabras largas */
+    white-space: pre-wrap;  /* Mantiene los saltos de línea y ajusta el texto */
+}
+
+#chat-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+#chat-container::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 10px;
+}
+
+#chat-container::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}

@@ -1,0 +1,114 @@
+<?php
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+session_start();
+
+require(__DIR__ . "/../../config/conexion.php");
+require(__DIR__ . "/../../config/depurar.php");
+
+// Verificar si la conexión está funcionando correctamente
+if (!$_conexion) {
+    echo "Error en la conexión a la base de datos.";
+    exit();
+}
+
+// Redirigir si no hay sesión iniciada
+if (!isset($_SESSION['usuario'])) {
+    header("Location: ../../../");
+    exit();
+}
+?>
+
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil de usuario</title>
+    <?php include_once '../../components/links.php'; ?>
+    <link rel="icon" href="../../../src/img/favicon.png" />
+    <script src="https://www.paypal.com/sdk/js?client-id=AacZbISDuTSpYnWbcg7nWx5DvHfRfVy-PEwgA1O63HkmtG6yhPnzY3tcCmm8iaU1dORsjBSJHXGH6159&currency=EUR"></script>
+</head>
+<style>
+    body {
+        background-image: url('../../img/fondo_perfil.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 100vh;
+        margin: 0;
+    }
+</style>
+
+<body>
+    <?php include_once '../../components/navbar.php'; ?>
+    <?php 
+    $precio = $_SESSION['precio_pago'] ?? 0.0;
+    $concepto = $_SESSION['concepto_pago'] ?? "Pago desconocido";
+    ?>
+    <?php $page = isset($_GET["page"]) ? $_GET["page"] : ""; ?>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card shadow rounded-4 p-4">
+                    <div class="row g-4 mb-4">
+                        <h1 class="title pt-4 text-center">Metodo de pago</h1>
+                        <p class="text-center">
+                            <strong>Concepto:</strong> <?= htmlspecialchars($concepto) ?><br>
+                            <strong>Total:</strong> <?= number_format($precio, 2) ?>€
+                        </p>
+                        <div id="paypal-button-conteiner"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const page = <?= json_encode($page) ?>;
+        const concepto = <?= json_encode($concepto) ?>;
+        const precio = <?= json_encode(number_format($precio, 2, '.', '')) ?>;
+
+        paypal.Buttons({
+            style:{
+                color: 'blue',
+                shape: 'pill'
+            },
+            createOrder: function(data, actions){
+                return actions.order.create({
+                    purchase_units:[{
+                        amount:{
+                            value: precio
+                        },
+                        description: concepto
+                    }] 
+                });
+            },
+            //hacer aqui todo lo de la base de datos cuando se efectue el pago
+            onApprove: function(data, actions){
+                actions.order.capture().then(function(detalles){
+                    alert("¡Pago realizado con éxito!");
+
+                    if (page !== "") {
+                        window.location.href = "../usuario/planes.php";
+                    } else {
+                        window.location.href = "../rentacar/mostrar_coches.php";
+                    }
+                });
+            },
+            onCancel: function(data){
+                alert("Compra cancelada");
+
+                if (page != ""){
+                    window.location.href = "../usuario/planes.php";
+                } else{
+                    window.location.href = "../rentacar/mostrar_coches.php";
+                }
+            }
+        }).render('#paypal-button-conteiner')
+    </script>
+    <?php include_once '../../components/footer.php'; ?>
+</body>
+
+</html>

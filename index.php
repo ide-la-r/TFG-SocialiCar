@@ -11,10 +11,13 @@ require(__DIR__ . "/src/config/conexion.php");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SocialiCar - Comparte tu coche</title>
-    
+
     <link rel="icon" href="src/img/favicon.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <?php include_once 'src/components/links.php'; ?>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <?php
+    include_once 'src/components/links.php';
+    ?>
 </head>
 
 <style>
@@ -88,8 +91,6 @@ require(__DIR__ . "/src/config/conexion.php");
         border-radius: 25px !important;
         transition: all 0.3s ease;
     }
-
-
 </style>
 
 <body>
@@ -97,9 +98,9 @@ require(__DIR__ . "/src/config/conexion.php");
     <?php include_once 'src/components/navbar.php'; ?>
 
     <div style="margin-top: 10vh; margin-bottom: 15vh; height: 40vh; text-align: center;">
-    <h1 class="bienvenido">BIENVENIDO A</h1>
-    <h1 class="socialicar">SocialiCar</h1>
-</div>
+        <h1 class="bienvenido">BIENVENIDO A</h1>
+        <h1 class="socialicar">SocialiCar</h1>
+    </div>
 
 
     <style>
@@ -107,36 +108,38 @@ require(__DIR__ . "/src/config/conexion.php");
 
     </style>
     <!-- buscador -->
-    <div class="container my-5">
-        <div class="card p-4 shadow mx-auto" style="max-width: 120vh; border-radius: 50px !important;">
-            <div class="row g-3 justify-content-center">
-                <!-- ubicacion -->
-                <div class="col-md-4">
-                    <select id="ciudad" class="form-select">
-                        <option selected>¿Dónde necesitas tu coche?</option>
-                        <option value="1">Málaga</option>
-                        <option value="2">Granada</option>
-                        <option value="3">Madrid</option>
-                        <option value="4">Valencia</option>
-                        <option value="5">Barcelona</option>
-                    </select>
-                </div>
-                <!-- fechas -->
-                <div class="col-md-3">
-                    <input type="text" id="fecha_inicio" class="form-control" placeholder="Fecha de inicio" onfocus="this.type='date';">
-                </div>
+    <form method="get" action="./src/pages/rentacar/mostrar_coches.php">
+        <div class="container my-5">
+            <div class="card p-4 shadow mx-auto" style="max-width: 120vh; border-radius: 50px !important;">
+                <div class="row g-3 justify-content-center">
+                    <!-- ubicacion -->
+                    <div class="col-md-4">
+                        <select id="ciudad" name="provincia" class="form-select">
+                            <option selected>¿Dónde necesitas tu coche?</option>
+                            <option value="malaga">Málaga</option>
+                            <option value="granada">Granada</option>
+                            <option value="madrid">Madrid</option>
+                            <option value="valencia">Valencia</option>
+                            <option value="barcelona">Barcelona</option>
+                        </select>
+                    </div>
+                    <!-- fechas -->
+                    <div class="col-md-3">
+                        <input type="text" id="fecha_inicio" name="fecha_inicio" class="form-control" placeholder="Fecha de inicio" onfocus="this.type='date';">
+                    </div>
 
-                <div class="col-md-3">
-                    <input type="text" id="fecha_fin" class="form-control" placeholder="Fecha de fin" onfocus="this.type='date';">
-                </div>
+                    <div class="col-md-3">
+                        <input type="text" id="fecha_fin" name="fecha_final" class="form-control" placeholder="Fecha de fin" onfocus="this.type='date';">
+                    </div>
 
-                <!-- buscar -->
-                <div class="col-md-2 d-flex align-items-end">
-                    <button class="btn btn-primary w-100 py-2">Buscar</button>
+                    <!-- buscar -->
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary w-100 py-2">Buscar</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
 
     <!-- alquila tu coche-->
     <div class="container my-5" style="background-color: rgba(255, 255, 255, 0.72); border-radius: 70px; width: 90%">
@@ -198,8 +201,8 @@ require(__DIR__ . "/src/config/conexion.php");
         </div>
     </div>
 
-     <!-- como funciona -->
-     <section id="funcionamiento" class="py-5" style="background-color: rgba(196, 239, 242, 0.8) ; position: relative; margin-bottom: 3vh">
+    <!-- como funciona -->
+    <section id="funcionamiento" class="py-5" style="background-color: rgba(196, 239, 242, 0.8) ; position: relative; margin-bottom: 3vh">
         <div style="position: absolute; left: 25vh; top: 20px;">
             <a href="https://www.gifsanimados.org/cat-coches-y-automoviles-67.htm">
                 <img src="https://www.gifsanimados.org/data/media/67/coche-y-automovil-imagen-animada-0187.gif" alt="coche-y-automovil-imagen-animada-0187" style="height: 20vh;" />
@@ -225,12 +228,12 @@ require(__DIR__ . "/src/config/conexion.php");
             </div>
         </div>
     </section>
-
+    <script src="/src/js/chatbot.js"></script>
 
 
 
     <!-- Footer -->
-    <?php include_once 'src/components/footer.php'; ?>
+    <?php include_once 'src/components/footer-example.php'; ?>
 </body>
 
 </html>

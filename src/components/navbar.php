@@ -1,3 +1,31 @@
+<style>
+  .navbar {
+    background: linear-gradient(120deg,
+        rgba(255, 255, 255, 0.05),
+        rgba(255, 255, 255, 0.15),
+        rgba(255, 255, 255, 0.6),
+        rgba(107, 191, 191, 0.3),
+        rgba(107, 191, 191, 0.3),
+        rgba(255, 255, 255, 0.05),
+        rgba(255, 255, 255, 0.15),
+        rgba(255, 255, 255, 0.6),
+        transparent);
+
+    background-size: 200% 100%;
+    animation: shimmer 15s infinite linear;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: 200% 0;
+    }
+
+    100% {
+      background-position: -200% 0;
+    }
+  }
+</style>
+
 <nav class="navbar navbar-expand-lg navbar-light custom-navbar">
   <div class="container-fluid">
     <!-- Botón para móviles INICIAR SESION, REGISTRARSE, PREMIUM-->
@@ -18,9 +46,6 @@
         src="/src/img/LogoSocialicar.png"
         alt="SocialiCar Logo"
         loading="lazy" />
-
-
-        
     </a>
 
     <!-- Contenido colapsable -->
@@ -58,19 +83,12 @@
       <!-- Notificaciones -->
       <?php
       if (isset($_SESSION['usuario'])) {
-      echo "
-        <div class='dropdown me-3'>
-          <a
-            class='text-reset'
-            href='#'
-            role='button'
-            data-bs-toggle='dropdown'
-            aria-expanded='false'>
-            <i class='fa-regular fa-comment-dots fa-flip-horizontal'></i>
-            <span class='badge rounded-pill bg-danger'>1</span>
-          </a>
-        </div>
-      ";
+        echo "
+            <a href='/src/pages/chat/conversa' class='btn btn-outline-primary d-flex align-items-center me-3'>
+              <i class='bi bi-chat-dots me-2'></i>
+              <span class='d-none d-lg-inline'>Chat</span>
+            </a>
+          ";
       }
       ?>
 
@@ -82,7 +100,32 @@
           role="button"
           data-bs-toggle="dropdown"
           aria-expanded="false">
-          <img src="/src/img/perfil.png" class="rounded-circle" height="30" alt="Avatar" loading="lazy" />
+          <?php
+          if (!isset($_SESSION['usuario'])) {
+            // No hay sesión, mostrar imagen por defecto
+            echo '<img style="object-fit: cover; border-radius: 50%; overflow: hidden; border: 4px solid #6BBFBF; background-color: #F2F2F2;" src="/src/img/perfil.png" class="rounded-circle" height="35" alt="Avatar" loading="lazy" />';
+          } else {
+            $sql = $_conexion->prepare("SELECT foto_perfil FROM usuario WHERE identificacion = ?");
+            $sql->bind_param("s", $_SESSION['usuario']['identificacion']);
+            $sql->execute();
+            $resultado = $sql->get_result();
+
+            if ($resultado->num_rows > 0) {
+              $fila = $resultado->fetch_assoc();
+              $foto_perfil = $fila['foto_perfil'];
+
+              if (!empty($foto_perfil)) {
+                echo '<img style="object-fit: cover; border-radius: 50%; overflow: hidden; border: 2px solid #6BBFBF; background-color: #F2F2F2;" src="' . htmlspecialchars($foto_perfil) . '" class="rounded-circle" height="35" width="35" alt="Avatar" loading="lazy" />';
+              } else {
+                echo '<img style="object-fit: cover; border-radius: 50%; overflow: hidden; border: 2px solid #6BBFBF; background-color: #F2F2F2;" src="/src/img/perfil.png" class="rounded-circle" height="35" alt="Avatar" loading="lazy" />';
+              }
+            } else {
+              // Si no se encuentra el usuario en la base de datos
+              echo '<img src="/src/img/perfil.png" class="rounded-circle" height="30" alt="Avatar" loading="lazy" />';
+            }
+          }
+          ?>
+
         </a>
 
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
@@ -121,3 +164,6 @@
     </div>
   </div>
 </nav>
+<style>
+  
+</style>

@@ -1,4 +1,12 @@
 <?php
+session_start();
+// Redirigir si no hay sesión iniciada
+if (!isset($_SESSION['usuario'])) {
+    header("Location: ../../../");
+    exit();
+}
+
+
 if (isset($_GET['marca'])) {
     $marcaSeleccionada = $_GET['marca'];
 

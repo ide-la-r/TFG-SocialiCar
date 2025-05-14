@@ -15,7 +15,7 @@
           <li class="mb-1"><a href="/" class="text-decoration-none" style="color: #595959;">Inicio</a></li>
           <li class="mb-1"><a href="/src/pages/informacion/trabaja" class="text-decoration-none" style="color: #595959;">Trabaja con nosotros</a></li>
           <li class="mb-1"><a href="/src/pages/rentacar/mostrar_coches" class="text-decoration-none" style="color: #595959;">Encontrar un coche</a></li>
-          <li class="mb-1"><a href="/src/pages/informacion/descarga_app" class="text-decoration-none" style="color: #595959;">Descarga nuestra app</a></li>
+          <li class="mb-1"><a href="/src/pages/informacion/soporte.php" class="text-decoration-none" style="color: #595959;">Soporte tecnico</a></li>
           <li><a href="/src/pages/informacion/proposito" class="text-decoration-none" style="color: #595959;">Propósito</a></li>
         </ul>
       </div>
@@ -50,11 +50,6 @@
     </div>
   </div>
 </footer>
-<!-- FontAwesome CDN para iconos sociales -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
-<script src="/src/js/mostrar_marcas.js"></script>
-<script src="/src/js/precio_coche.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- Estilos específicos para los iconos sociales del footer -->

@@ -7,8 +7,8 @@
     <title>SocialiCar - Comparte tu coche</title>
     <?php include_once '../../components/links.php'; ?>
     <link rel="icon" href="../../../src/img/favicon.png" />
-    <link rel="stylesheet" href="../../../src/styles/index.css">
-    
+    <link rel="stylesheet" href="../../../src/styles/mostrar_coches.css">
+
 
     <?php
     error_reporting(E_ALL);
@@ -46,18 +46,19 @@
     </div>
 
     <!-- BARRA DE BUSQUEDA -->
-    <form class="w-75 mx-auto busqueda" method="POST" action="">
-        <div class="input-group">
-            <input type="text" name="buscar" id="buscar" class="form-control" placeholder="Buscar vehículo" value="<?php echo isset($_POST['buscar']) ? $_POST['buscar'] : ''; ?>">
-            <button class="btn btn-primary" type="submit">Buscar</button>
-        </div>
+    <form class="w-75 mx-auto my-4 busqueda" method="POST" action="">
+        <div class="input-group rounded-pill overflow-hidden shadow-sm">
+            <input type="text" name="buscar" id="buscar" class="form-control border-0 py-2 px-3" placeholder="Buscar vehículo" value="<?php echo isset($_POST['buscar']) ? $_POST['buscar'] : ''; ?>">
+            <button class="btn_buscar" type="submit">Buscar</button>
+            </div>
     </form>
+
     <br><br>
     <?php
-        if (isset($_POST["buscar"])) {
-            $buscar = mysqli_real_escape_string($_conexion, $_POST["buscar"]);
+    if (isset($_POST["buscar"])) {
+        $buscar = mysqli_real_escape_string($_conexion, $_POST["buscar"]);
 
-            $sql = mysqli_query($_conexion, "SELECT * FROM coche 
+        $sql = mysqli_query($_conexion, "SELECT * FROM coche 
                 WHERE 
                     precio LIKE '%$buscar%' OR
                     marca LIKE '%$buscar%' OR 
@@ -71,16 +72,16 @@
                     provincia LIKE '%$buscar%' OR
                     tipo_aparcamiento LIKE '%$buscar%'");
 
-            $numeroSql = mysqli_num_rows($sql);
+        $numeroSql = mysqli_num_rows($sql);
 
-            echo "<p class='text-success fw-bold mt-3'>
+        echo "<p class='text-success fw-bold mt-3'>
                 <i class='mdi mdi-car-search'></i> $numeroSql resultados encontrados
             </p>";
 
-            echo "<div class='row row-cols-1 row-cols-md-3 g-4 mt-3'>";
+        echo "<div class='row row-cols-1 row-cols-md-3 g-4 mt-3'>";
 
-            while ($row = mysqli_fetch_assoc($sql)) {
-                echo "
+        while ($row = mysqli_fetch_assoc($sql)) {
+            echo "
                     <div class='col'>
                         <a href='/src/pages/rentacar/coche?matricula=" . $row['matricula'] . "' class='text-decoration-none text-dark'>
                             <div class='card h-100 shadow-sm border-primary'>
@@ -95,10 +96,10 @@
                         </a>
                     </div>
                 ";
-            }
-
-            echo "</div><br>";
         }
+
+        echo "</div><br>";
+    }
     ?>
 
 
@@ -197,7 +198,7 @@
                     </div><br>
 
 
-                    <!-- FECHAS (DISPONIBILIDAD) HABRA QUE EL FIN NO SEA ANTERIOR AL INICIO-->
+                    <!-- FECHAS (D6ISPONIBILIDAD) HABRA QUE EL FIN NO SEA ANTERIOR AL INICIO-->
                     <div>
                         <label class="form-label">Disponibilidad</label>
                         <div class="d-flex gap-2">
@@ -325,14 +326,19 @@
 
             </div> <!-- fin del menu -->
 
-
+            <?php
+            $provincia = isset($_GET['provincia']) ? $_GET['provincia'] : null;
+            $fecha_inicio = isset($_GET['fecha_inicio']) ? $_GET['fecha_inicio'] : null;
+            $fecha_fin = isset($_GET['fecha_final']) ? $_GET['fecha_final'] : null;
+            
+            if ($provincia != null && $fecha_inicio != null && $fecha_fin != null) { ?>
             <div class="col-md-9 bg-light">
                 <div class="container my-4 ">
                     <!-- TARJETAS -->
                     <!-- Tarjetas Premium -->
                     <div class="row row-cols-1 row-cols-md-3 g-4 ">
                         <?php
-                            $obtener_coche_premium = $_conexion->prepare("
+                        $obtener_coche_premium = $_conexion->prepare("
                                 SELECT coche.*, sus.tipo AS tipo_suscripcion
                                 FROM coche
                                 JOIN usuario ON coche.id_usuario = usuario.identificacion
@@ -340,16 +346,28 @@
                                     ON sus.identificacion = usuario.identificacion 
                                     AND sus.activo = TRUE 
                                     AND sus.tipo = 'Premium'
+                                WHERE coche.provincia = ?
+                                AND NOT EXISTS (
+                                    SELECT 1 FROM reserva_coche 
+                                    WHERE reserva_coche.matricula = coche.matricula 
+                                    AND (
+                                        (? BETWEEN reserva_coche.fecha_inicio AND reserva_coche.fecha_final) OR
+                                        (? BETWEEN reserva_coche.fecha_inicio AND reserva_coche.fecha_final) OR
+                                        (reserva_coche.fecha_inicio BETWEEN ? AND ?) OR
+                                        (reserva_coche.fecha_final BETWEEN ? AND ?)
+                                    )
+                                )
                                 ORDER BY coche.precio ASC
                                 LIMIT 3
                             ");
-                            $obtener_coche_premium->execute();
-                            $resultado = $obtener_coche_premium->get_result();
-                            $vehiculos_premiums = $resultado->fetch_all(MYSQLI_ASSOC);
-                            
-                            if (count($vehiculos_premiums) > 0) {
-                                foreach ($vehiculos_premiums as $vehiculo_premium) {
-                                    echo "
+                        $obtener_coche_premium->bind_param("sssssss", $provincia, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin);
+                        $obtener_coche_premium->execute();
+                        $resultado = $obtener_coche_premium->get_result();
+                        $vehiculos_premiums = $resultado->fetch_all(MYSQLI_ASSOC);
+
+                        if (count($vehiculos_premiums) > 0) {
+                            foreach ($vehiculos_premiums as $vehiculo_premium) {
+                                echo "
                                         <div class='col'>
                                             <a href='/src/pages/rentacar/coche?matricula=" . $vehiculo_premium['matricula'] . "' class='text-decoration-none text-dark'>
                                             <div class='card h-100 shadow-lg border-warning'>
@@ -365,8 +383,8 @@
                                             </a>
                                         </div>
                                     ";
-                                }
                             }
+                        }
                         ?>
                     </div><br>
 
@@ -374,7 +392,7 @@
                     <!-- Tarjetas Plus -->
                     <div class="row row-cols-1 row-cols-md-3 g-4 ">
                         <?php
-                            $obtener_coche_plus = $_conexion->prepare("
+                        $obtener_coche_plus = $_conexion->prepare("
                                 SELECT coche.*, sus.tipo AS tipo_suscripcion
                                 FROM coche
                                 JOIN usuario ON coche.id_usuario = usuario.identificacion
@@ -382,16 +400,28 @@
                                     ON sus.identificacion = usuario.identificacion 
                                     AND sus.activo = TRUE 
                                     AND sus.tipo = 'Plus'
+                                WHERE coche.provincia = ?
+                                AND NOT EXISTS (
+                                    SELECT 1 FROM reserva_coche 
+                                    WHERE reserva_coche.matricula = coche.matricula 
+                                    AND (
+                                        (? BETWEEN reserva_coche.fecha_inicio AND reserva_coche.fecha_final) OR
+                                        (? BETWEEN reserva_coche.fecha_inicio AND reserva_coche.fecha_final) OR
+                                        (reserva_coche.fecha_inicio BETWEEN ? AND ?) OR
+                                        (reserva_coche.fecha_final BETWEEN ? AND ?)
+                                    )
+                                )
                                 ORDER BY coche.precio ASC
                                 LIMIT 6
                             ");
-                            $obtener_coche_plus->execute();
-                            $resultado = $obtener_coche_plus->get_result();
-                            $vehiculos_plus = $resultado->fetch_all(MYSQLI_ASSOC);
-                            
-                            if (count($vehiculos_plus) > 0) {
-                                foreach ($vehiculos_plus as $vehiculo_plus) {
-                                    echo "
+                        $obtener_coche_plus->bind_param("sssssss", $provincia, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin);
+                        $obtener_coche_plus->execute();
+                        $resultado = $obtener_coche_plus->get_result();
+                        $vehiculos_plus = $resultado->fetch_all(MYSQLI_ASSOC);
+
+                        if (count($vehiculos_plus) > 0) {
+                            foreach ($vehiculos_plus as $vehiculo_plus) {
+                                echo "
                                         <div class='col'>
                                             <a href='/src/pages/rentacar/coche?matricula=" . $vehiculo_plus['matricula'] . "' class='text-decoration-none text-dark'>
                                             <div class='card shadow'>
@@ -406,8 +436,8 @@
                                             </a>
                                         </div>
                                     ";
-                                }
                             }
+                        }
                         ?>
                     </div><br>
 
@@ -415,7 +445,7 @@
                     <!-- Tarjetas Normales -->
                     <div class="row row-cols-1 row-cols-md-3 g-4 ">
                         <?php
-                            $obtener_coche_normal = $_conexion->prepare("
+                        $obtener_coche_normal = $_conexion->prepare("
                                 SELECT coche.*, sus.tipo AS tipo_suscripcion
                                 FROM coche
                                 JOIN usuario ON coche.id_usuario = usuario.identificacion
@@ -423,35 +453,47 @@
                                     ON sus.identificacion = usuario.identificacion 
                                     AND sus.activo = TRUE
                                 WHERE sus.tipo IS NULL
+                                AND coche.provincia = ?
+                                AND NOT EXISTS (
+                                    SELECT 1 FROM reserva_coche 
+                                    WHERE reserva_coche.matricula = coche.matricula 
+                                    AND (
+                                        (? BETWEEN reserva_coche.fecha_inicio AND reserva_coche.fecha_final) OR
+                                        (? BETWEEN reserva_coche.fecha_inicio AND reserva_coche.fecha_final) OR
+                                        (reserva_coche.fecha_inicio BETWEEN ? AND ?) OR
+                                        (reserva_coche.fecha_final BETWEEN ? AND ?)
+                                    )
+                                )
                                 LIMIT 6
                             ");
-                            $obtener_coche_normal->execute();
-                            $resultado = $obtener_coche_normal->get_result();
-                            $vehiculos_normales = $resultado->fetch_all(MYSQLI_ASSOC);
+                        $obtener_coche_normal->bind_param("sssssss", $provincia, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin);
+                        $obtener_coche_normal->execute();
+                        $resultado = $obtener_coche_normal->get_result();
+                        $vehiculos_normales = $resultado->fetch_all(MYSQLI_ASSOC);
 
-                            if (count($vehiculos_normales) > 0) {
-                                foreach ($vehiculos_normales as $vehiculo_normal) {
+                        if (count($vehiculos_normales) > 0) {
+                            foreach ($vehiculos_normales as $vehiculo_normal) {
 
-                                    // Consulta para obtener la primera imagen del coche
-                                    $obtener_primera_imagen = $_conexion->prepare("
+                                // Consulta para obtener la primera imagen del coche
+                                $obtener_primera_imagen = $_conexion->prepare("
                                         SELECT ruta_img_coche
                                         FROM imagen_coche
                                         WHERE id_coche = ?
                                         LIMIT 1
                                     ");
-                                    $obtener_primera_imagen->bind_param("s", $vehiculo_normal['matricula']);
-                                    $obtener_primera_imagen->execute();
-                                    $resultado_imagen = $obtener_primera_imagen->get_result();
+                                $obtener_primera_imagen->bind_param("s", $vehiculo_normal['matricula']);
+                                $obtener_primera_imagen->execute();
+                                $resultado_imagen = $obtener_primera_imagen->get_result();
 
-                                    // Verificar si se encontró una imagen
-                                    if ($resultado_imagen->num_rows > 0) {
-                                        $imagen_normal = $resultado_imagen->fetch_assoc();
-                                        $imagen_normal = $imagen_normal['ruta_img_coche'];
-                                    } else {
-                                        $imagen_normal = 'ruta/por/defecto.jpg'; // Imagen por defecto si no se encuentra
-                                    }
+                                // Verificar si se encontró una imagen
+                                if ($resultado_imagen->num_rows > 0) {
+                                    $imagen_normal = $resultado_imagen->fetch_assoc();
+                                    $imagen_normal = $imagen_normal['ruta_img_coche'];
+                                } else {
+                                    $imagen_normal = 'ruta/por/defecto.jpg'; // Imagen por defecto si no se encuentra
+                                }
 
-                                    echo "
+                                echo "
                                         <div class='col'>
                                             <a href='/src/pages/rentacar/coche?matricula=" . $vehiculo_normal['matricula'] . "' class='text-decoration-none text-dark'>
                                             <div class='card shadow'>
@@ -466,12 +508,162 @@
                                             </a>
                                         </div>
                                     ";
-                                }
                             }
+                        }
                         ?>
                     </div><br>
                 </div>
             </div>
+            <?php }
+            else{
+            ?>
+            <div class="col-md-9 bg-light">
+                <div class="container my-4 ">
+                    <!-- TARJETAS -->
+                    <!-- Tarjetas Premium -->
+                    <div class="row row-cols-1 row-cols-md-3 g-4 ">
+                        <?php
+                        $obtener_coche_premium = $_conexion->prepare("
+                                SELECT coche.*, sus.tipo AS tipo_suscripcion
+                                FROM coche
+                                JOIN usuario ON coche.id_usuario = usuario.identificacion
+                                JOIN suscripcion_usuario sus 
+                                    ON sus.identificacion = usuario.identificacion 
+                                    AND sus.activo = TRUE 
+                                    AND sus.tipo = 'Premium'
+                                ORDER BY coche.precio ASC
+                                LIMIT 3
+                            ");
+                        $obtener_coche_premium->execute();
+                        $resultado = $obtener_coche_premium->get_result();
+                        $vehiculos_premiums = $resultado->fetch_all(MYSQLI_ASSOC);
+
+                        if (count($vehiculos_premiums) > 0) {
+                            foreach ($vehiculos_premiums as $vehiculo_premium) {
+                                echo "
+                                        <div class='col'>
+                                            <a href='/src/pages/rentacar/coche?matricula=" . $vehiculo_premium['matricula'] . "' class='text-decoration-none text-dark'>
+                                            <div class='card h-100 shadow-lg border-warning'>
+                                                <img src='" . $vehiculo_premium['ruta_img_coche'] . "' class='card-img-top'>
+                                                <div class='card-body'>
+                                                    <h5 class='card-title'>" . $vehiculo_premium['marca'] . " " . $vehiculo_premium['modelo'] . "</h5>
+                                                    <p class='card-text'><strong>" . $vehiculo_premium['marca'] . "</strong></p>
+                                                    <p class='card-text'><strong>" . $vehiculo_premium['codigo_postal'] . " " . $vehiculo_premium['ciudad'] . "</strong></p>
+                                                    <p class='card-text text-success'>" . $vehiculo_premium['precio'] . "€/día</p>
+                                                    <p class='badge bg-warning'>¡Premium!</p>
+                                                </div>
+                                            </div>
+                                            </a>
+                                        </div>
+                                    ";
+                            }
+                        }
+                        ?>
+                    </div><br>
+
+
+                    <!-- Tarjetas Plus -->
+                    <div class="row row-cols-1 row-cols-md-3 g-4 ">
+                        <?php
+                        $obtener_coche_plus = $_conexion->prepare("
+                                SELECT coche.*, sus.tipo AS tipo_suscripcion
+                                FROM coche
+                                JOIN usuario ON coche.id_usuario = usuario.identificacion
+                                JOIN suscripcion_usuario sus 
+                                    ON sus.identificacion = usuario.identificacion 
+                                    AND sus.activo = TRUE 
+                                    AND sus.tipo = 'Plus'
+                                ORDER BY coche.precio ASC
+                                LIMIT 6
+                            ");
+                        $obtener_coche_plus->execute();
+                        $resultado = $obtener_coche_plus->get_result();
+                        $vehiculos_plus = $resultado->fetch_all(MYSQLI_ASSOC);
+
+                        if (count($vehiculos_plus) > 0) {
+                            foreach ($vehiculos_plus as $vehiculo_plus) {
+                                echo "
+                                        <div class='col'>
+                                            <a href='/src/pages/rentacar/coche?matricula=" . $vehiculo_plus['matricula'] . "' class='text-decoration-none text-dark'>
+                                            <div class='card shadow'>
+                                                <img src='" . $vehiculo_plus['ruta_img_coche'] . "' class='card-img-top'>
+                                                <div class='card-body'>
+                                                    <h5 class='card-title'>" . $vehiculo_plus['marca'] . "</h5>
+                                                    <p class='card-text'><strong>" . $vehiculo_plus['modelo'] . "</strong></p>
+                                                    <p class='card-text'><strong>" . $vehiculo_plus['codigo_postal'] . " " . $vehiculo_plus['ciudad'] . "</strong></p>
+                                                    <p class='card-text text-success'>" . $vehiculo_plus['precio'] . "€/día</p>
+                                                </div>
+                                            </div>
+                                            </a>
+                                        </div>
+                                    ";
+                            }
+                        }
+                        ?>
+                    </div><br>
+
+
+                    <!-- Tarjetas Normales -->
+                    <div class="row row-cols-1 row-cols-md-3 g-4 ">
+                        <?php
+                        $obtener_coche_normal = $_conexion->prepare("
+                                SELECT coche.*, sus.tipo AS tipo_suscripcion
+                                FROM coche
+                                JOIN usuario ON coche.id_usuario = usuario.identificacion
+                                LEFT JOIN suscripcion_usuario sus 
+                                    ON sus.identificacion = usuario.identificacion 
+                                    AND sus.activo = TRUE
+                                WHERE sus.tipo IS NULL
+                                LIMIT 6
+                            ");
+                        $obtener_coche_normal->execute();
+                        $resultado = $obtener_coche_normal->get_result();
+                        $vehiculos_normales = $resultado->fetch_all(MYSQLI_ASSOC);
+
+                        if (count($vehiculos_normales) > 0) {
+                            foreach ($vehiculos_normales as $vehiculo_normal) {
+
+                                // Consulta para obtener la primera imagen del coche
+                                $obtener_primera_imagen = $_conexion->prepare("
+                                        SELECT ruta_img_coche
+                                        FROM imagen_coche
+                                        WHERE id_coche = ?
+                                        LIMIT 1
+                                    ");
+                                $obtener_primera_imagen->bind_param("s", $vehiculo_normal['matricula']);
+                                $obtener_primera_imagen->execute();
+                                $resultado_imagen = $obtener_primera_imagen->get_result();
+
+                                // Verificar si se encontró una imagen
+                                if ($resultado_imagen->num_rows > 0) {
+                                    $imagen_normal = $resultado_imagen->fetch_assoc();
+                                    $imagen_normal = $imagen_normal['ruta_img_coche'];
+                                } else {
+                                    $imagen_normal = 'ruta/por/defecto.jpg'; // Imagen por defecto si no se encuentra
+                                }
+
+                                echo "
+                                        <div class='col'>
+                                            <a href='/src/pages/rentacar/coche?matricula=" . $vehiculo_normal['matricula'] . "' class='text-decoration-none text-dark'>
+                                            <div class='card shadow'>
+                                                <img src='" . $imagen_normal . "' class='card-img-top'>
+                                                <div class='card-body'>
+                                                    <h5 class='card-title'>" . $vehiculo_normal['marca'] . "</h5>
+                                                    <p class='card-text'><strong>" . $vehiculo_normal['modelo'] . "</strong></p>
+                                                    <p class='card-text'><strong>" . $vehiculo_normal['codigo_postal'] . " " . $vehiculo_normal['ciudad'] . "</strong></p>
+                                                    <p class='card-text text-success'>" . $vehiculo_normal['precio'] . "€/día</p>
+                                                </div>
+                                            </div>
+                                            </a>
+                                        </div>
+                                    ";
+                            }
+                        }
+                        ?>
+                    </div><br>
+                </div>
+            </div>
+            <?php }?>
         </div>
     </div>
 

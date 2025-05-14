@@ -7,8 +7,7 @@
     <title>SocialiCar - Comparte tu coche</title>
     <?php include_once '../../components/links.php'; ?>
     <link rel="icon" href="../../../src/img/favicon.png" />
-    <link rel="stylesheet" href="../../styles/nuevo_coche.css">
-
+    <link rel="stylesheet" href="../../styles/nuevo_coche_custom.css"> 
     <?php
     error_reporting(E_ALL);
     ini_set("display_errors", 1);
@@ -16,8 +15,9 @@
     require(__DIR__ . "/../../config/conexion.php");
 
     session_start();
-    if (!isset($_SESSION["usuario"])) {
-        header("location: ../../../index.php");
+    // Redirigir si no hay sesión iniciada
+    if (!isset($_SESSION['usuario'])) {
+        header("Location: ../../../");
         exit();
     }
     ?>
@@ -27,7 +27,6 @@
             font-size: 1em;
         }
     </style>
-
 </head>
 
 <body class="d-flex flex-column min-vh-100">
@@ -37,6 +36,18 @@
         $tmp_matricula = depurar($_POST['matricula']);
         $tmp_precio = depurar($_POST['precio']);
         $id_usuario = $_SESSION["usuario"]["identificacion"];
+
+        if ($_POST["lat"] != "") {
+            $lat = $_POST["lat"];
+        } else {
+            $lat = 0;
+        }
+
+        if ($_POST["lon"] != "") {
+            $lon = $_POST["lon"];
+        } else {
+            $lon = 0;
+        }
 
         if (isset($_POST['marca'])) {
             $tmp_marca = depurar($_POST['marca']);
@@ -58,20 +69,17 @@
 
         $tmp_anno_matriculacion = depurar($_POST['anno_matriculacion']);
         $tmp_kilometros = depurar($_POST['kilometros']);
-        $tmp_direccion = depurar($_POST['direccion']);
-        $tmp_cp = depurar($_POST['cp']);
-        $tmp_provincia = depurar($_POST['provincia']);
-        $tmp_ciudad = depurar($_POST['ciudad']);
+        $tmp_direccion = $_POST['direccion'];
         $tmp_descripcion = depurar($_POST['descripcion']);
         $tmp_potencia = $_POST['potencia'];
         $tmp_numero_puertas = $_POST['numero_puertas'];
         $tmp_numero_plazas = $_POST['numero_plazas'];
 
 
-        if (isset($_POST['movilidad_reducia']) && $_POST['movilidad_reducia'] == 'on') {
-            $movilidad_reducia = 1;
+        if (isset($_POST['movilidad_reducida']) && $_POST['movilidad_reducida'] == 'on') {
+            $movilidad_reducida = 1;
         } else {
-            $movilidad_reducia = 0;
+            $movilidad_reducida = 0;
         }
 
         if (isset($_POST['gps']) && $_POST['gps'] == 'on') {
@@ -278,7 +286,7 @@
         if ($tmp_modelo == "") {
             $err_modelo = "Debes indicar el modelo de tu coche";
         } else {
-            if (strlen($tmp_modelo) > 20) {
+            if (strlen($tmp_modelo) > 50) {
                 $err_modelo = "El modelo no puede tener más de 50 caracteres";
             } else {
                 $modelo = $tmp_modelo; /* Agregar más adelante la comprovación con la API de los modelos */
@@ -323,47 +331,32 @@
         if ($tmp_direccion == "") {
             $err_direccion = "Debes indicar la dirección de tu coche";
         } else {
-            if (strlen($tmp_direccion) > 50) {
-                $err_direccion = "La dirección no puede tener más de 50 caracteres";
-            } else {
-                $direccion = $tmp_direccion;
-            }
-        }
+            // Dividimos la dirección por comas
+            $partes_direccion = explode(",", $tmp_direccion);
+            $total = count($partes_direccion);
 
-        /* Validación de código postal */
-        if ($tmp_cp == "") {
-            $err_cp = "Debes indicar el código postal de tu coche";
-        } else {
-            if (!is_numeric($tmp_cp)) {
-                $err_cp = "El código postal debe ser un número";
+            // Verificamos que la dirección tiene al menos 5 partes
+            if ($total < 5) {
+                $err_direccion = "La dirección debe tener al menos 5 partes: Calle, Ciudad, Provincia, Código Postal, País.";
             } else {
-                if (strlen($tmp_cp) != 5) {
-                    $err_cp = "El código postal debe tener 5 dígitos";
+                // Obtenemos las partes de la dirección
+                $ciudad = trim($partes_direccion[$total - 4]);
+                $provincia = trim($partes_direccion[$total - 3]);
+                $cp = trim($partes_direccion[$total - 2]);
+                $pais = trim($partes_direccion[$total - 1]);
+
+                // Validamos el formato del código postal
+                if (!is_numeric($cp) || strlen($cp) != 5) {
+                    $err_direccion = "El código postal no tiene un formato válido. Debe tener 5 dígitos.";
+                    $err_extra_formato = "<br>El formato de dirección debe ser: Calle Ejemplo, Ciudad, Provincia, Codigo Postal (5 dígitos), País.";
                 } else {
-                    $cp = $tmp_cp;
+                    if (strtolower($pais) !== "españa") {
+                        $err_direccion = "La dirección debe estar en España.";
+                        $err_extra_formato = "<br>El formato de dirección debe ser: Calle Ejemplo, Ciudad, Provincia, Codigo Postal, España.";
+                    } else {
+                        $direccion = $tmp_direccion;
+                    }
                 }
-            }
-        }
-
-        /* Validación de provincia */
-        if ($tmp_provincia == "") {
-            $err_provincia = "Debes indicar la provincia de tu coche";
-        } else {
-            if (strlen($tmp_provincia) > 20) {
-                $err_provincia = "La provincia no puede tener más de 20 caracteres";
-            } else {
-                $provincia = $tmp_provincia; /* Agregar más adelante la comprovación con la API de las provincias */
-            }
-        }
-
-        /* Validación de ciudad */
-        if ($tmp_ciudad == "") {
-            $err_ciudad = "Debes indicar la ciudad de tu coche";
-        } else {
-            if (strlen($tmp_ciudad) > 20) {
-                $err_ciudad = "La ciudad no puede tener más de 20 caracteres";
-            } else {
-                $ciudad = $tmp_ciudad; /* Agregar más adelante la comprovación con la API de las ciudades */
             }
         }
 
@@ -574,14 +567,12 @@
     ?>
 
     <?php include_once '../../components/navbar.php'; ?>
-
-    <br>
-    <br>
+<div class="container">
     <form action="#" id="formulario" method="post" enctype="multipart/form-data">
         <div class="container mt-5 pt-5">
-            <div class="container card py-4">
-                <h3 class="text-start">Informacion basica</h3>
-                <div class="row justify-content-center pt-3">
+            <div class="card py-4 px-2 px-md-4">
+                <h3 class="text-start mb-4">Información básica</h3>
+                <div class="row gy-3 justify-content-center">
                     <?php
                     // API para obtener las marcas de coches
                     $apiUrlMarcas = "https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json";
@@ -600,9 +591,9 @@
                     ?>
 
                     <!-- Marca -->
-                    <div class="col">
+                    <div class="col-12 col-md-3">
                         <div class="form-floating">
-                            <select class="form-select" id="marca" name="marca">
+                            <select class="form-select <?php if (isset($err_marca)) echo 'is-invalid'; ?>" id="marca" name="marca">
                                 <option disabled selected hidden>Marca*</option>
                                 <?php foreach ($marcas as $marcaItem) { ?>
                                     <option value="<?php echo $marcaItem["MakeName"]; ?>"
@@ -621,9 +612,9 @@
                     </div>
 
                     <!-- Modelo -->
-                    <div class="col">
+                    <div class="col-12 col-md-3">
                         <div class="form-floating">
-                            <select class="form-select" id="modelo" name="modelo" data-selected="<?php echo htmlspecialchars($modeloSeleccionado); ?>">
+                            <select class="form-select <?php if (isset($err_modelo)) echo 'is-invalid'; ?>" id="modelo" name="modelo" data-selected="<?php echo htmlspecialchars($modeloSeleccionado); ?>">
                                 <option disabled selected hidden>Modelo*</option>
                             </select>
                             <label for="modelo">Modelo</label>
@@ -636,10 +627,10 @@
                     </div>
 
                     <!-- Año de matriculación -->
-                    <div class="col">
+                    <div class="col-12 col-md-3">
                         <div class="form-floating">
-                            <input class="form-control" placeholder="Año de matriculacion" id="inputMes" type="month" name="anno_matriculacion" value="<?php if (isset($_POST['anno_matriculacion'])) echo htmlspecialchars($_POST['anno_matriculacion']); ?>">
-                            <label for="inputMes">Año de matriculacion</label>
+                            <input class="form-control <?php if (isset($err_anno_matriculacion)) echo 'is-invalid'; ?>" placeholder="Año de matriculacion" id="inputMes" type="month" name="anno_matriculacion" value="<?php if (isset($_POST['anno_matriculacion'])) echo htmlspecialchars($_POST['anno_matriculacion']); ?>">
+                            <label for="inputMes">Año de matriculación</label>
                             <?php
                             if (isset($err_anno_matriculacion)) {
                                 echo "<span class='error'>$err_anno_matriculacion</span>";
@@ -649,10 +640,10 @@
                     </div>
 
                     <!-- Matrícula -->
-                    <div class="col">
+                    <div class="col-12 col-md-3">
                         <div class="form-floating">
-                            <input class="form-control" id="floatingInput" type="text" placeholder="Matricula*" name="matricula" value="<?php if (isset($matricula)) echo htmlspecialchars($matricula); ?>">
-                            <label for="floatingInput">Matricula</label>
+                            <input class="form-control <?php if (isset($err_matricula)) echo 'is-invalid'; ?>" id="floatingInput" type="text" placeholder="Matricula*" name="matricula" value="<?php if (isset($matricula)) echo htmlspecialchars($matricula); ?>">
+                            <label for="floatingInput">Matrícula</label>
                             <?php
                             if (isset($err_matricula)) {
                                 echo "<span class='error'>$err_matricula</span>";
@@ -660,6 +651,7 @@
                             ?>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -672,23 +664,23 @@
 
             <div class="container card">
                 <br>
-                <h3>Informacion del vehiculo</h3>
+                <h3>Información del vehículo</h3>
                 <div class="row justify-content-center pt-3">
                     <div class="mb-3 col-6">
                         <div class="form-floating">
-                            <input class="form-control" id="kilometros" type="number" placeholder="Kilómetros*" name="kilometros" value="<?php if (isset($kilometros)) echo "$kilometros" ?>">
-                            <label for="kilometros">Kilometros</label>
+                            <input class="form-control <?php if (isset($err_kilometros)) echo 'is-invalid'; ?>" id="kilometros" type="number" placeholder="Kilómetros*" name="kilometros" value="<?php if (isset($kilometros)) echo "$kilometros" ?>">
+                            <label for="kilometros">Kilómetros</label>
                             <?php
                             if (isset($err_kilometros)) {
                                 echo "<span class='error'>$err_kilometros</span>";
                             }
                             ?>
                         </div>
-
                     </div>
+
                     <div class="mb-3 col-6">
                         <div class="form-floating">
-                            <Select class="form-select" id="tipo_combustible" name="tipo_combustible">
+                            <select class="form-select <?php if (isset($err_tipo_combustible)) echo 'is-invalid'; ?>" id="tipo_combustible" name="tipo_combustible">
                                 <option disabled selected hidden>Tipo de combustible*</option>
                                 <option value="gasolina"
                                     <?php if (isset($_POST['tipo_combustible']) && $_POST['tipo_combustible'] == "gasolina") echo "selected"; ?>>
@@ -700,7 +692,7 @@
                                 </option>
                                 <option value="hibrido"
                                     <?php if (isset($_POST['tipo_combustible']) && $_POST['tipo_combustible'] == "hibrido") echo "selected"; ?>>
-                                    Hibrido
+                                    Híbrido
                                 </option>
                                 <option value="electrico"
                                     <?php if (isset($_POST['tipo_combustible']) && $_POST['tipo_combustible'] == "electrico") echo "selected"; ?>>
@@ -714,7 +706,7 @@
                                     <?php if (isset($_POST['tipo_combustible']) && $_POST['tipo_combustible'] == "gnc") echo "selected"; ?>>
                                     GNC
                                 </option>
-                            </Select>
+                            </select>
                             <label for="tipo_combustible">Tipo de combustible</label>
                             <?php
                             if (isset($err_tipo_combustible)) {
@@ -722,59 +714,47 @@
                             }
                             ?>
                         </div>
-
                     </div>
 
                     <div class="mb-3 col-6">
                         <div class="form-floating">
-                            <select class="form-select" id="tipo" name="tipo">
+                            <select class="form-select <?php if (isset($err_tipo)) echo 'is-invalid'; ?>" id="tipo" name="tipo">
                                 <option disabled selected hidden>Tipo de coche*</option>
-                                <option value="berlina"
-                                    <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "berlina") echo "selected"; ?>>
+                                <option value="berlina" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "berlina") echo "selected"; ?>>
                                     Berlina
                                 </option>
-                                <option value="coupe"
-                                    <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "coupe") echo "selected"; ?>>
+                                <option value="coupe" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "coupe") echo "selected"; ?>>
                                     Coupé
                                 </option>
-                                <option value="deportivo"
-                                    <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "deportivo") echo "selected"; ?>>
+                                <option value="deportivo" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "deportivo") echo "selected"; ?>>
                                     Deportivo
                                 </option>
-                                <option value="furgoneta"
-                                    <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "furgoneta") echo "selected"; ?>>
+                                <option value="furgoneta" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "furgoneta") echo "selected"; ?>>
                                     Furgoneta
                                 </option>
-                                <option value="monovolumen"
-                                    <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "monovolumen") echo "selected"; ?>>
+                                <option value="monovolumen" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "monovolumen") echo "selected"; ?>>
                                     Monovolumen
                                 </option>
-                                <option value="suv"
-                                    <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "suv") echo "selected"; ?>>
+                                <option value="suv" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "suv") echo "selected"; ?>>
                                     SUV
                                 </option>
-                                <option value="pick-up"
-                                    <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "pick-up") echo "selected"; ?>>
+                                <option value="pick-up" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "pick-up") echo "selected"; ?>>
                                     Pick-up
                                 </option>
-                                <option value="roadster"
-                                    <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "roadster") echo "selected"; ?>>
+                                <option value="roadster" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "roadster") echo "selected"; ?>>
                                     Roadster
                                 </option>
-                                <option value="utilitario"
-                                    <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "utilitario") echo "selected"; ?>>
+                                <option value="utilitario" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "utilitario") echo "selected"; ?>>
                                     Utilitario
                                 </option>
-                                <option value="familiar"
-                                    <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "familiar") echo "selected"; ?>>
+                                <option value="familiar" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "familiar") echo "selected"; ?>>
                                     Familiar
                                 </option>
-                                <option value="autocaravana"
-                                    <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "autocaravana") echo "selected"; ?>>
+                                <option value="autocaravana" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "autocaravana") echo "selected"; ?>>
                                     Autocaravana
                                 </option>
                             </select>
-                            <label for="tipo_combustible">Tipo de coche</label>
+                            <label for="tipo">Tipo de coche</label>
 
                             <?php
                             if (isset($err_tipo)) {
@@ -782,45 +762,43 @@
                             }
                             ?>
                         </div>
-
-
                     </div>
+
+
                     <div class="mb-3 col-6">
                         <div class="form-floating">
-                            <Select class="form-select" id="transmision" name="transmision">
+                            <select class="form-select <?php if (isset($err_transmision)) echo 'is-invalid'; ?>" id="transmision" name="transmision">
                                 <option disabled selected hidden>Transmisión*</option>
-                                <option value="manual"
-                                    <?php if (isset($_POST['transmision']) && $_POST['transmision'] == "manual") echo "selected"; ?>>
+                                <option value="manual" <?php if (isset($_POST['transmision']) && $_POST['transmision'] == "manual") echo "selected"; ?>>
                                     Manual
                                 </option>
-                                <option value="automatico"
-                                    <?php if (isset($_POST['transmision']) && $_POST['transmision'] == "automatico") echo "selected"; ?>>
+                                <option value="automatico" <?php if (isset($_POST['transmision']) && $_POST['transmision'] == "automatico") echo "selected"; ?>>
                                     Automática
                                 </option>
-                            </Select>
-                            <label for="transmision">Transmision</label>
+                            </select>
+                            <label for="transmision">Transmisión</label>
                             <?php
                             if (isset($err_transmision)) {
                                 echo "<span class='error'>$err_transmision</span>";
                             }
                             ?>
                         </div>
-
                     </div>
+
                     <div class="mb-3 col-6">
                         <div class="form-floating">
-                            <select class="form-select" id="color" name="color" required>
+                            <select class="form-select <?php if (isset($err_color)) echo 'is-invalid'; ?>" id="color" name="color" required>
                                 <option disabled selected hidden>Color*</option>
-                                <option value="white">Blanco</option>
-                                <option value="black">Negro</option>
-                                <option value="gray">Gris</option>
-                                <option value="red">Rojo</option>
-                                <option value="blue">Azul</option>
-                                <option value="green">Verde</option>
-                                <option value="yellow">Amarillo</option>
-                                <option value="orange">Naranja</option>
-                                <option value="brown">Marrón</option>
-                                <option value="others">Otros</option>
+                                <option value="white" <?php if (isset($_POST['color']) && $_POST['color'] == "white") echo "selected"; ?>>Blanco</option>
+                                <option value="black" <?php if (isset($_POST['color']) && $_POST['color'] == "black") echo "selected"; ?>>Negro</option>
+                                <option value="gray" <?php if (isset($_POST['color']) && $_POST['color'] == "gray") echo "selected"; ?>>Gris</option>
+                                <option value="red" <?php if (isset($_POST['color']) && $_POST['color'] == "red") echo "selected"; ?>>Rojo</option>
+                                <option value="blue" <?php if (isset($_POST['color']) && $_POST['color'] == "blue") echo "selected"; ?>>Azul</option>
+                                <option value="green" <?php if (isset($_POST['color']) && $_POST['color'] == "green") echo "selected"; ?>>Verde</option>
+                                <option value="yellow" <?php if (isset($_POST['color']) && $_POST['color'] == "yellow") echo "selected"; ?>>Amarillo</option>
+                                <option value="orange" <?php if (isset($_POST['color']) && $_POST['color'] == "orange") echo "selected"; ?>>Naranja</option>
+                                <option value="brown" <?php if (isset($_POST['color']) && $_POST['color'] == "brown") echo "selected"; ?>>Marrón</option>
+                                <option value="others" <?php if (isset($_POST['color']) && $_POST['color'] == "others") echo "selected"; ?>>Otros</option>
                             </select>
                             <label for="color">Color</label>
 
@@ -830,11 +808,11 @@
                             }
                             ?>
                         </div>
-
                     </div>
+
                     <div class="mb-3 col-6">
                         <div class="form-floating">
-                            <input class="form-control" min="30" max="2000" id="potencia" type="number" placeholder="Potencia*" name="potencia" value="<?php if (isset($potencia)) echo "$potencia" ?>">
+                            <input class="form-control <?php if (isset($err_potencia)) echo 'is-invalid'; ?>" min="30" max="2000" id="potencia" type="number" placeholder="Potencia*" name="potencia" value="<?php if (isset($potencia)) echo "$potencia" ?>">
                             <label for="potencia">Potencia</label>
                             <?php
                             if (isset($err_potencia)) {
@@ -842,11 +820,11 @@
                             }
                             ?>
                         </div>
-
                     </div>
+
                     <div class="mb-3 col-6">
                         <div class="form-floating">
-                            <input class="form-control" min="2" max="5" id="numero_puertas" type="number" placeholder="Numero de puertas*" name="numero_puertas" value="<?php if (isset($puertas)) echo "$puertas" ?>">
+                            <input class="form-control <?php if (isset($err_numero_puertas)) echo 'is-invalid'; ?>" min="2" max="5" id="numero_puertas" type="number" placeholder="Numero de puertas*" name="numero_puertas" value="<?php if (isset($puertas)) echo "$puertas" ?>">
                             <label for="numero_puertas">Numero de puertas</label>
                             <?php
                             if (isset($err_numero_puertas)) {
@@ -854,24 +832,23 @@
                             }
                             ?>
                         </div>
-
                     </div>
+
                     <div class="mb-3 col-6">
                         <div class="form-floating">
-                            <input class="form-control" min="1" max="9" id="numero_plazas" type="number" placeholder="Numero de plazas*" name="numero_plazas" value="<?php if (isset($plazas)) echo "$plazas" ?>">
-                            <label for="numero_puertas">Numero de puertas</label>
-
+                            <input class="form-control <?php if (isset($err_numero_plazas)) echo 'is-invalid'; ?>" min="1" max="9" id="numero_plazas" type="number" placeholder="Numero de plazas*" name="numero_plazas" value="<?php if (isset($plazas)) echo "$plazas" ?>">
+                            <label for="numero_plazas">Numero de plazas</label>
                             <?php
                             if (isset($err_numero_plazas)) {
                                 echo "<span class='error'>$err_numero_plazas</span>";
                             }
                             ?>
                         </div>
-
                     </div>
+
                     <div>
                         <div class="form-floating">
-                            <textarea class="form-control" name="descripcion" id="floatingTextarea2" rows="3" style="height: 100px" placeholder="Descripcion*"><?php if (isset($descripcion)) echo "$descripcion"; ?></textarea>
+                            <textarea class="form-control <?php if (isset($err_descripcion)) echo 'is-invalid'; ?>" name="descripcion" id="floatingTextarea2" rows="3" style="height: 100px" placeholder="Descripcion*"><?php if (isset($descripcion)) echo "$descripcion"; ?></textarea>
                             <label for="floatingTextarea2">Descripcion</label>
                             <?php
                             if (isset($err_descripcion)) {
@@ -880,8 +857,8 @@
                             ?>
                             <br>
                         </div>
-
                     </div>
+
 
                 </div>
             </div>
@@ -890,17 +867,25 @@
 
         <div class="container mt-5 pt-5">
             <div class="container card py-4">
-                <h3 class="text-start">Precio</h3>
+                <h3 class="text-start">Precio por día</h3>
 
                 <div class="d-flex flex-column align-items-center">
-                    <label id="totalPrecio" class="form-label fw-bold">Precio Diario: <span id="mostrarPrecio">15€</span></label>
+                    <label id="totalPrecio" class="form-label fw-bold">
+                        Precio Diario:
+                        <span id="mostrarPrecio">
+                            <?php if (isset($_POST['precio'])) echo $_POST['precio'] . "€";
+                            else echo "15€"; ?>
+                        </span>
+                    </label>
 
-                    <input type="range" class="form-range w-75" name="precio" id="precio" min="15" max="500" step="1" value="15">
+                    <input type="range" class="form-range w-75 <?php if (isset($err_precio)) echo 'is-invalid'; ?>" name="precio" id="precio" min="15" max="500" step="1" value="<?php if (isset($_POST['precio'])) echo $_POST['precio'];
+                                                                                                                                                                                    else echo '15'; ?>">
 
                     <div class="d-flex justify-content-between text-muted mt-1 w-75">
                         <span>15€</span>
                         <span>500€</span>
                     </div>
+
                     <?php
                     if (isset($err_precio)) {
                         echo "<span class='error'>$err_precio</span>";
@@ -910,63 +895,32 @@
             </div>
         </div>
 
-
-
+        <!-- Dirección y Tipo de aparcamiento -->
         <div class="container mt-5 pt-5">
             <div class="container card py-4">
-                <h3 class="text-start">Ubicacion</h3>
+                <h3 class="text-start">Ubicación del vehículo</h3>
                 <div class="row justify-content-center pt-3">
-                    <div class="mb-3 col-6">
-                        <div class="form-floating">
-                            <input class="form-control" id="direccion" type="text" placeholder="Direccion*" name="direccion" value="<?php if (isset($direccion)) echo "$direccion" ?>">
-                            <label for="floatingInput">Direccion</label>
+                    <!-- Dirección -->
+                    <div class="mb-3 col-12 col-md-6">
+                        <div class="form-floating" style="position: relative;">
+                            <input type="text" class="form-control <?php if (isset($err_direccion)) echo 'is-invalid'; ?>" id="autocomplete" name="direccion" placeholder="Ej: Calle Ejemplo, Ciudad, Provincia, Codigo Postal, País" autocomplete="off" value="<?php if (isset($direccion)) echo "$direccion" ?>">
+                            <label for="autocomplete" class="form-label">Dirección*</label>
                             <?php
                             if (isset($err_direccion)) {
                                 echo "<span class='error'>$err_direccion</span>";
+                                if (isset($err_extra_formato)) {
+                                    echo "<span class='error'>$err_extra_formato</span>";
+                                }
                             }
                             ?>
+                            <div id="sugerencias" class="list-group mt-2" style="z-index:1000; position: absolute; width: 100%; max-height: 300px; overflow-y: auto; background-color: white; border: 1px solid #ccc; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);"></div>
                         </div>
-
                     </div>
-                    <div class="mb-3 col-6">
-                        <div class="form-floating">
-                            <input class="form-control" id="cp" type="number" placeholder="Código Postal*" name="cp" value="<?php if (isset($cp)) echo "$cp" ?>">
-                            <label for="cp">Codigo Postal</label>
-                            <?php
-                            if (isset($err_cp)) {
-                                echo "<span class='error'>$err_cp</span>";
-                            }
-                            ?>
-                        </div>
 
-                    </div>
-                    <div class="mb-3 col-6">
+                    <!-- Tipo de aparcamiento -->
+                    <div class="mb-3 col-12 col-md-6">
                         <div class="form-floating">
-                            <input class="form-control" id="provincia" type="text" placeholder="Provincia*" name="provincia" value="<?php if (isset($provincia)) echo "$provincia" ?>">
-                            <label for="provincia">Provincia</label>
-                            <?php
-                            if (isset($err_provincia)) {
-                                echo "<span class='error'>$err_provincia</span>";
-                            }
-                            ?>
-                        </div>
-
-                    </div>
-                    <div class="mb-3 col-6">
-                        <div class="form-floating">
-                            <input class="form-control" id="ciudad" type="text" placeholder="Ciudad*" name="ciudad" value="<?php if (isset($ciudad)) echo "$ciudad" ?>">
-                            <label for="floatingInput">Ciudad</label>
-                            <?php
-                            if (isset($err_ciudad)) {
-                                echo "<span class='error'>$err_ciudad</span>";
-                            }
-                            ?>
-                        </div>
-
-                    </div>
-                    <div class="mb-3 col-6">
-                        <div class="form-floating">
-                            <Select class="form-select" id="tipo_aparcamiento" name="tipo_aparcamiento">
+                            <select class="form-select <?php if (isset($err_tipo_aparcamiento)) echo 'is-invalid'; ?>" id="tipo_aparcamiento" name="tipo_aparcamiento">
                                 <option disabled selected hidden>Tipo de aparcamiento*</option>
                                 <option value="calle"
                                     <?php if (isset($_POST['tipo_aparcamiento']) && $_POST['tipo_aparcamiento'] == "calle") echo "selected"; ?>>
@@ -980,34 +934,38 @@
                                     <?php if (isset($_POST['tipo_aparcamiento']) && $_POST['tipo_aparcamiento'] == "parking") echo "selected"; ?>>
                                     Parking
                                 </option>
-                            </Select>
-                            <label for="floatingInput">Tipo de aparcamiento</label>
+                            </select>
+                            <label for="tipo_aparcamiento">Tipo de aparcamiento</label>
                             <?php
                             if (isset($err_tipo_aparcamiento)) {
                                 echo "<span class='error'>$err_tipo_aparcamiento</span>";
                             }
                             ?>
                         </div>
-
                     </div>
                 </div>
 
-
+                <!-- Coordenadas ocultas -->
+                <input type="hidden" name="lat" id="lat" value="<?php if (isset($lat)) echo "$lat" ?>">
+                <input type="hidden" name="lon" id="lon" value="<?php if (isset($lon)) echo "$lon" ?>">
             </div>
         </div>
 
+
+        <!-- Imagenes -->
         <div class="container mt-5 pt-5">
             <div class="container card py-4">
-                <h3>Imagenes</h3>
+                <h3>Imágenes</h3>
                 <div class="row justify-content-center pt-3">
                     <div class="col">
-                        <input class="form-control" id="img" type="file" name="img[]" multiple accept="image/png, image/jpg, image/jpeg">
+                        <input class="form-control <?php if (isset($err_imagen)) echo 'is-invalid'; ?>" id="img" type="file" name="img[]" multiple accept="image/png, image/jpg, image/jpeg">
                         <?php
                         if (isset($err_imagen)) {
                             echo "<span class='error'>$err_imagen</span>";
                         }
                         ?>
                     </div>
+
                 </div>
                 <div id="mostrar_img" class="d-flex flex-wrap gap-2 mt-3"></div>
             </div>
@@ -1031,24 +989,24 @@
         </div> -->
 
 
-        <div class="container mt-5 pt-5">
-            <div class="card py-4">
+        
 
-                <div class="row justify-content-center pt-3">
-                    <div class="col-auto">
-                        <button type="button" class="boton-redondo" data-bs-toggle="modal" data-bs-target="#miModal">
+
+                <div class="row g-2 pt-3">
+                    <div class="col-12 col-md-6">
+                        <button type="button" class="btn btn-primary btn-lg w-100" data-bs-toggle="modal" data-bs-target="#miModal">
                             Extras
                         </button>
                     </div>
-                    <div class="col-auto">
-                        <button type="submit" class="boton-redondo">
+                    <div class="col-12 col-md-6">
+                        <button type="submit" class="btn btn-primary btn-lg w-100">
                             Confirmar
                         </button>
                     </div>
                 </div>
 
-            </div>
-        </div>
+
+     
 
 
 
@@ -1221,8 +1179,8 @@
                                     </label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" id="movilidad_reducia" name="movilidad_reducia" <?php if (isset($_POST['movilidad_reducia'])) echo 'checked'; ?>>
-                                    <label for="movilidad_reducia">
+                                    <input type="checkbox" id="movilidad_reducida" name="movilidad_reducida" <?php if (isset($_POST['movilidad_reducida'])) echo 'checked'; ?>>
+                                    <label for="movilidad_reducida">
                                         Adaptado para personas con movilidad reducida
                                     </label>
                                 </div>
@@ -1240,23 +1198,30 @@
         </div>
         </div>
     </form>
+<br>
+    <?php include_once '../../components/footer-example.php'; ?>
+    <script src="../../js/mostrar_marcas.js"></script>
+    <script src="../../js/nuevo_coche.js"></script>
+    <script src="../../js/pre_imagen.js"></script>
+    <script src="../../js/obtener_direccion.js"></script>
+    <script src="../../js/precio_coche.js"></script>
 
     <?php
-    if (isset($matricula, $marca, $modelo, $precio, $anno_matriculacion, $kilometros, $direccion, $cp, $provincia, $ciudad, $tipo_combustible, $transmision, $tipo_aparcamiento, $tipo, $precio, $color, $plazas, $puertas, $potencia, $descripcion)) {
+    if (isset($matricula, $id_usuario, $seguro, $marca, $modelo, $anno_matriculacion, $kilometros, $tipo_combustible, $transmision, $direccion, $tipo_aparcamiento, $ruta_relativa, $tipo, $precio, $descripcion, $color, $plazas, $puertas, $potencia, $lat, $lon, $aire_acondicionado, $gps, $wifi, $sensores_aparcamiento, $camara_trasera, $control_de_crucero, $asientos_calefactables, $bola_remolque, $fijacion_isofix, $apple_carplay, $android_carplay, $baca, $portabicicletas, $portaequipajes, $portaesquis, $bluetooth, $cuatro_x_cuatro, $mascota, $fumar, $movilidad_reducida, $rutas_imagenes)) {
         /* Insertar coche */
-        $enviarCoche = $_conexion->prepare("INSERT INTO coche (
-                matricula, id_usuario, seguro, marca, modelo, anno_matriculacion, kilometros,
-                combustible, transmision, provincia, ciudad, codigo_postal, direccion,
-                tipo_aparcamiento, ruta_img_coche, tipo, precio, descripcion, color, plazas,
-                puertas, potencia
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $enviar_coche = $_conexion->prepare("INSERT INTO coche (
+            matricula, id_usuario, seguro, marca, modelo, anno_matriculacion, kilometros,
+            combustible, transmision, direccion, ciudad, provincia, codigo_postal, pais,
+            lat, lon, tipo_aparcamiento, ruta_img_coche, tipo, precio, descripcion, color,
+             plazas, puertas, potencia) VALUES (
+            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-        if (!$enviarCoche) {
+        if (!$enviar_coche) {
             die('Error en prepare coche: ' . $_conexion->error);
         }
 
-        $enviarCoche->bind_param(
-            "ssisssissssissssissiii",
+        $enviar_coche->bind_param(
+            "ssisssissssisddisssissiii",
             $matricula,
             $id_usuario,
             $seguro,
@@ -1266,10 +1231,13 @@
             $kilometros,
             $tipo_combustible,
             $transmision,
-            $provincia,
-            $ciudad,
-            $cp,
             $direccion,
+            $ciudad,
+            $provincia,
+            $cp,
+            $pais,
+            $lat,
+            $lon,
             $tipo_aparcamiento,
             $ruta_relativa,
             $tipo,
@@ -1281,7 +1249,7 @@
             $potencia
         );
 
-        if (!$enviarCoche->execute()) {
+        if (!$enviar_coche->execute()) {
             die('Error al insertar coche: ' . $enviarCoche->error);
         }
 
@@ -1343,15 +1311,14 @@
             }
         }
 
-        /* echo "<script>alert('Coche añadido correctamente');</script>"; */
+        /* Redirigir a la página de inicio */
+        echo "<script>
+                window.location.href = '/src/pages/rentacar/coche?matricula=" . $matricula . "';
+              </script>";
+        exit();
     }
     ?>
-    <?php include_once '../../components/footer.php'; ?>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../../js/mostrar_marcas.js"></script>
-    <script src="../../js/nuevo_coche.js"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script> -->
-    <script src="../../js/pre_imagen.js"></script>
+
 
 </body>
 

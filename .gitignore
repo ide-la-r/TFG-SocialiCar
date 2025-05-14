@@ -1,6 +1,7 @@
 ### dotenv ###
 .env
-
+.env.json
+/src/config/config.js
 # Generated files
 .phpunit.result.cache
 .phpunit.cache

@@ -1,6 +1,48 @@
 RewriteEngine On
 
-# Eliminar la extensión .php
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME} !-f
+# Bloquear la visualización de índices de directorios en todo el sitio
+Options -Indexes
+
+# Bloquear acceso a archivos sensibles como .env y .json (se quitó config.js)
+<FilesMatch "^(\.env|.*\.json)$">
+  Order allow,deny
+  Deny from all
+</FilesMatch>
+
+# Eliminar extensión .php si existe el archivo
+RewriteCond %{REQUEST_FILENAME}.php -f
 RewriteRule ^(.+)$ $1.php [QSA,L]
+
+# Evitar acceso a la raíz de /src/ (Index of /src/)
+RewriteCond %{REQUEST_URI} ^/src/$
+RewriteRule ^ - [F,L]
+
+# Evitar acceso a la raíz de /clients/ (Index of /clients/)
+RewriteCond %{REQUEST_URI} ^/clients/$
+RewriteRule ^ - [F,L]
+
+# Evitar acceso a cualquier carpeta dentro de /src/
+RewriteCond %{REQUEST_URI} ^/src/(config|fonts|img|js|styles|video)/$
+RewriteRule ^ - [F,L]
+
+# Evitar acceso a la raíz de /src/pages/ (Index of /src/pages/)
+RewriteCond %{REQUEST_URI} ^/src/pages/$
+RewriteRule ^ - [F,L]
+
+# Permitir acceso solo a las rutas específicas dentro de /src/pages/
+RewriteCond %{REQUEST_URI} !^/src/pages/(chat|coche|informacion|pago|rentacar|usuario)/
+RewriteRule ^/src/pages/ - [F,L]
+
+# Evitar acceso directo a subdirectorios individuales en /clients/img/
+RewriteCond %{REQUEST_URI} ^/clients/img/[^/]+$
+RewriteRule ^ - [F,L]
+
+# Página de error 403 (prohibido)
+ErrorDocument 403 /src/pages/error/403.php
+
+# Mostrar error 404 personalizado solo si no es clients ni principal
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !^/clients
+RewriteCond %{REQUEST_URI} !^/principal
+RewriteRule ^.*$ /src/pages/error/404.php [L]
