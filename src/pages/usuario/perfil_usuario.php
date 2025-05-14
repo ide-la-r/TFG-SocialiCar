@@ -298,7 +298,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </div>
     </div>
-    <?php include_once '../../components/footer.php'; ?>
+    <?php include_once '../../components/footer-example.php';?>
     <script src="../../js/borrar_imagen.js"></script>
     <script src="../../js/confirmar_borrar.js"></script>
 </body>
