@@ -108,36 +108,38 @@ require(__DIR__ . "/src/config/conexion.php");
 
     </style>
     <!-- buscador -->
-    <div class="container my-5">
-        <div class="card p-4 shadow mx-auto" style="max-width: 120vh; border-radius: 50px !important;">
-            <div class="row g-3 justify-content-center">
-                <!-- ubicacion -->
-                <div class="col-md-4">
-                    <select id="ciudad" class="form-select">
-                        <option selected>¿Dónde necesitas tu coche?</option>
-                        <option value="1">Málaga</option>
-                        <option value="2">Granada</option>
-                        <option value="3">Madrid</option>
-                        <option value="4">Valencia</option>
-                        <option value="5">Barcelona</option>
-                    </select>
-                </div>
-                <!-- fechas -->
-                <div class="col-md-3">
-                    <input type="text" id="fecha_inicio" class="form-control" placeholder="Fecha de inicio" onfocus="this.type='date';">
-                </div>
+    <form method="get" action="./src/pages/rentacar/mostrar_coches.php">
+        <div class="container my-5">
+            <div class="card p-4 shadow mx-auto" style="max-width: 120vh; border-radius: 50px !important;">
+                <div class="row g-3 justify-content-center">
+                    <!-- ubicacion -->
+                    <div class="col-md-4">
+                        <select id="ciudad" name="provincia" class="form-select">
+                            <option selected>¿Dónde necesitas tu coche?</option>
+                            <option value="malaga">Málaga</option>
+                            <option value="granada">Granada</option>
+                            <option value="madrid">Madrid</option>
+                            <option value="valencia">Valencia</option>
+                            <option value="barcelona">Barcelona</option>
+                        </select>
+                    </div>
+                    <!-- fechas -->
+                    <div class="col-md-3">
+                        <input type="text" id="fecha_inicio" name="fecha_inicio" class="form-control" placeholder="Fecha de inicio" onfocus="this.type='date';">
+                    </div>
 
-                <div class="col-md-3">
-                    <input type="text" id="fecha_fin" class="form-control" placeholder="Fecha de fin" onfocus="this.type='date';">
-                </div>
+                    <div class="col-md-3">
+                        <input type="text" id="fecha_fin" name="fecha_final" class="form-control" placeholder="Fecha de fin" onfocus="this.type='date';">
+                    </div>
 
-                <!-- buscar -->
-                <div class="col-md-2 d-flex align-items-end">
-                    <button class="btn btn-primary w-100 py-2">Buscar</button>
+                    <!-- buscar -->
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary w-100 py-2">Buscar</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
 
     <!-- alquila tu coche-->
     <div class="container my-5" style="background-color: rgba(255, 255, 255, 0.72); border-radius: 70px; width: 90%">
