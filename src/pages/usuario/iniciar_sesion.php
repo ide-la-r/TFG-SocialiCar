@@ -64,17 +64,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="card text-center card-sesion w-100 w-md-50 p-4 rounded-4 shadow mx-auto" style="max-width: 420px;">
             <h1 class="title pt-2 pb-3">Iniciar sesión</h1>
             <form method="post" action="">
-                <div class="row justify-content-center">
-                    <div class="mb-3 col-12 col-md-8 mx-auto form-floating">
-                        <input name="correo" id="correo" class="form-control <?php if (isset($err_correo)) echo 'is-invalid'; ?>" type="email" placeholder="Correo electrónico" value="<?= isset($correo) ? htmlspecialchars($correo) : '' ?>">
-                        <label for="correo">Correo electrónico</label>
-                        <?php if (isset($err_correo)) echo "<div class='error mt-1'>$err_correo</div>"; ?>
+                <div class="row gy-3">
+                    <div class="mb-2 col-12">
+                        <div class="form-floating">
+                            <input class="form-control <?php if (isset($err_correo)) echo 'is-invalid'; ?>" type="email" placeholder="Correo electrónico*" id="correo" name="correo" value="<?php if (isset($correo)) echo htmlspecialchars($correo); ?>">
+                            <label for="correo">Correo electrónico</label>
+                            <?php if (isset($err_correo)) echo "<span class='error'>$err_correo</span>"; ?>
+                        </div>
                     </div>
-
-                    <div class="mb-3 col-12 col-md-8 mx-auto form-floating">
-                        <input name="contrasena" id="contrasena" class="form-control <?php if (isset($err_contrasena)) echo 'is-invalid'; ?>" type="password" placeholder="Contraseña">
-                        <label for="contrasena">Contraseña</label>
-                        <?php if (isset($err_contrasena)) echo "<div class='error mt-1'>$err_contrasena</div>"; ?>
+                    <div class="mb-2 col-12">
+                        <div class="form-floating">
+                            <input class="form-control <?php if (isset($err_contrasena)) echo 'is-invalid'; ?>" type="password" placeholder="Contraseña*" id="contrasena" name="contrasena">
+                            <label for="contrasena">Contraseña</label>
+                            <?php if (isset($err_contrasena)) echo "<span class='error'>$err_contrasena</span>"; ?>
+                        </div>
                     </div>
                 </div>
 

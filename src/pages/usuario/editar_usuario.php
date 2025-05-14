@@ -184,7 +184,7 @@
             </form>
         </div>
     </div>
-    <?php include_once '../../components/footer.php'; ?>
+    <?php include_once '../../components/footer-example.php';?>
 </body>
 
 </html>
