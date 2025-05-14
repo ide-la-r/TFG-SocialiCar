@@ -3,6 +3,12 @@
     <div class="row justify-content-center">
       <div class="col-10 col-lg-6">
         <div class="subscribe mb-5">
+          <form action="#" class="subscribe-form">
+            <div class="form-group d-flex">
+              <input type="text" class="form-control rounded-left" placeholder="Enter email address">
+              <input type="submit" value="Subscribe" class="form-control submit px-3">
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -37,12 +43,21 @@
             </ul>
           </div>
           <div class="col-md-3 mb-md-0 mb-4 border-left">
+            <h2 class="footer-heading">Legal</h2>
+            <ul class="list-unstyled">
+              <li><a href="/src/pages/informacion/aviso_legal.php" class="py-1 d-block">Aviso legal</a></li>
+              <li><a href="/src/pages/informacion/politica_privacidad.php" class="py-1 d-block">Politica de privacidad</a></li>
+              <li><a href="/src/pages/informacion/politica_cookies.php" class="py-1 d-block">Cookies</a></li>
+              <li><a href="/src/pages/informacion/accesibilidad.php" class="py-1 d-block">Accesibilidad</a></li>
+            </ul>
+          </div>
+          <div class="col-md-3 mb-md-0 mb-4 border-left">
             <h2 class="footer-heading">Redes sociales</h2>
             <ul class="list-unstyled">
               <li><a href="https://www.facebook.com/people/SocialiCar-Rentacar/pfbid0eL6UbpgSWBv5jxYF5SV32DuJF645MRwvcVb1KXnVPvWNbfs8NYWQeHpUntVefi23l/" class="py-1 d-block">Facebook</a></li>
               <li><a href="https://x.com/socialicar_" class="py-1 d-block">Twitter</a></li>
               <li><a href="https://www.instagram.com/socialicar/" class="py-1 d-block">Instagram</a></li>
-              <li><a href="#" class="py-1 d-block">TikTok</a></li>
+              <li><a href="https://www.tiktok.com/@socialicar" class="py-1 d-block">TikTok</a></li>
             </ul>
           </div>
         </div>
@@ -59,7 +74,7 @@
               <a href="#"><span class="ion-logo-ionic mr-2"></span>Pablo Monis Alvarez</a>
               <a href="#"><span class="ion-logo-ionic mr-2"></span>Francisco Cortes Pirson</a>
               <a href="#"><span class="ion-logo-ionic mr-2"></span>Raul Martin Gonzalez</a>
-              <a href="#"><span class="ion-logo-ionic mr-2"></span>Ismael me la roza</a>
+              <a href="#"><span class="ion-logo-ionic mr-2"></span>Ismael de la rosa guerrero</a>
             </p>
           </div>
           <div class="col text-md-right">
@@ -68,27 +83,28 @@
         </div>
       </div>
     </div>
-    <div class="row mt-5">
+    <!--     <div class="row mt-5">
       <div class="col-md-6 col-lg-8">
 
-        <p class="copyright"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-          Copyright &copy;<script>
+    
+          Socilicar &copy;<script>
             document.write(new Date().getFullYear());
-          </script> All rights reserved | This template is made with <i class="ion-ios-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib.com</a>
-          <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+          </script>  
+          
       </div>
-      <div class="col-md-6 col-lg-4 text-md-right">
+                  <div class="col-md-6 col-lg-4 text-md-right">  
         <p class="mb-0 list-unstyled">
-          <a class="mr-md-3" href="#">Terms</a>
-          <a class="mr-md-3" href="#">Privacy</a>
-          <a class="mr-md-3" href="#">Compliances</a>
+          <a class="mr-md-3" href="../pages/informacion/aviso_legal.php">Aviso Legal</a>
+          <a class="mr-md-3" href="../pages/informacion/politica_privacidad.php">Politica de Privacidad</a>
+          <a class="mr-md-3" href="../pages/informacion/cookies.php">Cookies</a>
+          <a class="mr-md-3" href="../pages/informacion/accesibilidad.php">Accesibilidad</a>
         </p>
-      </div>
-    </div>
+      </div> 
+    </div> -->
   </div>
 </footer>
-    <script src="/src/js/jquery.min.js"></script>
-    <script src="/src/js/popper.js"></script>
-    <script src="/src/js/bootstrap.min.js"></script>
-    <script src="/src/js/main.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/src/js/jquery.min.js"></script>
+<script src="/src/js/popper.js"></script>
+<script src="/src/js/bootstrap.min.js"></script>
+<script src="/src/js/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
