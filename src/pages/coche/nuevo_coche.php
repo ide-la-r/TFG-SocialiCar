@@ -7,7 +7,7 @@
     <title>SocialiCar - Comparte tu coche</title>
     <?php include_once '../../components/links.php'; ?>
     <link rel="icon" href="../../../src/img/favicon.png" />
-    <link rel="stylesheet" href="../../styles/nuevo_coche.css">
+    <link rel="stylesheet" href="../../styles/nuevo_coche_custom.css"> 
     <?php
     error_reporting(E_ALL);
     ini_set("display_errors", 1);
@@ -567,9 +567,7 @@
     ?>
 
     <?php include_once '../../components/navbar.php'; ?>
-
-    <br>
-    <br>
+<div class="container">
     <form action="#" id="formulario" method="post" enctype="multipart/form-data">
         <div class="container mt-5 pt-5">
             <div class="card py-4 px-2 px-md-4">
@@ -991,24 +989,24 @@
         </div> -->
 
 
-        <div class="container mt-5 pt-5">
-            <div class="card py-4">
+        
 
-                <div class="row justify-content-center pt-3">
-                    <div class="col-auto">
-                        <button type="button" class="boton-redondo" data-bs-toggle="modal" data-bs-target="#miModal">
+
+                <div class="row g-2 pt-3">
+                    <div class="col-12 col-md-6">
+                        <button type="button" class="btn btn-primary btn-lg w-100" data-bs-toggle="modal" data-bs-target="#miModal">
                             Extras
                         </button>
                     </div>
-                    <div class="col-auto">
-                        <button type="submit" class="boton-redondo">
+                    <div class="col-12 col-md-6">
+                        <button type="submit" class="btn btn-primary btn-lg w-100">
                             Confirmar
                         </button>
                     </div>
                 </div>
 
-            </div>
-        </div>
+
+     
 
 
 
@@ -1200,8 +1198,8 @@
         </div>
         </div>
     </form>
-
-    <?php include_once '../../components/footer.php'; ?>
+<br>
+    <?php include_once '../../components/footer-example.php'; ?>
     <script src="../../js/mostrar_marcas.js"></script>
     <script src="../../js/nuevo_coche.js"></script>
     <script src="../../js/pre_imagen.js"></script>

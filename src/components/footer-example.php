@@ -3,12 +3,6 @@
     <div class="row justify-content-center">
       <div class="col-10 col-lg-6">
         <div class="subscribe mb-5">
-          <form action="#" class="subscribe-form">
-            <div class="form-group d-flex">
-              <input type="text" class="form-control rounded-left" placeholder="Enter email address">
-              <input type="submit" value="Subscribe" class="form-control submit px-3">
-            </div>
-          </form>
         </div>
       </div>
     </div>
@@ -97,3 +91,4 @@
     <script src="/src/js/popper.js"></script>
     <script src="/src/js/bootstrap.min.js"></script>
     <script src="/src/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
