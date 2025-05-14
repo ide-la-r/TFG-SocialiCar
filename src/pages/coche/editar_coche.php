@@ -362,8 +362,7 @@
                 <div class="row justify-content-center pt-3">
                     <div class="mb-3 col-6">
                         <div class="form-floating">
-                            <input class="form-control <?php if (isset($err_kilometros)) echo 'is-invalid'; ?>" id="kilometros" type="number" placeholder="Kilómetros*" name="kilometros" value="<?php if (!isset($kilometros_nuevo)) echo $kilometros;
-                                                                                                                                                                                                    else echo $kilometros_nuevo; ?>">
+                            <input class="form-control <?php if (isset($err_kilometros)) echo 'is-invalid'; ?>" id="kilometros" type="number" placeholder="Kilómetros*" name="kilometros" value="<?php if (!isset($kilometros_nuevo)) echo $kilometros; else echo $kilometros_nuevo; ?>">
                             <label for="kilometros">Kilómetros</label>
                             <?php
                             if (isset($err_kilometros)) {
@@ -1103,6 +1102,119 @@
     <script src="../../js/pre_imagen.js"></script>
     <script src="../../js/obtener_direccion.js"></script>
     <script src="../../js/precio_coche.js"></script>
+
+    <?php
+        if (!isset($err_seguro, $err_marca, $err_modelo, $err_anno_matriculacion, $err_kilometros, $err_combustible, $err_transmision, $err_direccion, $err_ciudad, $err_provincia, $err_codigo_postal, $err_pais, $err_lat, $err_lon, $err_tipo_aparcamiento, $err_ruta_img_coche, $err_tipo, $err_precio, $err_descripcion, $err_color, $err_plazas, $err_puertas, $err_potencia)) {
+            /* Insertar coche */
+            $enviar_coche = $_conexion->prepare("INSERT INTO coche (
+                matricula, id_usuario, seguro, marca, modelo, anno_matriculacion, kilometros,
+                combustible, transmision, direccion, ciudad, provincia, codigo_postal, pais,
+                lat, lon, tipo_aparcamiento, ruta_img_coche, tipo, precio, descripcion, color,
+                plazas, puertas, potencia) VALUES (
+                ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+            if (!$enviar_coche) {
+                die('Error en prepare coche: ' . $_conexion->error);
+            }
+
+            $enviar_coche->bind_param(
+                "ssisssissssisddisssissiii",
+                $matricula_obtenida,
+                $id_usuario,
+                $seguro,
+                $marca,
+                $modelo,
+                $anno_matriculacion,
+                $kilometros,
+                $tipo_combustible,
+                $transmision,
+                $direccion,
+                $ciudad,
+                $provincia,
+                $cp,
+                $pais,
+                $lat,
+                $lon,
+                $tipo_aparcamiento,
+                $ruta_relativa,
+                $tipo,
+                $precio,
+                $descripcion,
+                $color,
+                $plazas,
+                $puertas,
+                $potencia
+            );
+
+            if (!$enviar_coche->execute()) {
+                die('Error al insertar coche: ' . $enviarCoche->error);
+            }
+
+            /* Insertar los extras */
+            $enviarExtras = $_conexion->prepare("INSERT INTO extras_coche (
+                    matricula, aire_acondicionado, gps, wifi, sensores_aparcamiento, 
+                    camara_trasera, control_de_crucero, asientos_calefactables, bola_remolque, 
+                    fijacion_isofix, apple_carplay, android_carplay, baca, portabicicletas, 
+                    portaequipajes, portaesquis, bluetooth, cuatro_x_cuatro, mascota, fumar, 
+                    movilidad_reducida
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+            if (!$enviarExtras) {
+                die('Error en prepare extras: ' . $_conexion->error);
+            }
+
+            $enviarExtras->bind_param(
+                "siiiiiiiiiiiiiiiiiiii",
+                $matricula,
+                $aire_acondicionado,
+                $gps,
+                $wifi,
+                $sensores_aparcamiento,
+                $camara_trasera,
+                $control_de_crucero,
+                $asientos_calefactables,
+                $bola_remolque,
+                $fijacion_isofix,
+                $apple_carplay,
+                $android_carplay,
+                $baca,
+                $portabicicletas,
+                $portaequipajes,
+                $portaesquis,
+                $bluetooth,
+                $cuatro_x_cuatro,
+                $mascota,
+                $fumar,
+                $movilidad_reducida
+            );
+
+            if (!$enviarExtras->execute()) {
+                die('Error al insertar extras: ' . $enviarExtras->error);
+            }
+
+            /* Insertar imagenes */
+            $enviarImagenes = $_conexion->prepare("INSERT INTO imagen_coche (id_coche, ruta_img_coche) VALUES (?, ?)");
+
+            if (!$enviarImagenes) {
+                die('Error en prepare imagenes: ' . $_conexion->error);
+            }
+
+            if (isset($rutas_imagenes) && is_array($rutas_imagenes)) {
+                foreach ($rutas_imagenes as $ruta) {
+                    $enviarImagenes->bind_param("ss", $matricula, $ruta);
+                    if (!$enviarImagenes->execute()) {
+                        die('Error al insertar imagen: ' . $enviarImagenes->error);
+                    }
+                }
+            }
+
+            /* Redirigir a la página de inicio */
+            echo "<script>
+                    window.location.href = '/src/pages/rentacar/coche?matricula=" . $matricula . "';
+                </script>";
+            exit();
+        }
+    ?>
 </body>
 
 </html>

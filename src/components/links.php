@@ -16,5 +16,5 @@
 <link rel="stylesheet" href="/src/styles/navbar.css">
 <link rel="stylesheet" href="/src/styles/footer.css">
 
-
-	
+<!-- Flatpickr calendar -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
