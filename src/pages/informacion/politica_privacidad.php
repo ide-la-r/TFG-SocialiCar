@@ -38,10 +38,10 @@
             <!-- Menú lateral muy estrecho -->
             <nav class="col-12 col-md-2 col-lg-2 py-4 sidebar-menu">
                 <div class="list-group sticky-top">
-                    <a href="../pages/informacion/aviso_legal.php" class="list-group-item list-group-item-action">Aviso legal</a>
-                    <a href="../pages/informacion/politica_privacidad.php" class="list-group-item list-group-item-action">Política de privacidad</a>
-                    <a href="../pages/informacion/cookies.php" class="list-group-item list-group-item-action">Cookies</a>
-                    <a href="../pages/informacion/accesibilidad.php" class="list-group-item list-group-item-action">Accesibilidad</a>
+                    <a href="/src/pages/informacion/aviso_legal.php" class="list-group-item list-group-item-action">Aviso legal</a>
+                    <a href="/src/pages/informacion/politica_privacidad.php" class="list-group-item list-group-item-action">Política de privacidad</a>
+                    <a href="/src/pages/informacion/politica_cookies.php" class="list-group-item list-group-item-action">Cookies</a>
+                    <a href="/src/pages/informacion/accesibilidad.php" class="list-group-item list-group-item-action">Accesibilidad</a>
                 </div>
             </nav>
             <!-- Contenido principal centrado y comprimido -->
