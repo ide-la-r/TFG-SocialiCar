@@ -22,14 +22,6 @@
 
 <body class="d-flex flex-column min-vh-100 bg-light">
 
-    <video id="video" autoplay muted playsinline>
-        <source src="/src/video/socialicar_2" type="video/mp4">
-        Tu navegador no soporta el formato de video.
-    </video>
-    <script>
-        document.getElementById('video').playbackRate = 1.5; // se reproduce a x1.5
-    </script>
-
 
     <!-- NAVBAR -->
     <?php include_once '../../components/navbar.php'; ?>
@@ -103,229 +95,185 @@
     ?>
 
 
+<!-- Botón para desplegar menú (flotante) -->
+<button 
+    id="toggleFiltros" 
+    class="btn btn-warning rounded-circle shadow-sm position-fixed"
+    style="right: 20px; top: 50%; transform: translateY(-50%); z-index: 1000;"
+    data-bs-toggle="offcanvas" 
+    data-bs-target="#filtrosOffcanvas"
+>
+    <i class="fas fa-chevron-left"></i>
+</button>
 
-    <!-- MENU DE FILTROS DEL COCHE -->
-    <div class="container-fluid menu" style="margin-top: -6vh; padding-bottom: 1vh">
-        <div class="row">
-            <div class="col-md-2 menu-de-filtros border-top border-end border-bottom pe-3">
-                <div class="col-md-1">
+<!-- Menú de filtros  -->
+<div 
+    class="offcanvas offcanvas-end" 
+    tabindex="-1" 
+    id="filtrosOffcanvas" 
+    aria-labelledby="filtrosLabel"
+    style="width: 300px;"
+>
+    <div class="offcanvas-header border-bottom">
+        <h5 class="offcanvas-title" id="filtrosLabel">Filtros</h5>
+        <button 
+            type="button" 
+            class="btn-close" 
+            data-bs-dismiss="offcanvas" 
+            aria-label="Close"
+        ></button>
+    </div>
+    
+    <div class="offcanvas-body pt-0">
+        <!-- Contenido de los filtros -->
+        <!-- MARCA -->
+        <div class="mt-3">
+            <label class="form-label">Marca:</label>
+            <select class="form-select">
+                <option selected>- - Selecciona una marca - -</option>
+                <option value="1">Alfa Romeo</option>
+                <option value="2">Volkswagen</option>
+                <option value="3">BMW</option>
+                <option value="4">Mercedes</option>
+                <option value="5">Nissan</option>
+            </select>
+        </div>
+
+        <!-- MODELO -->
+        <div class="mt-3">
+            <label class="form-label">Modelo:</label>
+            <select class="form-select">
+                <option selected>- - Selecciona un modelo - -</option>
+                <option value="1">Modelo</option>
+            </select>
+        </div>
+
+        <!-- CIUDAD -->
+        <div class="mt-3">
+            <label class="form-label">Ubicación:</label>
+            <select class="form-select">
+                <option selected>- - Selecciona una ciudad - -</option>
+                <option value="1">Málaga</option>
+                <option value="2">Granada</option>
+                <option value="3">Madrid</option>
+                <option value="4">Valencia</option>
+                <option value="5">Barcelona</option>
+            </select>
+        </div>
+
+        <!-- TIPO -->
+        <div class="mt-3">
+            <label class="form-label">Tipo de Coche:</label>
+            <select class="form-select">
+                <option selected>- - Selecciona un tipo de coche - -</option>
+                <option value="1">Berlina</option>
+                <option value="2">Coupé</option>
+                <option value="3">Monovolumen</option>
+                <option value="4">SUV</option>
+                <option value="5">Familiar</option>
+                <option value="6">Furgoneta</option>
+                <option value="7">Utilitario</option>
+                <option value="8">Autocaravana</option>
+            </select>
+        </div>
+
+        <!-- COMBUSTIBLE -->
+        <div class="mt-3">
+            <label class="form-label">Combustible:</label>
+            <select class="form-select">
+                <option selected>- - Selecciona un tipo - -</option>
+                <option value="Diésel">Diésel</option>
+                <option value="Gasolina">Gasolina</option>
+                <option value="Eléctrico">Eléctrico</option>
+                <option value="Híbrido">Híbrido</option>
+            </select>
+        </div>
+
+        <!-- PRECIO -->
+        <div class="mt-3">
+            <label class="form-label">Precio Diario (€):</label>
+            <input type="range" class="form-range" min="0" max="500" step="10">
+            <div class="d-flex justify-content-between">
+                <span>€0</span>
+                <span>€500</span>
+            </div>
+        </div>
+
+        <!-- FECHAS -->
+        <div class="mt-3">
+            <label class="form-label">Disponibilidad</label>
+            <div class="d-flex gap-2">
+                <div class="flex-fill">
+                    <label class="form-label">Inicio</label>
+                    <input type="date" class="form-control">
                 </div>
-
-
-                <!-- BOTON PARA OCULTAR MENU -->
-                <div class="d-flex align-items-center justify-content-between">
-                    <button id="toggleFiltros" class="btn btn-warning rounded-circle shadow-sm">
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
+                <div class="flex-fill">
+                    <label class="form-label">Fin</label>
+                    <input type="date" class="form-control">
                 </div>
-                <div class="contenido-filtros">
-                    <h3 class="mb-0" style="margin-top: 3vh;">Filtros</h3>
-                    <!-- MARCA -->
-                    <div>
-                        <label class="form-label">Marca:</label>
-                        <select class="form-select">
-                            <option selected>- - Selecciona una marca - -</option>
-                            <option value="1">Alfa Romeo</option>
-                            <option value="2">Volkswagen</option>
-                            <option value="3">BMW</option>
-                            <option value="4">Mercedes</option>
-                            <option value="5">Nissan</option>
-                            <!-- API coches para marcas -->
-                        </select>
-                    </div><br>
+            </div>
+        </div>
 
-                    <!-- MODELO -->
-                    <div>
-                        <label class="form-label">Modelo:</label>
-                        <select class="form-select">
-                            <option selected>- - Selecciona un modelo - -</option>
-                            <option value="1">Modelo</option>
-                            <!-- API coches para modelos QUE CAMBIARAN SEGUN LA MARCA-->
-                        </select>
-                    </div><br>
+        <!-- OTROS FILTROS -->
+        <div class="mt-3">
+            <label class="form-label">Mascotas:</label>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="mascotas">
+                <label class="form-check-label">Acepta mascotas</label>
+            </div>
+        </div>
 
-                    <!-- CIUDAD -->
-                    <div>
-                        <label for="ciudad" class="form-label">Ubicación:</label>
-                        <select id="ciudad" class="form-select">
-                            <option selected>- - Selecciona una ciudad - -</option>
-                            <option value="1">Málaga</option>
-                            <option value="2">Granada</option>
-                            <option value="3">Madrid</option>
-                            <option value="4">Valencia</option>
-                            <option value="5">Barcelona</option>
-                        </select>
-                    </div><br>
+        <div class="mt-3">
+            <label class="form-label">Movilidad reducida:</label>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="movilidad_reducida">
+                <label class="form-check-label">Adaptado para movilidad reducida</label>
+            </div>
+        </div>
 
-                    <!-- TIPO -->
-                    <div>
-                        <label class="form-label">Tipo de Coche:</label>
-                        <select class="form-select">
-                            <option selected>- - Selecciona un tipo de coche - -</option>
-                            <option value="1">Berlina</option>
-                            <option value="2">Coupé</option>
-                            <option value="3">Monovolumen</option>
-                            <option value="4">SUV</option>
-                            <option value="5">Familiar</option>
-                            <option value="6">Furgoneta</option>
-                            <option value="7">Utilitario</option>
-                            <option value="8">Autocaravana</option>
-                        </select>
-                    </div><br>
+        <div class="mt-3">
+            <label class="form-label">Fumadores:</label>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="fumadores">
+                <label class="form-check-label">Acepta fumadores</label>
+            </div>
+        </div>
 
-                    <!-- COMBUSTIBLE -->
-                    <div>
-                        <label class="form-label">Combustible:</label>
-                        <select class="form-select">
-                            <option selected>- - Selecciona un tipo - -</option>
-                            <option value="Diésel">Diésel</option>
-                            <option value="Gasolina">Gasolina</option>
-                            <option value="Eléctrico">Eléctrico</option>
-                            <option value="Híbrido">Híbrido</option>
-                        </select>
-                    </div><br>
-
-                    <!-- PRECIO   poner para escribir y que se ajuste en la barra-->
-                    <div>
-                        <label class="form-label">Precio Diario (€):</label>
-
-                        <input type="range" class="form-range" id="precio" min="0" max="500" step="10">
-
-                        <div class="d-flex justify-content-between"> <!-- separación -->
-                            <span>€0</span>
-                            <span>€500</span>
-                        </div>
-                    </div><br>
-
-
-                    <!-- FECHAS (D6ISPONIBILIDAD) HABRA QUE EL FIN NO SEA ANTERIOR AL INICIO-->
-                    <div>
-                        <label class="form-label">Disponibilidad</label>
-                        <div class="d-flex gap-2">
-                            <div class="flex-fill">
-                                <label class="form-label">Inicio</label>
-                                <input type="date" class="form-control" id="FechaInicio" />
-                            </div>
-                            <div class="flex-fill">
-                                <label class="form-label">Fin</label>
-                                <input type="date" class="form-control" id="FechaFin" />
-                            </div>
-                        </div>
-                    </div><br>
-
-                    <!-- OTROS FILTROS -->
-                    <!-- mascotas -->
-                    <div>
-                        <label class="form-label">Mascotas:</label>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="mascotas">
-                            <label class="form-check-label">Acepta mascotas</label>
-                        </div>
-                    </div><br>
-                    <!-- movilidad -->
-                    <div>
-                        <label class="form-label">Movilidad reducida:</label>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="movilidad_reducida">
-                            <label class="form-check-label">Adaptado para movilidad reducida</label>
-                        </div>
-                    </div><br>
-                    <!-- fumador -->
-                    <div>
-                        <label class="form-label">Fumadores:</label>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="fumadores">
-                            <label class="form-check-label">Acepta fumadores</label>
-                        </div>
-                    </div><br>
-
-                    <!-- EQUIPAMIENTO -->
-                    <div>
-                        <div class="equipamiento" onclick="Equipamiento()">
-                            <b>Equipamiento</b> <i id="flecha" class="fas fa-chevron-right flecha"></i>
-                        </div>
-
-                        <div id="opciones-equipamiento">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="bluetooh">
-                                <label class="form-check-label">Bluetooh</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="wifi">
-                                <label class="form-check-label">WiFi</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="camara_reversa">
-                                <label class="form-check-label">Cámara reversa</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="sensor_aparcamiento">
-                                <label class="form-check-label">Sensor de aparcamiento</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="control_crucero">
-                                <label class="form-check-label">Control crucero</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="asiento_calefactable">
-                                <label class="form-check-label">Asiento calefactable</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="bola_remolque">
-                                <label class="form-check-label">Bola de remolque</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="4x4">
-                                <label class="form-check-label">4x4</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="baca">
-                                <label class="form-check-label">Baca</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="fijaciones_isofix">
-                                <label class="form-check-label">Fijaciones isofix</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="gps">
-                                <label class="form-check-label">GPS</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="aire_acondicionado">
-                                <label class="form-check-label">Aire Acondicionado</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="portabicicletas">
-                                <label class="form-check-label">Portabicicletas</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="portaequipajes">
-                                <label class="form-check-label">Portaequipajes</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="portaesquís">
-                                <label class="form-check-label">Portaesquís</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="android_carplay">
-                                <label class="form-check-label">Android Carplay</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="apple_carplay">
-                                <label class="form-check-label">Apple Carplay</label>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- APLICAR FILTROS -->
-                    <div style="padding-bottom: 1vh;">
-                        <button class="btn btn-primary" type="button">Aplicar Filtros</button>
-                        <button class="btn btn-warning" type="submit">Buscar</button>
-                    </div>
+        <!-- EQUIPAMIENTO -->
+        <div class="mt-3">
+            <div class="d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#equipamientoCollapse">
+                <b>Equipamiento</b>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            
+            <div class="collapse" id="equipamientoCollapse">
+                <!-- Checkboxes de equipamiento aquí -->
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="bluetooh">
+                    <label class="form-check-label">Bluetooth</label>
                 </div>
+                <!-- ... resto de checkboxes ... -->
+            </div>
+        </div>
 
+        <!-- BOTONES FINALES -->
+        <div class="mt-4 d-grid gap-2">
+            <button class="btn btn-primary" type="button">Aplicar Filtros</button>
+            <button class="btn btn-warning" type="submit">Buscar</button>
+        </div>
+    </div>
+</div>
 
-            </div> <!-- fin del menu -->
+<!-- Script para rotar el ícono del botón -->
+<script>
+document.getElementById('filtrosOffcanvas').addEventListener('show.bs.offcanvas', function() {
+    document.querySelector('#toggleFiltros i').classList.replace('fa-chevron-left', 'fa-chevron-right');
+});
 
+document.getElementById('filtrosOffcanvas').addEventListener('hide.bs.offcanvas', function() {
+    document.querySelector('#toggleFiltros i').classList.replace('fa-chevron-right', 'fa-chevron-left');
+});
+</script>
 
             <div class="col-md-9 bg-light">
                 <div class="container my-4 ">
