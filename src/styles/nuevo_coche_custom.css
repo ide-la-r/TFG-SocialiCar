@@ -1,0 +1,58 @@
+/* Paleta de colores personalizada para la página Nuevo Coche */
+:root {
+  --color-celeste-claro: #C4EEF2;
+  --color-azul-grisaceo: #B0D5D9;
+  --color-turquesa: #6BBFBF;
+  --color-gris-claro: #F2F2F2;
+  --color-gris-oscuro: #595959;
+}
+
+body {
+  background: var(--color-gris-claro);
+  color: var(--color-gris-oscuro);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-turquesa);
+}
+
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--color-turquesa);
+  outline: none;
+}
+
+
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-turquesa);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-celeste-claro);
+}
+
+
+/* Botones Bootstrap adaptados a la paleta */
+.btn-primary {
+  background-color: #6BBFBF !important;
+  border-color: #6BBFBF !important;
+  color: #fff !important;
+}
+.btn-primary:hover, .btn-primary:focus {
+  background-color: #B0D5D9 !important;
+  border-color: #B0D5D9 !important;
+  color: #595959 !important;
+}
+
+.btn-secondary {
+  background-color: #fff !important;
+  border-color: #6BBFBF !important;
+  color: #595959 !important;
+}
+.btn-secondary:hover, .btn-secondary:focus {
+  background-color: #C4EEF2 !important;
+  border-color: #6BBFBF !important;
+  color: #6BBFBF !important;
+}
+

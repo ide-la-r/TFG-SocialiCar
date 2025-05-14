@@ -7,7 +7,7 @@
     <title>SocialiCar - Comparte tu coche</title>
     <?php include_once '../../components/links.php'; ?>
     <link rel="icon" href="../../../src/img/favicon.png" />
-    <link rel="stylesheet" href="../../styles/nuevo_coche.css">
+    <link rel="stylesheet" href="../../styles/nuevo_coche_custom.css">
     <?php
     error_reporting(E_ALL);
     ini_set("display_errors", 1);
@@ -66,9 +66,16 @@
             $descripcion = $fila["descripcion"];
             $color = $fila["color"];
             $colores = [
-                "white" => "Blanco", "black" => "Negro", "gray" => "Gris", "red" => "Rojo",
-                "blue" => "Azul", "green" => "Verde", "yellow" => "Amarillo", "orange" => "Naranja",
-                "brown" => "Marrón", "other" => "Otros"
+                "white" => "Blanco",
+                "black" => "Negro",
+                "gray" => "Gris",
+                "red" => "Rojo",
+                "blue" => "Azul",
+                "green" => "Verde",
+                "yellow" => "Amarillo",
+                "orange" => "Naranja",
+                "brown" => "Marrón",
+                "other" => "Otros"
             ];
             $color_esp = $colores[$color] ?? "Otros";
             $plazas = $fila["plazas"];
@@ -104,11 +111,9 @@
             $fumar = $fila["fumar"];
             $movilidad_reducida = $fila["movilidad_reducida"];
         }
-
-
     }
 
-    
+
 
 
 
@@ -182,7 +187,7 @@
             $potencia_nuevo = $_POST['potencia'];
         }
 
-        
+
         /* Extras */
         if (isset($_POST['aire_acondicionado']) && $_POST['aire_acondicionado'] != $aire_acondicionado) {
             $aire_acondicionado_nuevo = $_POST['aire_acondicionado'];
@@ -244,12 +249,11 @@
         if (isset($_POST['movilidad_reducida']) && $_POST['movilidad_reducida'] != $movilidad_reducida) {
             $movilidad_reducida_nuevo = $_POST['movilidad_reducida'];
         }
-
     }
     ?>
 
 
-
+    <div class="container">
     <form action="#" method="post" enctype="multipart/form-data">
         <!-- INFORMACION DEL VEHICULO (MARCA MODELO Y ANNO DE MATRICULACION) -->
         <div class="container mt-5 pt-5">
@@ -278,7 +282,8 @@
                     <div class="col-12 col-md-3">
                         <div class="form-floating">
                             <select class="form-select <?php if (isset($err_marca)) echo 'is-invalid'; ?>" id="marca" name="marca">
-                                <option disabled selected hidden><?php if (!isset($marca_nuevo)) echo $marca; else echo $marca_nuevo; ?></option>
+                                <option disabled selected hidden><?php if (!isset($marca_nuevo)) echo $marca;
+                                                                    else echo $marca_nuevo; ?></option>
                                 <?php foreach ($marcas as $marcaItem) { ?>
                                     <option value="<?php echo $marcaItem["MakeName"]; ?>"
                                         <?php if ($marcaSeleccionada === $marcaItem["MakeName"]) echo "selected"; ?>>
@@ -299,7 +304,8 @@
                     <div class="col-12 col-md-3">
                         <div class="form-floating">
                             <select class="form-select <?php if (isset($err_modelo)) echo 'is-invalid'; ?>" id="modelo" name="modelo" data-selected="<?php echo htmlspecialchars($modeloSeleccionado); ?>">
-                                <option disabled selected hidden><?php if (!isset($modelo_nuevo)) echo $modelo; else echo $modelo_nuevo; ?></option>
+                                <option disabled selected hidden><?php if (!isset($modelo_nuevo)) echo $modelo;
+                                                                    else echo $modelo_nuevo; ?></option>
                             </select>
                             <label for="modelo">Modelo</label>
                             <?php
@@ -313,7 +319,8 @@
                     <!-- Año de matriculación -->
                     <div class="col-12 col-md-3">
                         <div class="form-floating">
-                            <input class="form-control <?php if (isset($err_anno_matriculacion)) echo 'is-invalid'; ?>" placeholder="Año de matriculacion" id="inputMes" type="month" name="anno_matriculacion" value="<?php if (!isset($anno_matriculacion_nuevo)) echo htmlspecialchars($anno_matriculacion); else echo htmlspecialchars($anno_matriculacion_nuevo); ?>">
+                            <input class="form-control <?php if (isset($err_anno_matriculacion)) echo 'is-invalid'; ?>" placeholder="Año de matriculacion" id="inputMes" type="month" name="anno_matriculacion" value="<?php if (!isset($anno_matriculacion_nuevo)) echo htmlspecialchars($anno_matriculacion);
+                                                                                                                                                                                                                        else echo htmlspecialchars($anno_matriculacion_nuevo); ?>">
                             <label for="inputMes">Año de matriculación</label>
                             <?php
                             if (isset($err_anno_matriculacion)) {
@@ -355,7 +362,8 @@
                 <div class="row justify-content-center pt-3">
                     <div class="mb-3 col-6">
                         <div class="form-floating">
-                            <input class="form-control <?php if (isset($err_kilometros)) echo 'is-invalid'; ?>" id="kilometros" type="number" placeholder="Kilómetros*" name="kilometros" value="<?php if (!isset($kilometros_nuevo)) echo $kilometros; else echo $kilometros_nuevo; ?>">
+                            <input class="form-control <?php if (isset($err_kilometros)) echo 'is-invalid'; ?>" id="kilometros" type="number" placeholder="Kilómetros*" name="kilometros" value="<?php if (!isset($kilometros_nuevo)) echo $kilometros;
+                                                                                                                                                                                                    else echo $kilometros_nuevo; ?>">
                             <label for="kilometros">Kilómetros</label>
                             <?php
                             if (isset($err_kilometros)) {
@@ -368,7 +376,8 @@
                     <div class="mb-3 col-6">
                         <div class="form-floating">
                             <select class="form-select <?php if (isset($err_tipo_combustible)) echo 'is-invalid'; ?>" id="tipo_combustible" name="tipo_combustible">
-                                <option disabled selected hidden><?php if (!isset($combustible_nuevo)) echo ucfirst($combustible); else echo ucfirst($combustible_nuevo); ?></option>
+                                <option disabled selected hidden><?php if (!isset($combustible_nuevo)) echo ucfirst($combustible);
+                                                                    else echo ucfirst($combustible_nuevo); ?></option>
                                 <option value="gasolina"
                                     <?php if (isset($_POST['tipo_combustible']) && $_POST['tipo_combustible'] == "gasolina") echo "selected"; ?>>
                                     Gasolina
@@ -406,7 +415,8 @@
                     <div class="mb-3 col-6">
                         <div class="form-floating">
                             <select class="form-select <?php if (isset($err_tipo)) echo 'is-invalid'; ?>" id="tipo" name="tipo">
-                                <option disabled selected hidden><?php if (!isset($tipo_nuevo)) echo ucfirst($tipo); else echo ucfirst($tipo_nuevo); ?></option>
+                                <option disabled selected hidden><?php if (!isset($tipo_nuevo)) echo ucfirst($tipo);
+                                                                    else echo ucfirst($tipo_nuevo); ?></option>
                                 <option value="berlina" <?php if (isset($_POST['tipo']) && $_POST['tipo'] == "berlina") echo "selected"; ?>>
                                     Berlina
                                 </option>
@@ -455,7 +465,8 @@
                     <div class="mb-3 col-6">
                         <div class="form-floating">
                             <select class="form-select <?php if (isset($err_transmision)) echo 'is-invalid'; ?>" id="transmision" name="transmision">
-                                <option disabled selected hidden><?php if (!isset($transmision_nuevo)) echo ucfirst($transmision); else echo ucfirst($transmision_nuevo); ?></option>
+                                <option disabled selected hidden><?php if (!isset($transmision_nuevo)) echo ucfirst($transmision);
+                                                                    else echo ucfirst($transmision_nuevo); ?></option>
                                 <option value="manual" <?php if (isset($_POST['transmision']) && $_POST['transmision'] == "manual") echo "selected"; ?>>
                                     Manual
                                 </option>
@@ -475,7 +486,8 @@
                     <div class="mb-3 col-6">
                         <div class="form-floating">
                             <select class="form-select <?php if (isset($err_color)) echo 'is-invalid'; ?>" id="color" name="color" required>
-                                <option disabled selected hidden><?php if (!isset($color_nuevo)) echo ucfirst($color_esp); else echo ucfirst($color_nuevo); ?></option>
+                                <option disabled selected hidden><?php if (!isset($color_nuevo)) echo ucfirst($color_esp);
+                                                                    else echo ucfirst($color_nuevo); ?></option>
                                 <option value="white" <?php if (isset($_POST['color']) && $_POST['color'] == "white") echo "selected"; ?>>Blanco</option>
                                 <option value="black" <?php if (isset($_POST['color']) && $_POST['color'] == "black") echo "selected"; ?>>Negro</option>
                                 <option value="gray" <?php if (isset($_POST['color']) && $_POST['color'] == "gray") echo "selected"; ?>>Gris</option>
@@ -499,7 +511,8 @@
 
                     <div class="mb-3 col-6">
                         <div class="form-floating">
-                            <input class="form-control <?php if (isset($err_potencia)) echo 'is-invalid'; ?>" min="30" max="2000" id="potencia" type="number" placeholder="Potencia*" name="potencia" value="<?php if (!isset($potencia_nuevo)) echo $potencia; else echo $potencia_nuevo; ?>">
+                            <input class="form-control <?php if (isset($err_potencia)) echo 'is-invalid'; ?>" min="30" max="2000" id="potencia" type="number" placeholder="Potencia*" name="potencia" value="<?php if (!isset($potencia_nuevo)) echo $potencia;
+                                                                                                                                                                                                                else echo $potencia_nuevo; ?>">
                             <label for="potencia">Potencia</label>
                             <?php
                             if (isset($err_potencia)) {
@@ -511,7 +524,8 @@
 
                     <div class="mb-3 col-6">
                         <div class="form-floating">
-                            <input class="form-control <?php if (isset($err_numero_puertas)) echo 'is-invalid'; ?>" min="2" max="5" id="numero_puertas" type="number" placeholder="Numero de puertas*" name="numero_puertas" value="<?php if (!isset($puertas_nuevo)) echo $puertas; else echo $puertas_nuevo; ?>">
+                            <input class="form-control <?php if (isset($err_numero_puertas)) echo 'is-invalid'; ?>" min="2" max="5" id="numero_puertas" type="number" placeholder="Numero de puertas*" name="numero_puertas" value="<?php if (!isset($puertas_nuevo)) echo $puertas;
+                                                                                                                                                                                                                                    else echo $puertas_nuevo; ?>">
                             <label for="numero_puertas">Numero de puertas</label>
                             <?php
                             if (isset($err_numero_puertas)) {
@@ -523,7 +537,8 @@
 
                     <div class="mb-3 col-6">
                         <div class="form-floating">
-                            <input class="form-control <?php if (isset($err_numero_plazas)) echo 'is-invalid'; ?>" min="1" max="9" id="numero_plazas" type="number" placeholder="Numero de plazas*" name="numero_plazas" value="<?php if (!isset($plazas_nuevo)) echo $plazas; else echo $plazas_nuevo; ?>">
+                            <input class="form-control <?php if (isset($err_numero_plazas)) echo 'is-invalid'; ?>" min="1" max="9" id="numero_plazas" type="number" placeholder="Numero de plazas*" name="numero_plazas" value="<?php if (!isset($plazas_nuevo)) echo $plazas;
+                                                                                                                                                                                                                                else echo $plazas_nuevo; ?>">
                             <label for="numero_plazas">Numero de plazas</label>
                             <?php
                             if (isset($err_numero_plazas)) {
@@ -535,7 +550,8 @@
 
                     <div>
                         <div class="form-floating">
-                            <textarea class="form-control <?php if (isset($err_descripcion)) echo 'is-invalid'; ?>" name="descripcion" id="floatingTextarea2" rows="3" style="height: 100px" placeholder="Descripcion*"><?php if (!isset($descripcion_nuevo)) echo $descripcion; else echo $descripcion_nuevo; ?></textarea>
+                            <textarea class="form-control <?php if (isset($err_descripcion)) echo 'is-invalid'; ?>" name="descripcion" id="floatingTextarea2" rows="3" style="height: 100px" placeholder="Descripcion*"><?php if (!isset($descripcion_nuevo)) echo $descripcion;
+                                                                                                                                                                                                                        else echo $descripcion_nuevo; ?></textarea>
                             <label for="floatingTextarea2">Descripcion</label>
                             <?php
                             if (isset($err_descripcion)) {
@@ -565,7 +581,8 @@
                         </span>
                     </label>
 
-                    <input type="range" class="form-range w-75 <?php if (isset($err_precio)) echo 'is-invalid'; ?>" name="precio" id="precio" min="15" max="500" step="1" value="<?php if (!isset($precio_nuevo)) echo $precio; else echo $precio_nuevo; ?>">
+                    <input type="range" class="form-range w-75 <?php if (isset($err_precio)) echo 'is-invalid'; ?>" name="precio" id="precio" min="15" max="500" step="1" value="<?php if (!isset($precio_nuevo)) echo $precio;
+                                                                                                                                                                                    else echo $precio_nuevo; ?>">
 
                     <div class="d-flex justify-content-between text-muted mt-1 w-75">
                         <span>15€</span>
@@ -589,7 +606,8 @@
                     <!-- Dirección -->
                     <div class="mb-3 col-12 col-md-6">
                         <div class="form-floating" style="position: relative;">
-                            <input type="text" class="form-control <?php if (isset($err_direccion)) echo 'is-invalid'; ?>" id="autocomplete" name="direccion" placeholder="Ej: Calle Ejemplo, Ciudad, Provincia, Codigo Postal, País" autocomplete="off" value="<?php if (!isset($direccion_nuevo)) echo $direccion; else echo $direccion_nuevo; ?>">
+                            <input type="text" class="form-control <?php if (isset($err_direccion)) echo 'is-invalid'; ?>" id="autocomplete" name="direccion" placeholder="Ej: Calle Ejemplo, Ciudad, Provincia, Codigo Postal, País" autocomplete="off" value="<?php if (!isset($direccion_nuevo)) echo $direccion;
+                                                                                                                                                                                                                                                                else echo $direccion_nuevo; ?>">
                             <label for="autocomplete" class="form-label">Dirección*</label>
                             <?php
                             if (isset($err_direccion)) {
@@ -607,7 +625,8 @@
                     <div class="mb-3 col-12 col-md-6">
                         <div class="form-floating">
                             <select class="form-select <?php if (isset($err_tipo_aparcamiento)) echo 'is-invalid'; ?>" id="tipo_aparcamiento" name="tipo_aparcamiento">
-                                <option disabled selected hidden><?php if (!isset($tipo_aparcamiento_nuevo)) echo ucfirst($tipo_aparcamiento); else echo ucfirst($tipo_aparcamiento_nuevo); ?></option>
+                                <option disabled selected hidden><?php if (!isset($tipo_aparcamiento_nuevo)) echo ucfirst($tipo_aparcamiento);
+                                                                    else echo ucfirst($tipo_aparcamiento_nuevo); ?></option>
                                 <option value="calle"
                                     <?php if (isset($_POST['tipo_aparcamiento']) && $_POST['tipo_aparcamiento'] == "calle") echo "selected"; ?>>
                                     Calle
@@ -632,8 +651,10 @@
                 </div>
 
                 <!-- Coordenadas ocultas -->
-                <input type="hidden" name="lat" id="lat" value="<?php if (!isset($lat_nueva)) echo $lat; else echo $lat_nueva; ?>">
-                <input type="hidden" name="lon" id="lon" value="<?php if (!isset($lon_nueva)) echo $lon; else echo $lon_nueva; ?>">
+                <input type="hidden" name="lat" id="lat" value="<?php if (!isset($lat_nueva)) echo $lat;
+                                                                else echo $lat_nueva; ?>">
+                <input type="hidden" name="lon" id="lon" value="<?php if (!isset($lon_nueva)) echo $lon;
+                                                                else echo $lon_nueva; ?>">
             </div>
         </div>
 
@@ -648,24 +669,22 @@
             </div>
         </div>
 
-        <div class="container mt-5 pt-5">
-            <div class="card py-4">
 
-                <div class="row justify-content-center pt-3">
-                    <div class="col-auto">
-                        <button type="button" class="boton-redondo" data-bs-toggle="modal" data-bs-target="#miModal">
-                            Extras
-                        </button>
-                    </div>
-                    <div class="col-auto">
-                        <button type="submit" class="boton-redondo">
-                            Confirmar
-                        </button>
-                    </div>
-                </div>
 
+        <div class="row g-2 pt-3">
+            <div class="col-12 col-md-6">
+                <button type="button" class="btn btn-primary btn-lg w-100" data-bs-toggle="modal" data-bs-target="#miModal">
+                    Extras
+                </button>
+            </div>
+            <div class="col-12 col-md-6">
+                <button type="submit" class="btn btn-primary btn-lg w-100">
+                    Confirmar
+                </button>
             </div>
         </div>
+
+
 
         <br>
         </div>
@@ -687,7 +706,7 @@
                             <div>
                                 <div>
                                     <input type="checkbox" id="mascota" name="mascota"
-                                    <?php
+                                        <?php
                                         if (!isset($mascota_nuevo)) {
                                             if ($mascota == 1) {
                                                 echo "checked";
@@ -697,14 +716,14 @@
                                                 echo "checked";
                                             }
                                         }
-                                    ?>>
+                                        ?>>
                                     <label for="mascota">
                                         Permito mascotas
                                     </label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="fumar" name="fumar"
-                                    <?php
+                                        <?php
                                         if (!isset($fumar_nuevo)) {
                                             if ($fumar == 1) {
                                                 echo "checked";
@@ -714,7 +733,7 @@
                                                 echo "checked";
                                             }
                                         }
-                                    ?>>
+                                        ?>>
                                     <label for="fumar">
                                         Permito fumar
                                     </label>
@@ -730,7 +749,7 @@
                             <div>
                                 <div>
                                     <input type="checkbox" id="gps" name="gps"
-                                    <?php
+                                        <?php
                                         if (!isset($gps_nuevo)) {
                                             if ($gps == 1) {
                                                 echo "checked";
@@ -740,14 +759,14 @@
                                                 echo "checked";
                                             }
                                         }
-                                    ?>>
+                                        ?>>
                                     <label for="gps">
                                         GPS
                                     </label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="sensores_aparcamiento" name="sensores_aparcamiento"
-                                    <?php
+                                        <?php
                                         if (!isset($sensores_aparcamiento_nuevo)) {
                                             if ($sensores_aparcamiento == 1) {
                                                 echo "checked";
@@ -757,14 +776,14 @@
                                                 echo "checked";
                                             }
                                         }
-                                    ?>>
+                                        ?>>
                                     <label for="sensores_aparcamiento">
                                         Sensores de aparcamiento
                                     </label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="camara_trasera" name="camara_trasera"
-                                    <?php
+                                        <?php
                                         if (!isset($camara_trasera_nuevo)) {
                                             if ($camara_trasera == 1) {
                                                 echo "checked";
@@ -774,14 +793,14 @@
                                                 echo "checked";
                                             }
                                         }
-                                    ?>>
+                                        ?>>
                                     <label>
                                         Cámara de reversa
                                     </label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="control_de_crucero" name="control_de_crucero"
-                                    <?php
+                                        <?php
                                         if (!isset($control_de_crucero_nuevo)) {
                                             if ($control_de_crucero == 1) {
                                                 echo "checked";
@@ -791,14 +810,14 @@
                                                 echo "checked";
                                             }
                                         }
-                                    ?>>
+                                        ?>>
                                     <label for="control_de_crucero">
                                         Control de crucero
                                     </label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="cuatro_x_cuatro" name="cuatro_x_cuatro"
-                                    <?php
+                                        <?php
                                         if (!isset($cuatro_x_cuatro_nuevo)) {
                                             if ($cuatro_x_cuatro == 1) {
                                                 echo "checked";
@@ -808,7 +827,7 @@
                                                 echo "checked";
                                             }
                                         }
-                                    ?>>
+                                        ?>>
                                     <label for="cuatro_x_cuatro">
                                         Tracción 4x4
                                     </label>
@@ -824,7 +843,7 @@
                             <div>
                                 <div>
                                     <input type="checkbox" id="baca" name="baca"
-                                    <?php
+                                        <?php
                                         if (!isset($baca_nuevo)) {
                                             if ($baca == 1) {
                                                 echo "checked";
@@ -834,14 +853,14 @@
                                                 echo "checked";
                                             }
                                         }
-                                    ?>>
+                                        ?>>
                                     <label for="baca">
                                         Baca
                                     </label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="portabicicletas" name="portabicicletas"
-                                    <?php
+                                        <?php
                                         if (!isset($portabicicletas_nuevo)) {
                                             if ($portabicicletas == 1) {
                                                 echo "checked";
@@ -851,14 +870,14 @@
                                                 echo "checked";
                                             }
                                         }
-                                    ?>>
+                                        ?>>
                                     <label for="portabicicletas">
                                         Portabicicletas
                                     </label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="portaequipajes" name="portaequipajes"
-                                    <?php
+                                        <?php
                                         if (!isset($portaequipajes_nuevo)) {
                                             if ($portaequipajes == 1) {
                                                 echo "checked";
@@ -868,14 +887,14 @@
                                                 echo "checked";
                                             }
                                         }
-                                    ?>>
+                                        ?>>
                                     <label for="portaequipajes">
                                         Portaequipajes
                                     </label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="portaesquis" name="portaesquis"
-                                    <?php
+                                        <?php
                                         if (!isset($portaesquis_nuevo)) {
                                             if ($portaesquis == 1) {
                                                 echo "checked";
@@ -885,14 +904,14 @@
                                                 echo "checked";
                                             }
                                         }
-                                    ?>>
+                                        ?>>
                                     <label for="portaesquis">
                                         Portaesquís
                                     </label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="bola_remolque" name="bola_remolque"
-                                    <?php
+                                        <?php
                                         if (!isset($bola_remolque_nuevo)) {
                                             if ($bola_remolque == 1) {
                                                 echo "checked";
@@ -902,7 +921,7 @@
                                                 echo "checked";
                                             }
                                         }
-                                    ?>>
+                                        ?>>
                                     <label for="bola_remolque">
                                         Bola de remolque
                                     </label>
@@ -918,7 +937,7 @@
                             <div>
                                 <div>
                                     <input type="checkbox" id="bluetooth" name="bluetooth"
-                                    <?php
+                                        <?php
                                         if (!isset($bluetooth_nuevo)) {
                                             if ($bluetooth == 1) {
                                                 echo "checked";
@@ -928,14 +947,14 @@
                                                 echo "checked";
                                             }
                                         }
-                                    ?>>
+                                        ?>>
                                     <label for="bluetooth">
                                         Bluetooth
                                     </label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="wifi" name="wifi"
-                                    <?php
+                                        <?php
                                         if (!isset($wifi_nuevo)) {
                                             if ($wifi == 1) {
                                                 echo "checked";
@@ -945,14 +964,14 @@
                                                 echo "checked";
                                             }
                                         }
-                                    ?>>
+                                        ?>>
                                     <label for="wifi">
                                         WiFi
                                     </label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="android_carplay" name="android_carplay"
-                                    <?php
+                                        <?php
                                         if (!isset($android_carplay_nuevo)) {
                                             if ($android_carplay == 1) {
                                                 echo "checked";
@@ -962,14 +981,14 @@
                                                 echo "checked";
                                             }
                                         }
-                                    ?>>
+                                        ?>>
                                     <label for="android_carplay">
                                         Android CarPlay
                                     </label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="apple_carplay" name="apple_carplay"
-                                    <?php
+                                        <?php
                                         if (!isset($apple_carplay_nuevo)) {
                                             if ($apple_carplay == 1) {
                                                 echo "checked";
@@ -979,7 +998,7 @@
                                                 echo "checked";
                                             }
                                         }
-                                    ?>>
+                                        ?>>
                                     <label for="apple_carplay">
                                         Apple CarPlay
                                     </label>
@@ -995,7 +1014,7 @@
                             <div>
                                 <div>
                                     <input type="checkbox" id="aire_acondicionado" name="aire_acondicionado"
-                                    <?php
+                                        <?php
                                         if (!isset($aire_acondicionado_nuevo)) {
                                             if ($aire_acondicionado == 1) {
                                                 echo "checked";
@@ -1005,14 +1024,14 @@
                                                 echo "checked";
                                             }
                                         }
-                                    ?>>
+                                        ?>>
                                     <label for="aire_acondicionado">
                                         Aire acondicionado
                                     </label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="asientos_calefactables" name="asientos_calefactables"
-                                    <?php
+                                        <?php
                                         if (!isset($asientos_calefactables_nuevo)) {
                                             if ($asientos_calefactables == 1) {
                                                 echo "checked";
@@ -1022,14 +1041,14 @@
                                                 echo "checked";
                                             }
                                         }
-                                    ?>>
+                                        ?>>
                                     <label for="asientos_calefactables">
                                         Asientos calefactables
                                     </label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="fijacion_isofix" name="fijacion_isofix"
-                                    <?php
+                                        <?php
                                         if (!isset($fijacion_isofix_nuevo)) {
                                             if ($fijacion_isofix == 1) {
                                                 echo "checked";
@@ -1039,14 +1058,14 @@
                                                 echo "checked";
                                             }
                                         }
-                                    ?>>
+                                        ?>>
                                     <label for="fijacion_isofix">
                                         Fijaciones ISOFIX
                                     </label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="movilidad_reducia" name="movilidad_reducia"
-                                    <?php
+                                        <?php
                                         if (!isset($movilidad_reducida_nuevo)) {
                                             if ($movilidad_reducida == 1) {
                                                 echo "checked";
@@ -1056,7 +1075,7 @@
                                                 echo "checked";
                                             }
                                         }
-                                    ?>>
+                                        ?>>
                                     <label for="movilidad_reducia">
                                         Adaptado para personas con movilidad reducida
                                     </label>
@@ -1075,7 +1094,10 @@
         </div>
         </div>
     </form>
-    <?php include_once '../../components/footer.php'; ?>
+    </div>
+    <br>
+    
+    <?php include_once '../../components/footer-example.php'; ?>
     <script src="../../js/mostrar_marcas.js"></script>
     <script src="../../js/nuevo_coche.js"></script>
     <script src="../../js/pre_imagen.js"></script>
