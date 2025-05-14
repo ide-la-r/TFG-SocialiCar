@@ -21,7 +21,7 @@
 <div class="container d-flex flex-column align-items-center justify-content-center" style="min-height: 60vh;">
     <!-- Imagen de referencia, reemplaza src por tu imagen -->
     <img src="../../../src/img/mascota.png" alt="Aqui va la imagen de nuestra mascota xD" style="max-width:200px; margin-bottom: 20px; display:block;" />
-    <h3 class="fw-bold text-center" style="color: #595959;">Actualmente no disponemos de una app, pero si te interesa, no dudes en contactarnos para saber mas sobre la app y su desarrollo:</h3>
+    <h3 class="fw-bold text-center" style="color: #595959;">Estamos aquí para ayudarte en todo momento. Si tienes cualquier duda, no dudes en escribirnos.</h3>
     <a href="mailto:socialicar.rentacar@gmail.com" class="text-decoration-none" style="color: #0099cc; font-weight: 500;">socialicar.rentacar@gmail.com</a>
 </div>
 
