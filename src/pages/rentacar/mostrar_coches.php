@@ -461,7 +461,7 @@ document.getElementById('filtrosOffcanvas').addEventListener('hide.bs.offcanvas'
                         } else{$checkear_coches = false;}
 
                         if ($checkear_coches == false) {?>
-                            <div><h1>No hay coches disponibles</h1></div>
+                            <div> <h1>No hay coches disponibles</h1> </div>
                         <?php }?>
                     </div><br>
                 </div>
