@@ -278,6 +278,7 @@ document.getElementById('filtrosOffcanvas').addEventListener('hide.bs.offcanvas'
             $provincia = isset($_GET['provincia']) ? $_GET['provincia'] : null;
             $fecha_inicio = isset($_GET['fecha_inicio']) ? $_GET['fecha_inicio'] : null;
             $fecha_fin = isset($_GET['fecha_final']) ? $_GET['fecha_final'] : null;
+            $checkear_coches = true;
             
             if ($provincia != null && $fecha_inicio != null && $fecha_fin != null) { ?>
             <div class="col-md-9 bg-light">
@@ -332,7 +333,7 @@ document.getElementById('filtrosOffcanvas').addEventListener('hide.bs.offcanvas'
                                         </div>
                                     ";
                             }
-                        }
+                        } else{$checkear_coches = false;}
                         ?>
                     </div><br>
 
@@ -385,7 +386,7 @@ document.getElementById('filtrosOffcanvas').addEventListener('hide.bs.offcanvas'
                                         </div>
                                     ";
                             }
-                        }
+                        } else{$checkear_coches = false;}
                         ?>
                     </div><br>
 
@@ -457,8 +458,11 @@ document.getElementById('filtrosOffcanvas').addEventListener('hide.bs.offcanvas'
                                         </div>
                                     ";
                             }
-                        }
-                        ?>
+                        } else{$checkear_coches = false;}
+
+                        if ($checkear_coches == false) {?>
+                            <div><h1>No hay coches disponibles</h1></div>
+                        <?php }?>
                     </div><br>
                 </div>
             </div>
@@ -616,7 +620,7 @@ document.getElementById('filtrosOffcanvas').addEventListener('hide.bs.offcanvas'
     </div>
 
     <!-- FOOTER -->
-    <?php include_once '../../components/footer.php'; ?>
+    <?php include_once '../../components/footer-example.php'; ?>
 
     <!-- FUNCIONES -->
     <script>
