@@ -4,26 +4,38 @@
         rgba(255, 255, 255, 0.05),
         rgba(255, 255, 255, 0.15),
         rgba(255, 255, 255, 0.6),
-        rgba(107, 191, 191, 0.3),
-        rgba(107, 191, 191, 0.3),
-        rgba(255, 255, 255, 0.05),
-        rgba(255, 255, 255, 0.15),
+        rgba(107, 191, 191, 0.15), 
+        rgba(107, 191, 191, 0.15),
         rgba(255, 255, 255, 0.6),
+        rgba(255, 255, 255, 0.15),
+        rgba(255, 255, 255, 0.05),
         transparent);
 
-    background-size: 200% 100%;
-    animation: shimmer 15s infinite linear;
-  }
+    background-size: 300% 100%; /* amplía la zona para un desvanecimiento más gradual */
+    animation: shimmer 17s infinite linear;
+}
 
-  @keyframes shimmer {
+@keyframes shimmer {
     0% {
-      background-position: 200% 0;
+        background-position: 100% 0;
     }
-
+    50% {
+        background-position: -100% 0;
+    }
     100% {
-      background-position: -200% 0;
+        background-position: 100% 0;
     }
-  }
+}
+@media (max-width: 550px) {
+    .navbar-brand.logo {
+        left: 15% !important; /* Más a la derecha */
+        transform: translateX(-50%) !important;
+    }
+    
+    .alquila-mobile {
+        margin-top: 10px; /* Espaciado adicional */
+    }
+}  
 </style>
 
 <nav class="navbar navbar-expand-lg navbar-light custom-navbar">
@@ -165,5 +177,5 @@
   </div>
 </nav>
 <style>
-  
+
 </style>
