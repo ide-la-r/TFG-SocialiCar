@@ -55,14 +55,14 @@ body {
     overflow: hidden;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
     border: 2px solid rgba(255, 255, 255, 0.6);
-      background-color: #cceeff;
+      background-color: #B7E7EA;
     padding: 20px;
     animation: aparecer 0.8s ease-out forwards;
     animation-delay: 0.6s;
     transition: all 0.3s ease-in-out;
     z-index: 23;
     margin-top: -15vh;
-    background-color: #ffd700;
+    background-color: #B7E7EA;
 }
 
 @keyframes aparecer {
@@ -141,7 +141,7 @@ body {
 
 @keyframes iluminar {
     from {
-        text-shadow: 0 0 5px #ffd700;
+        text-shadow: 0 0 5px #fff5ba;
     }
 
     to {
