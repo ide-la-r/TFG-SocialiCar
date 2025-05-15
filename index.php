@@ -36,19 +36,36 @@ require(__DIR__ . "/src/config/conexion.php");
     .bienvenido {
         font-size: 4rem;
         color: #fff;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        animation: aparecer 1s ease;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        animation: aparecer 2s ease;
     }
 
     .socialicar {
         color: #ffeb3b;
         text-shadow: 0 0 15px rgba(255, 235, 59, 0.5);
         animation: flotar 3s ease-in-out infinite;
-        font-size: 6rem;
+        font-size: 12rem;
+        transform: rotate(-5deg);
+        padding-top: 25px;
     }
 
+   @keyframes flotar {
+    0% {
+        transform: rotate(-5deg) translateY(0);
+    }
+
+    50% {
+        transform: rotate(-5deg) translateY(-10px);
+    }
+
+    100% {
+        transform: rotate(-5deg) translateY(0);
+    }
+}
+
+
     .feature-card {
-        background: rgba(255,255,255,0.85);
+        background: rgba(255, 255, 255, 0.85);
         backdrop-filter: blur(10px);
         border-radius: 2rem;
         transition: transform 0.3s ease;
@@ -81,24 +98,37 @@ require(__DIR__ . "/src/config/conexion.php");
         position: absolute;
         left: 5%;
         top: -30px;
-        filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+        filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
     }
 
     @keyframes aparecer {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
 
-    @keyframes flotar {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-10px); }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
     @media (max-width: 768px) {
-        .bienvenido { font-size: 2.5rem; }
-        .socialicar { font-size: 3.5rem; }
-        .hero-section { min-height: 50vh; }
-        .car-animation { display: none; }
+        .bienvenido {
+            font-size: 2.5rem;
+        }
+
+        .socialicar {
+            font-size: 3.5rem;
+        }
+
+        .hero-section {
+            min-height: 50vh;
+        }
+
+        .car-animation {
+            display: none;
+        }
     }
 </style>
 
@@ -148,7 +178,7 @@ require(__DIR__ . "/src/config/conexion.php");
         <!-- Alquila tu coche -->
         <div class="row feature-card align-items-center g-5 my-5 p-4">
             <div class="col-12 col-lg-6 text-center">
-                <img src="src/img/gente_feliz.webp" class="img-fluid rounded-3 shadow" alt="Gente feliz">
+                <img src="src/img/gente_feliz.webp" class="img-fluid">
             </div>
             <div class="col-12 col-lg-6">
                 <h2 class="display-5 fw-bold mb-4">Alquila tu coche fácilmente 🚗</h2>
@@ -164,7 +194,7 @@ require(__DIR__ . "/src/config/conexion.php");
         <!-- Gana dinero -->
         <div class="row feature-card align-items-center g-5 my-5 p-4">
             <div class="col-12 col-lg-6 order-lg-2 text-center">
-                <img src="src/img/dinerito.png" class="img-fluid rounded-3 shadow" alt="Gana dinero" style="max-width: 300px;">
+                <img src="src/img/dinerito.png" class="img-fluid" style="max-width: 400px;">
             </div>
             <div class="col-12 col-lg-6">
                 <h2 class="display-5 fw-bold mb-4">📱 Gana dinero con tu vehículo</h2>
@@ -179,7 +209,7 @@ require(__DIR__ . "/src/config/conexion.php");
         <!-- Reseñas -->
         <div class="row feature-card align-items-center g-5 my-5 p-4">
             <div class="col-12 col-md-4 text-center">
-                <img src="src/img/reseñas.png" class="img-fluid rounded-3 shadow" alt="Reseñas">
+                <img src="src/img/reseñas.png" class="img-fluid" style="max-width: 200px;">
             </div>
             <div class="col-12 col-md-8">
                 <h2 class="display-5 fw-bold mb-4">Sistema de reseñas y chat</h2>
@@ -191,9 +221,9 @@ require(__DIR__ . "/src/config/conexion.php");
     <!-- How It Works -->
     <section class="how-it-works py-5 my-5">
         <div class="car-animation">
-            <img src="https://www.gifsanimados.org/data/media/67/coche-y-automovil-imagen-animada-0187.gif" 
-                 alt="Coche animado" 
-                 style="height: 120px;">
+            <img src="https://www.gifsanimados.org/data/media/67/coche-y-automovil-imagen-animada-0187.gif"
+                alt="Coche animado"
+                style="height: 120px;">
         </div>
         <div class="container text-center position-relative">
             <h2 class="display-4 fw-bold mb-4">¿Cómo funciona?</h2>
@@ -230,7 +260,9 @@ require(__DIR__ . "/src/config/conexion.php");
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/src/js/chatbot.js"></script>
 
+    
     <!-- Footer -->
     <?php include_once 'src/components/footer-example.php'; ?>
 </body>
+
 </html>
