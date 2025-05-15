@@ -142,6 +142,63 @@ ensureDOMReady(() => {
             text-align: right;
             color: #595959;
         }
+        .btn-socialicar {
+            display: inline-block;
+            margin: 10px 0;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #6BBFBF 0%, #55A8A9 100%);
+            color: #fff;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            box-shadow: 0 4px 15px rgba(107, 191, 191, 0.4);
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            user-select: text;
+        }
+
+        /* Hover */
+        .btn-socialicar:hover {
+        background: linear-gradient(135deg, #55A8A9 0%, #3F7F80 100%);
+        box-shadow: 0 8px 30px rgba(55, 150, 150, 0.6);
+        transform: translateY(-4px);
+        }
+
+        /* Efecto brillante */
+        .btn-socialicar::after {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: rgba(255, 255, 255, 0.15);
+        transform: rotate(25deg);
+        transition: all 0.5s ease;
+        pointer-events: none;
+        opacity: 0;
+        }
+
+        .btn-socialicar:hover::after {
+        opacity: 1;
+        top: -20%;
+        left: -20%;
+        transition: all 0.5s ease;
+        }
+
+        /* Selección de texto dentro del botón */
+        .btn-socialicar::selection {
+        background: #255353; /* Fondo oscuro para contraste */
+        color: #e0f7f7; /* Texto claro */
+        }
+
+        /* Para compatibilidad con navegadores WebKit */
+        .btn-socialicar::-moz-selection {
+        background: #255353;
+        color: #e0f7f7;
+        }
         #sc-chat-widget .sc-message.assistant {
             background: #fff;
             align-self: flex-start;
@@ -252,7 +309,7 @@ async function sendMessageToOpenAI(message) {
         if (shouldSuggest) {
             // Opción 1: Mostrar botón/enlace en el chat
             const url = 'https://socialicar.wuaze.com/src/pages/rentacar/mostrar_coches';
-            appendMessage('assistant', `<a href="${url}" target="_blank" style="display:inline-block;margin:10px 0;padding:10px 18px;background:#6BBFBF;color:#fff;border-radius:10px;text-decoration:none;font-weight:bold;">Ver coches baratos en SocialiCar</a>`);
+            appendMessage('assistant', `<a href="${url}" class="btn-socialicar" target="_blank">Ver coches baratos en SocialiCar</a>`);
             // Opción 2: Redirección automática (descomenta para activar)
             // window.open(url, '_blank'); // o window.location.href = url;
         }

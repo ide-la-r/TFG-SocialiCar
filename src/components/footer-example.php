@@ -1,3 +1,56 @@
+<div class="wave-container">
+  <!-- Onda trasera más transparente -->
+  <svg class="wave wave-back" viewBox="0 0 2400 120" preserveAspectRatio="none">
+    <path d="M0,30 C300,90 600,-30 900,30 C1200,90 1500,-30 1800,30 C2100,90 2400,-30 2400,120 L0,120 Z"
+      fill="#131719" fill-opacity="0.3" />
+  </svg>
+
+  <!-- Onda delantera más opaca -->
+  <svg class="wave wave-front" viewBox="0 0 2400 120" preserveAspectRatio="none">
+    <path d="M0,30 C300,90 600,-30 900,30 C1200,90 1500,-30 1800,30 C2100,90 2400,-30 2400,120 L0,120 Z"
+      fill="#131719" fill-opacity="1" />
+  </svg>
+</div>
+
+<style>
+.wave-container {
+  position: relative;
+  height: 120px;
+  overflow: hidden;
+  margin-bottom: -1px;
+}
+
+.wave {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  animation: waveMove 15s linear infinite;
+}
+
+.wave-back {
+  z-index: 1;
+  animation-duration: 25s;
+}
+
+.wave-front {
+  z-index: 2;
+}
+
+@keyframes waveMove {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+</style>
+
+<footer class="footer-02 mt-auto" style="background: #131719; position: relative; z-index: 2;">
+
+=======
 <!-- ANTES DEL FOOTER - WAVE -->
 <!-- Modifica el div de la onda -->
 <div class="custom-wave" style="position: relative; height: 100px; margin-bottom: -1px;">
