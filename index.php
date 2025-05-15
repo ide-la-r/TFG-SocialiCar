@@ -112,24 +112,6 @@ require(__DIR__ . "/src/config/conexion.php");
             transform: translateY(0);
         }
     }
-
-    @media (max-width: 768px) {
-        .bienvenido {
-            font-size: 2.5rem;
-        }
-
-        .socialicar {
-            font-size: 3.5rem;
-        }
-
-        .hero-section {
-            min-height: 50vh;
-        }
-
-        .car-animation {
-            display: none;
-        }
-    }
 </style>
 
 <body>
@@ -222,7 +204,6 @@ require(__DIR__ . "/src/config/conexion.php");
     <section class="how-it-works py-5 my-5">
         <div class="car-animation">
             <img src="https://www.gifsanimados.org/data/media/67/coche-y-automovil-imagen-animada-0187.gif"
-                alt="Coche animado"
                 style="height: 120px;">
         </div>
         <div class="container text-center position-relative">
