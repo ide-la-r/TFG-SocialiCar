@@ -57,6 +57,28 @@ ensureDOMReady(() => {
             border: 2px solid #6BBFBF;
             font-family: inherit;
         }
+        #sc-chat-widget .sc-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 18px 10px 18px;
+            background: #6BBFBF;
+            border-radius: 16px 16px 0 0;
+            border-bottom: 1px solid #B0D5D9;
+        }
+        #sc-chat-widget .sc-logo {
+            height: 36px;
+            width: 36px;
+            border-radius: 8px;
+            background: #fff;
+            object-fit: contain;
+        }
+        #sc-chat-widget .sc-title {
+            color: #fff;
+            font-size: 1.25rem;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
         #sc-chat-widget #sc-messages {
             padding: 20px 10px 10px 10px;
             height: 320px;
@@ -64,25 +86,44 @@ ensureDOMReady(() => {
             background: #C4EEF2;
             font-size: 1rem;
         }
-        #sc-chat-widget input[type="text"] {
-            border: none;
+        #sc-chat-widget .sc-input-area {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             border-top: 1px solid #B0D5D9;
-            padding: 12px;
-            width: 70%;
-            outline: none;
-            font-size: 1rem;
+            padding: 8px 10px 8px 10px;
             background: #F2F2F2;
+        }
+        #sc-chat-widget input[type="text"] {
+            flex: 1;
+            padding: 10px 14px;
+            font-size: 1rem;
+            border: 1px solid #B0D5D9;
+            border-radius: 8px;
+            outline: none;
+            background: #fff;
             color: #595959;
+            height: 40px;
+            box-sizing: border-box;
         }
         #sc-chat-widget button#sc-send-btn {
+            padding: 0 22px;
+            height: 40px;
+            border-radius: 8px;
             border: none;
-            background: #6BBFBF;
-            color: #F2F2F2;
-            padding: 12px 18px;
-            border-radius: 0 0 18px 0;
+            background: #4dd0e1;
+            color: #fff;
+            font-size: 1.1rem;
             cursor: pointer;
-            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             transition: background 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        #sc-chat-widget button#sc-send-btn:hover {
+            background: #0097a7;
+            color: #fff;
         }
         #sc-chat-widget button#sc-send-btn:hover {
             background: #B0D5D9;
@@ -126,10 +167,14 @@ if (!chatWidget) {
     chatWidget = document.createElement('div');
     chatWidget.id = 'sc-chat-widget';
     chatWidget.innerHTML = `
-        <div id="sc-messages"></div>
-        <div style="display: flex; border-top: 1px solid #B0D5D9;">
-            <input type="text" id="sc-user-input" placeholder="Escribe un mensaje..." autocomplete="off" />
-            <button id="sc-send-btn">Enviar</button>
+        <div class="sc-header">
+            <img src=\"/src/img/favicon.png\" alt=\"Logo SocialiCar\" class=\"sc-logo\">
+            <span class=\"sc-title\">SocialiCar Chatbot</span>
+        </div>
+        <div id=\"sc-messages\"></div>
+        <div class=\"sc-input-area\"> 
+            <input type=\"text\" id=\"sc-user-input\" placeholder=\"Escribe un mensaje...\" autocomplete=\"off\" />
+            <button id=\"sc-send-btn\">Enviar</button>
         </div>
     `;
     document.body.appendChild(chatWidget);
@@ -142,7 +187,7 @@ let sendButton = chatWidget.querySelector('#sc-send-btn');
 
 // 5. Historial
 let chatHistory = [
-    { role: 'system', content: `Eres un asistente virtual conversacional y amable de SocialiCar, una plataforma de alquiler de coches entre particulares.\nResponde paso a paso y guía al usuario como lo haría un chatbot profesional como el de Amovens.\nSi te preguntan por coches, primero pregunta si son propietarios o arrendatarios.\nNo respondas a preguntas que no estén relacionadas con SocialiCar, si te preguntan por otras paginas que no sean socilicar respondeles de manera educada que no puedes ofrecer informacion con una pagina que no sea socialicar` }
+    { role: 'system', content: `Eres un asistente virtual conversacional y amable de SocialiCar, una plataforma de alquiler de coches entre particulares.\nResponde paso a paso y guía al usuario como lo haría un chatbot profesional como el de Amovens.\nSi te preguntan por coches, primero pregunta si son propietarios o arrendatarios.\nNo respondas a preguntas que no estén relacionadas con SocialiCar, si te preguntan por otras paginas que no sean socilicar respondeles de manera educada que no puedes ofrecer informacion con una pagina que no sea socialicar, En caso de que te pregunten si disponemos de una aplicacion movil, di que actualmente no disponemos de una pero que estamos trabajando en ella` }
 ];
 
 // 6. Mostrar mensajes
