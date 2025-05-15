@@ -3,10 +3,13 @@
   <svg style="display: block;" viewBox="0 0 1200 120" preserveAspectRatio="none">
     <path fill="#131719" d="M0,64L80,58.7C160,53,320,43,480,48C640,53,800,75,960,74.7C1120,75,1280,53,1360,42.7L1440,32L1440,320L1360,320C1280,320,1280,320,1120,320C960,320,800,320,640,320C480,320,320,320,160,320L80,320L0,320Z"></path>
   </svg>
-</div>
+</div>  
 <footer class="footer-02 mt-auto" style="background: #131719; position: relative; z-index: 2;">
 
+
   <div class="container">
+
+
     <div class="row justify-content-center">
       <div class="col-10 col-lg-6">
         <div class="subscribe mb-5">
