@@ -201,6 +201,13 @@
                 }
                 ?>
             </div>
+
+            <!-- Mapa de ubicación -->
+            <div class="col-md-12">
+                <h5 class="mt-4">Ubicación del vehículo</h5>
+                <div id="map" data-direccion="<?php echo $direccion_usable; ?>" style="height: 400px;" class="mt-4"></div>
+            </div>
+
         </div>
     </div><br>
 
