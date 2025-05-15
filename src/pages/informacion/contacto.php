@@ -16,7 +16,7 @@
     <div class="row align-items-stretch justify-content-center">
       <!-- Imagen a la izquierda -->
       <div class="col-lg-6 mb-4 mb-lg-0 d-flex align-items-stretch">
-        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb" alt="Farmacia" class="img-fluid rounded shadow w-100" style="object-fit:cover; min-height:400px;">
+        <img src="../../img/contacto.jpg" alt="Farmacia" class="img-fluid rounded shadow w-100" style="object-fit:cover; min-height:400px;">
       </div>
       <!-- Formulario a la derecha -->
       <div class="col-lg-6 d-flex flex-column justify-content-center h-100">
