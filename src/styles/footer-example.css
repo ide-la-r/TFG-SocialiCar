@@ -158,27 +158,27 @@
 .custom-wave svg {
   width: 100%;
   height: 100%;
-  transform: translateY(-50%); /* Sube la ola */
+  transform: translateY(-50%);
+  /* Sube la ola */
 }
 
 .footer-02 {
   background: #131719;
   position: relative;
   z-index: 2;
-  margin-top: -50px; /* Empuja el footer hacia arriba */
-  padding-top: 100px !important; /* Espacio para el contenido */
+  margin-top: -50px;
+  /* Empuja el footer hacia arriba */
+  padding-top: 100px !important;
+  /* Espacio para el contenido */
 }
 
 /* responsive */
-@media (max-width: 718px) {
-  
-
-}
+@media (max-width: 718px) {}
 
 @media (max-width: 576px) {
   .custom-wave {
+    height: 100px;
   }
-  
-  .footer-02 {
-  }
+
+  .footer-02 {}
 }

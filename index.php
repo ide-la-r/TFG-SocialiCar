@@ -33,8 +33,39 @@ require(__DIR__ . "/src/config/conexion.php");
         justify-content: center;
     }
 
+
+    /* Pantallas <= 1200px */
+    @media (max-width: 1200px) {
+        .hero-section {
+            min-height: 60vh;
+        }
+    }
+
+    /* Pantallas <= 992px */
+    @media (max-width: 992px) {
+        .hero-section {
+            min-height: 50vh;
+        }
+    }
+
+    /* Pantallas <= 768px */
+    @media (max-width: 768px) {
+        .hero-section {
+            min-height: 40vh;
+        }
+    }
+
+    /* Pantallas <= 576px */
+    @media (max-width: 576px) {
+        .hero-section {
+            min-height: 30vh;
+        }
+    }
+
+
     .bienvenido {
-        font-size: 4rem;
+        font-size: clamp(2rem, 5vw, 4rem);
+        /* <-- esto lo hace responsive */
         color: #fff;
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         animation: aparecer 2s ease;
@@ -47,21 +78,23 @@ require(__DIR__ . "/src/config/conexion.php");
         font-size: 12rem;
         transform: rotate(-5deg);
         padding-top: 25px;
+        font-size: clamp(3rem, 15vw, 16rem);
+        /* MÁS grande en todos los tamaños */
     }
 
-   @keyframes flotar {
-    0% {
-        transform: rotate(-5deg) translateY(0);
-    }
+    @keyframes flotar {
+        0% {
+            transform: rotate(-5deg) translateY(0);
+        }
 
-    50% {
-        transform: rotate(-5deg) translateY(-10px);
-    }
+        50% {
+            transform: rotate(-5deg) translateY(-10px);
+        }
 
-    100% {
-        transform: rotate(-5deg) translateY(0);
+        100% {
+            transform: rotate(-5deg) translateY(0);
+        }
     }
-}
 
 
     .feature-card {
@@ -96,10 +129,17 @@ require(__DIR__ . "/src/config/conexion.php");
 
     .car-animation {
         position: absolute;
-        left: 5%;
+        left: 1%;
         top: -30px;
         filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
     }
+
+    .car-gif {
+        height: auto;
+        max-height: clamp(60px, 10vw, 120px);
+        width: auto;
+    }
+
 
     @keyframes aparecer {
         from {
@@ -156,9 +196,9 @@ require(__DIR__ . "/src/config/conexion.php");
     </form>
 
     <!-- Features -->
-    <div class="container">
+    <div class="container p-1">
         <!-- Alquila tu coche -->
-        <div class="row feature-card align-items-center g-5 my-5 p-4">
+        <div class="row feature-card align-items-center g-5 my-5">
             <div class="col-12 col-lg-6 text-center">
                 <img src="src/img/gente_feliz.webp" class="img-fluid">
             </div>
@@ -174,9 +214,9 @@ require(__DIR__ . "/src/config/conexion.php");
         </div>
 
         <!-- Gana dinero -->
-        <div class="row feature-card align-items-center g-5 my-5 p-4">
+        <div class="row feature-card align-items-center g-5 my-5">
             <div class="col-12 col-lg-6 order-lg-2 text-center">
-                <img src="src/img/dinerito.png" class="img-fluid" style="max-width: 400px;">
+                <img src="src/img/dinerito.png" class="img-fluid">
             </div>
             <div class="col-12 col-lg-6">
                 <h2 class="display-5 fw-bold mb-4">📱 Gana dinero con tu vehículo</h2>
@@ -189,9 +229,9 @@ require(__DIR__ . "/src/config/conexion.php");
         </div>
 
         <!-- Reseñas -->
-        <div class="row feature-card align-items-center g-5 my-5 p-4">
+        <div class="row feature-card align-items-center g-5 my-5">
             <div class="col-12 col-md-4 text-center">
-                <img src="src/img/reseñas.png" class="img-fluid" style="max-width: 200px;">
+                <img src="src/img/reseñas.png" class="img-fluid">
             </div>
             <div class="col-12 col-md-8">
                 <h2 class="display-5 fw-bold mb-4">Sistema de reseñas y chat</h2>
@@ -202,16 +242,14 @@ require(__DIR__ . "/src/config/conexion.php");
 
     <!-- How It Works -->
     <section class="how-it-works py-5 my-5">
-        <div class="car-animation">
-            <img src="https://www.gifsanimados.org/data/media/67/coche-y-automovil-imagen-animada-0187.gif"
-                style="height: 120px;">
-        </div>
+
         <div class="container text-center position-relative">
             <h2 class="display-4 fw-bold mb-4">¿Cómo funciona?</h2>
-            <p class="lead mb-5">Simple y rápido en 3 pasos</p>
+                <img class="img-fluid mb-5" src="https://www.gifsanimados.org/data/media/67/coche-y-automovil-imagen-animada-0187.gif">
+          
             <div class="row g-4">
                 <div class="col-12 col-md-4">
-                    <div class="card h-100 border-0 shadow-sm p-4">
+                    <div class="card h-100 border-0 shadow-sm">
                         <div class="card-body">
                             <h3 class="text-primary">1. Regístrate</h3>
                             <p>Crea tu cuenta en minutos</p>
@@ -219,7 +257,7 @@ require(__DIR__ . "/src/config/conexion.php");
                     </div>
                 </div>
                 <div class="col-12 col-md-4">
-                    <div class="card h-100 border-0 shadow-sm p-4">
+                    <div class="card h-100 border-0 shadow-sm">
                         <div class="card-body">
                             <h3 class="text-primary">2. Ofrece tu coche</h3>
                             <p>Configura tus preferencias</p>
@@ -227,7 +265,7 @@ require(__DIR__ . "/src/config/conexion.php");
                     </div>
                 </div>
                 <div class="col-12 col-md-4">
-                    <div class="card h-100 border-0 shadow-sm p-4">
+                    <div class="card h-100 border-0 shadow-sm">
                         <div class="card-body">
                             <h3 class="text-primary">3. Empieza a ganar</h3>
                             <p>Recibe solicitudes y renta</p>
@@ -241,7 +279,7 @@ require(__DIR__ . "/src/config/conexion.php");
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/src/js/chatbot.js"></script>
 
-    
+
     <!-- Footer -->
     <?php include_once 'src/components/footer-example.php'; ?>
 </body>
