@@ -1250,7 +1250,7 @@
         );
 
         if (!$enviar_coche->execute()) {
-            die('Error al insertar coche: ' . $enviarCoche->error);
+            die('Error al insertar coche: ' . $enviar_coche->error);
         }
 
         /* Insertar los extras */
