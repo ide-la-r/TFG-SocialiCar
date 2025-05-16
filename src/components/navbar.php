@@ -15,6 +15,7 @@
     animation: shimmer 17s infinite linear;
 }
 
+
 @keyframes shimmer {
     0% {
         background-position: 100% 0;
@@ -36,6 +37,7 @@
         margin-top: 10px; /* Espaciado adicional */
     }
 }  
+
 </style>
 
 <nav class="navbar navbar-expand-lg navbar-light custom-navbar">
