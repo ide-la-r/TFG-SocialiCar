@@ -14,6 +14,12 @@ require(__DIR__ . "/src/config/conexion.php");
     <link rel="icon" href="src/img/favicon.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="../../../src/styles/planes.css">
+
+    <script src="conversa_ia.js"></script>
     <?php include_once 'src/components/links.php'; ?>
 </head>
 
@@ -167,9 +173,10 @@ require(__DIR__ . "/src/config/conexion.php");
     </section>
 
     <!-- Search Form -->
-    <form method="get" action="./src/pages/rentacar/mostrar_coches.php">
+    <form method="get" action="./src/pages/rentacar/mostrar_coches.php" class="mt-5">
         <div class="container my-5">
-            <div class="card feature-card p-3 p-lg-4 mx-auto border-0 shadow-lg">
+            <div class="p-3 p-lg-4 border-0 shadow-lg bg-white bg-opacity-75 rounded-5">
+
                 <div class="row g-3 justify-content-center">
                     <div class="col-12 col-md-4">
                         <select class="form-select form-control-custom">
@@ -196,89 +203,95 @@ require(__DIR__ . "/src/config/conexion.php");
     </form>
 
     <!-- Features -->
-    <div class="container p-1">
-        <!-- Alquila tu coche -->
-        <div class="row feature-card align-items-center g-5 my-5">
-            <div class="col-12 col-lg-6 text-center">
-                <img src="src/img/gente_feliz.webp" class="img-fluid">
-            </div>
-            <div class="col-12 col-lg-6">
-                <h2 class="display-5 fw-bold mb-4">Alquila tu coche fácilmente 🚗</h2>
-                <p class="lead mb-4">Conectamos dueños de vehículos con personas que necesitan un coche para sus viajes.</p>
-                <div class="d-flex gap-3 flex-wrap">
-                    <span class="badge bg-success fs-6 py-2 px-3">✔️ 100% Seguro</span>
-                    <span class="badge bg-primary fs-6 py-2 px-3">✔️ Precios flexibles</span>
-                    <span class="badge bg-info fs-6 py-2 px-3">✔️ Soporte 24/7</span>
-                </div>
-            </div>
+    <div class="container">
+    <!-- Alquila tu coche -->
+    <div class="row feature-card align-items-center justify-content-center g-5 my-5 p-4">
+        <div class="col-12 col-lg-6 d-flex justify-content-center">
+            <img src="src/img/gente_feliz.webp" class="img-fluid rounded w-100">
         </div>
-
-        <!-- Gana dinero -->
-        <div class="row feature-card align-items-center g-5 my-5">
-            <div class="col-12 col-lg-6 order-lg-2 text-center">
-                <img src="src/img/dinerito.png" class="img-fluid">
-            </div>
-            <div class="col-12 col-lg-6">
-                <h2 class="display-5 fw-bold mb-4">📱 Gana dinero con tu vehículo</h2>
-                <ul class="list-unstyled fs-5">
-                    <li class="mb-3">💵 Control total de precios</li>
-                    <li class="mb-3">📅 Decide tu disponibilidad</li>
-                    <li class="mb-3">🛡️ Seguro incluido</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Reseñas -->
-        <div class="row feature-card align-items-center g-5 my-5">
-            <div class="col-12 col-md-4 text-center">
-                <img src="src/img/reseñas.png" class="img-fluid">
-            </div>
-            <div class="col-12 col-md-8">
-                <h2 class="display-5 fw-bold mb-4">Sistema de reseñas y chat</h2>
-                <p class="lead">Lee opiniones reales y comunícate en tiempo real con nuestra plataforma integrada.</p>
+        <div class="col-12 col-lg-6 p-3 d-flex flex-column justify-content-center text-center text-lg-start">
+            <h2 class="display-5 fw-bold mb-4" >Alquila tu coche fácilmente 🚗</h2>
+            <p class="lead mb-4">Conectamos dueños de vehículos con personas que necesitan un coche para sus viajes.</p>
+            <div class="d-flex gap-3 flex-wrap justify-content-center justify-content-lg-start">
+                <span class="badge bg-success fs-6 py-2 px-3">✔️ 100% Seguro</span>
+                <span class="badge bg-primary fs-6 py-2 px-3">✔️ Precios flexibles</span>
+                <span class="badge bg-info fs-6 py-2 px-3">✔️ Soporte 24/7</span>
             </div>
         </div>
     </div>
 
+    <!-- Gana dinero -->
+    <div class="row feature-card align-items-center justify-content-center g-5 my-5 p-4">
+        
+        <div class="col-12 col-lg-6 order-lg-2 d-flex justify-content-center">
+            <img src="src/img/dinerito.png" class="img-fluid rounded w-75 pl-5 pb-5">
+        </div>
+        <div class="col-12 col-lg-6 d-flex flex-column justify-content-center text-center text-lg-start">
+            <h2 class="display-5 fw-bold mb-4 p-3" >📱 Gana dinero con tu vehículo</h2>
+            <ul class="list-unstyled fs-5 p-3">
+                <li class="mb-3 pl-5">💵 Control total de precios</li>
+                <li class="mb-3 pl-5">📅 Decide tu disponibilidad</li>
+                <li class="mb-3 pl-5">🛡️ Seguro incluido</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Reseñas -->
+    <div class="row feature-card align-items-center justify-content-center g-5 my-5 p-4">
+        <div class="col-12 col-md-4 d-flex justify-content-center">
+            <img src="src/img/reseñas.png" class="img-fluid rounded w-75 mb-5">
+        </div>
+        <div class="col-12 col-md-8 d-flex flex-column justify-content-center text-center text-md-start">
+            <h2 class="display-5 fw-bold mb-4 p-3">Sistema de reseñas y chat</h2>
+            <p class="lead p-3">Lee opiniones reales y comunícate en tiempo real con nuestra plataforma integrada.</p>
+        </div>
+    </div>
+</div>
+
     <!-- How It Works -->
     <section class="how-it-works py-5 my-5">
 
-        <div class="container text-center position-relative">
+        <div class="container text-center">
             <h2 class="display-4 fw-bold mb-4">¿Cómo funciona?</h2>
-                <img class="img-fluid mb-5" src="https://www.gifsanimados.org/data/media/67/coche-y-automovil-imagen-animada-0187.gif">
-          
-            <div class="row g-4">
+            <img class="img-fluid mb-5" src="https://www.gifsanimados.org/data/media/67/coche-y-automovil-imagen-animada-0187.gif">
+
+            <div class="row justify-content-center text-center g-5">
                 <div class="col-12 col-md-4">
-                    <div class="card h-100 border-0 shadow-sm">
-                        <div class="card-body">
-                            <h3 class="text-primary">1. Regístrate</h3>
+                    <div class="d-flex flex-column align-items-center">
+                        <div class="rounded-circle text-white d-flex justify-content-center align-items-center mb-3" style="width: 80px; height: 80px; font-size: 1.5rem; background-color: rgb(160, 115, 255);">
+                            1
+                        </div>
+                        <h2 class="fw-bold">Regístrate</h4>
                             <p>Crea tu cuenta en minutos</p>
-                        </div>
                     </div>
                 </div>
+
                 <div class="col-12 col-md-4">
-                    <div class="card h-100 border-0 shadow-sm">
-                        <div class="card-body">
-                            <h3 class="text-primary">2. Ofrece tu coche</h3>
+                    <div class="d-flex flex-column align-items-center">
+                        <div class="rounded-circle text-white d-flex justify-content-center align-items-center mb-3" style="width: 80px; height: 80px; font-size: 1.5rem; background-color:rgb(197, 255, 131)">
+                            2
+                        </div>
+                        <h2 class="fw-bold">Ofrece tu coche</h4>
                             <p>Configura tus preferencias</p>
-                        </div>
                     </div>
                 </div>
+
                 <div class="col-12 col-md-4">
-                    <div class="card h-100 border-0 shadow-sm">
-                        <div class="card-body">
-                            <h3 class="text-primary">3. Empieza a ganar</h3>
-                            <p>Recibe solicitudes y renta</p>
+                    <div class="d-flex flex-column align-items-center">
+                        <div class="rounded-circle bg-info text-white d-flex justify-content-center align-items-center mb-3" style="width: 80px; height: 80px; font-size: 1.5rem;">
+                            3
                         </div>
+                        <h2 class="fw-bold">Empieza a ganar</h4>
+                            <p>Recibe solicitudes y renta</p>
                     </div>
                 </div>
             </div>
+
         </div>
     </section>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/src/js/conversa_ia.js"></script>
-
 
     <!-- Footer -->
     <?php include_once 'src/components/footer-example.php'; ?>
