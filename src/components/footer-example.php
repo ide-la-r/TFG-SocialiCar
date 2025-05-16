@@ -50,7 +50,6 @@
 
 <footer class="footer-02 mt-auto" style="background: #131719; position: relative; z-index: 2;">
 
-=======
 <!-- ANTES DEL FOOTER - WAVE -->
 <!-- Modifica el div de la onda -->
 <div class="custom-wave" style="position: relative; height: 100px; margin-bottom: -1px;">
