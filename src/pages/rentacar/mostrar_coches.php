@@ -112,10 +112,10 @@
     tabindex="-1" 
     id="filtrosOffcanvas" 
     aria-labelledby="filtrosLabel"
-    style="width: 300px;"
+    style="width: 500px;"
 >
     <div class="offcanvas-header border-bottom">
-        <h5 class="offcanvas-title" id="filtrosLabel">Filtros</h5>
+        <h3 class="offcanvas-title" id="filtrosLabel">Filtros</h3>
         <button 
             type="button" 
             class="btn-close" 
@@ -125,7 +125,6 @@
     </div>
     
     <div class="offcanvas-body pt-0">
-        <!-- Contenido de los filtros -->
         <!-- MARCA -->
         <div class="mt-3">
             <label class="form-label">Marca:</label>

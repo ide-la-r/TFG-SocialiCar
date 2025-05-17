@@ -1,17 +1,18 @@
-
 <nav class="navbar navbar-expand-lg navbar-light custom-navbar">
   <div class="container-fluid">
-    <!-- Botón para móviles -->
+    <!-- Botón para móviles - Añadido estilo outline: none -->
     <button
-      class="navbar-toggler"
+      class="navbar-toggler ps-3 border-0"
       type="button"
       data-bs-toggle="collapse"
       data-bs-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent"
       aria-expanded="false"
-      aria-label="Toggle navigation">
+      aria-label="Toggle navigation"
+      style="outline: none !important; box-shadow: none !important;">
       <i class="fas fa-bars"></i>
     </button>
+
 
     <!-- Logo -->
     <a class="navbar-brand mt-2 mt-lg-0 logo ps-3" href="/">
@@ -23,7 +24,7 @@
 
     <!-- Contenido colapsable -->
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 ps-3 ps-lg-0">
         <li class="nav-item">
           <a class="nav-link" href="/">Inicio</a>
         </li>
@@ -52,7 +53,7 @@
     </div>
 
     <!-- Elementos a la derecha -->
-    <div class="d-flex align-items-center">
+    <div class="d-flex align-items-center pe-3">
       <!-- Botón de alquilar (versión escritorio) -->
       <?php
       if (isset($_SESSION['usuario'])) {

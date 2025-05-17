@@ -4,114 +4,388 @@ ini_set("display_errors", 1);
 session_start();
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SocialiCar - Comparte tu coche</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SocialiCar - Planes de Suscripción</title>
     <?php
     include_once '../../components/links.php';
     require(__DIR__ . "/../../config/conexion.php");
     ?>
     <link rel="icon" href="../../../src/img/favicon.png" />
-    <link rel="stylesheet" href="../../../src/styles/planes.css">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --gold-color: #ffd700;
+            --neon-glow: 0 0 10px rgba(255, 215, 0, 0.8);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .hero-section {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: 0;
+            object-fit: cover;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg,
+                    rgba(0, 119, 255, 0.2) 0%,
+                    rgba(0, 0, 0, 0.8) 100%);
+            z-index: 0;
+        }
+
+        .plans-container {
+            position: relative;
+            z-index: 2;
+            padding-top: 80px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 3px;
+            background: var(--gold-color);
+            margin: 15px auto;
+            box-shadow: var(--neon-glow);
+        }
+
+        .plan-card {
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.5s ease;
+            background: rgba(20, 20, 20, 0.8);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        .plan-header {
+            padding: 30px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .basic-plan .plan-header {
+            background: linear-gradient(135deg, #007bff 0%, #00b4ff 100%);
+        }
+
+        .premium-plan .plan-header {
+            background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+        }
+
+        .plan-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .plan-price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .basic-plan .plan-price {
+            color: #4dabf7;
+        }
+
+        .premium-plan .plan-price {
+            color: var(--gold-color);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .plan-price span {
+            font-size: 1rem;
+            font-weight: 400;
+        }
+
+        .plan-badge {
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            background: white;
+            color: #333;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .plan-body {
+            padding: 30px;
+        }
+
+        .plan-features {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 30px;
+        }
+
+        .plan-features li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+        }
+
+        .plan-features li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-icon {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .basic-plan .feature-icon {
+            color: #4dabf7;
+        }
+
+        .premium-plan .feature-icon {
+            color: var(--gold-color);
+        }
+
+        .btn-plan {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            border-radius: 30px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .btn-basic {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-basic:hover {
+            background: transparent;
+            border-color: #007bff;
+            color: #007bff;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 123, 255, 0.3);
+        }
+
+        .btn-premium {
+            background: var(--gold-color);
+            color: #333;
+            font-weight: 700;
+        }
+
+        .btn-premium:hover {
+            background: transparent;
+            border-color: var(--gold-color);
+            color: var(--gold-color);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .recommended-badge {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            background: #ff4757;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            transform: rotate(15deg);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        .comparison-table {
+            background: rgba(20, 20, 20, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            margin-top: 50px;
+        }
+
+        .comparison-table th {
+            background: rgba(0, 123, 255, 0.2);
+            color: white;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .comparison-table td {
+            vertical-align: middle;
+            color: #ddd;
+        }
+
+        .check-icon {
+            color: #4cd137;
+            font-size: 1.2rem;
+        }
+
+        .times-icon {
+            color: #ff4757;
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 768px) {
+            .plan-card {
+                margin-bottom: 30px;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <!-- navbar -->
+    <!-- Navbar -->
     <?php include_once '../../components/navbar.php'; ?>
-    <?php
-    $sub_basica = 9.99;
-    $sub_premium = 19.99;
-    ?>
 
-    <!-- video -->
-    <div class="video-container">
-        <video autoplay muted loop playsinline class="video">
-            <source src="../../video/socialicar_1.mp4" type="video/mp4">
+    <!-- Hero Section with Video Background -->
+    <section class="hero-section">
+        <video autoplay muted loop playsinline class="hero-video">
+            <source src="../../video/socialicar_1.mp4" type="video/mp4" />
             Tu navegador no soporta vídeos HTML5.
         </video>
-        <div class="oscuro"></div>
+        <div class="video-overlay"></div>
 
-
-        <!-- SUSCRIPCIONES -->
-        <div class="container d-flex justify-content-center align-items-center min-vh-100">
-            <div class="row row-cols-1 row-cols-md-2 justify-content-center g-4 w-75">
-
-                <!-- basica -->
-                <div class="col d-flex justify-content-center">
-                    <div class="card-container">
-                        <div class="card text-center first-card">
-                            <div class="card-body">
-                                <h3 class="card-title mb-3 fs-1" style="color: rgba(255, 255, 255, 0.99);">
-                                    Suscripción Básica
-                                </h3>
-
-                                <div style="text-align: center;">
-                                    <span class="badge bg-primary mb-2" style="display: inline-block; padding: 0.4em 0.8em; font-size: 0.9rem;">
-                                        OFERTAS EXCLUSIVAS
-                                    </span>
-                                </div>
-
-                                <p class="card-text mb-4" style="color: white; text-align: left;">
-                                    <br>
-                                    ✔ Descuentos exclusivos<br>
-                                    ✔ Posiciona tu vehículo en las primeras posiciones una vez por semana<br>
-                                    ✘ Acceso a vehículos reservados para usuarios Premium<br>
-                                    ✘ Reservas prioritarias<br>
-                                    ✘ Ofertas y descuentos únicos exclusivos de Premium
-                                </p>
-
-                                <h4 class="mt-3 precio" style="color: rgba(101, 255, 81, 0.99); font-size: 2rem;">9,99€/mes</h4>
-                                <a href="../pago/iniciar_pago.php?tipo=basica" class="btn btn-outline-primary mt-3 boton2" style="color: white; background-color: rgba(17, 112, 255, 0.99)">Suscribirse</a>
+        <!-- Plans Section -->
+        <div class="container plans-container">
+            <div class="row">
+                <div
+                    class="col-12">
+                    <h2 class="section-title">Planes de Suscripción</h2>
+                </div>
+            </div>
+            <div class="row justify-content-center g-4">
+                <!-- Plan Básico -->
+                <div class="col-md-5 col-lg-4">
+                    <div class="plan-card basic-plan">
+                        <div class="plan-header">
+                            <h3 class="plan-title">Plan Básico</h3>
+                            <div class="plan-price">
+                                6,99€ <span>/ mes</span>
                             </div>
+                        </div>
+                        <div class="plan-body">
+                            <ul class="plan-features">
+                                <li><i class="fas fa-check-circle feature-icon"></i> Acceso a la plataforma</li>
+                                <li><i class="fas fa-check-circle feature-icon"></i> Publicar hasta 3 anuncios</li>
+                                <li><i class="fas fa-check-circle feature-icon"></i> Soporte por email</li>
+                                <li><i class="fas fa-times-circle feature-icon"></i> Sin acceso a soporte premium</li>
+                                <li><i class="fas fa-times-circle feature-icon"></i> Sin ofertas exclusivas</li>
+                            </ul>
+                            <a href="iniciar_pago.php?tipo=basica" class="btn btn-basic btn-plan">Suscribirse</a>
                         </div>
                     </div>
                 </div>
 
-
-                <!-- premium -->
-                <div class="col d-flex justify-content-center">
-                    <div class="card-container">
-                        <div class="card text-center second-card">
-                            <div class="card-body">
-                                <h3 class="card-title mb-3 fs-1 neon" style="color: rgba(255, 255, 255, 0.99);">
-                                    Suscripción Premium
-                                </h3>
-
-                                <div style="text-align: center;">
-                                    <span class="badge bg-warning mb-2" style="display: inline-block; padding: 0.4em; font-size: 0.9rem;">
-                                        VEHÍCULOS EXCLUSIVOS
-                                    </span>
-                                </div>
-
-                                <p class="card-text mb-4" style="color: white; text-align: left;">
-                                    <br>
-                                    ✔ Posiciona tus vehículos siempre en las primeras posiciones<br>
-                                    ✔ Accede a vehículos reservados solo para nuestros usuarios Premium<br>
-                                    ✔ Disfruta de reservas prioritarias<br>
-                                    ✔ Ofertas y descuentos únicos
-                                </p>
-
-
-
-
-                                <h4 class="my-4 precio" style="color: rgba(101, 255, 81, 0.99); font-size: 2rem;">19,99€/mes</h4>
-                                <a href="../pago/iniciar_pago.php?tipo=premium" class="btn btn-outline-warning boton1" style="background-color:rgba(242, 255, 0, 0.18); color: white">Suscribirse</a>
+                <!-- Plan Premium -->
+                <div class="col-md-5 col-lg-4 position-relative">
+                    <div class="recommended-badge animate__animated animate__pulse animate__infinite">Recomendado</div>
+                    <div class="plan-card premium-plan">
+                        <div class="plan-header">
+                            <h3 class="plan-title">Plan Premium</h3>
+                            <div class="plan-price">
+                                19,99€ <span>/ mes</span>
                             </div>
+                        </div>
+                        <div class="plan-body">
+                            <ul class="plan-features">
+                                <li><i class="fas fa-check-circle feature-icon"></i> Acceso completo a la plataforma</li>
+                                <li><i class="fas fa-check-circle feature-icon"></i> Publicar anuncios ilimitados</li>
+                                <li><i class="fas fa-check-circle feature-icon"></i> Soporte premium 24/7</li>
+                                <li><i class="fas fa-check-circle feature-icon"></i> Acceso a ofertas exclusivas</li>
+                                <li><i class="fas fa-check-circle feature-icon"></i> Acceso anticipado a nuevas funciones</li>
+                            </ul>
+                            <a href="iniciar_pago.php?tipo=premium" class="btn btn-premium btn-plan">Suscribirse</a>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
-    </div>
+    </section>
 
+    <div class="footer-overlay">
+        <?php include_once '../../components/footer-example.php'; ?>
     </div>
-
-    <!-- Footer -->
-    <?php include_once '../../components/footer-example.php'; ?>
-    <script src="/src/js/chatbot.js"></script>
+    <style>
+        .footer-overlay {
+            transform: translateY(-75px);
+            width: 100%;
+            box-sizing: border-box;
+        }
+    </style>
 </body>
 
 </html>
