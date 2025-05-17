@@ -775,7 +775,7 @@
             <!-- INFORMACION DEL VEHICULO (MARCA MODELO Y ANNO DE MATRICULACION) -->
             <div class="container mt-5 pt-5">
                 <div class="card py-4 px-2 px-md-4">
-                    <h3 class="text-start mb-4">Información básica</h3>
+                    <h3 class="text-start mb-4">Información básica ✍🏼</h3>
                     <div class="row gy-3 justify-content-center">
 
                         <?php
@@ -892,7 +892,7 @@
 
                 <div class="container card">
                     <br>
-                    <h3>Información del vehículo</h3>
+                    <h3>Información del vehículo 🚗</h3>
                     <div class="row justify-content-center pt-3">
                         <div class="mb-3 col-6">
                             <div class="form-floating">
@@ -1104,7 +1104,7 @@
 
             <div class="container mt-5 pt-5">
                 <div class="container card py-4">
-                    <h3 class="text-start">Precio por día</h3>
+                    <h3 class="text-start">Precio por día 💸</h3>
 
                     <div class="d-flex flex-column align-items-center">
                         <label id="totalPrecio" class="form-label fw-bold">
@@ -1135,7 +1135,7 @@
             <!-- Dirección y Tipo de aparcamiento -->
             <div class="container mt-5 pt-5">
                 <div class="container card py-4">
-                    <h3 class="text-start">Ubicación del vehículo</h3>
+                    <h3 class="text-start">Ubicación del vehículo 📍</h3>
                     <div class="row justify-content-center pt-3">
                         <!-- Dirección -->
                         <div class="mb-3 col-12 col-md-6">
