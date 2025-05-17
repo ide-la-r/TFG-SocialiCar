@@ -1,62 +1,68 @@
-  @import url(global.css);
+@import url(global.css);
 
-  .custom-navbar {
-    background-color: #C4EEF2 !important;
-  }
+.custom-navbar {
+  background-color: #C4EEF2 !important;
+}
 
-  .btn {
-    border-radius: 25px !important;
-  }
+.btn {
+  border-radius: 25px !important;
+}
 
-  .btn-custom {
-    background-color: #6BBFBF;
-    color: black;
-    border: none;
-  }
+.btn-custom {
+  background-color: #6BBFBF;
+  color: black;
+  border: none;
+}
 
-  .nav-item {
-    padding-right: 20px;
-  }
+.btn-custom:hover {
+  background-color: #B0D5D9;
+  color: black;
+}
 
-  .nav-item .nav-link {
-    position: relative;
-    padding-bottom: 5px;
-  }
+.custom-navbar .btn-custom {
+  color: white !important;
+  background-color: #6BBFBF;
+}
 
-  .nav-item .nav-link::after {
-    /* se encarga de subrayar */
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 3px;
-    background-color: white;
-    transform: scaleX(0);
-    transform-origin: bottom right;
-    transition: transform 0.3s ease;
-  }
+.nav-item {
+  padding-right: 20px;
+}
 
-  .nav-item .nav-link:hover::after {
-    /* se encarga de subrayar */
-    transform: scaleX(1);
-    transform-origin: bottom left;
-  }
+.nav-item .nav-link {
+  position: relative;
+  padding-bottom: 5px;
+}
 
-  .nav-item:hover .nav-link {
-    color: white !important;
-  }
+.nav-item .nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 3px;
+  background-color: white;
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform 0.3s ease;
+}
 
+.nav-item .nav-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
 
-  
-  .premium-link .fa-star {
+.nav-item:hover .nav-link {
+  color: white !important;
+}
+
+.premium-link .fa-star {
   color: rgb(252, 235, 121) !important;
-  transition: transform 0.3s ease, color 0.3s ease; 
+  transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .premium-link:hover .fa-star {
-  color: white !important; 
-  animation: girarEstrella 1.5s infinite linear; 
+  color: white !important;
+  animation: girarEstrella 1.5s infinite linear;
 }
 
 @keyframes girarEstrella {
@@ -68,28 +74,60 @@
   }
 }
 
-
-
 .fa-solid {
   color: white;
 }
 
-.custom-navbar .btn-custom {
-  color: white !important;
-  /* sino, cambia de color */
-  background-color: #6BBFBF;
-  border: none;
+.dropdown-menu {
+  display: block;
+  opacity: 0;
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: all 0.2s ease;
+  position: absolute;
+  right: 0;
+  min-width: 200px;
+  pointer-events: none;
 }
 
-.btn-custom:hover {
-  background-color: #B0D5D9;
-  color: black;
+.dropdown-menu.show {
+  opacity: 1;
+  transform: scaleY(1);
+  pointer-events: auto;
+}
+
+.navbar-nav {
+  position: relative;
 }
 
 .navbar {
+  background: linear-gradient(120deg,
+    rgba(255, 255, 255, 0.05),
+    rgba(255, 255, 255, 0.15),
+    rgba(255, 255, 255, 0.6),
+    rgba(107, 191, 191, 0.15),
+    rgba(107, 191, 191, 0.15),
+    rgba(255, 255, 255, 0.6),
+    rgba(255, 255, 255, 0.15),
+    rgba(255, 255, 255, 0.05),
+    transparent);
+  background-size: 300% 100%;
+  animation: shimmer 17s infinite linear;
   overflow: visible !important;
   position: relative;
   z-index: 50;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  50% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 100% 0;
+  }
 }
 
 .logo {
@@ -105,26 +143,22 @@
   left: 0;
 }
 
-.dropdown-menu {
+.btn-alquila-mobile {
   display: block;
-  opacity: 0;
-  transform: scaleY(0);
-  transform-origin: top;
-  transition: all 0.2s ease;
-  position: absolute;
-  right: 0;
-  min-width: 200px;
-  pointer-events: none;
-  
+  padding: 0.3rem 0.8rem;
+  color: #000;
+  text-decoration: none;
+  border-radius: 25px;
+  background-color: #6BBFBF;
+  text-align: center;
+  width: fit-content;
+  font-size: 0.9rem;
 }
 
-.dropdown-menu.show { 
-  opacity: 1;
-  transform: scaleY(1);
-  pointer-events: auto;
+@media (max-width: 600px) {
+  .logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }
-
-.navbar-nav {
-  position: relative;
-}
-

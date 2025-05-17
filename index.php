@@ -30,6 +30,8 @@ require(__DIR__ . "/src/config/conexion.php");
         background-size: cover;
         background-position: center;
         background-attachment: fixed;
+
+
     }
 
     .hero-section {
@@ -40,28 +42,24 @@ require(__DIR__ . "/src/config/conexion.php");
     }
 
 
-    /* Pantallas <= 1200px */
     @media (max-width: 1200px) {
         .hero-section {
             min-height: 60vh;
         }
     }
 
-    /* Pantallas <= 992px */
     @media (max-width: 992px) {
         .hero-section {
             min-height: 50vh;
         }
     }
 
-    /* Pantallas <= 768px */
     @media (max-width: 768px) {
         .hero-section {
             min-height: 40vh;
         }
     }
 
-    /* Pantallas <= 576px */
     @media (max-width: 576px) {
         .hero-section {
             min-height: 30vh;
@@ -122,7 +120,6 @@ require(__DIR__ . "/src/config/conexion.php");
 
     .btn-custom {
         border-radius: 1.5rem;
-        padding: 1rem 2rem;
         font-weight: 600;
         transition: all 0.3s ease;
     }
@@ -156,6 +153,39 @@ require(__DIR__ . "/src/config/conexion.php");
         to {
             opacity: 1;
             transform: translateY(0);
+        }
+    }
+
+    .fondo-difuminado-lados {
+        background: rgba(255, 255, 255, 0.85);
+        padding: 20px;
+        border-radius: 15px;
+
+        /* difumina los lados */
+        mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+    }
+
+
+    @media (max-width: 991.98px) {
+        .feature-card {
+            max-width: 900px;
+            padding: 1rem;
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+    }
+
+    @media (max-width: 575.98px) {
+        .feature-card {
+            padding: 0.5rem;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+            text-align: center !important;
+            white-space: normal;
+            word-break: break-word;
         }
     }
 </style>
@@ -195,99 +225,123 @@ require(__DIR__ . "/src/config/conexion.php");
                         <input type="text" class="form-control form-control-custom" placeholder="Fecha de fin" onfocus="this.type='date'">
                     </div>
                     <div class="col-12 col-md-2">
-                        <button class="btn btn-primary btn-custom w-100">Buscar</button>
+                        <button class="btn btn-primary btn-custom w-100" style="padding: 1rem 2rem">Buscar</button>
                     </div>
                 </div>
             </div>
         </div>
     </form>
 
-    <!-- Features -->
-    <div class="container">
-    <!-- Alquila tu coche -->
-    <div class="row feature-card align-items-center justify-content-center g-5 my-5 p-4">
-        <div class="col-12 col-lg-6 d-flex justify-content-center">
-            <img src="src/img/gente_feliz.webp" class="img-fluid rounded w-100">
+    <!-- Features --><!-- Features -->
+    <div class="container my-5">
+
+        <!-- Alquila tu coche -->
+        <div class="row feature-card align-items-center justify-content-center g-5 my-5 p-4" style="opacity: 0.90; max-width: 1100px; margin: auto;">
+
+            <div class="col-12 col-lg-6 d-flex justify-content-center">
+                <img src="src/img/gente_feliz.webp" class="img-fluid rounded w-100">
+            </div>
+
+            <div class="col-12 col-lg-6 p-3 d-flex flex-column justify-content-center text-center text-lg-start">
+                <h2 class="display-5 fw-bold mb-4">Alquila tu coche fácilmente 🚗</h2>
+                <p class="lead mb-4">Conectamos dueños de vehículos con personas que necesitan un coche para sus viajes.</p>
+                <div class="d-flex gap-3 flex-wrap justify-content-center justify-content-lg-start">
+                    <span class="badge bg-success fs-6 py-2 px-3">✔️ 100% Seguro</span>
+                    <span class="badge bg-primary fs-6 py-2 px-3">✔️ Precios flexibles</span>
+                    <span class="badge bg-info fs-6 py-2 px-3">✔️ Soporte 24/7</span>
+                </div>
+            </div>
+
         </div>
-        <div class="col-12 col-lg-6 p-3 d-flex flex-column justify-content-center text-center text-lg-start">
-            <h2 class="display-5 fw-bold mb-4" >Alquila tu coche fácilmente 🚗</h2>
-            <p class="lead mb-4">Conectamos dueños de vehículos con personas que necesitan un coche para sus viajes.</p>
-            <div class="d-flex gap-3 flex-wrap justify-content-center justify-content-lg-start">
-                <span class="badge bg-success fs-6 py-2 px-3">✔️ 100% Seguro</span>
-                <span class="badge bg-primary fs-6 py-2 px-3">✔️ Precios flexibles</span>
-                <span class="badge bg-info fs-6 py-2 px-3">✔️ Soporte 24/7</span>
+
+        <!-- Gana dinero -->
+        <div class="row feature-card align-items-center justify-content-center g-5 my-5 p-4" style="opacity: 0.90; max-width: 900px; margin: auto;">
+
+            <div class="col-12 col-lg-6 order-lg-2 d-flex justify-content-center">
+                <img src="src/img/dinerito.png" class="img-fluid rounded w-75 pb-5" alt="Gana dinero con tu vehículo">
+            </div>
+
+            <div class="col-12 col-lg-6 d-flex flex-column justify-content-center px-3 px-lg-0" style="word-wrap: break-word;">
+                <h2 class="display-5 fw-bold mb-4 text-center">📱 Gana dinero con tu vehículo</h2>
+                <ul class="list-unstyled fs-5 ps-4 ps-lg-0 text-start mx-auto" style="max-width: 400px;">
+                    <li class="mb-3">💵 Control total de precios</li>
+                    <li class="mb-3">📅 Decide tu disponibilidad</li>
+                    <li class="mb-3">🛡️ Seguro incluido</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- Reseñas -->
+        <div class="container my-5">
+            <div class="row feature-card align-items-center justify-content-center g-5 my-5 p-4" style="opacity: 0.90; max-width: 750px; margin: auto;">
+                <div class="col-12 col-md-4 d-flex justify-content-center">
+                    <img src="src/img/reseñas.png" class="img-fluid rounded w-75 mb-5">
+                </div>
+                <div class="col-12 col-md-8 d-flex flex-column justify-content-center text-center text-md-start">
+                    <h2 class="display-5 fw-bold mb-4 p-3">Sistema de reseñas y chat</h2>
+                    <p class="lead p-3">Lee opiniones reales y comunícate en tiempo real con nuestra plataforma integrada.</p>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Gana dinero -->
-    <div class="row feature-card align-items-center justify-content-center g-5 my-5 p-4">
-        
-        <div class="col-12 col-lg-6 order-lg-2 d-flex justify-content-center">
-            <img src="src/img/dinerito.png" class="img-fluid rounded w-75 pl-5 pb-5">
-        </div>
-        <div class="col-12 col-lg-6 d-flex flex-column justify-content-center text-center text-lg-start">
-            <h2 class="display-5 fw-bold mb-4 p-3" >📱 Gana dinero con tu vehículo</h2>
-            <ul class="list-unstyled fs-5 p-3">
-                <li class="mb-3 pl-5">💵 Control total de precios</li>
-                <li class="mb-3 pl-5">📅 Decide tu disponibilidad</li>
-                <li class="mb-3 pl-5">🛡️ Seguro incluido</li>
-            </ul>
-        </div>
-    </div>
 
-    <!-- Reseñas -->
-    <div class="row feature-card align-items-center justify-content-center g-5 my-5 p-4">
-        <div class="col-12 col-md-4 d-flex justify-content-center">
-            <img src="src/img/reseñas.png" class="img-fluid rounded w-75 mb-5">
-        </div>
-        <div class="col-12 col-md-8 d-flex flex-column justify-content-center text-center text-md-start">
-            <h2 class="display-5 fw-bold mb-4 p-3">Sistema de reseñas y chat</h2>
-            <p class="lead p-3">Lee opiniones reales y comunícate en tiempo real con nuestra plataforma integrada.</p>
-        </div>
     </div>
-</div>
 
     <!-- How It Works -->
     <section class="how-it-works py-5 my-5">
 
         <div class="container text-center">
-            <h2 class="display-4 fw-bold mb-4">¿Cómo funciona?</h2>
-            <img class="img-fluid mb-5" src="https://www.gifsanimados.org/data/media/67/coche-y-automovil-imagen-animada-0187.gif">
+            <h2 class="display-4 fw-bold mb-4">
+                ¿Cómo funciona?
+                <img style="width: 100px; " src="https://www.gifsanimados.org/data/media/67/coche-y-automovil-imagen-animada-0187.gif" alt="gif coche animado">
+            </h2>
+
 
             <div class="row justify-content-center text-center g-5">
-                <div class="col-12 col-md-4">
-                    <div class="d-flex flex-column align-items-center">
-                        <div class="rounded-circle text-white d-flex justify-content-center align-items-center mb-3" style="width: 80px; height: 80px; font-size: 1.5rem; background-color: rgb(160, 115, 255);">
-                            1
+
+                <div class="row justify-content-center g-5">
+
+                    <div class="row">
+                        <div class="col-12 col-md-4 d-flex">
+                            <div class="d-flex flex-column align-items-center fondo-difuminado-lados flex-fill">
+                                <div class="rounded-circle text-white d-flex justify-content-center align-items-center mb-3"
+                                    style="width: 80px; height: 80px; font-size: 1.5rem; background-color: rgb(160, 115, 255);">
+                                    1
+                                </div>
+                                <h2 class="fw-bold">Regístrate</h2>
+                                <p>Crea tu cuenta en minutos</p>
+                            </div>
                         </div>
-                        <h2 class="fw-bold">Regístrate</h4>
-                            <p>Crea tu cuenta en minutos</p>
+
+                        <div class="col-12 col-md-4 d-flex">
+                            <div class="d-flex flex-column align-items-center fondo-difuminado-lados flex-fill">
+                                <div class="rounded-circle text-white d-flex justify-content-center align-items-center mb-3"
+                                    style="width: 80px; height: 80px; font-size: 1.5rem; background-color: rgb(197, 255, 131);">
+                                    2
+                                </div>
+                                <h2 class="fw-bold">Ofrece tu coche</h2>
+                                <p>Configura tus preferencias</p>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-4 d-flex">
+                            <div class="d-flex flex-column align-items-center fondo-difuminado-lados flex-fill">
+                                <div class="rounded-circle bg-info text-white d-flex justify-content-center align-items-center mb-3"
+                                    style="width: 80px; height: 80px; font-size: 1.5rem;">
+                                    3
+                                </div>
+                                <h2 class="fw-bold">Empieza a ganar</h2>
+                                <p>Recibe solicitudes y renta</p>
+                            </div>
+                        </div>
                     </div>
+
+
                 </div>
 
-                <div class="col-12 col-md-4">
-                    <div class="d-flex flex-column align-items-center">
-                        <div class="rounded-circle text-white d-flex justify-content-center align-items-center mb-3" style="width: 80px; height: 80px; font-size: 1.5rem; background-color:rgb(197, 255, 131)">
-                            2
-                        </div>
-                        <h2 class="fw-bold">Ofrece tu coche</h4>
-                            <p>Configura tus preferencias</p>
-                    </div>
-                </div>
 
-                <div class="col-12 col-md-4">
-                    <div class="d-flex flex-column align-items-center">
-                        <div class="rounded-circle bg-info text-white d-flex justify-content-center align-items-center mb-3" style="width: 80px; height: 80px; font-size: 1.5rem;">
-                            3
-                        </div>
-                        <h2 class="fw-bold">Empieza a ganar</h4>
-                            <p>Recibe solicitudes y renta</p>
-                    </div>
-                </div>
             </div>
-
-        </div>
     </section>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

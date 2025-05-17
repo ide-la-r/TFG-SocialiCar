@@ -1,48 +1,7 @@
-<style>
-  .navbar {
-    background: linear-gradient(120deg,
-        rgba(255, 255, 255, 0.05),
-        rgba(255, 255, 255, 0.15),
-        rgba(255, 255, 255, 0.6),
-        rgba(107, 191, 191, 0.15), 
-        rgba(107, 191, 191, 0.15),
-        rgba(255, 255, 255, 0.6),
-        rgba(255, 255, 255, 0.15),
-        rgba(255, 255, 255, 0.05),
-        transparent);
-
-    background-size: 300% 100%; /* amplía la zona para un desvanecimiento más gradual */
-    animation: shimmer 17s infinite linear;
-}
-
-
-@keyframes shimmer {
-    0% {
-        background-position: 100% 0;
-    }
-    50% {
-        background-position: -100% 0;
-    }
-    100% {
-        background-position: 100% 0;
-    }
-}
-@media (max-width: 550px) {
-    .navbar-brand.logo {
-        left: 15% !important; /* Más a la derecha */
-        transform: translateX(-50%) !important;
-    }
-    
-    .alquila-mobile {
-        margin-top: 10px; /* Espaciado adicional */
-    }
-}  
-
-</style>
 
 <nav class="navbar navbar-expand-lg navbar-light custom-navbar">
   <div class="container-fluid">
-    <!-- Botón para móviles INICIAR SESION, REGISTRARSE, PREMIUM-->
+    <!-- Botón para móviles -->
     <button
       class="navbar-toggler"
       type="button"
@@ -79,20 +38,28 @@
         <li class="nav-item">
           <a class="nav-link" href="/src/pages/informacion/contacto">Contacto</a>
         </li>
+
+        <!-- Botón de alquilar dentro del menú para móviles -->
+        <li class="nav-item d-lg-none">
+          <?php
+          if (isset($_SESSION['usuario'])) {
+            echo "<a class='btn-alquila-mobile' href='/src/pages/coche/nuevo_coche'>
+            <i class='fa-solid fa-car-side me-2'></i> Alquila tu coche </a>";
+          }
+          ?>
+        </li>
       </ul>
     </div>
 
     <!-- Elementos a la derecha -->
     <div class="d-flex align-items-center">
-
-      <!-- Botón de alquilar -->
+      <!-- Botón de alquilar (versión escritorio) -->
       <?php
       if (isset($_SESSION['usuario'])) {
-        echo "<a class='btn btn-custom me-3' href='/src/pages/coche/nuevo_coche'>
+        echo "<a class='btn btn-custom me-3 d-none d-lg-inline-block' href='/src/pages/coche/nuevo_coche'>
         <i class='fa-solid fa-car-side me-2'></i> Alquila tu coche </a>";
       }
       ?>
-
 
       <!-- Notificaciones -->
       <?php
@@ -116,7 +83,6 @@
           aria-expanded="false">
           <?php
           if (!isset($_SESSION['usuario'])) {
-            // No hay sesión, mostrar imagen por defecto
             echo '<img style="object-fit: cover; border-radius: 50%; overflow: hidden; border: 4px solid #6BBFBF; background-color: #F2F2F2;" src="/src/img/perfil.png" class="rounded-circle" height="35" alt="Avatar" loading="lazy" />';
           } else {
             $sql = $_conexion->prepare("SELECT foto_perfil FROM usuario WHERE identificacion = ?");
@@ -134,17 +100,14 @@
                 echo '<img style="object-fit: cover; border-radius: 50%; overflow: hidden; border: 2px solid #6BBFBF; background-color: #F2F2F2;" src="/src/img/perfil.png" class="rounded-circle" height="35" alt="Avatar" loading="lazy" />';
               }
             } else {
-              // Si no se encuentra el usuario en la base de datos
               echo '<img src="/src/img/perfil.png" class="rounded-circle" height="30" alt="Avatar" loading="lazy" />';
             }
           }
           ?>
-
         </a>
 
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
           <?php
-
           if (isset($_SESSION['usuario'])) {
             echo "
                   <li>
@@ -178,6 +141,3 @@
     </div>
   </div>
 </nav>
-<style>
-
-</style>
