@@ -46,6 +46,12 @@
     transform: translateX(-50%);
   }
 }
+
+.footer-02 {
+  margin-top: -80px;  
+  padding-top: 60px; 
+}
+
 </style>
 
 <footer class="footer-02 mt-auto" style="background: #131719; position: relative; z-index: 2;">
@@ -58,15 +64,12 @@
   </svg>
 </div>
 
-<!-- Elimina mt-auto del footer -->
-<footer class="footer-02" style="background: #131719; position: relative; z-index: 2;">
+<footer class="footer-02" style="background: #131719; position: relative">
 
   <div class="container">
-
-
     <div class="row justify-content-center">
       <div class="col-10 col-lg-6">
-        <div class="subscribe mb-5">
+        <div class="subscribe mb-5 pb-5">
           <form action="#" class="subscribe-form">
             <div class="form-group d-flex">
               <input type="text" class="form-control rounded-left " placeholder="Enter email address">
@@ -140,9 +143,6 @@
               <a href="#"><span class="ion-logo-ionic mr-2"></span>Raul Martin Gonzalez</a>
               <a href="#"><span class="ion-logo-ionic mr-2"></span>Ismael de la rosa guerrero</a>
             </p>
-          </div>
-          <div class="col text-md-right">
-
           </div>
         </div>
       </div>

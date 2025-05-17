@@ -6,6 +6,7 @@
   overflow: hidden;
   padding-top: 140px;
   padding-bottom: 40px;
+  z-index: 5;
 }
 
 .footer__background {
@@ -78,7 +79,6 @@
   display: flex;
   gap: 12px;
   justify-content: center;
-  margin-bottom: 20px;
 }
 
 .footer__subscribe input[type="email"] {
