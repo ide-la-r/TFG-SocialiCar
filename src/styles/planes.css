@@ -23,6 +23,7 @@ body {
     object-fit: cover;
     z-index: 0;
 }
+
 .oscuro {
     position: absolute;
     top: 0;
@@ -30,110 +31,15 @@ body {
     width: 100%;
     height: 100%;
     background:
-        linear-gradient(to right, rgba(196, 238, 242, 0.3)
-        , rgba(0, 0, 0, 0)),
+        linear-gradient(to right, rgba(196, 238, 242, 0.3), rgba(0, 0, 0, 0)),
 
-        rgba(0, 0, 0, 0.7); 
+        rgba(0, 0, 0, 0.7);
     z-index: 1;
 }
 
 
 /* AMBAS CARTAS */
 
-.card-container {
-    position: relative;
-    height: 180px;
-    width: 320px;
-    margin: 15px 0;
-}
-
-.card {
-    width: 100%;
-    height: 100%;
-    border-radius: 15px;
-    position: absolute;
-    overflow: hidden;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
-    border: 2px solid rgba(255, 255, 255, 0.6);
-      background-color: #B7E7EA;
-    padding: 20px;
-    animation: aparecer 0.8s ease-out forwards;
-    animation-delay: 0.6s;
-    transition: all 0.3s ease-in-out;
-    z-index: 23;
-    margin-top: -15vh;
-    background-color: #B7E7EA;
-}
-
-@keyframes aparecer {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.card-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-/* CARTA PREMIUM */
-
-.first-card {
-    position: relative;
-    overflow: hidden;
-}
-
-.first-card::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    z-index: -1; 
-    transform: rotate(0deg);
-    transition: transform 0.6s ease-in-out;
-}
-
-.first-card:hover::before {
-    transform: rotate(270deg);
-}
-
-.first-card:hover {
-    height: 480px;
-    z-index: 24;
-}
-
-
-
-/* CARTA BASICA */
-.second-card {
-    position: relative;
-    overflow: hidden;
-}
-
-.second-card::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    transition: transform 0.6s ease-in-out;
-    z-index: -1;
-}
-
-.second-card:hover::before {
-    transform: rotate(360deg);
-}
-
-.second-card:hover {
-    height: 580px;
-    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
-    z-index: 24;
-}
 
 .neon {
     animation: iluminar 2s infinite alternate;
@@ -163,7 +69,7 @@ body {
     }
 
     50% {
-        transform: translateY(-5px);
+        transform: translateY(-7px);
     }
 }
 
