@@ -52,6 +52,8 @@
   padding-top: 60px; 
 }
 
+
+
 </style>
 
 <footer class="footer-02 mt-auto" style="background: #131719; position: relative; z-index: 2;">

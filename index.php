@@ -17,8 +17,6 @@ require(__DIR__ . "/src/config/conexion.php");
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="../../../src/styles/planes.css">
-
     <script src="conversa_ia.js"></script>
     <?php include_once 'src/components/links.php'; ?>
 </head>
@@ -69,22 +67,39 @@ require(__DIR__ . "/src/config/conexion.php");
 
     .bienvenido {
         font-size: clamp(2rem, 5vw, 4rem);
-        /* <-- esto lo hace responsive */
         color: #fff;
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         animation: aparecer 2s ease;
+        padding-top: 60px;
     }
 
     .socialicar {
         color: #ffeb3b;
         text-shadow: 0 0 15px rgba(255, 235, 59, 0.5);
         animation: flotar 3s ease-in-out infinite;
-        font-size: 12rem;
         transform: rotate(-5deg);
         padding-top: 25px;
-        font-size: clamp(3rem, 15vw, 16rem);
-        /* MÁS grande en todos los tamaños */
+        font-size: clamp(4.5rem, 15vw, 16rem);
+        padding-bottom: 10px;
+
     }
+
+    /* efecto espejo */
+    .socialicar::after {
+        content: attr(class);
+        position: absolute;
+        top: 60%;
+        left: 0;
+        right: 0;
+        font-size: inherit;
+        font-family: inherit;
+        color:rgb(255, 238, 87);
+        opacity: 0.35;
+        transform: scaleY(-2);
+        user-select: none;
+        filter: blur(16px);
+    }
+
 
     @keyframes flotar {
         0% {
