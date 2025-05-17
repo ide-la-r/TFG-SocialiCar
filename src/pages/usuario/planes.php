@@ -15,9 +15,8 @@ session_start();
     require(__DIR__ . "/../../config/conexion.php");
     ?>
     <link rel="icon" href="../../../src/img/favicon.png" />
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="../../../src/styles/planes.css">
     <style>
         :root {
             --primary-color: #007bff;
@@ -36,7 +35,7 @@ session_start();
         .hero-section {
             position: relative;
             width: 100%;
-            height: 100vh;
+            height: 140vh;
             overflow: hidden;
         }
 
@@ -45,10 +44,8 @@ session_start();
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
+            width: 100%;
+            height: 100%;
             z-index: 0;
             object-fit: cover;
         }
@@ -95,10 +92,25 @@ session_start();
             border-radius: 15px;
             overflow: hidden;
             transition: all 0.5s ease;
-            background: rgba(20, 20, 20, 0.8);
+            background: rgba(47, 47, 47, 0.8);
             backdrop-filter: blur(10px);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             margin-bottom: 30px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .plan-body {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 30px;
+        }
+
+        .plan-features {
+            flex-grow: 1;
+            margin-bottom: 20px;
         }
 
         .plan-card:hover {
@@ -113,11 +125,11 @@ session_start();
         }
 
         .basic-plan .plan-header {
-            background: linear-gradient(135deg, #007bff 0%, #00b4ff 100%);
+            background: linear-gradient(135deg, #C4EEF2 0%, rgb(138, 138, 138) 100%);
         }
 
         .premium-plan .plan-header {
-            background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+            background: linear-gradient(135deg, #C4EEF2 0%, rgb(250, 113, 255) 100%);
         }
 
         .plan-title {
@@ -135,11 +147,11 @@ session_start();
         }
 
         .basic-plan .plan-price {
-            color: #4dabf7;
+            color: greenyellow;
         }
 
         .premium-plan .plan-price {
-            color: var(--gold-color);
+            color: greenyellow;
             animation: pulse 2s infinite;
         }
 
@@ -149,7 +161,7 @@ session_start();
             }
 
             50% {
-                transform: scale(1.05);
+                transform: scale(1.1);
             }
 
             100% {
@@ -173,10 +185,6 @@ session_start();
             font-weight: 600;
             font-size: 0.8rem;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .plan-body {
-            padding: 30px;
         }
 
         .plan-features {
@@ -294,7 +302,7 @@ session_start();
             font-size: 1.2rem;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 767px) {
             .plan-card {
                 margin-bottom: 30px;
             }
@@ -302,6 +310,15 @@ session_start();
             .section-title {
                 font-size: 1.8rem;
             }
+
+        }
+
+
+
+        .footer-overlay {
+            transform: translateY(-55px);
+            width: 100%;
+            box-sizing: border-box;
         }
     </style>
 </head>
@@ -319,11 +336,11 @@ session_start();
         <div class="video-overlay"></div>
 
         <!-- Plans Section -->
-        <div class="container plans-container">
+        <div class="container plans-container" style="margin-top: 5vh;">
             <div class="row">
                 <div
                     class="col-12">
-                    <h2 class="section-title">Planes de Suscripción</h2>
+                    <h1 class="section-title">Planes de Suscripción</h1>
                 </div>
             </div>
             <div class="row justify-content-center g-4">
@@ -338,13 +355,13 @@ session_start();
                         </div>
                         <div class="plan-body">
                             <ul class="plan-features">
-                                <li><i class="fas fa-check-circle feature-icon"></i> Acceso a la plataforma</li>
-                                <li><i class="fas fa-check-circle feature-icon"></i> Publicar hasta 3 anuncios</li>
-                                <li><i class="fas fa-check-circle feature-icon"></i> Soporte por email</li>
-                                <li><i class="fas fa-times-circle feature-icon"></i> Sin acceso a soporte premium</li>
-                                <li><i class="fas fa-times-circle feature-icon"></i> Sin ofertas exclusivas</li>
+                                <li><i class="fas fa-check-circle feature-icon" style="color: #C4EEF2"></i>Localización de tu vehículo</li>
+                                <li><i class="fas fa-check-circle feature-icon" style="color: #C4EEF2"></i> Promociona hasta 3 anuncios</li>
+                                <li><i class="fas fa-times-circle feature-icon" style="color: #ff4757"></i> Sin acceso a soporte premium</li>
+                                <li><i class="fas fa-times-circle feature-icon" style="color: #ff4757"></i> Sin prioridad en las reservas</li>
+                                <li><i class="fas fa-times-circle feature-icon" style="color: #ff4757"></i> Sin ofertas exclusivas</li>
                             </ul>
-                            <a href="iniciar_pago.php?tipo=basica" class="btn btn-basic btn-plan">Suscribirse</a>
+                            <a href="iniciar_pago.php?tipo=basica" class="btn btn-basic btn-plan" style="background-color: #C4EEF2; color:#333">Suscribirse</a>
                         </div>
                     </div>
                 </div>
@@ -361,13 +378,14 @@ session_start();
                         </div>
                         <div class="plan-body">
                             <ul class="plan-features">
-                                <li><i class="fas fa-check-circle feature-icon"></i> Acceso completo a la plataforma</li>
-                                <li><i class="fas fa-check-circle feature-icon"></i> Publicar anuncios ilimitados</li>
-                                <li><i class="fas fa-check-circle feature-icon"></i> Soporte premium 24/7</li>
-                                <li><i class="fas fa-check-circle feature-icon"></i> Acceso a ofertas exclusivas</li>
-                                <li><i class="fas fa-check-circle feature-icon"></i> Acceso anticipado a nuevas funciones</li>
+                                <li><i class="fas fa-check-circle feature-icon" style="color: rgba(250, 113, 255)"></i>Localización de tu vehículo</li>
+                                <li><i class="fas fa-check-circle feature-icon" style="color: rgb(250, 113, 255)"></i> Promociona anuncios ilimitados</li>
+                                <li><i class="fas fa-check-circle feature-icon" style="color: rgb(250, 113, 255)"></i> Soporte premium 24/7</li>
+                                <li><i class="fas fa-check-circle feature-icon" style="color: rgb(250, 113, 255)"></i> Acceso a ofertas exclusivas</li>
+                                <li><i class="fas fa-check-circle feature-icon" style="color: rgb(250, 113, 255)"></i> Prioridad en las reservas</li>
+                                <li><i class="fas fa-check-circle feature-icon" style="color: rgb(250, 113, 255)"></i> Acceso anticipado a nuevas funciones</li>
                             </ul>
-                            <a href="iniciar_pago.php?tipo=premium" class="btn btn-premium btn-plan">Suscribirse</a>
+                            <a href="iniciar_pago.php?tipo=premium" class="btn btn-premium btn-plan" style="background: linear-gradient(135deg, #C4EEF2 0%,rgb(250, 113, 255) 100%)">Suscribirse</a>
                         </div>
                     </div>
                 </div>
@@ -380,11 +398,7 @@ session_start();
         <?php include_once '../../components/footer-example.php'; ?>
     </div>
     <style>
-        .footer-overlay {
-            transform: translateY(-75px);
-            width: 100%;
-            box-sizing: border-box;
-        }
+
     </style>
 </body>
 
