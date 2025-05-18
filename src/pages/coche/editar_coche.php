@@ -1615,9 +1615,9 @@
     <script src="../../js/precio_coche.js"></script>
 
     <?php
-    echo "<script>alert('fuera');</script>";
+    
     if (!$errores) {
-        echo "<script>alert('dentro1');</script>";
+        
         /* Insertar coche */
         $enviar_coche = $_conexion->prepare("INSERT INTO coche (
             matricula, id_usuario, seguro, marca, modelo, anno_matriculacion, kilometros,
@@ -1625,11 +1625,11 @@
             lat, lon, tipo_aparcamiento, ruta_img_coche, tipo, precio, descripcion, color,
              plazas, puertas, potencia) VALUES (
             ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        echo "<script>alert('dentro2');</script>";
+        
         if (!$enviar_coche) {
             die('Error en prepare coche: ' . $_conexion->error);
         }
-        echo "<script>alert('dentro3');</script>";
+        
         $enviar_coche->bind_param(
             "ssisssissssisddisssissiii",
             $matricula_obtenida,
@@ -1658,11 +1658,11 @@
             $puertas,
             $potencia
         );
-        echo "<script>alert('dentro4');</script>";
+        
         if (!$enviar_coche->execute()) {
             die('Error al insertar coche: ' . $enviar_coche->error);
         }
-        echo "<script>alert('dentro5');</script>";
+        
         /* Insertar los extras */
         $enviarExtras = $_conexion->prepare("INSERT INTO extras_coche (
                     matricula, aire_acondicionado, gps, wifi, sensores_aparcamiento, 
@@ -1671,11 +1671,11 @@
                     portaequipajes, portaesquis, bluetooth, cuatro_x_cuatro, mascota, fumar, 
                     movilidad_reducida
                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        echo "<script>alert('dentro6');</script>";
+        
         if (!$enviarExtras) {
             die('Error en prepare extras: ' . $_conexion->error);
         }
-        echo "<script>alert('dentro7');</script>";
+        
         $enviarExtras->bind_param(
             "siiiiiiiiiiiiiiiiiiii",
             $matricula_obtenida,
@@ -1700,11 +1700,11 @@
             $fumar,
             $movilidad_reducida
         );
-        echo "<script>alert('dentro8');</script>";
+        
         if (!$enviarExtras->execute()) {
             die('Error al insertar extras: ' . $enviarExtras->error);
         }
-        echo "<script>alert('dentro9');</script>";
+        
         /* Redirigir a la página de inicio */
         echo "<script>
                     window.location.href = '/src/pages/rentacar/coche?matricula=" . $matricula . "';

@@ -71,7 +71,9 @@
                     href="#"
                     id="navbarDropdownMenuAvatar-js"
                     role="button"
-                    aria-expanded="false">
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    tabindex="0">
                     <?php
                     if (!isset($_SESSION['usuario'])) {
                         echo '<img style="object-fit: cover; border-radius: 50%; overflow: hidden; border: 4px solid #6BBFBF; background-color: #F2F2F2;" src="/src/img/perfil.png" class="rounded-circle" height="35" alt="Avatar" loading="lazy" />';
@@ -205,24 +207,38 @@
 </style>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const dropdownToggle = document.querySelector('.dropdown-toggle-js');
-        const dropdownMenu = document.querySelector('.dropdown-menu-js');
-        const dropdownArrow = document.querySelector('.dropdown-arrow');
+  document.addEventListener('DOMContentLoaded', function () {
+    const dropdownToggle = document.querySelector('.dropdown-toggle-js');
+    const dropdownMenu = document.querySelector('.dropdown-menu-js');
+    const dropdownArrow = document.querySelector('.dropdown-arrow');
 
-        if (dropdownToggle && dropdownMenu && dropdownArrow) {
-            dropdownToggle.addEventListener('click', function(event) {
-                event.preventDefault();
-                dropdownMenu.classList.toggle('show');
-                dropdownArrow.style.transform = dropdownMenu.classList.contains('show') ? 'rotate(180deg)' : 'rotate(0deg)';
-            });
+    if (dropdownToggle && dropdownMenu && dropdownArrow) {
+      dropdownToggle.addEventListener('click', function (event) {
+        event.preventDefault();
 
-            document.addEventListener('click', function(event) {
-                if (!dropdownToggle.contains(event.target) && !dropdownMenu.contains(event.target) && dropdownMenu.classList.contains('show')) {
-                    dropdownMenu.classList.remove('show');
-                    dropdownArrow.style.transform = 'rotate(0deg)';
-                }
-            });
+        // Alternar clase 'show'
+        dropdownMenu.classList.toggle('show');
+
+        // Girar flecha
+        const isShown = dropdownMenu.classList.contains('show');
+        dropdownArrow.style.transform = isShown ? 'rotate(180deg)' : 'rotate(0deg)';
+
+        // Actualizar accesibilidad
+        dropdownToggle.setAttribute('aria-expanded', isShown ? 'true' : 'false');
+      });
+
+      // Cerrar menú si se hace clic fuera
+      document.addEventListener('click', function (event) {
+        if (
+          !dropdownToggle.contains(event.target) &&
+          !dropdownMenu.contains(event.target) &&
+          dropdownMenu.classList.contains('show')
+        ) {
+          dropdownMenu.classList.remove('show');
+          dropdownArrow.style.transform = 'rotate(0deg)';
+          dropdownToggle.setAttribute('aria-expanded', 'false'); // También cerramos accesibilidad
         }
-    });
+      });
+    }
+  });
 </script>
