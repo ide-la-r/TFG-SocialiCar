@@ -69,6 +69,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -102,15 +103,15 @@
 
 .navbar {
   background: linear-gradient(120deg,
-    rgba(255, 255, 255, 0.05),
-    rgba(255, 255, 255, 0.15),
-    rgba(255, 255, 255, 0.6),
-    rgba(107, 191, 191, 0.15),
-    rgba(107, 191, 191, 0.15),
-    rgba(255, 255, 255, 0.6),
-    rgba(255, 255, 255, 0.15),
-    rgba(255, 255, 255, 0.05),
-    transparent);
+      rgba(255, 255, 255, 0.05),
+      rgba(255, 255, 255, 0.15),
+      rgba(255, 255, 255, 0.6),
+      rgba(107, 191, 191, 0.15),
+      rgba(107, 191, 191, 0.15),
+      rgba(255, 255, 255, 0.6),
+      rgba(255, 255, 255, 0.15),
+      rgba(255, 255, 255, 0.05),
+      transparent);
   background-size: 300% 100%;
   animation: shimmer 17s infinite linear;
   overflow: visible !important;
@@ -122,9 +123,11 @@
   0% {
     background-position: 100% 0;
   }
+
   50% {
     background-position: -100% 0;
   }
+
   100% {
     background-position: 100% 0;
   }
@@ -161,4 +164,13 @@
     left: 50%;
     transform: translateX(-50%);
   }
+}
+
+.dropdown-menu {
+  animation: none !important;
+  will-change: transform !important;
+}
+
+.navbar-collapse {
+  transition: none !important;
 }
