@@ -6,7 +6,6 @@
 
 body {
   background:
-    linear-gradient(0deg, rgba(255, 255, 255, 0.7), rgba(244, 247, 251, 0.7)),
     url('../img/nuevo_fondo.JPG');
   background-size: cover;
   background-position: center;
