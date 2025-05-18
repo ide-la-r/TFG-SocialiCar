@@ -1020,7 +1020,7 @@
                 <div class="card py-4 py-4 px-2 px-md-4 p-4">
                     <h3>Imágenes 📸</h3>
                     <div class="row justify-content-center pt-3">
-                        <div class="col">
+                        <div class="form-floating">
                             <input class="form-control" <?php if (isset($err_imagen)) echo 'is-invalid'; ?>" id="img" type="file" name="img[]" multiple accept="image/png, image/jpg, image/jpeg">
                             <?php
                             if (isset($err_imagen)) {
