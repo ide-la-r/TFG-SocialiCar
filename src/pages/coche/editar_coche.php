@@ -7,7 +7,7 @@
     <title>SocialiCar - Comparte tu coche</title>
     <?php include_once '../../components/links.php'; ?>
     <link rel="icon" href="../../../src/img/favicon.png" />
-    <link rel="stylesheet" href="../../styles/nuevo_coche_custom.css">
+    <link rel="stylesheet" href="../../styles/nuevo_coche_custom.css"> <!-- es adrede, NO TOCAR -->
     <?php
     error_reporting(E_ALL);
     ini_set("display_errors", 1);
@@ -74,14 +74,6 @@
             padding-left: 1rem;
             align-self: flex-start;
             text-align: left;
-        }
-
-
-        @media (max-width: 576px) {
-            .col-md-3 {
-                flex: 0 0 100% !important;
-                max-width: 100% !important;
-            }
         }
 
 
