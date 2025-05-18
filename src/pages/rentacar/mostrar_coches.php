@@ -212,31 +212,6 @@
 
             <!-- OTROS FILTROS -->
             <div class="mt-3">
-                <label class="form-label">Mascotas:</label>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="mascotas">
-                    <label class="form-check-label">Acepta mascotas</label>
-                </div>
-            </div>
-
-            <div class="mt-3">
-                <label class="form-label">Movilidad reducida:</label>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="movilidad_reducida">
-                    <label class="form-check-label">Adaptado para movilidad reducida</label>
-                </div>
-            </div>
-
-            <div class="mt-3">
-                <label class="form-label">Fumadores:</label>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="fumadores">
-                    <label class="form-check-label">Acepta fumadores</label>
-                </div>
-            </div>
-
-            <!-- EQUIPAMIENTO -->
-            <div class="mt-3">
                 <div class="d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#equipamientoCollapse">
                     <b>Equipamiento</b>
                     <i class="fas fa-chevron-down"></i>
