@@ -178,29 +178,76 @@
                 </button>
             </div>
 
-            <!-- Descripción completa y extras -->
-            <div class="col-md-12">
-                <?php echo "<div class='mb-3'><h5 class='mt-4'>Descripción:</h5><p class='text-muted mb-4'>$descripcion</p></div>"; ?>
+            <!-- Acordeón con la descripción y los extras ordenados en columnas -->
+            <div class="accordion" id="accordionPanelsStayOpenExample">
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                    Descripción del vehículo
+                  </button>
+                </h2>
+                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                  <div class="accordion-body">
+                    <p class="text-muted mb-4"><?php echo $descripcion; ?></p>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                    Extras del vehículo
+                  </button>
+                </h2>
+                <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                  <div class="accordion-body">
+                    <?php
+                    $sql_extras = $_conexion->prepare("SELECT * FROM extras_coche WHERE matricula = ?");
+                    $sql_extras->bind_param("s", $matricula);
+                    $sql_extras->execute();
+                    $resultado_extras = $sql_extras->get_result();
 
-                <?php
-                $sql_extras = $_conexion->prepare("SELECT * FROM extras_coche WHERE matricula = ?");
-                $sql_extras->bind_param("s", $matricula);
-                $sql_extras->execute();
-                $resultado_extras = $sql_extras->get_result();
-
-                if ($resultado_extras->num_rows > 0) {
-                    $extras = $resultado_extras->fetch_assoc();
-                    echo "<h5>Extras del vehículo</h5><ul class='list-group'>";
-                    foreach ($extras as $nombre => $valor) {
-                        if ($valor == 1) {
-                            $nombre_legible = ucwords(str_replace('_', ' ', $nombre));
-                            echo "<li class='list-group-item'>$nombre_legible</li>";
+                    if ($resultado_extras->num_rows > 0) {
+                        $extras = $resultado_extras->fetch_assoc();
+                        $extras_filtrados = array();
+                        foreach ($extras as $nombre => $valor) {
+                            if ($valor == 1) {
+                                $nombre_legible = ucwords(str_replace('_', ' ', $nombre));
+                                $extras_filtrados[] = $nombre_legible;
+                            }
                         }
+                        if (count($extras_filtrados) > 0) {
+                            $columnas = 3; // Cambia este valor para más o menos columnas
+                            $por_columna = ceil(count($extras_filtrados)/$columnas);
+                            echo '<div class="row">';
+                            for ($i = 0; $i < $columnas; $i++) {
+                                echo '<div class="col-md-4">';
+                                echo '<ul class="list-group list-group-flush">';
+                                for ($j = $i * $por_columna; $j < ($i+1)*$por_columna && $j < count($extras_filtrados); $j++) {
+                                    echo '<li class="list-group-item">' . $extras_filtrados[$j] . '</li>';
+                                }
+                                echo '</ul>';
+                                echo '</div>';
+                            }
+                            echo '</div>';
+                        } else {
+                            echo '<p class="text-muted">Este vehículo no tiene extras destacados.</p>';
+                        }
+                    } else {
+                        echo '<p class="text-muted">No hay información de extras para este vehículo.</p>';
                     }
-                    echo "</ul>";
-                }
-                ?>
-            </div>
+                    ?>
+                  </div>
+                </div>
+              </div>
+
+
+
+</div>   
+
+
+
+
+
 
             <!-- Mapa de ubicación -->
             <div class="col-md-12">
