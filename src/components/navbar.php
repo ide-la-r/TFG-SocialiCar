@@ -145,12 +145,12 @@
         display: flex;
         align-items: center;
         text-decoration: none;
-        color: inherit; 
+        color: inherit;
     }
 
     .dropdown-arrow {
         margin-left: 0.5rem;
-        transition: transform 0.2s ease-in-out; 
+        transition: transform 0.2s ease-in-out;
     }
 
     .dropdown-menu-js {
@@ -165,12 +165,12 @@
         padding: 0.5rem 0;
         z-index: 1000;
         min-width: 10rem;
-        transform-origin: top right; 
+        transform-origin: top right;
         transform: scaleY(0);
-        transition: transform 0.2s ease-in-out; 
+        transition: transform 0.2s ease-in-out;
         list-style: none;
-        padding-left: 0; 
-        margin-bottom: 0; 
+        padding-left: 0;
+        margin-bottom: 0;
     }
 
     .dropdown-menu-js.show {
@@ -181,7 +181,7 @@
     .dropdown-item {
         display: block;
         width: 100%;
-        padding: 0.5rem 1.5rem; 
+        padding: 0.5rem 1.5rem;
         clear: both;
         font-weight: 400;
         color: #212529;
@@ -190,8 +190,8 @@
         background-color: transparent;
         border: 0;
         text-decoration: none;
-        list-style: none; 
-        margin: 0; 
+        list-style: none;
+        margin: 0;
     }
 
     .dropdown-item:hover,
@@ -201,44 +201,50 @@
     }
 
     .dropdown-menu-js li {
-        margin: 0; 
+        margin: 0;
         padding: 0;
     }
+    
+
+
+.custom-navbar {
+    border-bottom: 5px  inset rgb(223, 255, 255);
+}
 </style>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const dropdownToggle = document.querySelector('.dropdown-toggle-js');
-    const dropdownMenu = document.querySelector('.dropdown-menu-js');
-    const dropdownArrow = document.querySelector('.dropdown-arrow');
+    document.addEventListener('DOMContentLoaded', function() {
+        const dropdownToggle = document.querySelector('.dropdown-toggle-js');
+        const dropdownMenu = document.querySelector('.dropdown-menu-js');
+        const dropdownArrow = document.querySelector('.dropdown-arrow');
 
-    if (dropdownToggle && dropdownMenu && dropdownArrow) {
-      dropdownToggle.addEventListener('click', function (event) {
-        event.preventDefault();
+        if (dropdownToggle && dropdownMenu && dropdownArrow) {
+            dropdownToggle.addEventListener('click', function(event) {
+                event.preventDefault();
 
-        // Alternar clase 'show'
-        dropdownMenu.classList.toggle('show');
+                // Alternar clase 'show'
+                dropdownMenu.classList.toggle('show');
 
-        // Girar flecha
-        const isShown = dropdownMenu.classList.contains('show');
-        dropdownArrow.style.transform = isShown ? 'rotate(180deg)' : 'rotate(0deg)';
+                // Girar flecha
+                const isShown = dropdownMenu.classList.contains('show');
+                dropdownArrow.style.transform = isShown ? 'rotate(180deg)' : 'rotate(0deg)';
 
-        // Actualizar accesibilidad
-        dropdownToggle.setAttribute('aria-expanded', isShown ? 'true' : 'false');
-      });
+                // Actualizar accesibilidad
+                dropdownToggle.setAttribute('aria-expanded', isShown ? 'true' : 'false');
+            });
 
-      // Cerrar menú si se hace clic fuera
-      document.addEventListener('click', function (event) {
-        if (
-          !dropdownToggle.contains(event.target) &&
-          !dropdownMenu.contains(event.target) &&
-          dropdownMenu.classList.contains('show')
-        ) {
-          dropdownMenu.classList.remove('show');
-          dropdownArrow.style.transform = 'rotate(0deg)';
-          dropdownToggle.setAttribute('aria-expanded', 'false'); // También cerramos accesibilidad
+            // Cerrar menú si se hace clic fuera
+            document.addEventListener('click', function(event) {
+                if (
+                    !dropdownToggle.contains(event.target) &&
+                    !dropdownMenu.contains(event.target) &&
+                    dropdownMenu.classList.contains('show')
+                ) {
+                    dropdownMenu.classList.remove('show');
+                    dropdownArrow.style.transform = 'rotate(0deg)';
+                    dropdownToggle.setAttribute('aria-expanded', 'false'); // También cerramos accesibilidad
+                }
+            });
         }
-      });
-    }
-  });
+    });
 </script>

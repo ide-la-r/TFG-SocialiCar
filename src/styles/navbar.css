@@ -174,3 +174,8 @@
 .navbar-collapse {
   transition: none !important;
 }
+
+.custom-navbar {
+    border-bottom: 3px solid #6BBFBF; /* Color y grosor del borde */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
