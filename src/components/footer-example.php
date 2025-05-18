@@ -1,37 +1,44 @@
-<!-- ONDAS -->
-<div class="custom-wave" style="position: relative; height: 100px; margin-bottom: -1px;">
-  <svg style="display: block; height: 100px; width: 100%" viewBox="0 0 1200 120" preserveAspectRatio="none">
-    <path fill="#131719" d="M0,64L80,58.7C160,53,320,43,480,48C640,53,800,75,960,74.7C1120,75,1280,53,1360,42.7L1440,32L1440,320L1360,320C1280,320,1280,320,1120,320C960,320,800,320,640,320C480,320,320,320,160,320L80,320L0,320Z"></path>
+<div class="wave-container">
+  <svg class="wave wave-front" style="display: block; height: 120px; width: 200%; z-index: 2; left: 0;" viewBox="0 0 1200 150" preserveAspectRatio="none">
+    <path fill="#131719" d="M0,80 C200,140 400,60 600,110 C800,60 1000,140 1200,80 L1200,200 L0,200 Z"></path>
+    <path fill="#131719" d="M1200,80 C1400,140 1600,60 1800,110 C2000,60 2200,140 2400,80 L2400,200 L1200,200 Z"></path>
+  </svg>
+  <svg class="wave wave-back" style="display: block; height: 150px; width: 200%; z-index: 1; opacity: 0.4; transform: translateY(-30px) translateX(-25%);" viewBox="0 0 1200 150" preserveAspectRatio="none">
+    <path fill="#131719" d="M0,80 C100,130 200,70 300,120 C400,70 500,130 600,100 C700,130 800,70 900,120 C1000,70 1100,130 1200,80 L1200,200 L0,200 Z"></path>
+    <path fill="#131719" d="M1200,80 C1300,130 1400,70 1500,120 C1600,70 1700,130 1800,100 C1900,130 2000,70 2100,120 C2200,70 2300,130 2400,80 L2400,200 L1200,200 Z"></path>
   </svg>
 </div>
 
 <style>
 .wave-container {
   position: relative;
-  height: 120px;
+  height: 150px;
   overflow: hidden;
   margin-bottom: -1px;
+  width: 100%;
 }
 
 .wave {
+  display: block;
+  width: 200%;
+  height: auto;
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 200%;
-  height: 100%;
-  animation: waveMove 15s linear infinite;
-}
-
-.wave-back {
-  z-index: 1;
-  animation-duration: 25s;
 }
 
 .wave-front {
-  z-index: 2;
+  animation: waveMoveFront 15s linear infinite; /* He vuelto a 'linear' para un movimiento constante con las nuevas curvas */
 }
 
-@keyframes waveMove {
+.wave-back {
+  animation: waveMoveBack 20s cubic-bezier(0.33, 0.66, 0.66, 1) infinite;
+  opacity: 0.4;
+  transform: translateY(-30px) translateX(-25%);
+  height: 150px;
+}
+
+@keyframes waveMoveFront {
   0% {
     transform: translateX(0);
   }
@@ -40,17 +47,29 @@
   }
 }
 
+@keyframes waveMoveBack {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
 .footer-02 {
-  margin-top: -80px;  
-  padding-top: 60px; 
+  margin-top: -80px;
+  padding-top: 60px;
+  background: #131719;
+  position: relative;
+  z-index: 3;
 }
 </style>
 
-<footer class="footer-02 mt-auto" style="background: #131719; position: relative; z-index: 2;">
+<footer class="footer-02 mt-auto">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-10 col-lg-6">
-        <div class="subscribe mb-5 pb-5">
+        <div class="subscribe mb-5 pb-5 mt-2">
           <form action="#" class="subscribe-form">
             <div class="form-group d-flex">
               <input type="text" class="form-control rounded-left" placeholder="Enter email address" />
@@ -133,6 +152,5 @@
   </div>
 </footer>
 
-<!-- Scripts al final, solo bootstrap.bundle y tu js -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/src/js/main.js"></script>

@@ -7,6 +7,7 @@
     <title>Editar perfil</title>
     <?php include_once '../../components/links.php'; ?>
     <link rel="icon" href="../../../src/img/favicon.png" />
+    <link rel="stylesheet" href="../../styles/inicio_sesion.css"> <!-- HAY QUE CREARLO -->
     <?php
     error_reporting(E_ALL);
     ini_set("display_errors", 1);
@@ -24,6 +25,62 @@
         .error {
             color: red;
         }
+
+
+
+        body {
+            position: relative;
+            background: url('../../img/fondo_editar.jpg');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right,
+
+                    rgba(73, 73, 73, 0.4) 0%,
+                    rgba(184, 232, 235, 0.3) 58%,
+                    rgba(114, 114, 114, 0.7) 100%);
+
+            z-index: 0;
+            pointer-events: none;
+        }
+
+
+
+        .card {
+            border-radius: 30px;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.9);
+            margin: 1rem auto;
+            max-width: 500px;
+        }
+
+
+        h1 {
+            color: #222831;
+            font-weight: 700;
+            font-size: 2.4rem;
+            margin-bottom: 2rem;
+            border-left: 6px solid #00adb5;
+            padding-left: 1rem;
+  
+        }
+
+
+        .form-control {
+            border: 1px solid black;
+            border-radius: 20px;
+        }
+
     </style>
 </head>
 
@@ -138,7 +195,6 @@
             header("location: /src/pages/usuario/perfil_usuario");
             exit();
         }
-        
     }
     ?>
     <?php include_once '../../components/navbar.php'; ?>
@@ -184,7 +240,7 @@
             </form>
         </div>
     </div>
-    <?php include_once '../../components/footer-example.php';?>
+    <?php include_once '../../components/footer-example.php'; ?>
 </body>
 
 </html>

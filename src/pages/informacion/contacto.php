@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <?php include_once '../../components/links.php'; ?>
   <link rel="icon" href="../../../src/img/favicon.png" />
-  <link rel="stylesheet" href="../../styles/.css">
+  <link rel="stylesheet" href="../../styles/contacto.css">
   <title>Contacto</title>
   <style>
     .contact-section {
@@ -19,7 +19,7 @@
       border: none;
       border-radius: 1rem;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      
+
     }
 
     .contact-image {
@@ -91,12 +91,23 @@
     .contact-info .icon-circle i {
       color: #6BBFBF;
     }
-
   </style>
+
+
+  <?php
+  error_reporting(E_ALL);
+  ini_set("display_errors", 1);
+
+  require(__DIR__ . "/../../config/conexion.php");
+
+  session_start();
+  ?>
 </head>
 
 <body>
+  <!-- NAVBAR -->
   <?php include_once '../../components/navbar.php'; ?>
+
 
   <section class="contact-section py-5">
     <div class="container">
@@ -114,44 +125,44 @@
               <h1 class="mb-3 text-center fw-bold">Contacto</h1>
               <p class="text-center text-muted mb-4">¿Tienes alguna consulta o necesitas información? Completa el formulario y te responderemos lo antes posible.</p>
 
-              
-<div class="centrar-pantalla">
-  <form>
-    <div class="row mb-3">
-      <div class="col">
-        <div class="form-floating">
-          <input type="text" class="form-control" id="nombre" placeholder="Nombre">
-          <label for="nombre">Nombre</label>
-        </div>
-      </div>
-      <div class="col">
-        <div class="form-floating">
-          <input type="tel" class="form-control" id="telefono" placeholder="Teléfono">
-          <label for="telefono">Teléfono</label>
-        </div>
-      </div>
-    </div>
-    <div class="mb-3">
-      <div class="form-floating">
-        <input type="email" class="form-control" id="email" placeholder="Email">
-        <label for="email">Email</label>
-      </div>
-    </div>
-    <div class="mb-3">
-      <div class="form-floating">
-        <input type="text" class="form-control" id="asunto" placeholder="Asunto">
-        <label for="asunto">Asunto</label>
-      </div>
-    </div>
-    <div class="mb-4">
-      <div class="form-floating">
-        <textarea class="form-control" placeholder="Mensaje" id="mensaje" style="height: 120px"></textarea>
-        <label for="mensaje">Mensaje</label>
-      </div>
-    </div>
-    <button type="submit" class="btn w-50" style="background-color: #6BBFBF; display: block; margin: 0 auto;">Enviar</button>
-  </form>
-</div>
+
+              <div class="centrar-pantalla">
+                <form>
+                  <div class="row mb-3">
+                    <div class="col">
+                      <div class="form-floating">
+                        <input type="text" class="form-control" id="nombre" placeholder="Nombre">
+                        <label for="nombre">Nombre</label>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="form-floating">
+                        <input type="tel" class="form-control" id="telefono" placeholder="Teléfono">
+                        <label for="telefono">Teléfono</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <div class="form-floating">
+                      <input type="email" class="form-control" id="email" placeholder="Email">
+                      <label for="email">Email</label>
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <div class="form-floating">
+                      <input type="text" class="form-control" id="asunto" placeholder="Asunto">
+                      <label for="asunto">Asunto</label>
+                    </div>
+                  </div>
+                  <div class="mb-4">
+                    <div class="form-floating">
+                      <textarea class="form-control" placeholder="Mensaje" id="mensaje" style="height: 120px"></textarea>
+                      <label for="mensaje">Mensaje</label>
+                    </div>
+                  </div>
+                  <button type="submit" class="btn w-50" style="background-color: #6BBFBF; display: block; margin: 0 auto;">Enviar</button>
+                </form>
+              </div>
 
               <!-- Información de contacto -->
               <div class="contact-info mt-5">
@@ -184,8 +195,8 @@
                 </div>
               </div>
 
-            </div> 
-          </div> 
+            </div>
+          </div>
         </div> <!-- card -->
       </div>
     </div>

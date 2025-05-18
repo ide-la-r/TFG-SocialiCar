@@ -75,13 +75,6 @@
         }
 
 
-        @media (max-width: 576px) {
-            .col-md-3 {
-                flex: 0 0 100% !important;
-                max-width: 100% !important;
-            }
-        }
-
 
         /* PONER EN LOS DEMAS ARCHIVOS */
         .form-floating>.form-control,
@@ -89,6 +82,7 @@
             border: 1px solid black;
             border-radius: 20px;
         }
+
     </style>
 </head>
 
