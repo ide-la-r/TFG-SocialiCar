@@ -140,10 +140,10 @@
           </div>
           <div class="col-md-9">
             <p class="partner-name mb-0">
-              <a href="#"><span class="ion-logo-ionic mr-2"></span>Pablo Monis Alvarez</a>
-              <a href="#"><span class="ion-logo-ionic mr-2"></span>Francisco Cortes Pirson</a>
-              <a href="#"><span class="ion-logo-ionic mr-2"></span>Raul Martin Gonzalez</a>
-              <a href="#"><span class="ion-logo-ionic mr-2"></span>Ismael de la rosa guerrero</a>
+              <a href="#"><span class="ion-logo-ionic mr-2"></span>Pablo Monís Álvarez</a>
+              <a href="#"><span class="ion-logo-ionic mr-2"></span>Francisco Cortés Pirson</a>
+              <a href="#"><span class="ion-logo-ionic mr-2"></span>Raul Martín González</a>
+              <a href="#"><span class="ion-logo-ionic mr-2"></span>Ismael de la Rosa Guerrero</a>
             </p>
           </div>
         </div>

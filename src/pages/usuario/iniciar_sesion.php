@@ -47,48 +47,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SocialiCar - Comparte tu coche</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <?php include_once '../../components/links.php'; ?>
     <link rel="icon" href="../../../src/img/favicon.png" />
-    <link rel="stylesheet" href="../../styles/nuevo_coche_custom.css">
-    <style>
-        .error {
-            color: red;
-            font-size: 0.875rem;
-        }
-    </style>
+    
+    <link rel="stylesheet" href="../../styles/inicio_sesion.css">
 </head>
 
 <body class="d-flex flex-column min-vh-100">
     <?php include_once '../../components/navbar.php'; ?>
-    <div class="container mt-5 pt-5 d-flex justify-content-center align-items-center">
-        <div class="card text-center card-sesion w-100 w-md-50 p-4 rounded-4 shadow mx-auto" style="max-width: 420px;">
-            <h1 class="title pt-2 pb-3">Iniciar sesión</h1>
-            <form method="post" action="">
-                <div class="row gy-3">
-                    <div class="mb-2 col-12">
-                        <div class="form-floating">
-                            <input class="form-control <?php if (isset($err_correo)) echo 'is-invalid'; ?>" type="email" placeholder="Correo electrónico*" id="correo" name="correo" value="<?php if (isset($correo)) echo htmlspecialchars($correo); ?>">
-                            <label for="correo">Correo electrónico</label>
-                            <?php if (isset($err_correo)) echo "<span class='error'>$err_correo</span>"; ?>
-                        </div>
+    <div class="contenedor-centrado">
+        <div class="card">
+            <h1 class="titulo-sesion">Iniciar sesión</h1>
+            <form method="post" action="" class="formulario-sesion">
+                <div class="gy-3">
+                    <div class="form-floating">
+                        <input class="form-control <?php if (isset($err_correo)) echo 'is-invalid'; ?>" type="email" placeholder="Correo electrónico*" id="correo" name="correo" value="<?php if (isset($correo)) echo htmlspecialchars($correo); ?>">
+                        <label for="correo">Correo electrónico</label>
+                        <?php if (isset($err_correo)) echo "<span class='error'>$err_correo</span>"; ?>
                     </div>
-                    <div class="mb-2 col-12">
-                        <div class="form-floating">
-                            <input class="form-control <?php if (isset($err_contrasena)) echo 'is-invalid'; ?>" type="password" placeholder="Contraseña*" id="contrasena" name="contrasena">
-                            <label for="contrasena">Contraseña</label>
-                            <?php if (isset($err_contrasena)) echo "<span class='error'>$err_contrasena</span>"; ?>
-                        </div>
+                    <div class="form-floating">
+                        <input class="form-control <?php if (isset($err_contrasena)) echo 'is-invalid'; ?>" type="password" placeholder="Contraseña*" id="contrasena" name="contrasena">
+                        <label for="contrasena">Contraseña</label>
+                        <?php if (isset($err_contrasena)) echo "<span class='error'>$err_contrasena</span>"; ?>
                     </div>
                 </div>
 
-                <input type="submit" class="btn btn-primary w-100 mt-2" value="Iniciar sesión">
+                <input type="submit" class="btn btn-primary boton-sesion" value="Iniciar sesión">
             </form>
-            <div class="mb-3 iniciar_sesion_pregunta">
-                <p>¿Todavía no tienes cuenta? <a href="./registro">Registrarse</a></p>
+            <div class="pregunta-registro">
+                <p>¿Todavía no tienes cuenta? </p>
+                <a href="./registro">Registrarse</a>
             </div>
         </div>
     </div>
+
     <?php include_once '../../components/footer-example.php'; ?>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 
 </html>
