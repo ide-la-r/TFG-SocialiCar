@@ -331,7 +331,7 @@ require(__DIR__ . "/src/config/conexion.php");
     </section>
 
     <!-- Footer -->
-    <?php include_once 'src/components/footer.php'; ?>
+    <?php include_once 'src/components/footer-example.php'; ?>
 
     <!-- Scripts al final para mejor performance -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
