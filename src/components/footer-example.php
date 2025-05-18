@@ -1,14 +1,7 @@
-<div class="wave-container">
-  <!-- Onda trasera más transparente -->
-  <svg class="wave wave-back" viewBox="0 0 2400 120" preserveAspectRatio="none">
-    <path d="M0,30 C300,90 600,-30 900,30 C1200,90 1500,-30 1800,30 C2100,90 2400,-30 2400,120 L0,120 Z"
-      fill="#131719" fill-opacity="0.3" />
-  </svg>
-
-  <!-- Onda delantera más opaca -->
-  <svg class="wave wave-front" viewBox="0 0 2400 120" preserveAspectRatio="none">
-    <path d="M0,30 C300,90 600,-30 900,30 C1200,90 1500,-30 1800,30 C2100,90 2400,-30 2400,120 L0,120 Z"
-      fill="#131719" fill-opacity="1" />
+<!-- ONDAS -->
+<div class="custom-wave" style="position: relative; height: 100px; margin-bottom: -1px;">
+  <svg style="display: block; height: 100px; width: 100%" viewBox="0 0 1200 120" preserveAspectRatio="none">
+    <path fill="#131719" d="M0,64L80,58.7C160,53,320,43,480,48C640,53,800,75,960,74.7C1120,75,1280,53,1360,42.7L1440,32L1440,320L1360,320C1280,320,1280,320,1120,320C960,320,800,320,640,320C480,320,320,320,160,320L80,320L0,320Z"></path>
   </svg>
 </div>
 
@@ -51,31 +44,17 @@
   margin-top: -80px;  
   padding-top: 60px; 
 }
-
-
-
 </style>
 
 <footer class="footer-02 mt-auto" style="background: #131719; position: relative; z-index: 2;">
-
-<!-- ANTES DEL FOOTER - WAVE -->
-<!-- Modifica el div de la onda -->
-<div class="custom-wave" style="position: relative; height: 100px; margin-bottom: -1px;">
-  <svg style="display: block; height: 100px; width: 100%" viewBox="0 0 1200 120" preserveAspectRatio="none">
-    <path fill="#131719" d="M0,64L80,58.7C160,53,320,43,480,48C640,53,800,75,960,74.7C1120,75,1280,53,1360,42.7L1440,32L1440,320L1360,320C1280,320,1280,320,1120,320C960,320,800,320,640,320C480,320,320,320,160,320L80,320L0,320Z"></path>
-  </svg>
-</div>
-
-<footer class="footer-02" style="background: #131719; position: relative">
-
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-10 col-lg-6">
         <div class="subscribe mb-5 pb-5">
           <form action="#" class="subscribe-form">
             <div class="form-group d-flex">
-              <input type="text" class="form-control rounded-left " placeholder="Enter email address">
-              <input type="submit" value="Subscribe" class="form-control submit px-3">
+              <input type="text" class="form-control rounded-left" placeholder="Enter email address" />
+              <input type="submit" value="Subscribe" class="form-control submit px-3" />
             </div>
           </form>
         </div>
@@ -86,7 +65,9 @@
         <div class="row">
           <div class="col-md-12 col-lg-8 mb-md-0 mb-4">
             <h2 class="footer-heading"><a href="#" class="logo">Socialicar</a></h2>
-            <p>SocialiCar es un intermediario destinado al alquiler de vehículos entre particulares. La idea surge ante la creciente necesidad de alternativas de movilidad más flexibles, accesibles y sostenibles. </p>
+            <p>
+              SocialiCar es un intermediario destinado al alquiler de vehículos entre particulares. La idea surge ante la creciente necesidad de alternativas de movilidad más flexibles, accesibles y sostenibles.
+            </p>
             <a href="../pages/informacion/proposito.php">Mas informacion <span class="ion-ios-arrow-round-forward"></span></a>
           </div>
         </div>
@@ -151,8 +132,7 @@
     </div>
   </div>
 </footer>
-<script src="/src/js/jquery.min.js"></script>
-<script src="/src/js/popper.js"></script>
-<script src="/src/js/bootstrap.min.js"></script>
-<script src="/src/js/main.js"></script>
+
+<!-- Scripts al final, solo bootstrap.bundle y tu js -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/src/js/main.js"></script>
