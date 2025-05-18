@@ -223,7 +223,9 @@
                                 echo '<div class="col-md-4">';
                                 echo '<ul class="list-group list-group-flush">';
                                 for ($j = $i * $por_columna; $j < ($i+1)*$por_columna && $j < count($extras_filtrados); $j++) {
-                                    echo '<li class="list-group-item">' . $extras_filtrados[$j] . '</li>';
+                                    if ($j != 0) {
+                                        echo '<li class="list-group-item">' . $extras_filtrados[$j] . '</li>';
+                                    }
                                 }
                                 echo '</ul>';
                                 echo '</div>';
