@@ -57,7 +57,7 @@ session_start();
                                 <li><i class="fas fa-times-circle feature-icon" style="color: #ff4757"></i> Sin prioridad en las reservas</li>
                                 <li><i class="fas fa-times-circle feature-icon" style="color: #ff4757"></i> Sin ofertas exclusivas</li>
                             </ul>
-                            <a href="iniciar_pago.php?tipo=basica" class="btn btn-basic btn-plan" style="background-color: #C4EEF2; color:#333">Suscribirse</a>
+                            <a href="../pago/iniciar_pago.php?tipo=basica" class="btn btn-basic btn-plan" style="background-color: #C4EEF2; color:#333">Suscribirse</a>
                         </div>
                     </div>
                 </div>
@@ -81,7 +81,7 @@ session_start();
                                 <li><i class="fas fa-check-circle feature-icon" style="color: rgb(250, 113, 255)"></i> Prioridad en las reservas</li>
                                 <li><i class="fas fa-check-circle feature-icon" style="color: rgb(250, 113, 255)"></i> Acceso anticipado a nuevas funciones</li>
                             </ul>
-                            <a href="iniciar_pago.php?tipo=premium" class="btn btn-premium btn-plan" style="background: linear-gradient(135deg, #C4EEF2 0%,rgb(250, 113, 255) 100%)">Suscribirse</a>
+                            <a href="../pago/iniciar_pago.php?tipo=premium" class="btn btn-premium btn-plan" style="background: linear-gradient(135deg, #C4EEF2 0%,rgb(250, 113, 255) 100%)">Suscribirse</a>
                         </div>
                     </div>
                 </div>
