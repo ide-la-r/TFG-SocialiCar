@@ -65,6 +65,7 @@
   position: relative;
   z-index: 3;
 }
+
 .social-icons {
   display: flex;
   flex-direction: column;
@@ -73,6 +74,7 @@
   padding-left: 0;
   margin-top: -8px;
 }
+
 .social-icons li {
   margin: 0;
   width: 24px;
@@ -81,6 +83,7 @@
   align-items: center;
   justify-content: center;
 }
+
 .social-icons a {
   display: flex;
   align-items: center;
@@ -92,32 +95,60 @@
   border-radius: 5px;
   transition: color 0.18s, background 0.18s;
 }
-.social-icons a:hover {
-  color: #fff;
-  background: #23272b;
-}
+
 .social-icons a:hover {
   color: #fff;
   background: #23272b;
 }
 
+.social-icons a:hover {
+  color: #fff;
+  background: #23272b;
+}
+
+/* Accordion styles for mobile */
+@media (max-width: 767.98px) {
+  .footer-accordion {
+    margin-bottom: 15px;
+  }
+  
+  .footer-accordion .accordion-button {
+    background-color: transparent;
+    color: white;
+    padding: 15px 0;
+    box-shadow: none;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  
+  .footer-accordion .accordion-button:not(.collapsed) {
+    background-color: transparent;
+    color: white;
+  }
+  
+  .footer-accordion .accordion-button::after {
+    filter: brightness(0) invert(1);
+  }
+  
+  .footer-accordion .accordion-body {
+    padding: 15px 0;
+  }
+  
+  .footer-accordion .social-icons {
+    flex-direction: row !important;
+    justify-content: center;
+    gap: 15px;
+    padding: 10px 0;
+  }
+  
+  .footer-accordion .social-icons li {
+    margin: 0;
+  }
+}
 </style>
 
 <footer class="footer-02 mt-auto">
   <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-10 col-lg-6">
-        <div class="subscribe mb-5 pb-5 mt-2">
-          <form action="#" class="subscribe-form">
-            <div class="form-group d-flex">
-              <input type="text" class="form-control rounded-left" placeholder="Enter email address" />
-              <input type="submit" value="Subscribe" class="form-control submit px-3" />
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-    <div class="row">
+    <div class="row justify-content-center d-none d-md-flex">
       <div class="col-md-4 col-lg-5">
         <div class="row">
           <div class="col-md-12 col-lg-8 mb-md-0 mb-4">
@@ -170,6 +201,82 @@
         </div>
       </div>
     </div>
+    
+    <!-- Mobile accordion version -->
+    <div class="accordion d-md-none footer-accordion" id="footerAccordion">
+      <div class="accordion-item border-0 bg-transparent">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+            Información
+          </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#footerAccordion">
+          <div class="accordion-body">
+            <ul class="list-unstyled">
+              <li><a href="/src/pages/informacion/proposito.php" class="py-1 d-block">Sobre nosotros</a></li>
+              <li><a href="/src/pages/informacion/contacto.php" class="py-1 d-block">Contacto</a></li>
+              <li><a href="/src/pages/informacion/trabaja.php" class="py-1 d-block">Trabaja con nosotros</a></li>
+              <li><a href="/src/pages/informacion/soporte.php" class="py-1 d-block">Atencion al cliente</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="accordion-item border-0 bg-transparent">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+            Alquiler de coches
+          </button>
+        </h2>
+        <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#footerAccordion">
+          <div class="accordion-body">
+            <ul class="list-unstyled">
+              <li><a href="/src/pages/coche/nuevo_coche.php" class="py-1 d-block">Alquila tu coche</a></li>
+              <li><a href="/src/pages/rentacar/mostrar_coches.php" class="py-1 d-block">Encontrar un coche</a></li>
+              <li><a href="/src/pages/usuario/planes.php" class="py-1 d-block">Planes</a></li>
+              <li><a href="/src/pages/informacion/ayuda.php" class="py-1 d-block">Guia</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="accordion-item border-0 bg-transparent">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+            Legal
+          </button>
+        </h2>
+        <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#footerAccordion">
+          <div class="accordion-body">
+            <ul class="list-unstyled">
+              <li><a href="/src/pages/informacion/aviso_legal.php" class="py-1 d-block">Aviso legal</a></li>
+              <li><a href="/src/pages/informacion/politica_privacidad.php" class="py-1 d-block">Politica de privacidad</a></li>
+              <li><a href="/src/pages/informacion/politica_cookies.php" class="py-1 d-block">Cookies</a></li>
+              <li><a href="/src/pages/informacion/accesibilidad.php" class="py-1 d-block">Accesibilidad</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="accordion-item border-0 bg-transparent">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour">
+            Redes sociales
+          </button>
+        </h2>
+        <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#footerAccordion">
+          <div class="accordion-body">
+            <ul class="list-unstyled social-icons">
+              <li><a href="https://www.facebook.com/people/SocialiCar-Rentacar/pfbid0eL6UbpgSWBv5jxYF5SV32DuJF645MRwvcVb1KXnVPvWNbfs8NYWQeHpUntVefi23l/" class="py-1 d-block" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i> <span class="visually-hidden">Facebook</span></a></li>
+              <li><a href="https://x.com/socialicar_" class="py-1 d-block" target="_blank" rel="noopener"><i class="fab fa-x-twitter"></i> <span class="visually-hidden">Twitter</span></a></li>
+              <li><a href="https://www.instagram.com/socialicar/" class="py-1 d-block" target="_blank" rel="noopener"><i class="fab fa-instagram"></i> <span class="visually-hidden">Instagram</span></a></li>
+              <li><a href="https://www.tiktok.com/@socialicar" class="py-1 d-block" target="_blank" rel="noopener"><i class="fab fa-tiktok"></i> <span class="visually-hidden">TikTok</span></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    
     <div class="row partner-wrap mt-5">
       <div class="col-md-12">
         <div class="row align-items-center">
