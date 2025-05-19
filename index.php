@@ -191,6 +191,21 @@ require(__DIR__ . "/src/config/conexion.php");
                 word-break: break-word;
             }
         }
+
+        /* LOGO YURI */
+        .yuriLogo {
+            position: fixed;
+            cursor: default;
+            margin-left: 2px;
+            margin-top: 200px;
+            z-index: 1000;
+        }
+
+        .yuriLogo img {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+        }
     </style>
 </head>
 
@@ -205,6 +220,13 @@ require(__DIR__ . "/src/config/conexion.php");
             <h1 class="socialicar">SocialiCar</h1>
         </div>
     </section>
+    
+    <a class="yuriLogo" href="/src/pages/yuri/yuri">
+        <img
+            src="/src/img/yuriasomada.png"
+            alt="Yuri"
+            loading="lazy" />
+    </a>
 
     <!-- Search Form -->
     <form method="get" action="./src/pages/rentacar/mostrar_coches.php" class="mt-5">
@@ -291,7 +313,6 @@ require(__DIR__ . "/src/config/conexion.php");
                 ¿Cómo funciona?
                 <img style="width: 100px;" src="https://www.gifsanimados.org/data/media/67/coche-y-automovil-imagen-animada-0187.gif" alt="gif coche animado" />
             </h2>
-
             <div class="row justify-content-center text-center g-5">
                 <div class="row justify-content-center g-5">
                     <div class="row">
@@ -315,7 +336,8 @@ require(__DIR__ . "/src/config/conexion.php");
                             </div>
                         </div>
 
-                        <div class="col-12 col-md-4 d-flex">
+
+                        <div class="col-12 col-md-4 d-flex position-relative">
                             <div class="d-flex flex-column align-items-center fondo-difuminado-lados flex-fill">
                                 <div class="rounded-circle bg-info text-white d-flex justify-content-center align-items-center mb-3" style="width: 80px; height: 80px; font-size: 1.5rem;">
                                     3
