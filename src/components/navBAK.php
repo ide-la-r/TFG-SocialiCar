@@ -1,9 +1,12 @@
 <nav class="navbar navbar-expand-lg navbar-light custom-navbar">
     <div class="container-fluid">
         <button
-            id="menu-toggle"
             class="navbar-toggler ps-3 border-0"
             type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
             aria-label="Toggle navigation"
             style="outline: none !important; box-shadow: none !important;">
             <i class="fas fa-bars"></i>
@@ -133,114 +136,8 @@
     </div>
 </nav>
 
-<div id="overlay" class="overlay">
-    <ul class="overlay-menu">
-        <li><a href="/">Inicio</a></li>
-        <li><a href="/src/pages/rentacar/mostrar_coches">Alquiler</a></li>
-        <li><a class="premium-link" href="/src/pages/usuario/planes">Premium <i class="fa-solid fa-star "></i></a></li>
-        <li><a href="/src/pages/informacion/contacto">Contacto</a></li>
-        <?php
-        if (isset($_SESSION['usuario'])) {
-            echo "<li><a class='btn-alquila-mobile' href='/src/pages/coche/nuevo_coche'><i class='fa-solid fa-car-side me-2'></i> Alquila tu coche</a></li>";
-            echo "<li><a href='/src/pages/chat/conversa'><i class='bi bi-chat-dots me-2'></i> Chat</a></li>";
-            echo "<li><a href='/src/pages/usuario/perfil_usuario'><i class='fa-regular fa-circle-user me-2'></i> Mi perfil</a></li>";
-            echo "<li><a href='/src/pages/usuario/cerrar_sesion'><i class='fa-regular fa-circle-xmark me-2'></i> Cerrar sesión</a></li>";
-        } else {
-            echo "<li><a href='/src/pages/usuario/iniciar_sesion'><i class='fa-regular fa-circle-user me-2'></i> Iniciar sesión</a></li>";
-            echo "<li><a href='/src/pages/usuario/registro'><i class='fa-regular fa-circle-user me-2'></i> Registrarse</a></li>";
-        }
-        ?>
-    </ul>
-</div>
-
-<style>
-    .overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(to right,
-            rgba(0, 0, 0, 0.88) 0%,
-            rgba(0, 0, 0, 0.62) 58%,
-            rgb(0, 0, 0) 100%);
-        z-index: 1000;
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.3s ease-in-out, visibility 0s linear 0.3s;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .overlay.open {
-        opacity: 1;
-        visibility: visible;
-        transition: opacity 0.3s ease-in-out;
-    }
-
-    .overlay-menu {
-        list-style: none;
-        padding: 0;
-        text-align: center;
-    }
-
-    .overlay-menu li {
-        padding: 15px 0;
-    }
-
-    .overlay-menu li a {
-        color: white;
-        text-decoration: none;
-        font-size: 1.5em;
-    }
-
-
-    /* hundir boton*/ 
-    .navbar-toggler.collapsed {
-        opacity: 0.6;
-        transform: translateY(2px);
-        transition: opacity 0.2s ease, transform 0.2s ease;
-    }
-
-    /* subir boton */
-    .navbar-toggler {
-        opacity: 1;
-        transform: translateY(0);
-        transition: opacity 0.2s ease, transform 0.2s ease;
-    }
-</style>
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const menuToggle = document.getElementById('menu-toggle');
-        const overlay = document.getElementById('overlay');
-        const navbarCollapse = document.querySelector('.navbar-collapse');
-
-        menuToggle.addEventListener('click', function() {
-            overlay.classList.toggle('open');
-            this.classList.toggle('collapsed'); // Alternar la clase para el efecto de hundimiento
-            navbarCollapse.classList.remove('show'); // Asegurar que el menú hamburguesa normal se cierre
-        });
-
-        // Cerrar el overlay si se hace clic fuera del menú (opcional)
-        overlay.addEventListener('click', function(event) {
-            if (event.target === this) {
-                this.classList.remove('open');
-                menuToggle.classList.remove('collapsed');
-            }
-        });
-
-        // Opcional: Cerrar el overlay al hacer clic en un enlace del menú
-        const overlayLinks = overlay.querySelectorAll('a');
-        overlayLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                overlay.classList.remove('open');
-                menuToggle.classList.remove('collapsed');
-            });
-        });
-
-
         const dropdownToggle = document.querySelector('.dropdown-toggle-js');
         const dropdownMenu = document.querySelector('.dropdown-menu-js');
         const dropdownArrow = document.querySelector('.dropdown-arrow');
