@@ -1,3 +1,5 @@
+<!-- Font Awesome CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 <div class="wave-container">
   <svg class="wave wave-front" style="display: block; height: 120px; width: 200%; z-index: 2; left: 0;" viewBox="0 0 1200 150" preserveAspectRatio="none">
     <path fill="#131719" d="M0,80 C200,140 400,60 600,110 C800,60 1000,140 1200,80 L1200,200 L0,200 Z"></path>
@@ -63,6 +65,42 @@
   position: relative;
   z-index: 3;
 }
+.social-icons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding-left: 0;
+  margin-top: -8px;
+}
+.social-icons li {
+  margin: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.social-icons a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  font-size: 0.95rem;
+  color: #a5a5a5;
+  border-radius: 5px;
+  transition: color 0.18s, background 0.18s;
+}
+.social-icons a:hover {
+  color: #fff;
+  background: #23272b;
+}
+.social-icons a:hover {
+  color: #fff;
+  background: #23272b;
+}
+
 </style>
 
 <footer class="footer-02 mt-auto">
@@ -122,11 +160,11 @@
           </div>
           <div class="col-md-3 mb-md-0 mb-4 border-left">
             <h2 class="footer-heading">Redes sociales</h2>
-            <ul class="list-unstyled">
-              <li><a href="https://www.facebook.com/people/SocialiCar-Rentacar/pfbid0eL6UbpgSWBv5jxYF5SV32DuJF645MRwvcVb1KXnVPvWNbfs8NYWQeHpUntVefi23l/" class="py-1 d-block">Facebook</a></li>
-              <li><a href="https://x.com/socialicar_" class="py-1 d-block">Twitter</a></li>
-              <li><a href="https://www.instagram.com/socialicar/" class="py-1 d-block">Instagram</a></li>
-              <li><a href="https://www.tiktok.com/@socialicar" class="py-1 d-block">TikTok</a></li>
+            <ul class="list-unstyled social-icons">
+              <li><a href="https://www.facebook.com/people/SocialiCar-Rentacar/pfbid0eL6UbpgSWBv5jxYF5SV32DuJF645MRwvcVb1KXnVPvWNbfs8NYWQeHpUntVefi23l/" class="py-1 d-block" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i> <span class="visually-hidden">Facebook</span></a></li>
+              <li><a href="https://x.com/socialicar_" class="py-1 d-block" target="_blank" rel="noopener"><i class="fab fa-x-twitter"></i> <span class="visually-hidden">Twitter</span></a></li>
+              <li><a href="https://www.instagram.com/socialicar/" class="py-1 d-block" target="_blank" rel="noopener"><i class="fab fa-instagram"></i> <span class="visually-hidden">Instagram</span></a></li>
+              <li><a href="https://www.tiktok.com/@socialicar" class="py-1 d-block" target="_blank" rel="noopener"><i class="fab fa-tiktok"></i> <span class="visually-hidden">TikTok</span></a></li>
             </ul>
           </div>
         </div>
