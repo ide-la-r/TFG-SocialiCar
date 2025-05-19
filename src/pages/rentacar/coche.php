@@ -146,10 +146,10 @@
                         $matricula = $fila['matricula'];   // Asegúrate de tener la matrícula disponible
 
                         if (isset($_SESSION['usuario'])) {
-                            $usuario_sesion = $_SESSION['usuario'];
+                            $usuario_sesion = $_SESSION['usuario']['identificacion'];
 
                             // Verificar que el usuario no sea el mismo que el dueño del coche
-                            if ($usuario_sesion == $duenio_id) {
+                            if ($usuario_sesion != $duenio_id) {
                                 echo "<a href='/src/pages/chat/conversa?matricula=$matricula&chat_con=$duenio_id' class='btn btn-outline-primary'>
                                         <i class='bi bi-chat-dots'></i> Chat
                                     </a>";
