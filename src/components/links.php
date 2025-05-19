@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="/src/styles/ionicons.min.css">
 <link rel="stylesheet" href="/src/styles/style.css">
-<link rel="stylesheet" href="/src/styles/navbar.css">
+ <!-- <link rel="stylesheet" href="/src/styles/navbar.css"> -->
 <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
 
 <!-- Bootstrap CSS (solo una versión, la más reciente estable) -->
