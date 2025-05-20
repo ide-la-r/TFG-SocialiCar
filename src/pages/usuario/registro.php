@@ -284,8 +284,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     </div>
                     <div class="mb-2 col-12">
-                        <input id="validarContrasena" class="form-control <?php if (isset($err_confirma_contrasena)) echo 'is-invalid'; ?>" type="password" hidden placeholder="Confirmar contraseña*" name="confirma_contrasena">
-                        <?php if (isset($err_confirma_contrasena)) echo "<span class='error'>$err_confirma_contrasena</span>"; ?>
+                        <div class="form-floating">
+                            <input id="validarContrasena" class="form-control <?php if (isset($err_confirma_contrasena)) echo 'is-invalid'; ?>" type="password" hidden placeholder="Confirmar contraseña*" name="confirma_contrasena">
+                            <label id="textValidarContrasena" for="contrasena">Confirmar Contraseña</label>
+                            <?php if (isset($err_confirma_contrasena)) echo "<span class='error'>$err_confirma_contrasena</span>"; ?>
+                        </div>
                     </div>
                     <div class="mb-2 col-12">
                         <div class="form-floating">
@@ -308,8 +311,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                     </div>
                     <div class="mb-2 col-12">
-                        <input class="form-control" placeholder="Identificación*" id="identificacion" name="identificacion" type="text" hidden>
-                        <?php if (isset($err_identificacion) && $tipo_identificacion != "") echo "<span class='error'>$err_identificacion</span>" ?>
+                        <div class="form-floating">
+                            <input class="form-control" placeholder="Identificación*" id="identificacion" name="identificacion" type="text" hidden>
+                            <label id="textIdentificacion" for="identificacion"></label>
+                            <?php if (isset($err_identificacion) && $tipo_identificacion != "") echo "<span class='error'>$err_identificacion</span>" ?>
+                        </div>
                     </div>
                     <div class="col-12 mt-3">
                         <input type="submit" class="btn btn-primary w-100" value="Registrarse">
