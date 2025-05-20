@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../../../src/styles/index.css">
     <link rel="stylesheet" href="../../../src/styles/coche.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
 
     <?php
     error_reporting(E_ALL);
@@ -26,13 +27,14 @@
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
         }
         .zona-entrega-tooltip {
-  background: transparent;
-  color: #FF6F61; /* Color suave, en línea con el estilo de Google Maps */
-  font-weight: bold;
-  font-size: 14px;
-  border: none;
-  box-shadow: none;
-}
+            background: transparent;
+            color: #FF6F61; /* Color suave, en línea con el estilo de Google Maps */
+            font-weight: bold;
+            font-size: 14px;
+            border: none;
+            box-shadow: none;
+        }
+
     </style>
 </head>
 
@@ -129,18 +131,31 @@
                     </div>
                 </div>
 
+                <!-- Fechas de reserva -->
+                <div class="mb-4 reserva-fechas">
+                    <h5>Selecciona tu rango de reserva</h5>
+                    <input type="text" id="fecha_rango" class="form-control" placeholder="Elige el rango de fechas" readonly>
+
+                    <input type="hidden" id="fecha_inicio" name="fecha_inicio">
+                    <input type="hidden" id="fecha_fin" name="fecha_fin">
+                </div>
+
                 <div class="mb-4">
                     <?php
                         $duenio_id = $fila['id_usuario'];  // ID del dueño del coche
                         $matricula = $fila['matricula'];   // Asegúrate de tener la matrícula disponible
 
                         if (isset($_SESSION['usuario'])) {
-                            $usuario_sesion = $_SESSION['usuario'];
+                            $usuario_sesion = $_SESSION['usuario']['identificacion'];
 
                             // Verificar que el usuario no sea el mismo que el dueño del coche
-                            if ($usuario_sesion !== $duenio_id) {
+                            if ($usuario_sesion != $duenio_id) {
                                 echo "<a href='/src/pages/chat/conversa?matricula=$matricula&chat_con=$duenio_id' class='btn btn-outline-primary'>
                                         <i class='bi bi-chat-dots'></i> Chat
+                                    </a>";
+                            } else {
+                                echo "<a href='/src/pages/coche/editar_coche?matricula=$matricula' class='btn btn-outline-primary'>
+                                        <i class='bi bi-tools'></i> Editar coche
                                     </a>";
                             }
                         } else {
@@ -163,45 +178,99 @@
                 </button>
             </div>
 
-            <!-- Descripción completa y extras -->
-            <div class="col-md-12">
-                <?php echo "<div class='mb-3'><h5 class='mt-4'>Descripción:</h5><p class='text-muted mb-4'>$descripcion</p></div>"; ?>
+            <!-- Acordeón con la descripción y los extras ordenados en columnas -->
+            <div class="accordion" id="accordionPanelsStayOpenExample">
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                    Descripción del vehículo
+                  </button>
+                </h2>
+                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                  <div class="accordion-body">
+                    <p class="text-muted mb-4"><?php echo $descripcion; ?></p>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                    Extras del vehículo
+                  </button>
+                </h2>
+                <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                  <div class="accordion-body">
+                    <?php
+                    $sql_extras = $_conexion->prepare("SELECT * FROM extras_coche WHERE matricula = ?");
+                    $sql_extras->bind_param("s", $matricula);
+                    $sql_extras->execute();
+                    $resultado_extras = $sql_extras->get_result();
 
-                <?php
-                $sql_extras = $_conexion->prepare("SELECT * FROM extras_coche WHERE matricula = ?");
-                $sql_extras->bind_param("s", $matricula);
-                $sql_extras->execute();
-                $resultado_extras = $sql_extras->get_result();
-
-                if ($resultado_extras->num_rows > 0) {
-                    $extras = $resultado_extras->fetch_assoc();
-                    echo "<h5>Extras del vehículo</h5><ul class='list-group'>";
-                    foreach ($extras as $nombre => $valor) {
-                        if ($valor == 1) {
-                            $nombre_legible = ucwords(str_replace('_', ' ', $nombre));
-                            echo "<li class='list-group-item'>$nombre_legible</li>";
+                    if ($resultado_extras->num_rows > 0) {
+                        $extras = $resultado_extras->fetch_assoc();
+                        $extras_filtrados = array();
+                        foreach ($extras as $nombre => $valor) {
+                            if ($valor == 1) {
+                                $nombre_legible = ucwords(str_replace('_', ' ', $nombre));
+                                $extras_filtrados[] = $nombre_legible;
+                            }
                         }
+                        if (count($extras_filtrados) > 0) {
+                            $columnas = 3; // Cambia este valor para más o menos columnas
+                            $por_columna = ceil(count($extras_filtrados)/$columnas);
+                            echo '<div class="row">';
+                            for ($i = 0; $i < $columnas; $i++) {
+                                echo '<div class="col-md-4">';
+                                echo '<ul class="list-group list-group-flush">';
+                                for ($j = $i * $por_columna; $j < ($i+1)*$por_columna && $j < count($extras_filtrados); $j++) {
+                                    if ($j != 0) {
+                                        echo '<li class="list-group-item">' . $extras_filtrados[$j] . '</li>';
+                                    }
+                                }
+                                echo '</ul>';
+                                echo '</div>';
+                            }
+                            echo '</div>';
+                        } else {
+                            echo '<p class="text-muted">Este vehículo no tiene extras destacados.</p>';
+                        }
+                    } else {
+                        echo '<p class="text-muted">No hay información de extras para este vehículo.</p>';
                     }
-                    echo "</ul>";
-                }
-                ?>
-            </div>
+                    ?>
+                  </div>
+                </div>
+              </div>
 
+
+
+</div>   
+
+
+
+
+
+
+            <!-- Mapa de ubicación -->
             <div class="col-md-12">
                 <h5 class="mt-4">Ubicación del vehículo</h5>
                 <div id="map" data-direccion="<?php echo $direccion_usable; ?>" style="height: 400px;" class="mt-4"></div>
             </div>
+
         </div>
     </div><br>
 
-    <?php include_once '../../components/footer.php'; ?>
+    <?php include_once '../../components/footer-example.php'; ?>
 
     <script>
         function changeImage(event, src) {
             document.getElementById('mainImage').src = src;
         }
     </script>
+    <script src="../../js/fecha_rango.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
     <script src="../../js/mostrar_mapa.js"></script>
+    
 </body>
 </html>

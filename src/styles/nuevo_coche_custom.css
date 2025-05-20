@@ -7,10 +7,6 @@
   --color-gris-oscuro: #595959;
 }
 
-body {
-  background: var(--color-gris-claro);
-  color: var(--color-gris-oscuro);
-}
 
 h1, h2, h3, h4, h5, h6 {
   color: var(--color-turquesa);
@@ -33,7 +29,6 @@ input:focus, select:focus, textarea:focus {
 }
 
 
-/* Botones Bootstrap adaptados a la paleta */
 .btn-primary {
   background-color: #6BBFBF !important;
   border-color: #6BBFBF !important;

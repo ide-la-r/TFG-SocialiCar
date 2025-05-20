@@ -32,13 +32,94 @@ if (!isset($_SESSION['usuario'])) {
     <script src="https://www.paypal.com/sdk/js?client-id=AacZbISDuTSpYnWbcg7nWx5DvHfRfVy-PEwgA1O63HkmtG6yhPnzY3tcCmm8iaU1dORsjBSJHXGH6159&currency=EUR"></script>
 </head>
 <style>
+    :root {
+        --primary-color: #4361ee;
+        --secondary-color: #3a0ca3;
+        --light-color: #f8f9fa;
+        --dark-color: #212529;
+    }
+    
     body {
         background-image: url('../../img/fondo_perfil.jpg');
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-        height: 100vh;
+        min-height: 100vh;
         margin: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    .payment-container {
+        backdrop-filter: blur(5px);
+        background-color: rgba(255, 255, 255, 0.85);
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        overflow: hidden;
+    }
+    
+    .payment-header {
+        background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+        color: white;
+        padding: 1.5rem;
+        text-align: center;
+    }
+    
+    .payment-header .title {
+        font-weight: 700;
+        margin: 0;
+        font-size: 1.8rem;
+    }
+    
+    .payment-body {
+        padding: 2rem;
+    }
+    
+    .payment-summary {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    
+    .payment-summary p {
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .payment-summary strong {
+        color: var(--secondary-color);
+        font-weight: 600;
+    }
+    
+    .payment-amount {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin: 1rem 0;
+    }
+    
+    #paypal-button-conteiner {
+        margin: 2rem 0;
+    }
+    
+    .back-link {
+        display: inline-block;
+        margin-top: 1rem;
+        color: var(--dark-color);
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+    
+    .back-link:hover {
+        color: var(--primary-color);
+    }
+    
+    @media (max-width: 768px) {
+        .payment-header .title {
+            font-size: 1.5rem;
+        }
+        
+        .payment-body {
+            padding: 1.5rem;
+        }
     }
 </style>
 
@@ -49,22 +130,36 @@ if (!isset($_SESSION['usuario'])) {
     $concepto = $_SESSION['concepto_pago'] ?? "Pago desconocido";
     ?>
     <?php $page = isset($_GET["page"]) ? $_GET["page"] : ""; ?>
+    
     <div class="container py-5">
         <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <div class="card shadow rounded-4 p-4">
-                    <div class="row g-4 mb-4">
-                        <h1 class="title pt-4 text-center">Metodo de pago</h1>
-                        <p class="text-center">
-                            <strong>Concepto:</strong> <?= htmlspecialchars($concepto) ?><br>
-                            <strong>Total:</strong> <?= number_format($precio, 2) ?>€
-                        </p>
+            <div class="col-lg-8">
+                <div class="payment-container">
+                    <div class="payment-header">
+                        <h1 class="title">Método de Pago</h1>
+                    </div>
+                    
+                    <div class="card-body payment-body">
+                        <div class="payment-summary">
+                            <i class="fas fa-credit-card fa-3x mb-3" style="color: var(--primary-color);"></i>
+                            <p><strong>Concepto:</strong> <?= htmlspecialchars($concepto) ?></p>
+                            <div class="payment-amount"><?= number_format($precio, 2) ?>€</div>
+                            <p class="text-muted">Pago seguro a través de PayPal</p>
+                        </div>
+                        
                         <div id="paypal-button-conteiner"></div>
+                        
+                        <div class="text-center">
+                            <a href="<?= $page ? '../usuario/planes.php' : '../rentacar/mostrar_coches.php' ?>" class="back-link">
+                                <i class="fas fa-arrow-left me-2"></i> Volver atrás
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    
     <script>
         const page = <?= json_encode($page) ?>;
         const concepto = <?= json_encode($concepto) ?>;
@@ -73,7 +168,9 @@ if (!isset($_SESSION['usuario'])) {
         paypal.Buttons({
             style:{
                 color: 'blue',
-                shape: 'pill'
+                shape: 'pill',
+                height: 45,
+                label: 'pay'
             },
             createOrder: function(data, actions){
                 return actions.order.create({
@@ -85,30 +182,48 @@ if (!isset($_SESSION['usuario'])) {
                     }] 
                 });
             },
-            //hacer aqui todo lo de la base de datos cuando se efectue el pago
             onApprove: function(data, actions){
                 actions.order.capture().then(function(detalles){
-                    alert("¡Pago realizado con éxito!");
-
-                    if (page !== "") {
+                    Swal.fire({
+                        title: '¡Pago completado!',
+                        text: 'Tu transacción se ha realizado con éxito.',
+                        icon: 'success',
+                        confirmButtonColor: 'var(--primary-color)'
+                    }).then(() => {
+                        if (page !== "") {
+                            window.location.href = "../usuario/planes.php";
+                        } else {
+                            window.location.href = "../rentacar/mostrar_coches.php";
+                        }
+                    });
+                });
+            },
+            onCancel: function(data){
+                Swal.fire({
+                    title: 'Pago cancelado',
+                    text: 'No se ha completado el proceso de pago.',
+                    icon: 'info',
+                    confirmButtonColor: 'var(--primary-color)'
+                }).then(() => {
+                    if (page != ""){
                         window.location.href = "../usuario/planes.php";
-                    } else {
+                    } else{
                         window.location.href = "../rentacar/mostrar_coches.php";
                     }
                 });
             },
-            onCancel: function(data){
-                alert("Compra cancelada");
-
-                if (page != ""){
-                    window.location.href = "../usuario/planes.php";
-                } else{
-                    window.location.href = "../rentacar/mostrar_coches.php";
-                }
+            onError: function(err) {
+                Swal.fire({
+                    title: 'Error en el pago',
+                    text: 'Ocurrió un error al procesar tu pago. Por favor, intenta nuevamente.',
+                    icon: 'error',
+                    confirmButtonColor: 'var(--primary-color)'
+                });
             }
-        }).render('#paypal-button-conteiner')
+        }).render('#paypal-button-conteiner');
     </script>
-    <?php include_once '../../components/footer.php'; ?>
+    
+    <?php include_once '../../components/footer-example.php'; ?>
 </body>
 
 </html>

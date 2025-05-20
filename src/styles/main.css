@@ -1,7 +1,6 @@
 @import url(./global.css);
 
 body {
-
     background-color: var(--color-claro);
     color: var(--color-oscuro);
     margin: 0;

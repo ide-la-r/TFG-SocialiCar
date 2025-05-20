@@ -4,91 +4,95 @@ ini_set("display_errors", 1);
 session_start();
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SocialiCar - Comparte tu coche</title>
-    <?php 
-        include_once '../../components/links.php'; 
-        require(__DIR__ . "/../../config/conexion.php");
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SocialiCar - Planes de Suscripción</title>
+    <?php
+    include_once '../../components/links.php';
+    require(__DIR__ . "/../../config/conexion.php");
     ?>
     <link rel="icon" href="../../../src/img/favicon.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="../../../src/styles/planes.css">
 </head>
 
 <body>
-    <!-- navbar -->
+    <!-- Navbar -->
     <?php include_once '../../components/navbar.php'; ?>
-    <?php
-    $sub_basica = 9.99;
-    $sub_premium = 19.99;
-    ?>
 
-    <!-- video -->
-    <div class="video-container">
-        <video autoplay muted loop playsinline class="video">
-            <source src="../../video/socialicar_1.mp4" type="video/mp4">
+    <!-- Hero Section with Video Background -->
+    <section class="hero-section">
+        <video autoplay muted loop playsinline class="hero-video">
+            <source src="../../video/socialicar_1.mp4" type="video/mp4" />
             Tu navegador no soporta vídeos HTML5.
         </video>
-        <div class="oscuro"></div>
+        <div class="video-overlay"></div>
 
-
-        <!-- SUSCRIPCIONES -->
-        <div class="container d-flex justify-content-center align-items-center min-vh-100">
-            <div class="row row-cols-1 row-cols-md-2 justify-content-center g-4 w-75">
-
-                <!-- basica -->
-                <div class="col d-flex justify-content-center">
-                    <div class="card-container">
-                        <div class="card text-center first-card">
-                            <div class="card-body">
-                                <h3 class="card-title mb-3 fs-1" style="color: rgba(255, 255, 255, 0.99);">
-                                    Suscripción Básica
-                                </h3>
-                                <p class="card-text" style="color: white">
-                                    <span class="badge bg-primary mb-2">OFERTAS EXCLUSIVAS</span><br>
-                                    Disfruta de descuentos exclusivos y posiciona tu vehículo en las primeras posiciones una vez por semana.
-                                </p>
-                                <h4 class="mt-3 precio" style="color: rgba(101, 255, 81, 0.99); font-size: 2rem;">9,99€/mes</h4>
-                                <a href="../pago/iniciar_pago.php?tipo=basica" class="btn btn-outline-primary mt-3 boton2" style="color: white; background-color: rgba(17, 112, 255, 0.99)">Suscribirse</a>
+        <!-- Plans Section -->
+        <div class="container plans-container cards-section" style="margin-top: 5vh;">
+            <div class="row">
+                <div
+                    class="col-12">
+                    <h1 class="section-title">Planes de Suscripción</h1>
+                </div>
+            </div>
+            <div class="row justify-content-center g-4">
+                <!-- Plan Básico -->
+                <div class="col-md-5 col-lg-4">
+                    <div class="plan-card basic-plan">
+                        <div class="plan-header">
+                            <h3 class="plan-title">Plan Básico</h3>
+                            <div class="plan-price">
+                                6,99€ <span>/ mes</span>
                             </div>
+                        </div>
+                        <div class="plan-body">
+                            <ul class="plan-features">
+                                <li><i class="fas fa-check-circle feature-icon" style="color: #C4EEF2"></i>Localización de tu vehículo</li>
+                                <li><i class="fas fa-check-circle feature-icon" style="color: #C4EEF2"></i> Promociona hasta 3 anuncios</li>
+                                <li><i class="fas fa-times-circle feature-icon" style="color: #ff4757"></i> Sin acceso a soporte premium</li>
+                                <li><i class="fas fa-times-circle feature-icon" style="color: #ff4757"></i> Sin prioridad en las reservas</li>
+                                <li><i class="fas fa-times-circle feature-icon" style="color: #ff4757"></i> Sin ofertas exclusivas</li>
+                            </ul>
+                            <a href="../pago/iniciar_pago.php?tipo=basica" class="btn btn-basic btn-plan" style="background-color: #C4EEF2; color:#333">Suscribirse</a>
                         </div>
                     </div>
                 </div>
 
-
-                <!-- premium -->
-                <div class="col d-flex justify-content-center">
-                    <div class="card-container">
-                        <div class="card text-center second-card">
-                            <div class="card-body">
-                                <h3 class="card-title mb-3 fs-1 neon" style="color: rgba(255, 255, 255, 0.99);">
-                                    Suscripción Premium
-                                </h3>
-                                <p class="card-text mb-4" style="color: white;">
-                                    <span class="badge bg-warning mb-2">VEHÍCULOS EXCLUSIVOS</span><br>
-                                    - Posiciona tus vehículos siempre en las primeras posiciones <br>
-                                    - Accede a vehículos reservados solo para nuestros usuarios Premium <br>
-                                    - Disfruta de reservas prioritarias <br>
-                                    - Ofertas y descuentos únicos.
-                                </p>
-                                <h4 class="my-4 precio" style="color: rgba(101, 255, 81, 0.99); font-size: 2rem;">19,99€/mes</h4>
-                                <a href="../pago/iniciar_pago.php?tipo=premium" class="btn btn-outline-warning boton1" style="background-color:rgba(242, 255, 0, 0.18); color: white">Suscribirse</a>
+                <!-- Plan Premium -->
+                <div class="col-md-5 col-lg-4 position-relative">
+                    <div class="recommended-badge animate__animated animate__pulse animate__infinite">Recomendado</div>
+                    <div class="plan-card premium-plan">
+                        <div class="plan-header">
+                            <h3 class="plan-title">Plan Premium</h3>
+                            <div class="plan-price">
+                                19,99€ <span>/ mes</span>
                             </div>
+                        </div>
+                        <div class="plan-body">
+                            <ul class="plan-features">
+                                <li><i class="fas fa-check-circle feature-icon" style="color: rgba(250, 113, 255)"></i>Localización de tu vehículo</li>
+                                <li><i class="fas fa-check-circle feature-icon" style="color: rgb(250, 113, 255)"></i> Promociona anuncios ilimitados</li>
+                                <li><i class="fas fa-check-circle feature-icon" style="color: rgb(250, 113, 255)"></i> Soporte premium 24/7</li>
+                                <li><i class="fas fa-check-circle feature-icon" style="color: rgb(250, 113, 255)"></i> Acceso a ofertas exclusivas</li>
+                                <li><i class="fas fa-check-circle feature-icon" style="color: rgb(250, 113, 255)"></i> Prioridad en las reservas</li>
+                                <li><i class="fas fa-check-circle feature-icon" style="color: rgb(250, 113, 255)"></i> Acceso anticipado a nuevas funciones</li>
+                            </ul>
+                            <a href="../pago/iniciar_pago.php?tipo=premium" class="btn btn-premium btn-plan" style="background: linear-gradient(135deg, #C4EEF2 0%,rgb(250, 113, 255) 100%)">Suscribirse</a>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
-    </div>
+    </section>
 
+    <div class="footer-overlay">
+        <?php include_once '../../components/footer-example.php'; ?>
     </div>
-
-    <!-- Footer -->
-    <?php include_once '../../components/footer-example.php';?>
-    <script src="/src/js/chatbot.js"></script>
 </body>
 
 </html>

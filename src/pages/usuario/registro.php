@@ -221,7 +221,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>SocialiCar - Comparte tu coche</title>
     <?php include_once '../../components/links.php'; ?>
     <link rel="icon" href="../../../src/img/favicon.png" />
-    <link rel="stylesheet" href="../../styles/nuevo_coche_custom.css">
+    <link rel="stylesheet" href="../../styles/inicio_sesion.css">
     <?php
 
     ?>
@@ -261,8 +261,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="row gy-2">
                     <div class="mb-2 col-12">
+                    <div class="form-floating">
                         <input class="form-control <?php if (isset($err_fecha_nacimiento)) echo 'is-invalid'; ?>" placeholder="Fecha de nacimiento*" id="fecha_nacimiento" name="fecha_nacimiento" type="date" value="<?php if (isset($fecha_nacimiento)) echo $fecha_nacimiento; ?>">
+                        <label for="apellido">Fecha nacimiento</label>
                         <?php if (isset($err_fecha_nacimiento)) echo "<span class='error'>$err_fecha_nacimiento</span>"; ?>
+                    </div>
                     </div>
                     <div class="mb-2 col-12">
                         <div class="form-floating">
