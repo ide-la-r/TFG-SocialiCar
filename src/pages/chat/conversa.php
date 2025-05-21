@@ -129,7 +129,7 @@ if ($matricula !== null) {
         </div>
     </div><br>
 
-    <?php include_once '../../components/footer.php'; ?>
+    <?php include_once '../../components/footer-example.php'; ?>
 
     <script src="../../js/conversa.js"></script>
     
