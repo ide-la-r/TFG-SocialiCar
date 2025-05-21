@@ -18,6 +18,7 @@
   overflow: hidden;
   margin-bottom: -1px;
   width: 100%;
+
 }
 
 .wave {
