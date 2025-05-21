@@ -18,6 +18,20 @@ session_start();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="../../../src/styles/planes.css">
 </head>
+<style>
+    /* NO TOQUEIS ESTO POR FAVOR */
+    .wave-container {
+        height: 150px;
+        margin-top: -150px;
+    }
+
+    @media (max-width: 768px) {
+        .hero-section {
+            height: auto;
+            padding-bottom: 100px;
+        }
+    }
+</style>
 
 <body>
     <!-- Navbar -->
@@ -86,13 +100,10 @@ session_start();
                     </div>
                 </div>
             </div>
-
         </div>
-    </section>
 
-    <div class="footer-overlay">
-        <?php include_once '../../components/footer-example.php'; ?>
-    </div>
+    </section>
+    <?php include_once '../../components/footer-example.php'; ?>
 </body>
 
 </html>
