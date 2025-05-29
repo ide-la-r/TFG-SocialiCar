@@ -55,7 +55,7 @@
             <?php
             if (isset($_SESSION['usuario'])) {
                 echo "
-                    <a href='/src/pages/chat/conversa' class='btn btn-outline-primary d-flex align-items-center me-3'>
+                    <a href='/src/pages/chat/conversa' class='btn btn-outline-primary d-flex align-items-center me-3 d-none d-lg-flex'>
                         <i class='bi bi-chat-dots me-2'></i>
                         <span class='d-none d-lg-inline'>Chat</span>
                     </a>
