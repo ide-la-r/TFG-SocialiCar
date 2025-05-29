@@ -26,23 +26,34 @@
         .text-shadow {
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
         }
+
         .zona-entrega-tooltip {
             background: transparent;
-            color: #FF6F61; /* Color suave, en línea con el estilo de Google Maps */
+            color: #FF6F61;
+            /* Color suave, en línea con el estilo de Google Maps */
             font-weight: bold;
             font-size: 14px;
             border: none;
             box-shadow: none;
         }
 
+        body {
+            background:
+                url('../../img/fondo_editar.jpg');
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+        }
+        
     </style>
+</head>
+
 </head>
 
 <body>
     <?php include_once '../../components/navbar.php'; ?>
     <div class="container mt-5">
         <div class="row">
-            <!-- Imagenes del coche -->
             <div class="col-md-6 mb-4">
                 <?php
                 $obtener_imagenes = $_conexion->prepare("SELECT ruta_img_coche FROM imagen_coche WHERE id_coche = ?");
@@ -59,14 +70,13 @@
 
                 <img src="<?php echo $imagen_principal; ?>" alt="Imagen coche" class="img-fluid rounded mb-3 product-image" id="mainImage">
 
-                <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-start">
                     <?php foreach ($imagenes as $imagen) {
                         echo "<img src='$imagen' alt='Imagen coche' class='thumbnail rounded' onclick='changeImage(event, this.src)'>";
                     } ?>
                 </div>
             </div>
 
-            <!-- Descripción del vehículo -->
             <div class="col-md-6">
                 <?php
                 $sql = $_conexion->prepare("SELECT * FROM coche WHERE matricula = ?");
@@ -100,9 +110,16 @@
                     $direccion_usable = "$calle, $codigo_postal, $ciudad, España";
 
                     $colores = [
-                        "white" => "Blanco", "black" => "Negro", "gray" => "Gris", "red" => "Rojo",
-                        "blue" => "Azul", "green" => "Verde", "yellow" => "Amarillo", "orange" => "Naranja",
-                        "brown" => "Marrón", "other" => "Otros"
+                        "white" => "Blanco",
+                        "black" => "Negro",
+                        "gray" => "Gris",
+                        "red" => "Rojo",
+                        "blue" => "Azul",
+                        "green" => "Verde",
+                        "yellow" => "Amarillo",
+                        "orange" => "Naranja",
+                        "brown" => "Marrón",
+                        "other" => "Otros"
                     ];
 
                     $color_esp = $colores[$color] ?? "Otros";
@@ -113,12 +130,15 @@
                 }
                 ?>
 
-                <!-- Valoraciones -->
                 <div class="mb-3">
-                    <span class="ms-2">4.5 (120 reviews)</span>
+                    <i class="bi bi-star-fill text-warning"></i>
+                    <i class="bi bi-star-fill text-warning"></i>
+                    <i class="bi bi-star-fill text-warning"></i>
+                    <i class="bi bi-star-fill text-warning"></i>
+                    <i class="bi bi-star-half text-warning"></i>
+                    <span class="ms-2 text-muted">4.5 (120 valoraciones)</span>
                 </div>
 
-                <!-- Color -->
                 <div class="mb-4">
                     <h5 class="d-inline-block me-3">Color:</h5>
                     <div class="d-inline-block">
@@ -131,130 +151,113 @@
                     </div>
                 </div>
 
-                <!-- Fechas de reserva -->
                 <div class="mb-4 reserva-fechas">
                     <h5>Selecciona tu rango de reserva</h5>
                     <input type="text" id="fecha_rango" class="form-control" placeholder="Elige el rango de fechas" readonly>
-
                     <input type="hidden" id="fecha_inicio" name="fecha_inicio">
                     <input type="hidden" id="fecha_fin" name="fecha_fin">
                 </div>
 
-                <div class="mb-4">
+                <div class="mb-4 d-flex gap-2">
                     <?php
-                        $duenio_id = $fila['id_usuario'];  // ID del dueño del coche
-                        $matricula = $fila['matricula'];   // Asegúrate de tener la matrícula disponible
+                    $duenio_id = $fila['id_usuario'];  // ID del dueño del coche
+                    $matricula = $fila['matricula'];   // Asegúrate de tener la matrícula disponible
 
-                        if (isset($_SESSION['usuario'])) {
-                            $usuario_sesion = $_SESSION['usuario']['identificacion'];
+                    if (isset($_SESSION['usuario'])) {
+                        $usuario_sesion = $_SESSION['usuario']['identificacion'];
 
-                            // Verificar que el usuario no sea el mismo que el dueño del coche
-                            if ($usuario_sesion != $duenio_id) {
-                                echo "<a href='/src/pages/chat/conversa?matricula=$matricula&chat_con=$duenio_id' class='btn btn-outline-primary'>
+                        // Verificar que el usuario no sea el mismo que el dueño del coche
+                        if ($usuario_sesion != $duenio_id) {
+                            echo "<a href='/src/pages/chat/conversa?matricula=$matricula&chat_con=$duenio_id' class='btn btn-outline-primary btn-lg'>
                                         <i class='bi bi-chat-dots'></i> Chat
-                                    </a>";
-                            } else {
-                                echo "<a href='/src/pages/coche/editar_coche?matricula=$matricula' class='btn btn-outline-primary'>
+                                      </a>";
+                        } else {
+                            echo "<a href='/src/pages/coche/editar_coche?matricula=$matricula' class='btn btn-outline-primary btn-lg'>
                                         <i class='bi bi-tools'></i> Editar coche
-                                    </a>";
-                            }
-                        } else {
-                            echo "<a href='/src/pages/usuario/iniciar_sesion' class='btn btn-outline-primary'>
-                                    <i class='bi bi-lock-fill'></i> Inicia sesión para chatear
-                                </a>";
-                        }
-                    ?>
-                </div>
-
-                <form action="" method="post">
-                    <a href="../pago/iniciar_pago.php?tipo=coche&precio_coche=<?= $precio; ?>" class="btn btn-primary btn-lg mb-3 me-2" id="btn-alquilar">
-                        <i class="bi bi-cart-plus"></i> ¡Alquilar!
-                    </a>
-                </form>
-                
-
-                <button class="btn btn-outline-secondary btn-lg mb-3">
-                    <i class="bi bi-heart"></i> Agregar a favoritos
-                </button>
-            </div>
-
-            <!-- Acordeón con la descripción y los extras ordenados en columnas -->
-            <div class="accordion" id="accordionPanelsStayOpenExample">
-              <div class="accordion-item">
-                <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                    Descripción del vehículo
-                  </button>
-                </h2>
-                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
-                  <div class="accordion-body">
-                    <p class="text-muted mb-4"><?php echo $descripcion; ?></p>
-                  </div>
-                </div>
-              </div>
-              <div class="accordion-item">
-                <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
-                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                    Extras del vehículo
-                  </button>
-                </h2>
-                <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
-                  <div class="accordion-body">
-                    <?php
-                    $sql_extras = $_conexion->prepare("SELECT * FROM extras_coche WHERE matricula = ?");
-                    $sql_extras->bind_param("s", $matricula);
-                    $sql_extras->execute();
-                    $resultado_extras = $sql_extras->get_result();
-
-                    if ($resultado_extras->num_rows > 0) {
-                        $extras = $resultado_extras->fetch_assoc();
-                        $extras_filtrados = array();
-                        foreach ($extras as $nombre => $valor) {
-                            if ($valor == 1) {
-                                $nombre_legible = ucwords(str_replace('_', ' ', $nombre));
-                                $extras_filtrados[] = $nombre_legible;
-                            }
-                        }
-                        if (count($extras_filtrados) > 0) {
-                            $columnas = 3; // Cambia este valor para más o menos columnas
-                            $por_columna = ceil(count($extras_filtrados)/$columnas);
-                            echo '<div class="row">';
-                            for ($i = 0; $i < $columnas; $i++) {
-                                echo '<div class="col-md-4">';
-                                echo '<ul class="list-group list-group-flush">';
-                                for ($j = $i * $por_columna; $j < ($i+1)*$por_columna && $j < count($extras_filtrados); $j++) {
-                                    if ($j != 0) {
-                                        echo '<li class="list-group-item">' . $extras_filtrados[$j] . '</li>';
-                                    }
-                                }
-                                echo '</ul>';
-                                echo '</div>';
-                            }
-                            echo '</div>';
-                        } else {
-                            echo '<p class="text-muted">Este vehículo no tiene extras destacados.</p>';
+                                      </a>";
                         }
                     } else {
-                        echo '<p class="text-muted">No hay información de extras para este vehículo.</p>';
+                        echo "<a href='/src/pages/usuario/iniciar_sesion' class='btn btn-outline-primary btn-lg'>
+                                    <i class='bi bi-lock-fill'></i> Inicia sesión para chatear
+                                  </a>";
                     }
                     ?>
-                  </div>
+                    <form action="" method="post">
+                        <a href="../pago/iniciar_pago.php?tipo=coche&precio_coche=<?= $precio; ?>" class="btn btn-success btn-lg" id="btn-alquilar">
+                            <i class="bi bi-cart-plus"></i> ¡Alquilar!
+                        </a>
+                    </form>
+                    <button class="btn btn-outline-secondary btn-lg">
+                        <i class="bi bi-heart"></i> Favorito
+                    </button>
                 </div>
-              </div>
+            </div>
 
+            <div class="accordion mt-4" id="accordionPanelsStayOpenExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                            Descripción del vehículo
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                        <div class="accordion-body">
+                            <p class="text-muted mb-0"><?php echo $descripcion; ?></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                            Extras del vehículo
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                        <div class="accordion-body">
+                            <?php
+                            $sql_extras = $_conexion->prepare("SELECT * FROM extras_coche WHERE matricula = ?");
+                            $sql_extras->bind_param("s", $matricula);
+                            $sql_extras->execute();
+                            $resultado_extras = $sql_extras->get_result();
 
+                            if ($resultado_extras->num_rows > 0) {
+                                $extras = $resultado_extras->fetch_assoc();
+                                $extras_filtrados = array();
+                                foreach ($extras as $nombre => $valor) {
+                                    if ($valor == 1) {
+                                        $nombre_legible = ucwords(str_replace('_', ' ', $nombre));
+                                        $extras_filtrados[] = $nombre_legible;
+                                    }
+                                }
+                                if (count($extras_filtrados) > 0) {
+                                    $columnas = 3; // Cambia este valor para más o menos columnas
+                                    $por_columna = ceil(count($extras_filtrados) / $columnas);
+                                    echo '<div class="row">';
+                                    for ($i = 0; $i < $columnas; $i++) {
+                                        echo '<div class="col-md-4">';
+                                        echo '<ul class="list-group list-group-flush">';
+                                        for ($j = $i * $por_columna; $j < ($i + 1) * $por_columna && $j < count($extras_filtrados); $j++) {
+                                            echo '<li class="list-group-item">' . $extras_filtrados[$j] . '</li>';
+                                        }
+                                        echo '</ul>';
+                                        echo '</div>';
+                                    }
+                                    echo '</div>';
+                                } else {
+                                    echo '<p class="text-muted">Este vehículo no tiene extras destacados.</p>';
+                                }
+                            } else {
+                                echo '<p class="text-muted">No hay información de extras para este vehículo.</p>';
+                            }
+                            ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-</div>   
-
-
-
-
-
-
-            <!-- Mapa de ubicación -->
-            <div class="col-md-12">
-                <h5 class="mt-4">Ubicación del vehículo</h5>
-                <div id="map" data-direccion="<?php echo $direccion_usable; ?>" style="height: 400px;" class="mt-4"></div>
+            <div class="col-12 mt-5">
+                <h5>Ubicación del vehículo</h5>
+                <div id="map" data-direccion="<?php echo $direccion_usable; ?>" style="height: 400px;" class="mt-3 rounded shadow-sm"></div>
             </div>
 
         </div>
@@ -262,6 +265,7 @@
 
     <?php include_once '../../components/footer-example.php'; ?>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script>
         function changeImage(event, src) {
             document.getElementById('mainImage').src = src;
@@ -271,6 +275,7 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
     <script src="../../js/mostrar_mapa.js"></script>
-    
+
 </body>
+
 </html>
