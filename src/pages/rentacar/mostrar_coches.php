@@ -20,7 +20,20 @@
     ?>
 </head>
 
-<body class="d-flex flex-column min-vh-100 bg-light">
+<style>
+    body {
+    background-image: url('../../img/new_bg.jpg');
+    background-size: cover;
+    background-position: left;
+    background-repeat: no-repeat;
+
+}
+
+
+
+</style>
+
+<body class="d-flex flex-column min-vh-100">
 
 
     <!-- NAVBAR -->
@@ -210,7 +223,7 @@
                 </div>
             </div>
 
-            
+
             <!-- OTROS FILTROS -->
             <div class="mt-3">
                 <div class="d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#equipamientoCollapse">
@@ -421,8 +434,8 @@
     $checkear_coches = true;
 
     if ($provincia != null && $fecha_inicio != null && $fecha_fin != null) { ?>
-        <div class="col-md-9 bg-light">
-            <div class="container my-4 ">
+        <div class="col-md-9">
+            <div class="container my-4">
                 <!-- TARJETAS -->
                 <!-- Tarjetas Premium -->
                 <div class="row row-cols-1 row-cols-md-3 g-4 ">
@@ -616,7 +629,7 @@
         </div>
     <?php } else {
     ?>
-        <div class="col-md-9 bg-light">
+        <div class="col-md-9">
             <div class="container my-4 ">
                 <!-- TARJETAS -->
                 <!-- Tarjetas Premium -->
