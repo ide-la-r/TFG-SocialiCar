@@ -26,7 +26,6 @@
     background-size: cover;
     background-position: left;
     background-repeat: no-repeat;
-
 }
 
 
@@ -120,7 +119,7 @@
 
     <!-- Menú de filtros  -->
     <div
-        class="offcanvas offcanvas-end"
+        class="offcanvas offcanvas-end p-4"
         tabindex="-1"
         id="filtrosOffcanvas"
         aria-labelledby="filtrosLabel"
