@@ -244,6 +244,8 @@
         const dropdownToggle = document.querySelector('.dropdown-toggle-js');
         const dropdownMenu = document.querySelector('.dropdown-menu-js');
         const dropdownArrow = document.querySelector('.dropdown-arrow');
+        dropdownArrow.style.color = "#6BBFBF";
+
 
         if (dropdownToggle && dropdownMenu && dropdownArrow) {
             dropdownToggle.addEventListener('click', function(event) {
