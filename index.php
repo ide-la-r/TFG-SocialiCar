@@ -74,20 +74,21 @@ require(__DIR__ . "/src/config/conexion.php");
             font-size: clamp(4.5rem, 15vw, 16rem);
             padding-bottom: 10px;
             position: relative;
+            
         }
 
         /* efecto espejo */
         .socialicar::after {
             content: attr(class);
             position: absolute;
-            top: 60%;
+            top: 10%;
             left: 0;
             right: 0;
             font-size: inherit;
             font-family: inherit;
             color: rgb(255, 238, 87);
             opacity: 0.35;
-            transform: scaleY(-2);
+            transform: scaleY(-1.5);
             user-select: none;
             filter: blur(16px);
         }
@@ -206,6 +207,10 @@ require(__DIR__ . "/src/config/conexion.php");
             height: 20px;
             object-fit: contain;
         }
+
+        .busqueda {
+            animation: aparecer 1s ease;
+        }
     </style>
 </head>
 
@@ -229,7 +234,7 @@ require(__DIR__ . "/src/config/conexion.php");
     </a>
 
     <!-- Search Form -->
-    <form method="get" action="./src/pages/rentacar/mostrar_coches.php" class="mt-5">
+    <form method="get" action="./src/pages/rentacar/mostrar_coches.php" class="mt-5 busqueda">
         <div class="container my-5">
             <div class="p-3 p-lg-4 border-0 shadow-lg bg-white bg-opacity-75 rounded-5">
                 <div class="row g-3 justify-content-center">
