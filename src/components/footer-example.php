@@ -157,7 +157,7 @@
             <p>
               SocialiCar es un intermediario destinado al alquiler de vehículos entre particulares. La idea surge ante la creciente necesidad de alternativas de movilidad más flexibles, accesibles y sostenibles.
             </p>
-            <a href="../pages/informacion/proposito.php">Mas informacion <span class="ion-ios-arrow-round-forward"></span></a>
+            <a href="../pages/informacion/sobre_nosotros.php">Mas informacion <span class="ion-ios-arrow-round-forward"></span></a>
           </div>
         </div>
       </div>
@@ -166,7 +166,7 @@
           <div class="col-md-3 mb-md-0 mb-4 border-left">
             <h2 class="footer-heading">Informacion</h2>
             <ul class="list-unstyled">
-              <li><a href="/src/pages/informacion/proposito.php" class="py-1 d-block">Sobre nosotros</a></li>
+              <li><a href="/src/pages/informacion/sobre_nosotros.php" class="py-1 d-block">Sobre nosotros</a></li>
               <li><a href="/src/pages/informacion/contacto.php" class="py-1 d-block">Contacto</a></li>
               <li><a href="/src/pages/informacion/trabaja.php" class="py-1 d-block">Trabaja con nosotros</a></li>
               <li><a href="/src/pages/informacion/soporte.php" class="py-1 d-block">Atencion al cliente</a></li>
@@ -214,7 +214,7 @@
         <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#footerAccordion">
           <div class="accordion-body">
             <ul class="list-unstyled">
-              <li><a href="/src/pages/informacion/proposito.php" class="py-1 d-block">Sobre nosotros</a></li>
+              <li><a href="/src/pages/informacion/sobre_nosotros.php" class="py-1 d-block">Sobre nosotros</a></li>
               <li><a href="/src/pages/informacion/contacto.php" class="py-1 d-block">Contacto</a></li>
               <li><a href="/src/pages/informacion/trabaja.php" class="py-1 d-block">Trabaja con nosotros</a></li>
               <li><a href="/src/pages/informacion/soporte.php" class="py-1 d-block">Atencion al cliente</a></li>

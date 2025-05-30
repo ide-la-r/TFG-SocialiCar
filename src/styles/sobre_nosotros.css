@@ -1,0 +1,117 @@
+body {
+    background-color: #F2F2F2;
+    color: #595959;
+}
+.hero-section {
+    background-color: #6BBFBF;
+    color: white;
+    padding: 80px 0;
+}
+.card {
+    background: white;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(89,89,89,0.1);
+}
+.card:hover {
+    box-shadow: 0 5px 15px rgba(89,89,89,0.2);
+}
+.bg-light {
+    background-color: #C4EEF2 !important;
+}
+.btn-primary {
+    background-color: #6BBFBF;
+    border-color: #6BBFBF;
+}
+.btn-outline-primary {
+    color: #6BBFBF;
+    border-color: #6BBFBF;
+}
+.btn-primary:hover, .btn-outline-primary:hover {
+    background-color: #5AA8A8;
+    border-color: #5AA8A8;
+}
+.section-title:after {
+    background: #B0D5D9;
+}
+.testimonial-card {
+    border-left-color: #6BBFBF;
+    background: white;
+}
+.testimonial-card .d-flex {
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 30px;
+    gap: 12px;
+}
+.testimonial-card img.rounded-circle {
+    width: 56px;
+    height: 56px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #B0D5D9;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(107,191,191,0.15);
+    transition: box-shadow 0.2s;
+}
+.testimonial-card img.rounded-circle:hover {
+    box-shadow: 0 4px 16px rgba(107,191,191,0.25);
+}
+.testimonial-card h6 {
+    margin-bottom: 0;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+@media (max-width: 991px) {
+    .testimonial-card img.rounded-circle {
+        width: 44px;
+        height: 44px;
+    }
+    .testimonial-card .d-flex {
+        gap: 8px;
+    }
+}
+
+.team-img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 5px solid #B0D5D9;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    margin-bottom: 15px;
+    background: #fff;
+    transition: box-shadow 0.3s;
+}
+@media (max-width: 991px) {
+    .team-img {
+        width: 120px;
+        height: 120px;
+    }
+}
+.row.g-4.justify-content-center {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px 0;
+}
+.col-lg-3.col-md-6.text-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+}
+.col-lg-3.col-md-6.text-center h4 {
+    margin-top: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+.col-lg-3.col-md-6.text-center p.text-muted {
+    margin-bottom: 0;
+    font-size: 1rem;
+}
+.text-primary {
+    color: #6BBFBF !important;
+}
