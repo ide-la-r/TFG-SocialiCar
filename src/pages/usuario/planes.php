@@ -25,12 +25,10 @@ session_start();
         margin-top: -150px;
     }
 
-    @media (max-width: 768px) {
-        .hero-section {
-            height: auto;
-            padding-bottom: 100px;
+
+     .hero-section {
+            height: 130vh;
         }
-    }
 </style>
 
 <body>
