@@ -22,14 +22,22 @@
 
 <style>
     body {
-    background-image: url('../../img/new_bg.jpg');
-    background-size: cover;
-    background-position: left;
-    background-repeat: no-repeat;
-}
+        background-image: url('../../img/new_bg.jpg');
+        background-size: cover;
+        background-position: left;
+        background-repeat: no-repeat;
+    }
 
-
-
+    #offcanvas-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        z-index: 1040;
+        display: none;
+    }
 </style>
 
 <body class="d-flex flex-column min-vh-100">
@@ -835,7 +843,28 @@
             icono.classList.toggle('fa-chevron-left');
             icono.classList.toggle('fa-chevron-right');
         });
+
+
+        // 4. OSCURECER PAGINA CON EL MENU
+        const offcanvas = document.getElementById('filtrosOffcanvas');
+        const overlay = document.getElementById('offcanvas-overlay');
+
+        offcanvas.addEventListener('show.bs.offcanvas', () => {
+            overlay.style.display = 'block';
+        });
+
+        offcanvas.addEventListener('hidden.bs.offcanvas', () => {
+            overlay.style.display = 'none';
+        });
+
+        // Cierra también el menú si se hace clic en el overlay
+        overlay.addEventListener('click', () => {
+            const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvas);
+            offcanvasInstance.hide();
+        });
     </script>
+    <div id="offcanvas-overlay"></div>
+
 
 </body>
 
