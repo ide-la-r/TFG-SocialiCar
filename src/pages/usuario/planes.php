@@ -29,20 +29,20 @@ session_start();
         height: 130vh;
     }
 
-    /* Siempre visible en pantallas grandes */
     .plan-body {
         display: block;
     }
 
-    /* Estilo de flecha */
     .dropdown-arrow {
         font-size: 1.2rem;
         color: black;
         margin-top: 0.5rem;
+        display: none !important;
+        /*display none para que no se vea la flecha en escritorio*/
     }
 
     /* Solo en pantallas pequeñas */
-    @media (max-width: 767px) {
+    @media (max-width: 768px) {
         .plan-body {
             display: none;
         }
@@ -52,8 +52,10 @@ session_start();
         }
 
         .dropdown-arrow {
-            display: inline-block;
+            display: block !important;
             transition: transform 0.3s;
+
+            margin-top: -2vh;
         }
 
         .plan-card.open .dropdown-arrow {
@@ -68,6 +70,30 @@ session_start();
 
         .section-title {
             margin-top: -10vh;
+        }
+
+        .plan-header {
+            height: 21vh;
+        }
+
+        .plan-price {
+            font-size: 30px;
+            margin-top: -2vh;
+        }
+
+        li {
+            font-size: 1.5vh;
+        }
+
+        .suscribirse {
+            font-size: 0.65rem;
+            padding: 8px 16px;
+        }
+
+        .plan-features {}
+
+        .recomendado {
+            right: 8px;
         }
     }
 </style>
@@ -109,15 +135,15 @@ session_start();
                                 <li><i class="fas fa-times-circle feature-icon" style="color: #ff4757"></i> Sin prioridad en las reservas</li>
                                 <li><i class="fas fa-times-circle feature-icon" style="color: #ff4757"></i> Sin ofertas exclusivas</li>
                             </ul>
-                            <a href="../pago/iniciar_pago.php?tipo=basica" class="btn btn-basic btn-plan" style="background-color: #C4EEF2; color:#333; margin-top:12vh">Suscribirse</a>
+                            <a href="../pago/iniciar_pago.php?tipo=basica" class="btn btn-basic btn-plan suscribirse" style="background-color: #C4EEF2; color:#333; margin-top:12vh">Suscribirse</a>
                         </div>
                     </div>
                 </div>
 
 
                 <!-- Plan Premium -->
-                <div class="col-md-5 col-lg-4 position-relative">
-                    <div class="recommended-badge animate__animated animate__pulse animate__infinite">Recomendado</div>
+                <div class="premium col-md-5 col-lg-4 position-relative">
+                    <div class="recomendado recommended-badge animate__animated animate__pulse animate__infinite">Recomendado</div>
                     <div class="plan-card premium-plan">
                         <div class="plan-header" onclick="togglePlan(this)">
                             <h3 class="plan-title">Plan Premium</h3>
@@ -135,7 +161,7 @@ session_start();
                                 <li><i class="fas fa-check-circle feature-icon" style="color: rgb(250, 113, 255)"></i> Prioridad en las reservas</li>
                                 <li><i class="fas fa-check-circle feature-icon" style="color: rgb(250, 113, 255)"></i> Acceso anticipado a nuevas funciones</li>
                             </ul>
-                            <a href="../pago/iniciar_pago.php?tipo=premium" class="btn btn-premium btn-plan" style="background: linear-gradient(135deg, #C4EEF2 0%,rgb(250, 113, 255) 100%); margin-top:6vh">Suscribirse</a>
+                            <a href="../pago/iniciar_pago.php?tipo=premium" class="btn btn-premium btn-plan suscribirse" style="background: linear-gradient(135deg, #C4EEF2 0%,rgb(250, 113, 255) 100%); margin-top:6vh">Suscribirse</a>
                         </div>
                     </div>
                 </div>
