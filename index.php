@@ -239,8 +239,8 @@ require(__DIR__ . "/src/config/conexion.php");
             <div class="p-3 p-lg-4 border-0 shadow-lg bg-white bg-opacity-75 rounded-5">
                 <div class="row g-3 justify-content-center">
                     <div class="col-12 col-md-4">
-                        <select class="form-select form-control-custom" name="location">
-                            <option>¿Dónde necesitas tu coche?</option>
+                        <select class="form-select form-control-custom" name="provincia">
+                            <option value="">¿Dónde necesitas tu coche?</option>
                             <option value="malaga">Málaga</option>
                             <option value="granada">Granada</option>
                             <option value="madrid">Madrid</option>
@@ -249,10 +249,10 @@ require(__DIR__ . "/src/config/conexion.php");
                         </select>
                     </div>
                     <div class="col-12 col-md-3">
-                        <input type="text" name="start_date" class="form-control form-control-custom" placeholder="Fecha de inicio" onfocus="this.type='date'" />
+                        <input type="text" name="fecha_inicio" class="form-control form-control-custom" placeholder="Fecha de inicio" onfocus="this.type='date'" />
                     </div>
                     <div class="col-12 col-md-3">
-                        <input type="text" name="end_date" class="form-control form-control-custom" placeholder="Fecha de fin" onfocus="this.type='date'" />
+                        <input type="text" name="fecha_final" class="form-control form-control-custom" placeholder="Fecha de fin" onfocus="this.type='date'" />
                     </div>
                     <div class="col-12 col-md-2">
                         <button class="btn btn-primary btn-custom w-100" style="padding: 1rem 2rem">Buscar</button>

@@ -448,6 +448,7 @@
                 <!-- Tarjetas Premium -->
                 <div class="row row-cols-1 row-cols-md-3 g-4 ">
                     <?php
+                    $provincia_normalizada = mb_strtolower($provincia, 'UTF-8');
                     $obtener_coche_premium = $_conexion->prepare("
                                 SELECT coche.*, sus.tipo AS tipo_suscripcion
                                 FROM coche
@@ -470,7 +471,7 @@
                                 ORDER BY coche.precio ASC
                                 LIMIT 3
                             ");
-                    $obtener_coche_premium->bind_param("sssssss", $provincia, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin);
+                    $obtener_coche_premium->bind_param("sssssss", $provincia_normalizada, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin);
                     $obtener_coche_premium->execute();
                     $resultado = $obtener_coche_premium->get_result();
                     $vehiculos_premiums = $resultado->fetch_all(MYSQLI_ASSOC);
@@ -504,6 +505,7 @@
                 <!-- Tarjetas Plus -->
                 <div class="row row-cols-1 row-cols-md-3 g-4 ">
                     <?php
+                    $provincia_normalizada = mb_strtolower($provincia, 'UTF-8');
                     $obtener_coche_plus = $_conexion->prepare("
                                 SELECT coche.*, sus.tipo AS tipo_suscripcion
                                 FROM coche
@@ -526,7 +528,7 @@
                                 ORDER BY coche.precio ASC
                                 LIMIT 6
                             ");
-                    $obtener_coche_plus->bind_param("sssssss", $provincia, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin);
+                    $obtener_coche_plus->bind_param("sssssss", $provincia_normalizada, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin);
                     $obtener_coche_plus->execute();
                     $resultado = $obtener_coche_plus->get_result();
                     $vehiculos_plus = $resultado->fetch_all(MYSQLI_ASSOC);
@@ -559,6 +561,7 @@
                 <!-- Tarjetas Normales -->
                 <div class="row row-cols-1 row-cols-md-3 g-4 ">
                     <?php
+                    $provincia_normalizada = mb_strtolower($provincia, 'UTF-8');
                     $obtener_coche_normal = $_conexion->prepare("
                                 SELECT coche.*, sus.tipo AS tipo_suscripcion
                                 FROM coche
@@ -580,7 +583,7 @@
                                 )
                                 LIMIT 6
                             ");
-                    $obtener_coche_normal->bind_param("sssssss", $provincia, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin);
+                    $obtener_coche_normal->bind_param("sssssss", $provincia_normalizada, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin);
                     $obtener_coche_normal->execute();
                     $resultado = $obtener_coche_normal->get_result();
                     $vehiculos_normales = $resultado->fetch_all(MYSQLI_ASSOC);
