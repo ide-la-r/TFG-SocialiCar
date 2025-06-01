@@ -38,6 +38,8 @@
         z-index: 1040;
         display: none;
     }
+
+    
 </style>
 
 <body class="d-flex flex-column min-vh-100">
@@ -412,7 +414,6 @@
 
                     </div>
                 </div>
-                <!-- ... resto de checkboxes ... -->
             </div>
         </div>
 
@@ -477,7 +478,7 @@
                     if (count($vehiculos_premiums) > 0) {
                         foreach ($vehiculos_premiums as $vehiculo_premium) {
                             echo "
-                                        <div class='col'>
+                                        <div class='row g-4'>
                                             <a href='/src/pages/rentacar/coche?matricula=" . $vehiculo_premium['matricula'] . "' class='text-decoration-none text-dark'>
                                             <div class='card h-100 shadow-lg border-warning'>
                                                 <img src='" . $vehiculo_premium['ruta_img_coche'] . "' class='card-img-top'>
@@ -533,7 +534,7 @@
                     if (count($vehiculos_plus) > 0) {
                         foreach ($vehiculos_plus as $vehiculo_plus) {
                             echo "
-                                        <div class='col'>
+                                        <div class='row g-4'>
                                             <a href='/src/pages/rentacar/coche?matricula=" . $vehiculo_plus['matricula'] . "' class='text-decoration-none text-dark'>
                                             <div class='card shadow'>
                                                 <img src='" . $vehiculo_plus['ruta_img_coche'] . "' class='card-img-top'>
@@ -607,7 +608,7 @@
                             }
 
                             echo "
-                                        <div class='col'>
+                                        <div class='row g-4'>
                                             <a href='/src/pages/rentacar/coche?matricula=" . $vehiculo_normal['matricula'] . "' class='text-decoration-none text-dark'>
                                             <div class='card shadow'>
                                                 <img src='" . $imagen_normal . "' class='card-img-top'>
@@ -640,7 +641,7 @@
             <div class="container my-4 ">
                 <!-- TARJETAS -->
                 <!-- Tarjetas Premium -->
-                <div class="row row-cols-1 row-cols-md-3 g-4 ">
+                <div class="row row-cols-1 row-cols-md-4 g-4 ">
                     <?php
                     $obtener_coche_premium = $_conexion->prepare("
                                 SELECT coche.*, sus.tipo AS tipo_suscripcion
@@ -660,7 +661,7 @@
                     if (count($vehiculos_premiums) > 0) {
                         foreach ($vehiculos_premiums as $vehiculo_premium) {
                             echo "
-                                        <div class='col'>
+                                        <div class='row g-4'>
                                             <a href='/src/pages/rentacar/coche?matricula=" . $vehiculo_premium['matricula'] . "' class='text-decoration-none text-dark'>
                                             <div class='card h-100 shadow-lg border-warning'>
                                                 <img src='" . $vehiculo_premium['ruta_img_coche'] . "' class='card-img-top'>
@@ -682,7 +683,7 @@
 
 
                 <!-- Tarjetas Plus -->
-                <div class="row row-cols-1 row-cols-md-3 g-4 ">
+                <div class="row row-cols-1 row-cols-md-4 g-4 ">
                     <?php
                     $obtener_coche_plus = $_conexion->prepare("
                                 SELECT coche.*, sus.tipo AS tipo_suscripcion
@@ -702,7 +703,7 @@
                     if (count($vehiculos_plus) > 0) {
                         foreach ($vehiculos_plus as $vehiculo_plus) {
                             echo "
-                                        <div class='col'>
+                                        <div class='row g-4'>
                                             <a href='/src/pages/rentacar/coche?matricula=" . $vehiculo_plus['matricula'] . "' class='text-decoration-none text-dark'>
                                             <div class='card shadow'>
                                                 <img src='" . $vehiculo_plus['ruta_img_coche'] . "' class='card-img-top'>
@@ -723,7 +724,7 @@
 
 
                 <!-- Tarjetas Normales -->
-                <div class="row row-cols-1 row-cols-md-3 g-4 ">
+                <div class="row row-cols-1 row-cols-md-4 g-4 ">
                     <?php
                     $obtener_coche_normal = $_conexion->prepare("
                                 SELECT coche.*, sus.tipo AS tipo_suscripcion
@@ -762,7 +763,7 @@
                             }
 
                             echo "
-                                        <div class='col'>
+                                        <div class='row g-4'>
                                             <a href='/src/pages/rentacar/coche?matricula=" . $vehiculo_normal['matricula'] . "' class='text-decoration-none text-dark'>
                                             <div class='card shadow'>
                                                 <img src='" . $imagen_normal . "' class='card-img-top'>
