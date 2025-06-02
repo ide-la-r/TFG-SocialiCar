@@ -423,7 +423,6 @@
             <button class="btn btn-warning" type="submit">Buscar</button>
         </div>
     </div>
-    </div>
 
     <!-- Script para rotar el ícono del botón -->
     <script>
@@ -442,7 +441,7 @@
     $checkear_coches = true;
 
     if ($provincia != null && $fecha_inicio != null && $fecha_fin != null) { ?>
-        <div class="col-md-9">
+        <div class="col-12">
             <div class="container my-4">
                 <!-- TARJETAS -->
                 <!-- Tarjetas Premium -->
