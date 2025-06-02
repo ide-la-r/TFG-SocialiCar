@@ -22,6 +22,7 @@ if (!isset($_GET['correo'], $_GET['codigo'])) {
 
 $correo = filter_var($_GET['correo'], FILTER_VALIDATE_EMAIL);
 $codigo_verificacion = $_GET['codigo'];
+$usuario = $_SESSION['usuario']['nombre'] ?? '';
 
 if (!$correo) {
     die("Correo inválido");
@@ -57,7 +58,7 @@ try {
       <div style="background:#f7f7f7;padding:20px;text-align:center;border-radius:8px;">
         <img src="cid:logo_socialicar" alt="SocialiCar Logo" style="display:block; margin:0 auto 20px auto; width:200px; height:auto;">
         <h2 style="color:#2c3e50;">Verificación de correo electrónico</h2>
-        <p>Hola,</p>
+        <p>Hola, '.$usuario.'</p>
         <p>Gracias por registrarte en <strong>SocialiCar</strong>.</p>
         <p>Para completar tu registro, por favor utiliza el siguiente código de verificación:</p>
         <div style="margin:30px 0;">
