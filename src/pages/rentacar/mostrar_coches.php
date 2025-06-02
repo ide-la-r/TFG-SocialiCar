@@ -47,6 +47,20 @@
         flex: 0 0 auto;
     }
 
+    @media (max-width: 1400px) {
+  .tarjeta {
+    width: calc(50% - 20px);
+  }
+}
+
+
+@media (max-width: 768px) {
+  .tarjeta {
+    width: calc(100% - 20px);
+  }
+}
+
+
     .card-img-top {
         height: 230px;
     }
@@ -54,6 +68,7 @@
     .card-title {
         font-size: 2rem;
     }
+
 </style>
 
 <body class="d-flex flex-column min-vh-100">
