@@ -73,14 +73,6 @@
         </div>
     </div>
 
-    <!-- BARRA DE BUSQUEDA -->
-    <form class="w-75 mx-auto my-4 busqueda" method="POST" action="">
-        <div class="input-group rounded-pill overflow-hidden shadow-sm">
-            <input type="text" name="buscar" id="buscar" class="form-control border-0 py-2 px-3" placeholder="Buscar vehículo" value="<?php echo isset($_POST['buscar']) ? $_POST['buscar'] : ''; ?>">
-            <button class="btn_buscar" type="submit">Buscar</button>
-        </div>
-    </form>
-
     <br><br>
     <?php
     if (isset($_POST["buscar"])) {
