@@ -22,10 +22,24 @@
 
 <style>
     body {
-        background-image: url('../../img/new_bg.jpg');
+        position: relative;
+        background-image: url('../../img/curioso_2.jpg');
         background-size: cover;
-        background-position: left;
+        background-position: center;
         background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+
+
+    body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 0;
     }
 
     #offcanvas-overlay {
@@ -41,11 +55,6 @@
 
 
 
-    .tarjeta {
-        width: 400px;
-        margin: 10px;
-        flex: 0 0 auto;
-    }
 
     .card-img-top {
         height: 230px;
@@ -53,6 +62,46 @@
 
     .card-title {
         font-size: 2rem;
+    }
+
+    .busqueda {
+        top: 26%;
+    }
+
+
+    .contenedor-tarjetas {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .tarjeta {
+        flex: 1 1 300px;
+        max-width: 450px;
+        margin: 10px;
+        height: 550px;
+        box-sizing: border-box;
+    }
+
+
+    @media (max-width: 1399px) {
+        .busqueda {
+            top: clamp(20%, 4vw, 20%);
+        }
+
+    }
+
+    @media (max-width: 992px) {
+        .tarjeta {
+            width: calc(50% - 20px);
+        }
+    }
+
+    @media (max-width: 768px) {
+
+        .busqueda {
+            top: 13%;
+        }
     }
 </style>
 
@@ -76,7 +125,7 @@
     <!-- BARRA DE BUSQUEDA -->
     <form class="w-75 mx-auto my-4 busqueda" method="POST" action="">
         <div class="input-group rounded-pill overflow-hidden shadow-sm">
-            <input type="text" name="buscar" id="buscar" class="form-control border-0 py-2 px-3" placeholder="Buscar vehículo" value="<?php echo isset($_POST['buscar']) ? $_POST['buscar'] : ''; ?>">
+            <input type="text" name="buscar" id="buscar" class="buscador form-control border-0 py-2 px-3" placeholder="Buscar vehículo" value="<?php echo isset($_POST['buscar']) ? $_POST['buscar'] : ''; ?>">
             <button class="btn_buscar" type="submit">Buscar</button>
         </div>
     </form>
@@ -455,7 +504,7 @@
     $checkear_coches = true;
 
     if ($provincia != null && $fecha_inicio != null && $fecha_fin != null) { ?>
-        <div class="col-12">
+        <div class="contenedor-tarjetas col-12">
             <div class="container my-4">
                 <!-- TARJETAS -->
                 <!-- Tarjetas Premium -->
@@ -650,7 +699,7 @@
         </div>
     <?php } else {
     ?>
-        <div class="col-12">
+        <div class="contenedor-tarjetas col-12">
             <div class="container my-4 ">
                 <!-- TARJETAS -->
                 <!-- Tarjetas Premium -->
