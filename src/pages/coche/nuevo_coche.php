@@ -283,32 +283,31 @@
             $tmp_tipo = "";
         }
 
-        /* Validación de matricula */
-        if ($tmp_matricula == "") {
-            $err_matricula = "Debes indicar la matricula de tu coche";
+        /* Validación de matrícula */
+        if (empty($tmp_matricula)) {
+            $err_matricula = "Debes indicar la matrícula de tu coche";
         } else {
-            $obtenerMatricula = $_conexion->prepare("SELECT * FROM coche WHERE matricula = ?");
-            $obtenerMatricula->bind_param("s", $tmp_matricula);
-            $obtenerMatricula->execute();
-            $resultado = $obtenerMatricula->get_result();
-            if ($resultado->num_rows == 1) {
-                $err_matricula = "Ya existe un coche con esta matricula";
+            // Limpieza y normalización
+            $tmp_matricula = strtoupper($tmp_matricula);
+            $tmp_matricula = preg_replace("/[\s\-\.,:]/", "", $tmp_matricula);
+
+            // Validación de formato
+            $patron_actual = "/^[0-9]{4}[BCDFGHJKLMNPRSTVWXYZ]{3}$/";
+            $patron_antiguo = "/^[A-Z]{1,2}[0-9]{4,6}[A-Z]{0,2}$/";
+
+            if (!preg_match($patron_actual, $tmp_matricula) && !preg_match($patron_antiguo, $tmp_matricula)) {
+                $err_matricula = "La matrícula no es válida. Usa un formato correcto como 1234BCD o MA1234AB.";
             } else {
-                if (strlen($tmp_matricula) > 7) {
-                    $err_matricula = "La matricula no puede tener más de 7 caracteres";
+                // Verificación en base de datos
+                $obtenerMatricula = $_conexion->prepare("SELECT * FROM coche WHERE matricula = ?");
+                $obtenerMatricula->bind_param("s", $tmp_matricula);
+                $obtenerMatricula->execute();
+                $resultado = $obtenerMatricula->get_result();
+
+                if ($resultado->num_rows == 1) {
+                    $err_matricula = "Ya existe un coche con esta matrícula";
                 } else {
-                    $tmp_matricula = strtoupper($tmp_matricula);
-                    $tmp_matricula = str_replace(" ", "", $tmp_matricula);
-                    $tmp_matricula = str_replace("-", "", $tmp_matricula);
-                    $tmp_matricula = str_replace(".", "", $tmp_matricula);
-                    $tmp_matricula = str_replace(",", "", $tmp_matricula);
-                    $tmp_matricula = str_replace(":", "", $tmp_matricula);
-                    $patron_matricula = "/^[0-9]{4}[BCDFGHJKLMNPRSTVWXYZ]{3}$/";
-                    if (!preg_match($patron_matricula, $tmp_matricula)) {
-                        $err_matricula = "La matricula no es válida";
-                    } else {
-                        $matricula = $tmp_matricula;
-                    }
+                    $matricula = $tmp_matricula;
                 }
             }
         }
@@ -630,43 +629,70 @@
                 <div class="card py-4 px-2 px-md-4 p-4">
                     <h3 class="text-start mb-4">Información básica ✍🏼</h3>
                     <div class="row gy-3 justify-content-center p-3">
-                        <?php
-                        // API para obtener las marcas de coches
-                        $apiUrlMarcas = "https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json";
+                    <?php
+                    // API para obtener las marcas de coches
+                    $apiUrlMarcas = "https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json";
 
-                        $curl = curl_init();
-                        curl_setopt($curl, CURLOPT_URL, $apiUrlMarcas);
-                        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-                        $respuesta = curl_exec($curl);
-                        curl_close($curl);
+                    $curl = curl_init();
+                    curl_setopt($curl, CURLOPT_URL, $apiUrlMarcas);
+                    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+                    $respuesta = curl_exec($curl);
 
-                        $datos = json_decode($respuesta, true);
-                        $marcas = $datos['Results'];
+                    $marcas = []; // Inicializamos por si falla
 
-                        $marcaSeleccionada = isset($_POST['marca']) ? $_POST['marca'] : '';
-                        $modeloSeleccionado = isset($_POST['modelo']) ? $_POST['modelo'] : '';
-                        ?>
+                    if (curl_errno($curl)) {
+                        // Error de cURL
+                        echo "<div class='alert alert-warning'>No se pudo conectar con la API de marcas. Se cargarán marcas de ejemplo.</div>";
+                    } else {
+                        $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+                        if ($httpCode === 200) {
+                            $datos = json_decode($respuesta, true);
+                            if (json_last_error() === JSON_ERROR_NONE && isset($datos['Results'])) {
+                                $marcas = $datos['Results'];
+                            } else {
+                                echo "<div class='alert alert-warning'>La API respondió, pero los datos no son válidos. Se cargarán marcas de ejemplo.</div>";
+                            }
+                        } else {
+                            echo "<div class='alert alert-warning'>La API de marcas está en mantenimiento (HTTP $httpCode). Se cargarán marcas de ejemplo.</div>";
+                        }
+                    }
+                    curl_close($curl);
 
-                        <!-- Marca -->
-                        <div class="col-12 col-md-3">
-                            <div class="form-floating">
-                                <select class="form-select <?php if (isset($err_marca)) echo 'is-invalid'; ?>" id="marca" name="marca">
-                                    <option disabled selected hidden>Marca*</option>
-                                    <?php foreach ($marcas as $marcaItem) { ?>
-                                        <option value="<?php echo $marcaItem["MakeName"]; ?>"
-                                            <?php if ($marcaSeleccionada === $marcaItem["MakeName"]) echo "selected"; ?>>
-                                            <?php echo $marcaItem["MakeName"]; ?>
-                                        </option>
-                                    <?php } ?>
-                                </select>
-                                <label for="marca">Marca</label>
-                                <?php
-                                if (isset($err_marca)) {
-                                    echo "<span class='error'>$err_marca</span>";
-                                }
-                                ?>
-                            </div>
+                    // Si no hay marcas válidas, usar marcas ficticias
+                    if (empty($marcas)) {
+                        $marcas = [
+                            ['MakeId' => 1, 'MakeName' => 'Toyota'],
+                            ['MakeId' => 2, 'MakeName' => 'Honda'],
+                            ['MakeId' => 3, 'MakeName' => 'Ford'],
+                            ['MakeId' => 4, 'MakeName' => 'BMW'],
+                            ['MakeId' => 5, 'MakeName' => 'Renault'],
+                        ];
+                    }
+
+                    $marcaSeleccionada = isset($_POST['marca']) ? $_POST['marca'] : '';
+                    $modeloSeleccionado = isset($_POST['modelo']) ? $_POST['modelo'] : '';
+                    ?>
+
+                    <!-- Marca -->
+                    <div class="col-12 col-md-3">
+                        <div class="form-floating">
+                            <select class="form-select <?php if (isset($err_marca)) echo 'is-invalid'; ?>" id="marca" name="marca">
+                                <option disabled selected hidden>Marca*</option>
+                                <?php foreach ($marcas as $marcaItem) { ?>
+                                    <option value="<?php echo htmlspecialchars($marcaItem["MakeName"]); ?>"
+                                        <?php if ($marcaSeleccionada === $marcaItem["MakeName"]) echo "selected"; ?>>
+                                        <?php echo htmlspecialchars($marcaItem["MakeName"]); ?>
+                                    </option>
+                                <?php } ?>
+                            </select>
+                            <label for="marca">Marca</label>
+                            <?php
+                            if (isset($err_marca)) {
+                                echo "<span class='error'>$err_marca</span>";
+                            }
+                            ?>
                         </div>
+                    </div>
 
                         <!-- Modelo -->
                         <div class="col-12 col-md-3">

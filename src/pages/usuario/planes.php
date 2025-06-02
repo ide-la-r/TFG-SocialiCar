@@ -18,6 +18,85 @@ session_start();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="../../../src/styles/planes.css">
 </head>
+<style>
+    /* NO TOQUEIS ESTO POR FAVOR */
+    .wave-container {
+        height: 150px;
+        margin-top: -150px;
+    }
+
+    .hero-section {
+        height: 130vh;
+    }
+
+    .plan-body {
+        display: block;
+    }
+
+    .dropdown-arrow {
+        font-size: 1.2rem;
+        color: black;
+        margin-top: 0.5rem;
+        display: none !important;
+        /*display none para que no se vea la flecha en escritorio*/
+    }
+
+    /* Solo en pantallas pequeñas */
+    @media (max-width: 768px) {
+        .plan-body {
+            display: none;
+        }
+
+        .plan-card.open .plan-body {
+            display: block;
+        }
+
+        .dropdown-arrow {
+            display: block !important;
+            transition: transform 0.3s;
+
+            margin-top: -2vh;
+        }
+
+        .plan-card.open .dropdown-arrow {
+            transform: rotate(180deg);
+            /* Gira la flecha al abrir */
+        }
+
+        .plan-header {
+            cursor: pointer;
+        }
+
+
+        .section-title {
+            margin-top: -10vh;
+        }
+
+        .plan-header {
+            height: 21vh;
+        }
+
+        .plan-price {
+            font-size: 30px;
+            margin-top: -2vh;
+        }
+
+        li {
+            font-size: 1.5vh;
+        }
+
+        .suscribirse {
+            font-size: 0.65rem;
+            padding: 8px 16px;
+        }
+
+        .plan-features {}
+
+        .recomendado {
+            right: 8px;
+        }
+    }
+</style>
 
 <body>
     <!-- Navbar -->
@@ -43,34 +122,35 @@ session_start();
                 <!-- Plan Básico -->
                 <div class="col-md-5 col-lg-4">
                     <div class="plan-card basic-plan">
-                        <div class="plan-header">
+                        <div class="plan-header" onclick="togglePlan(this)">
                             <h3 class="plan-title">Plan Básico</h3>
-                            <div class="plan-price">
-                                6,99€ <span>/ mes</span>
-                            </div>
+                            <div class="plan-price">6,99€ <span>/ mes</span></div>
+                            <div class="dropdown-arrow">▼</div>
                         </div>
                         <div class="plan-body">
                             <ul class="plan-features">
-                                <li><i class="fas fa-check-circle feature-icon" style="color: #C4EEF2"></i>Localización de tu vehículo</li>
+                                <li><i class="fas fa-check-circle feature-icon" style="color: #C4EEF2"></i> Localización de tu vehículo</li>
                                 <li><i class="fas fa-check-circle feature-icon" style="color: #C4EEF2"></i> Promociona hasta 3 anuncios</li>
                                 <li><i class="fas fa-times-circle feature-icon" style="color: #ff4757"></i> Sin acceso a soporte premium</li>
                                 <li><i class="fas fa-times-circle feature-icon" style="color: #ff4757"></i> Sin prioridad en las reservas</li>
                                 <li><i class="fas fa-times-circle feature-icon" style="color: #ff4757"></i> Sin ofertas exclusivas</li>
                             </ul>
-                            <a href="../pago/iniciar_pago.php?tipo=basica" class="btn btn-basic btn-plan" style="background-color: #C4EEF2; color:#333">Suscribirse</a>
+                            <a href="../pago/iniciar_pago.php?tipo=basica" class="btn btn-basic btn-plan suscribirse" style="background-color: #C4EEF2; color:#333; margin-top:12vh">Suscribirse</a>
                         </div>
                     </div>
                 </div>
 
+
                 <!-- Plan Premium -->
-                <div class="col-md-5 col-lg-4 position-relative">
-                    <div class="recommended-badge animate__animated animate__pulse animate__infinite">Recomendado</div>
+                <div class="premium col-md-5 col-lg-4 position-relative">
+                    <div class="recomendado recommended-badge animate__animated animate__pulse animate__infinite">Recomendado</div>
                     <div class="plan-card premium-plan">
-                        <div class="plan-header">
+                        <div class="plan-header" onclick="togglePlan(this)">
                             <h3 class="plan-title">Plan Premium</h3>
                             <div class="plan-price">
                                 19,99€ <span>/ mes</span>
                             </div>
+                            <div class="dropdown-arrow">▼</div>
                         </div>
                         <div class="plan-body">
                             <ul class="plan-features">
@@ -81,18 +161,26 @@ session_start();
                                 <li><i class="fas fa-check-circle feature-icon" style="color: rgb(250, 113, 255)"></i> Prioridad en las reservas</li>
                                 <li><i class="fas fa-check-circle feature-icon" style="color: rgb(250, 113, 255)"></i> Acceso anticipado a nuevas funciones</li>
                             </ul>
-                            <a href="../pago/iniciar_pago.php?tipo=premium" class="btn btn-premium btn-plan" style="background: linear-gradient(135deg, #C4EEF2 0%,rgb(250, 113, 255) 100%)">Suscribirse</a>
+                            <a href="../pago/iniciar_pago.php?tipo=premium" class="btn btn-premium btn-plan suscribirse" style="background: linear-gradient(135deg, #C4EEF2 0%,rgb(250, 113, 255) 100%); margin-top:6vh">Suscribirse</a>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
-    </section>
 
-    <div class="footer-overlay">
-        <?php include_once '../../components/footer-example.php'; ?>
-    </div>
+    </section>
+    <?php include_once '../../components/footer-example.php'; ?>
+
+    <script>
+        function togglePlan(header) {
+            const card = header.closest('.plan-card');
+            // Solo activa el desplegable si el ancho es menor o igual a 700px
+            if (window.innerWidth <= 767) {
+                card.classList.toggle('open');
+            }
+
+        }
+    </script>
 </body>
 
 </html>

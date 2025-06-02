@@ -16,3 +16,6 @@
 # Ignore
 /principal
 /clients
+/wordpress
+
+bbdd.sql

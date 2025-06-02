@@ -74,20 +74,21 @@ require(__DIR__ . "/src/config/conexion.php");
             font-size: clamp(4.5rem, 15vw, 16rem);
             padding-bottom: 10px;
             position: relative;
+            
         }
 
         /* efecto espejo */
         .socialicar::after {
             content: attr(class);
             position: absolute;
-            top: 60%;
+            top: 10%;
             left: 0;
             right: 0;
             font-size: inherit;
             font-family: inherit;
             color: rgb(255, 238, 87);
             opacity: 0.35;
-            transform: scaleY(-2);
+            transform: scaleY(-1.5);
             user-select: none;
             filter: blur(16px);
         }
@@ -206,6 +207,10 @@ require(__DIR__ . "/src/config/conexion.php");
             height: 20px;
             object-fit: contain;
         }
+
+        .busqueda {
+            animation: aparecer 1s ease;
+        }
     </style>
 </head>
 
@@ -229,13 +234,13 @@ require(__DIR__ . "/src/config/conexion.php");
     </a>
 
     <!-- Search Form -->
-    <form method="get" action="./src/pages/rentacar/mostrar_coches.php" class="mt-5">
+    <form method="get" action="./src/pages/rentacar/mostrar_coches.php" class="mt-5 busqueda">
         <div class="container my-5">
             <div class="p-3 p-lg-4 border-0 shadow-lg bg-white bg-opacity-75 rounded-5">
                 <div class="row g-3 justify-content-center">
                     <div class="col-12 col-md-4">
-                        <select class="form-select form-control-custom" name="location">
-                            <option>¿Dónde necesitas tu coche?</option>
+                        <select class="form-select form-control-custom" name="provincia">
+                            <option value="">¿Dónde necesitas tu coche?</option>
                             <option value="malaga">Málaga</option>
                             <option value="granada">Granada</option>
                             <option value="madrid">Madrid</option>
@@ -244,10 +249,10 @@ require(__DIR__ . "/src/config/conexion.php");
                         </select>
                     </div>
                     <div class="col-12 col-md-3">
-                        <input type="text" name="start_date" class="form-control form-control-custom" placeholder="Fecha de inicio" onfocus="this.type='date'" />
+                        <input type="text" name="fecha_inicio" class="form-control form-control-custom" placeholder="Fecha de inicio" onfocus="this.type='date'" />
                     </div>
                     <div class="col-12 col-md-3">
-                        <input type="text" name="end_date" class="form-control form-control-custom" placeholder="Fecha de fin" onfocus="this.type='date'" />
+                        <input type="text" name="fecha_final" class="form-control form-control-custom" placeholder="Fecha de fin" onfocus="this.type='date'" />
                     </div>
                     <div class="col-12 col-md-2">
                         <button class="btn btn-primary btn-custom w-100" style="padding: 1rem 2rem">Buscar</button>

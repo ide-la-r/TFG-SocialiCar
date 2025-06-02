@@ -20,7 +20,29 @@
     ?>
 </head>
 
-<body class="d-flex flex-column min-vh-100 bg-light">
+<style>
+    body {
+        background-image: url('../../img/new_bg.jpg');
+        background-size: cover;
+        background-position: left;
+        background-repeat: no-repeat;
+    }
+
+    #offcanvas-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        z-index: 1040;
+        display: none;
+    }
+
+    
+</style>
+
+<body class="d-flex flex-column min-vh-100">
 
 
     <!-- NAVBAR -->
@@ -107,7 +129,7 @@
 
     <!-- Menú de filtros  -->
     <div
-        class="offcanvas offcanvas-end"
+        class="offcanvas offcanvas-end p-4"
         tabindex="-1"
         id="filtrosOffcanvas"
         aria-labelledby="filtrosLabel"
@@ -210,7 +232,7 @@
                 </div>
             </div>
 
-            
+
             <!-- OTROS FILTROS -->
             <div class="mt-3">
                 <div class="d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#equipamientoCollapse">
@@ -392,7 +414,6 @@
 
                     </div>
                 </div>
-                <!-- ... resto de checkboxes ... -->
             </div>
         </div>
 
@@ -421,12 +442,13 @@
     $checkear_coches = true;
 
     if ($provincia != null && $fecha_inicio != null && $fecha_fin != null) { ?>
-        <div class="col-md-9 bg-light">
-            <div class="container my-4 ">
+        <div class="col-md-9">
+            <div class="container my-4">
                 <!-- TARJETAS -->
                 <!-- Tarjetas Premium -->
                 <div class="row row-cols-1 row-cols-md-3 g-4 ">
                     <?php
+                    $provincia_normalizada = mb_strtolower($provincia, 'UTF-8');
                     $obtener_coche_premium = $_conexion->prepare("
                                 SELECT coche.*, sus.tipo AS tipo_suscripcion
                                 FROM coche
@@ -449,7 +471,7 @@
                                 ORDER BY coche.precio ASC
                                 LIMIT 3
                             ");
-                    $obtener_coche_premium->bind_param("sssssss", $provincia, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin);
+                    $obtener_coche_premium->bind_param("sssssss", $provincia_normalizada, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin);
                     $obtener_coche_premium->execute();
                     $resultado = $obtener_coche_premium->get_result();
                     $vehiculos_premiums = $resultado->fetch_all(MYSQLI_ASSOC);
@@ -457,7 +479,7 @@
                     if (count($vehiculos_premiums) > 0) {
                         foreach ($vehiculos_premiums as $vehiculo_premium) {
                             echo "
-                                        <div class='col'>
+                                        <div class='row g-4'>
                                             <a href='/src/pages/rentacar/coche?matricula=" . $vehiculo_premium['matricula'] . "' class='text-decoration-none text-dark'>
                                             <div class='card h-100 shadow-lg border-warning'>
                                                 <img src='" . $vehiculo_premium['ruta_img_coche'] . "' class='card-img-top'>
@@ -483,6 +505,7 @@
                 <!-- Tarjetas Plus -->
                 <div class="row row-cols-1 row-cols-md-3 g-4 ">
                     <?php
+                    $provincia_normalizada = mb_strtolower($provincia, 'UTF-8');
                     $obtener_coche_plus = $_conexion->prepare("
                                 SELECT coche.*, sus.tipo AS tipo_suscripcion
                                 FROM coche
@@ -505,7 +528,7 @@
                                 ORDER BY coche.precio ASC
                                 LIMIT 6
                             ");
-                    $obtener_coche_plus->bind_param("sssssss", $provincia, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin);
+                    $obtener_coche_plus->bind_param("sssssss", $provincia_normalizada, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin);
                     $obtener_coche_plus->execute();
                     $resultado = $obtener_coche_plus->get_result();
                     $vehiculos_plus = $resultado->fetch_all(MYSQLI_ASSOC);
@@ -513,7 +536,7 @@
                     if (count($vehiculos_plus) > 0) {
                         foreach ($vehiculos_plus as $vehiculo_plus) {
                             echo "
-                                        <div class='col'>
+                                        <div class='row g-4'>
                                             <a href='/src/pages/rentacar/coche?matricula=" . $vehiculo_plus['matricula'] . "' class='text-decoration-none text-dark'>
                                             <div class='card shadow'>
                                                 <img src='" . $vehiculo_plus['ruta_img_coche'] . "' class='card-img-top'>
@@ -538,6 +561,7 @@
                 <!-- Tarjetas Normales -->
                 <div class="row row-cols-1 row-cols-md-3 g-4 ">
                     <?php
+                    $provincia_normalizada = mb_strtolower($provincia, 'UTF-8');
                     $obtener_coche_normal = $_conexion->prepare("
                                 SELECT coche.*, sus.tipo AS tipo_suscripcion
                                 FROM coche
@@ -559,7 +583,7 @@
                                 )
                                 LIMIT 6
                             ");
-                    $obtener_coche_normal->bind_param("sssssss", $provincia, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin);
+                    $obtener_coche_normal->bind_param("sssssss", $provincia_normalizada, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin);
                     $obtener_coche_normal->execute();
                     $resultado = $obtener_coche_normal->get_result();
                     $vehiculos_normales = $resultado->fetch_all(MYSQLI_ASSOC);
@@ -587,7 +611,7 @@
                             }
 
                             echo "
-                                        <div class='col'>
+                                        <div class='row g-4'>
                                             <a href='/src/pages/rentacar/coche?matricula=" . $vehiculo_normal['matricula'] . "' class='text-decoration-none text-dark'>
                                             <div class='card shadow'>
                                                 <img src='" . $imagen_normal . "' class='card-img-top'>
@@ -616,11 +640,11 @@
         </div>
     <?php } else {
     ?>
-        <div class="col-md-9 bg-light">
+        <div class="col-md-9">
             <div class="container my-4 ">
                 <!-- TARJETAS -->
                 <!-- Tarjetas Premium -->
-                <div class="row row-cols-1 row-cols-md-3 g-4 ">
+                <div class="row row-cols-1 row-cols-md-4 g-4 ">
                     <?php
                     $obtener_coche_premium = $_conexion->prepare("
                                 SELECT coche.*, sus.tipo AS tipo_suscripcion
@@ -640,7 +664,7 @@
                     if (count($vehiculos_premiums) > 0) {
                         foreach ($vehiculos_premiums as $vehiculo_premium) {
                             echo "
-                                        <div class='col'>
+                                        <div class='row g-4'>
                                             <a href='/src/pages/rentacar/coche?matricula=" . $vehiculo_premium['matricula'] . "' class='text-decoration-none text-dark'>
                                             <div class='card h-100 shadow-lg border-warning'>
                                                 <img src='" . $vehiculo_premium['ruta_img_coche'] . "' class='card-img-top'>
@@ -662,7 +686,7 @@
 
 
                 <!-- Tarjetas Plus -->
-                <div class="row row-cols-1 row-cols-md-3 g-4 ">
+                <div class="row row-cols-1 row-cols-md-4 g-4 ">
                     <?php
                     $obtener_coche_plus = $_conexion->prepare("
                                 SELECT coche.*, sus.tipo AS tipo_suscripcion
@@ -682,7 +706,7 @@
                     if (count($vehiculos_plus) > 0) {
                         foreach ($vehiculos_plus as $vehiculo_plus) {
                             echo "
-                                        <div class='col'>
+                                        <div class='row g-4'>
                                             <a href='/src/pages/rentacar/coche?matricula=" . $vehiculo_plus['matricula'] . "' class='text-decoration-none text-dark'>
                                             <div class='card shadow'>
                                                 <img src='" . $vehiculo_plus['ruta_img_coche'] . "' class='card-img-top'>
@@ -703,7 +727,7 @@
 
 
                 <!-- Tarjetas Normales -->
-                <div class="row row-cols-1 row-cols-md-3 g-4 ">
+                <div class="row row-cols-1 row-cols-md-4 g-4 ">
                     <?php
                     $obtener_coche_normal = $_conexion->prepare("
                                 SELECT coche.*, sus.tipo AS tipo_suscripcion
@@ -742,7 +766,7 @@
                             }
 
                             echo "
-                                        <div class='col'>
+                                        <div class='row g-4'>
                                             <a href='/src/pages/rentacar/coche?matricula=" . $vehiculo_normal['matricula'] . "' class='text-decoration-none text-dark'>
                                             <div class='card shadow'>
                                                 <img src='" . $imagen_normal . "' class='card-img-top'>
@@ -823,7 +847,28 @@
             icono.classList.toggle('fa-chevron-left');
             icono.classList.toggle('fa-chevron-right');
         });
+
+
+        // 4. OSCURECER PAGINA CON EL MENU
+        const offcanvas = document.getElementById('filtrosOffcanvas');
+        const overlay = document.getElementById('offcanvas-overlay');
+
+        offcanvas.addEventListener('show.bs.offcanvas', () => {
+            overlay.style.display = 'block';
+        });
+
+        offcanvas.addEventListener('hidden.bs.offcanvas', () => {
+            overlay.style.display = 'none';
+        });
+
+        // Cierra también el menú si se hace clic en el overlay
+        overlay.addEventListener('click', () => {
+            const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvas);
+            offcanvasInstance.hide();
+        });
     </script>
+    <div id="offcanvas-overlay"></div>
+
 
 </body>
 
