@@ -53,24 +53,7 @@
     position: relative;
     z-index: 2;
 }
-
-
-/* BARRA DE BUSQUEDA */
-.busqueda {
-    position: absolute;
-    top: 65%;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 3;
-    width: 70%;
-    margin-top: 0;
-}
-
-.btn_buscar {
-    border-radius: 0 20px 20px 0; 
-    background-color: #0d6efd; /* NO SE CAMBIA DE COLOR NI TAMAÑO */
-}
-
+ 
 
 
 /* Animación de los títulos */
@@ -200,3 +183,5 @@
     height: 0;
     overflow: hidden;
 }
+
+
