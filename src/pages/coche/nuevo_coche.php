@@ -387,34 +387,75 @@
         if ($tmp_direccion == "") {
             $err_direccion = "Debes indicar la dirección de tu coche";
         } else {
-            // Dividimos la dirección por comas
-            $partes_direccion = explode(",", $tmp_direccion);
+            $partes_direccion = array_map('trim', explode(",", $tmp_direccion));
             $total = count($partes_direccion);
 
-            // Verificamos que la dirección tiene al menos 5 partes
             if ($total < 5) {
                 $err_direccion = "La dirección debe tener al menos 5 partes: Calle, Ciudad, Provincia, Código Postal, País.";
             } else {
-                // Obtenemos las partes de la dirección
-                $ciudad = trim($partes_direccion[$total - 4]);
-                $provincia = trim($partes_direccion[$total - 3]);
-                $cp = trim($partes_direccion[$total - 2]);
-                $pais = trim($partes_direccion[$total - 1]);
+                // Lista oficial de provincias de España
+                $provincias_espana = [
+                    "Álava", "Albacete", "Alicante", "Almería", "Asturias", "Ávila",
+                    "Badajoz", "Barcelona", "Burgos", "Cáceres", "Cádiz", "Cantabria", "Castellón",
+                    "Ciudad Real", "Córdoba", "Cuenca", "Girona", "Granada", "Guadalajara", "Guipúzcoa",
+                    "Huelva", "Huesca", "Illes Balears", "Jaén", "La Coruña", "La Rioja", "Las Palmas",
+                    "León", "Lleida", "Lugo", "Madrid", "Málaga", "Murcia", "Navarra", "Ourense",
+                    "Palencia", "Pontevedra", "Salamanca", "Santa Cruz de Tenerife", "Segovia", "Sevilla",
+                    "Soria", "Tarragona", "Teruel", "Toledo", "Valencia", "Valladolid", "Vizcaya",
+                    "Zamora", "Zaragoza", "Ceuta", "Melilla"
+                ];
 
-                // Validamos el formato del código postal
-                if (!is_numeric($cp) || strlen($cp) != 5) {
-                    $err_direccion = "El código postal no tiene un formato válido. Debe tener 5 dígitos.";
-                    $err_extra_formato = "<br>El formato de dirección debe ser: Calle Ejemplo, Ciudad, Provincia, Codigo Postal (5 dígitos), País.";
+                // Detectar país
+                $pais = $partes_direccion[$total - 1];
+                if (strtolower($pais) !== "españa") {
+                    $err_direccion = "La dirección debe estar en España.";
+                    $err_extra_formato = "<br>El formato de dirección debe ser: Calle, Ciudad, Provincia, Código Postal, España.";
                 } else {
-                    if (strtolower($pais) !== "españa") {
-                        $err_direccion = "La dirección debe estar en España.";
-                        $err_extra_formato = "<br>El formato de dirección debe ser: Calle Ejemplo, Ciudad, Provincia, Codigo Postal, España.";
+                    // Buscar código postal (última parte numérica de 5 dígitos)
+                    $cp = null;
+                    foreach (array_reverse($partes_direccion) as $parte) {
+                        if (is_numeric($parte) && strlen($parte) == 5) {
+                            $cp = $parte;
+                            break;
+                        }
+                    }
+
+                    if (!$cp) {
+                        $err_direccion = "El código postal no tiene un formato válido. Debe tener 5 dígitos.";
+                        $err_extra_formato = "<br>El formato de dirección debe ser: Calle, Ciudad, Provincia, Código Postal (5 dígitos), País.";
                     } else {
-                        $direccion = $tmp_direccion;
+                        // Buscar provincia en el array
+                        $provincia = null;
+                        $pos_provincia = null;
+
+                        foreach (array_reverse($partes_direccion, true) as $index => $parte) {
+                            foreach ($provincias_espana as $prov) {
+                                if (stripos($parte, $prov) !== false) {
+                                    $provincia = $prov;
+                                    $pos_provincia = $index;
+                                    break 2;
+                                }
+                            }
+                        }
+
+                        if (!$provincia) {
+                            $err_direccion = "No se reconoció una provincia válida de España en la dirección.";
+                        } else {
+                            // Asignar ciudad como la parte anterior a la provincia
+                            if ($pos_provincia > 0) {
+                                $ciudad = $partes_direccion[$pos_provincia - 1];
+                            } else {
+                                $ciudad = "";
+                            }
+
+                            $direccion = $tmp_direccion;
+                        }
                     }
                 }
             }
         }
+        
+
 
         /* Validación de tipo de combustible */
         if ($tmp_tipo_combustible == "") {
@@ -1303,7 +1344,7 @@
         }
 
         $enviar_coche->bind_param(
-            "ssisssissssisddisssissiii",
+            "ssisssisssssiddisssissiii",
             $matricula,
             $id_usuario,
             $seguro,
