@@ -39,7 +39,21 @@
         display: none;
     }
 
-    
+
+
+    .tarjeta {
+        width: 400px;
+        margin: 10px;
+        flex: 0 0 auto;
+    }
+
+    .card-img-top {
+        height: 230px;
+    }
+
+    .card-title {
+        font-size: 2rem;
+    }
 </style>
 
 <body class="d-flex flex-column min-vh-100">
@@ -477,9 +491,9 @@
                     if (count($vehiculos_premiums) > 0) {
                         foreach ($vehiculos_premiums as $vehiculo_premium) {
                             echo "
-                                        <div class='row g-4'>
+                                        <div class='tarjeta row g-4'>
                                             <a href='/src/pages/rentacar/coche?matricula=" . $vehiculo_premium['matricula'] . "' class='text-decoration-none text-dark'>
-                                            <div class='card h-100 shadow-lg border-warning'>
+                                            <div class='dentro-tarjeta card h-100 shadow-lg border-warning'>
                                                 <img src='" . $vehiculo_premium['ruta_img_coche'] . "' class='card-img-top'>
                                                 <div class='card-body'>
                                                     <h5 class='card-title'>" . $vehiculo_premium['marca'] . " " . $vehiculo_premium['modelo'] . "</h5>
@@ -533,9 +547,9 @@
                     if (count($vehiculos_plus) > 0) {
                         foreach ($vehiculos_plus as $vehiculo_plus) {
                             echo "
-                                        <div class='row g-4'>
+                                        <div class='tarjeta row g-4'>
                                             <a href='/src/pages/rentacar/coche?matricula=" . $vehiculo_plus['matricula'] . "' class='text-decoration-none text-dark'>
-                                            <div class='card shadow'>
+                                            <div class='dentro-tarjeta card shadow'>
                                                 <img src='" . $vehiculo_plus['ruta_img_coche'] . "' class='card-img-top'>
                                                 <div class='card-body'>
                                                     <h5 class='card-title'>" . $vehiculo_plus['marca'] . "</h5>
@@ -607,9 +621,9 @@
                             }
 
                             echo "
-                                        <div class='row g-4'>
+                                        <div class='tarjeta row g-4'>
                                             <a href='/src/pages/rentacar/coche?matricula=" . $vehiculo_normal['matricula'] . "' class='text-decoration-none text-dark'>
-                                            <div class='card shadow'>
+                                            <div class='dentro-tarjeta card shadow'>
                                                 <img src='" . $imagen_normal . "' class='card-img-top'>
                                                 <div class='card-body'>
                                                     <h5 class='card-title'>" . $vehiculo_normal['marca'] . "</h5>
@@ -636,7 +650,7 @@
         </div>
     <?php } else {
     ?>
-        <div class="col-md-9">
+        <div class="col-12">
             <div class="container my-4 ">
                 <!-- TARJETAS -->
                 <!-- Tarjetas Premium -->
@@ -660,9 +674,9 @@
                     if (count($vehiculos_premiums) > 0) {
                         foreach ($vehiculos_premiums as $vehiculo_premium) {
                             echo "
-                                        <div class='row g-4'>
+                                        <div class='tarjeta row g-4'>
                                             <a href='/src/pages/rentacar/coche?matricula=" . $vehiculo_premium['matricula'] . "' class='text-decoration-none text-dark'>
-                                            <div class='card h-100 shadow-lg border-warning'>
+                                            <div class='dentro-tarjeta card h-100 shadow-lg border-warning'>
                                                 <img src='" . $vehiculo_premium['ruta_img_coche'] . "' class='card-img-top'>
                                                 <div class='card-body'>
                                                     <h5 class='card-title'>" . $vehiculo_premium['marca'] . " " . $vehiculo_premium['modelo'] . "</h5>
@@ -702,9 +716,9 @@
                     if (count($vehiculos_plus) > 0) {
                         foreach ($vehiculos_plus as $vehiculo_plus) {
                             echo "
-                                        <div class='row g-4'>
+                                        <div class='tarjeta row g-4'>
                                             <a href='/src/pages/rentacar/coche?matricula=" . $vehiculo_plus['matricula'] . "' class='text-decoration-none text-dark'>
-                                            <div class='card shadow'>
+                                            <div class='dentro-tarjeta card shadow'>
                                                 <img src='" . $vehiculo_plus['ruta_img_coche'] . "' class='card-img-top'>
                                                 <div class='card-body'>
                                                     <h5 class='card-title'>" . $vehiculo_plus['marca'] . "</h5>
@@ -762,9 +776,9 @@
                             }
 
                             echo "
-                                        <div class='row g-4'>
+                                        <div class='tarjeta row g-4'>
                                             <a href='/src/pages/rentacar/coche?matricula=" . $vehiculo_normal['matricula'] . "' class='text-decoration-none text-dark'>
-                                            <div class='card shadow'>
+                                            <div class='dentro-tarjeta card shadow'>
                                                 <img src='" . $imagen_normal . "' class='card-img-top'>
                                                 <div class='card-body'>
                                                     <h5 class='card-title'>" . $vehiculo_normal['marca'] . "</h5>
