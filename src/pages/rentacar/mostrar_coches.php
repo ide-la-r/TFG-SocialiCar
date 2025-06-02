@@ -22,25 +22,13 @@
 
 <style>
     body {
-        position: relative;
-        background-image: url('../../img/curioso_2.jpg');
+        background-image: url('../../img/curioso_2.jpg'); /* sino fondo_amarillo */
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
         background-attachment: fixed;
     }
 
-
-    body::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 0;
-    }
 
     #offcanvas-overlay {
         position: fixed;
@@ -64,10 +52,6 @@
         font-size: 2rem;
     }
 
-    .busqueda {
-        top: 26%;
-    }
-
 
     .contenedor-tarjetas {
         display: flex;
@@ -84,12 +68,6 @@
     }
 
 
-    @media (max-width: 1399px) {
-        .busqueda {
-            top: clamp(20%, 4vw, 20%);
-        }
-
-    }
 
     @media (max-width: 992px) {
         .tarjeta {
@@ -97,12 +75,6 @@
         }
     }
 
-    @media (max-width: 768px) {
-
-        .busqueda {
-            top: 13%;
-        }
-    }
 </style>
 
 <body class="d-flex flex-column min-vh-100">
