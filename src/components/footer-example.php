@@ -157,19 +157,19 @@
             <p>
               SocialiCar es un intermediario destinado al alquiler de vehículos entre particulares. La idea surge ante la creciente necesidad de alternativas de movilidad más flexibles, accesibles y sostenibles.
             </p>
-            <a href="../pages/informacion/sobre_nosotros.php">Mas informacion <span class="ion-ios-arrow-round-forward"></span></a>
+            <a href="../pages/informacion/sobre_nosotros.php">Más información <span class="ion-ios-arrow-round-forward"></span></a>
           </div>
         </div>
       </div>
       <div class="col-md-8 col-lg-7">
         <div class="row">
           <div class="col-md-3 mb-md-0 mb-4 border-left">
-            <h2 class="footer-heading">Informacion</h2>
+            <h2 class="footer-heading">Información</h2>
             <ul class="list-unstyled">
               <li><a href="/src/pages/informacion/sobre_nosotros.php" class="py-1 d-block">Sobre nosotros</a></li>
               <li><a href="/src/pages/informacion/contacto.php" class="py-1 d-block">Contacto</a></li>
               <li><a href="/src/pages/informacion/trabaja.php" class="py-1 d-block">Trabaja con nosotros</a></li>
-              <li><a href="/src/pages/informacion/soporte.php" class="py-1 d-block">Atencion al cliente</a></li>
+              <li><a href="/src/pages/informacion/soporte.php" class="py-1 d-block">Atención al cliente</a></li>
             </ul>
           </div>
           <div class="col-md-3 mb-md-0 mb-4 border-left">
@@ -178,14 +178,14 @@
               <li><a href="/src/pages/coche/nuevo_coche.php" class="py-1 d-block">Alquila tu coche</a></li>
               <li><a href="/src/pages/rentacar/mostrar_coches.php" class="py-1 d-block">Encontrar un coche</a></li>
               <li><a href="/src/pages/usuario/planes.php" class="py-1 d-block">Planes</a></li>
-              <li><a href="/src/pages/informacion/ayuda.php" class="py-1 d-block">Guia</a></li>
+              <li><a href="/src/pages/informacion/ayuda.php" class="py-1 d-block">Guía</a></li>
             </ul>
           </div>
           <div class="col-md-3 mb-md-0 mb-4 border-left">
             <h2 class="footer-heading">Legal</h2>
             <ul class="list-unstyled">
               <li><a href="/src/pages/informacion/aviso_legal.php" class="py-1 d-block">Aviso legal</a></li>
-              <li><a href="/src/pages/informacion/politica_privacidad.php" class="py-1 d-block">Politica de privacidad</a></li>
+              <li><a href="/src/pages/informacion/politica_privacidad.php" class="py-1 d-block">Política de privacidad</a></li>
               <li><a href="/src/pages/informacion/politica_cookies.php" class="py-1 d-block">Cookies</a></li>
               <li><a href="/src/pages/informacion/accesibilidad.php" class="py-1 d-block">Accesibilidad</a></li>
             </ul>
@@ -217,7 +217,7 @@
               <li><a href="/src/pages/informacion/sobre_nosotros.php" class="py-1 d-block">Sobre nosotros</a></li>
               <li><a href="/src/pages/informacion/contacto.php" class="py-1 d-block">Contacto</a></li>
               <li><a href="/src/pages/informacion/trabaja.php" class="py-1 d-block">Trabaja con nosotros</a></li>
-              <li><a href="/src/pages/informacion/soporte.php" class="py-1 d-block">Atencion al cliente</a></li>
+              <li><a href="/src/pages/informacion/soporte.php" class="py-1 d-block">Atención al cliente</a></li>
             </ul>
           </div>
         </div>
@@ -235,7 +235,7 @@
               <li><a href="/src/pages/coche/nuevo_coche.php" class="py-1 d-block">Alquila tu coche</a></li>
               <li><a href="/src/pages/rentacar/mostrar_coches.php" class="py-1 d-block">Encontrar un coche</a></li>
               <li><a href="/src/pages/usuario/planes.php" class="py-1 d-block">Planes</a></li>
-              <li><a href="/src/pages/informacion/ayuda.php" class="py-1 d-block">Guia</a></li>
+              <li><a href="/src/pages/informacion/ayuda.php" class="py-1 d-block">Guía</a></li>
             </ul>
           </div>
         </div>
@@ -251,7 +251,7 @@
           <div class="accordion-body">
             <ul class="list-unstyled">
               <li><a href="/src/pages/informacion/aviso_legal.php" class="py-1 d-block">Aviso legal</a></li>
-              <li><a href="/src/pages/informacion/politica_privacidad.php" class="py-1 d-block">Politica de privacidad</a></li>
+              <li><a href="/src/pages/informacion/politica_privacidad.php" class="py-1 d-block">Política de privacidad</a></li>
               <li><a href="/src/pages/informacion/politica_cookies.php" class="py-1 d-block">Cookies</a></li>
               <li><a href="/src/pages/informacion/accesibilidad.php" class="py-1 d-block">Accesibilidad</a></li>
             </ul>
@@ -282,7 +282,7 @@
       <div class="col-md-12">
         <div class="row align-items-center">
           <div class="col">
-            <h3 class="mb-0">Nuestro Equipo</h3>
+            <h3 class="mb-0">Nuestro equipo</h3>
           </div>
           <div class="col-md-9">
             <p class="partner-name mb-0">
