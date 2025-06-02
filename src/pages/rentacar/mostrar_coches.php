@@ -75,6 +75,16 @@
         }
     }
 
+    
+/* BARRA DE BUSQUEDA */
+.busqueda {
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    width: 60%;
+}
+
+
 </style>
 
 <body class="d-flex flex-column min-vh-100">
