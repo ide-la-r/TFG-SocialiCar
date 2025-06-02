@@ -459,7 +459,12 @@
     $provincia = isset($_GET['provincia']) ? $_GET['provincia'] : null;
     $fecha_inicio = isset($_GET['fecha_inicio']) ? $_GET['fecha_inicio'] : null;
     $fecha_fin = isset($_GET['fecha_final']) ? $_GET['fecha_final'] : null;
-    $checkear_coches = true;
+    $checkear_coches = false;
+
+
+    if ($provincia !== null) {
+        $provincia = mb_strtolower($provincia, 'UTF-8');
+    }
 
     if ($provincia != null && $fecha_inicio != null && $fecha_fin != null) { ?>
         <div class="col-12">
@@ -476,15 +481,15 @@
                                     ON sus.identificacion = usuario.identificacion 
                                     AND sus.activo = TRUE 
                                     AND sus.tipo = 'Premium'
-                                WHERE coche.provincia = ?
+                                WHERE LOWER(coche.provincia) = ?
                                 AND NOT EXISTS (
                                     SELECT 1 FROM reserva_coche 
                                     WHERE reserva_coche.matricula = coche.matricula 
                                     AND (
-                                        (? BETWEEN reserva_coche.fecha_inicio AND reserva_coche.fecha_final) OR
-                                        (? BETWEEN reserva_coche.fecha_inicio AND reserva_coche.fecha_final) OR
-                                        (reserva_coche.fecha_inicio BETWEEN ? AND ?) OR
-                                        (reserva_coche.fecha_final BETWEEN ? AND ?)
+                                        (DATE(?) BETWEEN DATE(reserva_coche.fecha_inicio) AND DATE(reserva_coche.fecha_final)) OR
+                                        (DATE(?) BETWEEN DATE(reserva_coche.fecha_inicio) AND DATE(reserva_coche.fecha_final)) OR
+                                        (DATE(reserva_coche.fecha_inicio) BETWEEN DATE(?) AND DATE(?)) OR
+                                        (DATE(reserva_coche.fecha_final) BETWEEN DATE(?) AND DATE(?))
                                     )
                                 )
                                 ORDER BY coche.precio ASC
@@ -514,8 +519,7 @@
                                         </div>
                                     ";
                         }
-                    } else {
-                        $checkear_coches = false;
+                        $checkear_coches = true;
                     }
                     ?>
                 </div><br>
@@ -532,15 +536,15 @@
                                     ON sus.identificacion = usuario.identificacion 
                                     AND sus.activo = TRUE 
                                     AND sus.tipo = 'Plus'
-                                WHERE coche.provincia = ?
+                                WHERE LOWER(coche.provincia) = ?
                                 AND NOT EXISTS (
                                     SELECT 1 FROM reserva_coche 
                                     WHERE reserva_coche.matricula = coche.matricula 
                                     AND (
-                                        (? BETWEEN reserva_coche.fecha_inicio AND reserva_coche.fecha_final) OR
-                                        (? BETWEEN reserva_coche.fecha_inicio AND reserva_coche.fecha_final) OR
-                                        (reserva_coche.fecha_inicio BETWEEN ? AND ?) OR
-                                        (reserva_coche.fecha_final BETWEEN ? AND ?)
+                                        (DATE(?) BETWEEN DATE(reserva_coche.fecha_inicio) AND DATE(reserva_coche.fecha_final)) OR
+                                        (DATE(?) BETWEEN DATE(reserva_coche.fecha_inicio) AND DATE(reserva_coche.fecha_final)) OR
+                                        (DATE(reserva_coche.fecha_inicio) BETWEEN DATE(?) AND DATE(?)) OR
+                                        (DATE(reserva_coche.fecha_final) BETWEEN DATE(?) AND DATE(?))
                                     )
                                 )
                                 ORDER BY coche.precio ASC
@@ -569,8 +573,7 @@
                                         </div>
                                     ";
                         }
-                    } else {
-                        $checkear_coches = false;
+                        $checkear_coches = true;
                     }
                     ?>
                 </div><br>
@@ -587,15 +590,15 @@
                                     ON sus.identificacion = usuario.identificacion 
                                     AND sus.activo = TRUE
                                 WHERE sus.tipo IS NULL
-                                AND coche.provincia = ?
+                                AND LOWER(coche.provincia) = ?
                                 AND NOT EXISTS (
                                     SELECT 1 FROM reserva_coche 
                                     WHERE reserva_coche.matricula = coche.matricula 
                                     AND (
-                                        (? BETWEEN reserva_coche.fecha_inicio AND reserva_coche.fecha_final) OR
-                                        (? BETWEEN reserva_coche.fecha_inicio AND reserva_coche.fecha_final) OR
-                                        (reserva_coche.fecha_inicio BETWEEN ? AND ?) OR
-                                        (reserva_coche.fecha_final BETWEEN ? AND ?)
+                                        (DATE(?) BETWEEN DATE(reserva_coche.fecha_inicio) AND DATE(reserva_coche.fecha_final)) OR
+                                        (DATE(?) BETWEEN DATE(reserva_coche.fecha_inicio) AND DATE(reserva_coche.fecha_final)) OR
+                                        (DATE(reserva_coche.fecha_inicio) BETWEEN DATE(?) AND DATE(?)) OR
+                                        (DATE(reserva_coche.fecha_final) BETWEEN DATE(?) AND DATE(?))
                                     )
                                 )
                                 LIMIT 6
@@ -643,8 +646,7 @@
                                         </div>
                                     ";
                         }
-                    } else {
-                        $checkear_coches = false;
+                        $checkear_coches = true;
                     }
 
                     if ($checkear_coches == false) { ?>
