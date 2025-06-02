@@ -459,7 +459,12 @@
     $provincia = isset($_GET['provincia']) ? $_GET['provincia'] : null;
     $fecha_inicio = isset($_GET['fecha_inicio']) ? $_GET['fecha_inicio'] : null;
     $fecha_fin = isset($_GET['fecha_final']) ? $_GET['fecha_final'] : null;
-    $checkear_coches = true;
+    $checkear_coches = false;
+
+
+    if ($provincia !== null) {
+        $provincia = mb_strtolower($provincia, 'UTF-8');
+    }
 
     if ($provincia != null && $fecha_inicio != null && $fecha_fin != null) { ?>
         <div class="col-12">
@@ -468,7 +473,6 @@
                 <!-- Tarjetas Premium -->
                 <div class="row row-cols-1 row-cols-md-3 g-4 ">
                     <?php
-                    $provincia_normalizada = mb_strtolower($provincia, 'UTF-8');
                     $obtener_coche_premium = $_conexion->prepare("
                                 SELECT coche.*, sus.tipo AS tipo_suscripcion
                                 FROM coche
@@ -477,21 +481,21 @@
                                     ON sus.identificacion = usuario.identificacion 
                                     AND sus.activo = TRUE 
                                     AND sus.tipo = 'Premium'
-                                WHERE coche.provincia = ?
+                                WHERE LOWER(coche.provincia) = ?
                                 AND NOT EXISTS (
                                     SELECT 1 FROM reserva_coche 
                                     WHERE reserva_coche.matricula = coche.matricula 
                                     AND (
-                                        (? BETWEEN reserva_coche.fecha_inicio AND reserva_coche.fecha_final) OR
-                                        (? BETWEEN reserva_coche.fecha_inicio AND reserva_coche.fecha_final) OR
-                                        (reserva_coche.fecha_inicio BETWEEN ? AND ?) OR
-                                        (reserva_coche.fecha_final BETWEEN ? AND ?)
+                                        (DATE(?) BETWEEN DATE(reserva_coche.fecha_inicio) AND DATE(reserva_coche.fecha_final)) OR
+                                        (DATE(?) BETWEEN DATE(reserva_coche.fecha_inicio) AND DATE(reserva_coche.fecha_final)) OR
+                                        (DATE(reserva_coche.fecha_inicio) BETWEEN DATE(?) AND DATE(?)) OR
+                                        (DATE(reserva_coche.fecha_final) BETWEEN DATE(?) AND DATE(?))
                                     )
                                 )
                                 ORDER BY coche.precio ASC
                                 LIMIT 3
                             ");
-                    $obtener_coche_premium->bind_param("sssssss", $provincia_normalizada, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin);
+                    $obtener_coche_premium->bind_param("sssssss", $provincia, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin);
                     $obtener_coche_premium->execute();
                     $resultado = $obtener_coche_premium->get_result();
                     $vehiculos_premiums = $resultado->fetch_all(MYSQLI_ASSOC);
@@ -515,8 +519,7 @@
                                         </div>
                                     ";
                         }
-                    } else {
-                        $checkear_coches = false;
+                        $checkear_coches = true;
                     }
                     ?>
                 </div><br>
@@ -525,7 +528,6 @@
                 <!-- Tarjetas Plus -->
                 <div class="row row-cols-1 row-cols-md-3 g-4 ">
                     <?php
-                    $provincia_normalizada = mb_strtolower($provincia, 'UTF-8');
                     $obtener_coche_plus = $_conexion->prepare("
                                 SELECT coche.*, sus.tipo AS tipo_suscripcion
                                 FROM coche
@@ -534,21 +536,21 @@
                                     ON sus.identificacion = usuario.identificacion 
                                     AND sus.activo = TRUE 
                                     AND sus.tipo = 'Plus'
-                                WHERE coche.provincia = ?
+                                WHERE LOWER(coche.provincia) = ?
                                 AND NOT EXISTS (
                                     SELECT 1 FROM reserva_coche 
                                     WHERE reserva_coche.matricula = coche.matricula 
                                     AND (
-                                        (? BETWEEN reserva_coche.fecha_inicio AND reserva_coche.fecha_final) OR
-                                        (? BETWEEN reserva_coche.fecha_inicio AND reserva_coche.fecha_final) OR
-                                        (reserva_coche.fecha_inicio BETWEEN ? AND ?) OR
-                                        (reserva_coche.fecha_final BETWEEN ? AND ?)
+                                        (DATE(?) BETWEEN DATE(reserva_coche.fecha_inicio) AND DATE(reserva_coche.fecha_final)) OR
+                                        (DATE(?) BETWEEN DATE(reserva_coche.fecha_inicio) AND DATE(reserva_coche.fecha_final)) OR
+                                        (DATE(reserva_coche.fecha_inicio) BETWEEN DATE(?) AND DATE(?)) OR
+                                        (DATE(reserva_coche.fecha_final) BETWEEN DATE(?) AND DATE(?))
                                     )
                                 )
                                 ORDER BY coche.precio ASC
                                 LIMIT 6
                             ");
-                    $obtener_coche_plus->bind_param("sssssss", $provincia_normalizada, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin);
+                    $obtener_coche_plus->bind_param("sssssss", $provincia, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin);
                     $obtener_coche_plus->execute();
                     $resultado = $obtener_coche_plus->get_result();
                     $vehiculos_plus = $resultado->fetch_all(MYSQLI_ASSOC);
@@ -571,8 +573,7 @@
                                         </div>
                                     ";
                         }
-                    } else {
-                        $checkear_coches = false;
+                        $checkear_coches = true;
                     }
                     ?>
                 </div><br>
@@ -581,7 +582,6 @@
                 <!-- Tarjetas Normales -->
                 <div class="row row-cols-1 row-cols-md-3 g-4 ">
                     <?php
-                    $provincia_normalizada = mb_strtolower($provincia, 'UTF-8');
                     $obtener_coche_normal = $_conexion->prepare("
                                 SELECT coche.*, sus.tipo AS tipo_suscripcion
                                 FROM coche
@@ -590,20 +590,20 @@
                                     ON sus.identificacion = usuario.identificacion 
                                     AND sus.activo = TRUE
                                 WHERE sus.tipo IS NULL
-                                AND coche.provincia = ?
+                                AND LOWER(coche.provincia) = ?
                                 AND NOT EXISTS (
                                     SELECT 1 FROM reserva_coche 
                                     WHERE reserva_coche.matricula = coche.matricula 
                                     AND (
-                                        (? BETWEEN reserva_coche.fecha_inicio AND reserva_coche.fecha_final) OR
-                                        (? BETWEEN reserva_coche.fecha_inicio AND reserva_coche.fecha_final) OR
-                                        (reserva_coche.fecha_inicio BETWEEN ? AND ?) OR
-                                        (reserva_coche.fecha_final BETWEEN ? AND ?)
+                                        (DATE(?) BETWEEN DATE(reserva_coche.fecha_inicio) AND DATE(reserva_coche.fecha_final)) OR
+                                        (DATE(?) BETWEEN DATE(reserva_coche.fecha_inicio) AND DATE(reserva_coche.fecha_final)) OR
+                                        (DATE(reserva_coche.fecha_inicio) BETWEEN DATE(?) AND DATE(?)) OR
+                                        (DATE(reserva_coche.fecha_final) BETWEEN DATE(?) AND DATE(?))
                                     )
                                 )
                                 LIMIT 6
                             ");
-                    $obtener_coche_normal->bind_param("sssssss", $provincia_normalizada, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin);
+                    $obtener_coche_normal->bind_param("sssssss", $provincia, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin, $fecha_inicio, $fecha_fin);
                     $obtener_coche_normal->execute();
                     $resultado = $obtener_coche_normal->get_result();
                     $vehiculos_normales = $resultado->fetch_all(MYSQLI_ASSOC);
@@ -646,8 +646,7 @@
                                         </div>
                                     ";
                         }
-                    } else {
-                        $checkear_coches = false;
+                        $checkear_coches = true;
                     }
 
                     if ($checkear_coches == false) { ?>
