@@ -91,8 +91,9 @@
     <br><br>
     <?php
     // FILTRO AVANZADO
+// FILTRO FUNCIONAL SOLO CON: marca, provincia, tipo, combustible, precio
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && (
-    isset($_GET['marca']) || isset($_GET['modelo']) || isset($_GET['ciudad']) ||
+    isset($_GET['marca']) || isset($_GET['ciudad']) ||
     isset($_GET['tipo']) || isset($_GET['combustible']) || isset($_GET['precio'])
 )) {
     $where = [];
@@ -100,28 +101,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && (
     $types = '';
 
     if (!empty($_GET['marca'])) {
-        $where[] = 'marca = ?';
-        $params[] = $_GET['marca'];
-        $types .= 's';
-    }
-    if (!empty($_GET['modelo'])) {
-        $where[] = 'modelo = ?';
-        $params[] = $_GET['modelo'];
+        $where[] = 'LOWER(marca) = ?';
+        $params[] = mb_strtolower($_GET['marca'], 'UTF-8');
         $types .= 's';
     }
     if (!empty($_GET['ciudad'])) {
-        $where[] = 'ciudad = ?';
-        $params[] = $_GET['ciudad'];
+        $where[] = 'LOWER(provincia) = ?';
+        $params[] = mb_strtolower($_GET['ciudad'], 'UTF-8');
         $types .= 's';
     }
     if (!empty($_GET['tipo'])) {
-        $where[] = 'tipo = ?';
-        $params[] = $_GET['tipo'];
+        $where[] = 'LOWER(tipo) = ?';
+        $params[] = mb_strtolower($_GET['tipo'], 'UTF-8');
         $types .= 's';
     }
     if (!empty($_GET['combustible'])) {
-        $where[] = 'combustible = ?';
-        $params[] = $_GET['combustible'];
+        $where[] = 'LOWER(combustible) = ?';
+        $params[] = mb_strtolower($_GET['combustible'], 'UTF-8');
         $types .= 's';
     }
     if (isset($_GET['precio']) && $_GET['precio'] !== '') {
@@ -144,17 +140,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && (
     $result = $stmt->get_result();
 
     $num = $result->num_rows;
-    echo "<p class='text-success fw-bold mt-3'>
-            <i class='mdi mdi-car-search'></i> $num resultados encontrados
-        </p>";
+    // Visual badge for resultados encontrados
+    echo "<div class='d-flex align-items-center justify-content-center my-4'>
+            <span class='badge bg-primary fs-4 px-4 py-3 shadow-lg'>
+                <i class='mdi mdi-car-search me-2'></i>
+                <span class='fw-bold'>$num</span> " . ($num == 1 ? "resultado encontrado" : "resultados encontrados") . "
+            </span>
+        </div>";
 
     echo "<div class='row row-cols-1 row-cols-md-3 g-4 mt-3'>";
     while ($row = $result->fetch_assoc()) {
+        // Obtener la imagen principal del coche
+        $img = $row['ruta_img_coche'];
+        if (empty($img)) {
+            $stmtImg = $_conexion->prepare("SELECT ruta_img_coche FROM imagen_coche WHERE id_coche = ? ORDER BY orden ASC, id_imagen_coche ASC LIMIT 1");
+            $stmtImg->bind_param("s", $row['matricula']);
+            $stmtImg->execute();
+            $resImg = $stmtImg->get_result();
+            if ($imgRow = $resImg->fetch_assoc()) {
+                $img = $imgRow['ruta_img_coche'];
+            } else {
+                $img = '/src/img/default-car.jpg';
+            }
+            $stmtImg->close();
+        }
         echo "
-            <div class='col'>
-                <a href='/src/pages/rentacar/coche?matricula=" . $row['matricula'] . "' class='text-decoration-none text-dark'>
-                    <div class='card h-100 shadow-sm border-primary'>
-                        <img src='" . htmlspecialchars($row['ruta_img_coche']) . "' class='card-img-top' alt='Imagen del coche'>
+            <div class='tarjeta row g-4'>
+                <a href='/src/pages/rentacar/coche?matricula=" . htmlspecialchars($row['matricula']) . "' class='text-decoration-none text-dark'>
+                    <div class='dentro-tarjeta card h-100 shadow-sm border-primary'>
+                        <img src='" . htmlspecialchars($img) . "' class='card-img-top' alt='Imagen del coche' style='object-fit:cover; width:100%; height:230px;'>
                         <div class='card-body'>
                             <h5 class='card-title'>" . htmlspecialchars($row['marca']) . " " . htmlspecialchars($row['modelo']) . "</h5>
                             <p class='card-text'><strong>" . htmlspecialchars($row['marca']) . "</strong></p>
@@ -253,15 +267,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && (
                 </select>
             </div>
 
-            <!-- MODELO -->
-            <div class="mt-3">
-                <label class="form-label">Modelo:</label>
-                <select class="form-select" name="modelo" id="modelo-filtro" data-selected="<?php echo isset($_GET['modelo']) ? htmlspecialchars($_GET['modelo']) : ''; ?>">
-                    <option value="">- - Selecciona un modelo - -</option>
-                    <!-- Opciones de modelo se rellenan por JS -->
-                </select>
-            </div>
-
             <!-- PROVINCIA -->
             <div class="mt-3">
                 <label class="form-label">Ubicación:</label>
@@ -331,50 +336,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && (
         });
     }
 
-    // Cargar marcas desde la API y modelos dinámicos
+    // Cargar marcas desde la API
     document.addEventListener('DOMContentLoaded', function () {
         const marcaSelect = document.getElementById('marca-filtro');
-        const modeloSelect = document.getElementById('modelo-filtro');
-        const modeloSeleccionado = modeloSelect.getAttribute('data-selected') || "";
-
-        function cargarModelos(marca, modeloPreseleccionado = "") {
-            modeloSelect.innerHTML = '<option value="">- - Selecciona un modelo - -</option>';
-            if (!marca) return;
-            fetch('/src/pages/coche/obtener_modelos.php?marca=' + encodeURIComponent(marca))
-                .then(response => response.text())
-                .then(text => {
-                    let jsonStart = text.indexOf('[');
-                    let jsonEnd = text.lastIndexOf(']');
-                    let data = [];
-                    if (jsonStart !== -1 && jsonEnd !== -1) {
-                        try {
-                            data = JSON.parse(text.substring(jsonStart, jsonEnd + 1));
-                        } catch (e) {
-                            modeloSelect.innerHTML += '<option disabled>Error: Respuesta inesperada de la API</option>';
-                            return;
-                        }
-                    } else {
-                        modeloSelect.innerHTML += '<option disabled>Error: Respuesta inesperada de la API</option>';
-                        return;
-                    }
-                    if (Array.isArray(data) && data.length > 0) {
-                        data.forEach(modelo => {
-                            const option = document.createElement('option');
-                            option.value = modelo;
-                            option.textContent = modelo;
-                            if (modeloPreseleccionado && modeloPreseleccionado === modelo) {
-                                option.selected = true;
-                            }
-                            modeloSelect.appendChild(option);
-                        });
-                    } else {
-                        modeloSelect.innerHTML += '<option disabled>No hay modelos disponibles</option>';
-                    }
-                })
-                .catch(error => {
-                    modeloSelect.innerHTML += '<option disabled>Error al cargar modelos</option>';
-                });
-        }
+        // El select de modelo ya no existe, así que no lo buscamos ni lo usamos
 
         // Cargar marcas desde la API
         fetch('https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json')
@@ -392,16 +357,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && (
                     }
                     marcaSelect.appendChild(option);
                 });
-                // Si ya hay una marca seleccionada al cargar (tras recarga o filtro)
-                if (marcaSeleccionada) {
-                    cargarModelos(marcaSeleccionada, modeloSeleccionado);
-                }
             })
             .catch(error => {});
-
-        marcaSelect.addEventListener('change', function () {
-            cargarModelos(this.value, "");
-        });
     });
     </script>
 
@@ -852,51 +809,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && (
     <script>
 document.addEventListener('DOMContentLoaded', function () {
     const marcaSelect = document.getElementById('marca-filtro');
-    const modeloSelect = document.getElementById('modelo-filtro');
-    const modeloSeleccionado = modeloSelect.getAttribute('data-selected') || "";
-
-    function cargarModelos(marca, modeloPreseleccionado = "") {
-        modeloSelect.innerHTML = '<option value="">- - Selecciona un modelo - -</option>';
-        if (!marca) return;
-        fetch('/src/pages/coche/obtener_modelos.php?marca=' + encodeURIComponent(marca))
-            .then(response => response.text())
-            .then(text => {
-                // Busca el primer y último corchete para intentar extraer el JSON
-                let jsonStart = text.indexOf('[');
-                let jsonEnd = text.lastIndexOf(']');
-                let data = [];
-                if (jsonStart !== -1 && jsonEnd !== -1) {
-                    try {
-                        data = JSON.parse(text.substring(jsonStart, jsonEnd + 1));
-                    } catch (e) {
-                        modeloSelect.innerHTML += '<option disabled>Error: Respuesta inesperada de la API</option>';
-                        console.error('Respuesta de la API de modelos:', text);
-                        return;
-                    }
-                } else {
-                    modeloSelect.innerHTML += '<option disabled>Error: Respuesta inesperada de la API</option>';
-                    console.error('Respuesta de la API de modelos:', text);
-                    return;
-                }
-                if (Array.isArray(data) && data.length > 0) {
-                    data.forEach(modelo => {
-                        const option = document.createElement('option');
-                        option.value = modelo;
-                        option.textContent = modelo;
-                        if (modeloPreseleccionado && modeloPreseleccionado === modelo) {
-                            option.selected = true;
-                        }
-                        modeloSelect.appendChild(option);
-                    });
-                } else {
-                    modeloSelect.innerHTML += '<option disabled>No hay modelos disponibles</option>';
-                }
-            })
-            .catch(error => {
-                modeloSelect.innerHTML += '<option disabled>Error al cargar modelos</option>';
-                console.error('Error al cargar modelos:', error);
-            });
-    }
+    // El select de modelo ya no existe, así que no lo buscamos ni lo usamos
 
     // Cargar marcas desde la API
     fetch('https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json')
@@ -914,10 +827,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
                 marcaSelect.appendChild(option);
             });
-            // Si ya hay una marca seleccionada al cargar (tras recarga o filtro)
-            if (marcaSeleccionada) {
-                cargarModelos(marcaSeleccionada, modeloSeleccionado);
-            }
         })
         .catch(error => {
             console.error('Error al cargar marcas:', error);
