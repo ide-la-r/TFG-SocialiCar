@@ -189,7 +189,7 @@ header {
 /* Mensajes enviados por el usuario (mensaje-receptor) */
 .chat-box .mensaje-receptor {
     background-color: #dcf8c6; /* Verde claro tipo WhatsApp */
-    align-self: flex-end; /* Alineado a la derecha */
+    align-self: flex-start; /* Alineado a la derecha */
     text-align: left;
     margin-left: auto;
     align-items: flex-end;
@@ -202,7 +202,7 @@ header {
 /* Mensajes recibidos por el usuario (mensaje-emisor) */
 .chat-box .mensaje-emisor {
     background-color: #ffffff; /* Blanco tipo WhatsApp */
-    align-self: flex-start; /* Alineado a la izquierda */
+    align-self: flex-end; /* Alineado a la izquierda */
     text-align: left;
     border-radius: 10px 10px 10px 0;
     padding: 10px;
