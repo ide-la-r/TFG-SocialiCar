@@ -24,7 +24,6 @@
     <h3 class="fw-bold text-center" style="color: #595959;">Estamos aquí para ayudarte en todo momento. Si tienes cualquier duda, no dudes en escribirnos.</h3>
     <a href="mailto:socialicar.rentacar@gmail.com" class="text-decoration-none" style="color: #0099cc; font-weight: 500;">socialicar.rentacar@gmail.com</a>
 </div>
-
 <?php include_once '../../components/footer-example.php';?>
 </body>
 </html>

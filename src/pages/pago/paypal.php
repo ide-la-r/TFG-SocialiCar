@@ -222,7 +222,6 @@ if (!isset($_SESSION['usuario'])) {
             }
         }).render('#paypal-button-conteiner');
     </script>
-    
     <?php include_once '../../components/footer-example.php'; ?>
 </body>
 

@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $confirmar = false;
         $err_nombre = "El nombre es obligatorio";
     } else {
-        $patron = "/^[a-zA-Z0-9 áéióúÁÉÍÓÚñÑüÜ'-]+$/";
+        $patron = "/^[a-zA-ZÀ-ÿ\s\-]+$/u";
         if (!preg_match($patron, $nombre)) {
             $confirmar = false;
             $err_nombre = "El nombre solo puede tener letras";
