@@ -20,6 +20,18 @@
             color: #e03131;
             font-size: 1em;
         }
+
+        
+        body {
+            background-image: url('../../img/light-blue-background-13.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            background-position: center;
+            flex-direction: column;
+        }
     </style>
 </head>
 <body>

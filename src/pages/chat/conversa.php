@@ -85,20 +85,22 @@ if ($matricula !== null) {
             position: relative;
             min-height: 100vh;
             display: flex;
-            
-        background-position: center;
+            background-position: center;
             flex-direction: column;
         }
- body::before {
-        content: "";
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0,0,0,0.5); /* Oscurece el fondo */
-        z-index: -1;
-    }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Oscurece el fondo */
+            z-index: -1;
+        }
+
         a {
             text-decoration: none;
             color: inherit;
