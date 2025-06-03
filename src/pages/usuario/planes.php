@@ -90,8 +90,6 @@ session_start();
             padding: 8px 16px;
         }
 
-        .plan-features {}
-
         .recomendado {
             right: 8px;
         }
@@ -170,7 +168,6 @@ session_start();
 
     </section>
     <?php include_once '../../components/footer-example.php'; ?>
-
     <script>
         function togglePlan(header) {
             const card = header.closest('.plan-card');

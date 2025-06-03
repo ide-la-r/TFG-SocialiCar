@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $confirmar = false;
         $err_nombre = "El nombre es obligatorio";
     } else {
-        $patron = "/^[a-zA-Z0-9 áéióúÁÉÍÓÚñÑüÜ'-]+$/";
+        $patron = "/^[a-zA-ZÀ-ÿ\s\-]+$/u";
         if (!preg_match($patron, $nombre)) {
             $confirmar = false;
             $err_nombre = "El nombre solo puede tener letras";
@@ -171,15 +171,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
+    $codigo = rand(100000, 999999);
+    $verificado = 0;
+    $estado = 0;
+
     if ($confirmar) {
         $sql = $_conexion->prepare("INSERT INTO usuario (
                 identificacion, tipo_identificacion, nombre, apellido, correo, 
                 contrasena, telefono, foto_perfil, ruta_img_identificacion, 
-                ruta_img_carnet, verificado, fecha_nacimiento, estado
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?, 1)");
-
+                ruta_img_carnet, verificado, codigo, fecha_nacimiento, estado
+            ) VALUES (?, ?, ? ,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    
         $sql->bind_param(
-            "sssssssssss",
+            "ssssssssssiisi",
             $identificacion,
             $tipo_identificacion,
             $nombre,
@@ -190,7 +194,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $foto_perfil,
             $ruta_img_identificacion,
             $ruta_img_carnet,
-            $fecha_nacimiento
+            $verificado,
+            $codigo,
+            $fecha_nacimiento,
+            $estado
         );
 
         if ($sql->execute()) {
@@ -204,7 +211,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($resultado->num_rows === 1) {
                 $datos_usuario = $resultado->fetch_assoc();
                 $_SESSION["usuario"] = $datos_usuario;
-                header("Location: ../../../");
+                header("Location: /src/pages/correo/validar_correo.php?correo=" . urlencode($correo) . "&codigo=" . $codigo);
                 exit();
             }
         }

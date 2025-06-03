@@ -362,7 +362,6 @@ require(__DIR__ . "/src/config/conexion.php");
 
     <!-- Scripts al final para mejor performance -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/src/js/conversa_ia.js"></script>
 </body>
 
 </html>
