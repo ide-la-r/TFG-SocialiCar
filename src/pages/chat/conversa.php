@@ -490,6 +490,9 @@ if ($otro_usuario) {
         // Llamar a la función cuando se cargue la página y cuando se reciban nuevos mensajes
         document.addEventListener('DOMContentLoaded', scrollToBottom);
     </script>
+
+    
+    <?php include_once '../../components/footer-example.php'; ?>
 </body>
 
 </html>
