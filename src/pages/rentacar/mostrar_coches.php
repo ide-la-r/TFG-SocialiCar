@@ -90,7 +90,99 @@
 
     <br><br>
     <?php
-    if (isset($_POST["buscar"])) {
+    // FILTRO AVANZADO
+// FILTRO FUNCIONAL SOLO CON: marca, provincia, tipo, combustible, precio
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && (
+    isset($_GET['marca']) || isset($_GET['ciudad']) ||
+    isset($_GET['tipo']) || isset($_GET['combustible']) || isset($_GET['precio'])
+)) {
+    $where = [];
+    $params = [];
+    $types = '';
+
+    if (!empty($_GET['marca'])) {
+        $where[] = 'LOWER(marca) = ?';
+        $params[] = mb_strtolower($_GET['marca'], 'UTF-8');
+        $types .= 's';
+    }
+    if (!empty($_GET['ciudad'])) {
+        $where[] = 'LOWER(provincia) = ?';
+        $params[] = mb_strtolower($_GET['ciudad'], 'UTF-8');
+        $types .= 's';
+    }
+    if (!empty($_GET['tipo'])) {
+        $where[] = 'LOWER(tipo) = ?';
+        $params[] = mb_strtolower($_GET['tipo'], 'UTF-8');
+        $types .= 's';
+    }
+    if (!empty($_GET['combustible'])) {
+        $where[] = 'LOWER(combustible) = ?';
+        $params[] = mb_strtolower($_GET['combustible'], 'UTF-8');
+        $types .= 's';
+    }
+    if (isset($_GET['precio']) && $_GET['precio'] !== '') {
+        $where[] = 'precio <= ?';
+        $params[] = intval($_GET['precio']);
+        $types .= 'i';
+    }
+
+    $sql = "SELECT * FROM coche";
+    if (count($where) > 0) {
+        $sql .= " WHERE " . implode(' AND ', $where);
+    }
+    $sql .= " ORDER BY precio ASC";
+
+    $stmt = $_conexion->prepare($sql);
+    if ($types && $params) {
+        $stmt->bind_param($types, ...$params);
+    }
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    $num = $result->num_rows;
+    // Visual badge for resultados encontrados
+    echo "<div class='d-flex align-items-center justify-content-center my-4'>
+            <span class='badge bg-primary fs-4 px-4 py-3 shadow-lg'>
+                <i class='mdi mdi-car-search me-2'></i>
+                <span class='fw-bold'>$num</span> " . ($num == 1 ? "resultado encontrado" : "resultados encontrados") . "
+            </span>
+        </div>";
+
+    echo "<div class='row row-cols-1 row-cols-md-3 g-4 mt-3'>";
+    while ($row = $result->fetch_assoc()) {
+        // Obtener la imagen principal del coche
+        $img = $row['ruta_img_coche'];
+        if (empty($img)) {
+            $stmtImg = $_conexion->prepare("SELECT ruta_img_coche FROM imagen_coche WHERE id_coche = ? ORDER BY orden ASC, id_imagen_coche ASC LIMIT 1");
+            $stmtImg->bind_param("s", $row['matricula']);
+            $stmtImg->execute();
+            $resImg = $stmtImg->get_result();
+            if ($imgRow = $resImg->fetch_assoc()) {
+                $img = $imgRow['ruta_img_coche'];
+            } else {
+                $img = '/src/img/default-car.jpg';
+            }
+            $stmtImg->close();
+        }
+        echo "
+            <div class='tarjeta row g-4'>
+                <a href='/src/pages/rentacar/coche?matricula=" . htmlspecialchars($row['matricula']) . "' class='text-decoration-none text-dark'>
+                    <div class='dentro-tarjeta card h-100 shadow-sm border-primary'>
+                        <img src='" . htmlspecialchars($img) . "' class='card-img-top' alt='Imagen del coche' style='object-fit:cover; width:100%; height:230px;'>
+                        <div class='card-body'>
+                            <h5 class='card-title'>" . htmlspecialchars($row['marca']) . " " . htmlspecialchars($row['modelo']) . "</h5>
+                            <p class='card-text'><strong>" . htmlspecialchars($row['marca']) . "</strong></p>
+                            <p class='card-text'><strong>" . htmlspecialchars($row['codigo_postal']) . " " . htmlspecialchars($row['ciudad']) . "</strong></p>
+                            <p class='card-text text-success'>" . htmlspecialchars($row['precio']) . "€/día</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        ";
+    }
+    echo "</div><br>";
+    $stmt->close();
+} else if (isset($_POST["buscar"])) {
         $buscar = mysqli_real_escape_string($_conexion, $_POST["buscar"]);
 
         $sql = mysqli_query($_conexion, "SELECT * FROM coche 
@@ -149,6 +241,7 @@
     </button>
 
     <!-- Menú de filtros  -->
+    <form method="get" action="" id="form-filtros">
     <div
         class="offcanvas offcanvas-end p-4"
         tabindex="-1"
@@ -168,282 +261,106 @@
             <!-- MARCA -->
             <div class="mt-3">
                 <label class="form-label">Marca:</label>
-                <select class="form-select">
-                    <option selected>- - Selecciona una marca - -</option>
-                    <option value="1">Alfa Romeo</option>
-                    <option value="2">Volkswagen</option>
-                    <option value="3">BMW</option>
-                    <option value="4">Mercedes</option>
-                    <option value="5">Nissan</option>
+                <select class="form-select" name="marca" id="marca-filtro">
+                    <option value="">- - Selecciona una marca - -</option>
+                    <!-- Opciones de marca se rellenan por JS -->
                 </select>
             </div>
 
-            <!-- MODELO -->
-            <div class="mt-3">
-                <label class="form-label">Modelo:</label>
-                <select class="form-select">
-                    <option selected>- - Selecciona un modelo - -</option>
-                    <option value="1">Modelo</option>
-                </select>
-            </div>
-
-            <!-- CIUDAD -->
+            <!-- PROVINCIA -->
             <div class="mt-3">
                 <label class="form-label">Ubicación:</label>
-                <select class="form-select">
-                    <option selected>- - Selecciona una ciudad - -</option>
-                    <option value="1">Málaga</option>
-                    <option value="2">Granada</option>
-                    <option value="3">Madrid</option>
-                    <option value="4">Valencia</option>
-                    <option value="5">Barcelona</option>
+                <select class="form-select" name="ciudad">
+                    <option value="">- - Selecciona una ciudad - -</option>
+                    <option value="malaga" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='malaga') echo 'selected'; ?>>Málaga</option>
+                    <option value="granada" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='granada') echo 'selected'; ?>>Granada</option>
+                    <option value="madrid" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='madrid') echo 'selected'; ?>>Madrid</option>
+                    <option value="valencia" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='valencia') echo 'selected'; ?>>Valencia</option>
+                    <option value="barcelona" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='barcelona') echo 'selected'; ?>>Barcelona</option>
                 </select>
             </div>
 
             <!-- TIPO -->
             <div class="mt-3">
                 <label class="form-label">Tipo de Coche:</label>
-                <select class="form-select">
-                    <option selected>- - Selecciona un tipo de coche - -</option>
-                    <option value="1">Berlina</option>
-                    <option value="2">Coupé</option>
-                    <option value="3">Monovolumen</option>
-                    <option value="4">SUV</option>
-                    <option value="5">Familiar</option>
-                    <option value="6">Furgoneta</option>
-                    <option value="7">Utilitario</option>
-                    <option value="8">Autocaravana</option>
+                <select class="form-select" name="tipo">
+                    <option value="">- - Selecciona un tipo de coche - -</option>
+                    <option value="berlina" <?php if(isset($_GET['tipo']) && $_GET['tipo']=='berlina') echo 'selected'; ?>>Berlina</option>
+                    <option value="coupé" <?php if(isset($_GET['tipo']) && $_GET['tipo']=='coupé') echo 'selected'; ?>>Coupé</option>
+                    <option value="monovolumen" <?php if(isset($_GET['tipo']) && $_GET['tipo']=='monovolumen') echo 'selected'; ?>>Monovolumen</option>
+                    <option value="suv" <?php if(isset($_GET['tipo']) && $_GET['tipo']=='suv') echo 'selected'; ?>>SUV</option>
+                    <option value="familiar" <?php if(isset($_GET['tipo']) && $_GET['tipo']=='familiar') echo 'selected'; ?>>Familiar</option>
+                    <option value="furgoneta" <?php if(isset($_GET['tipo']) && $_GET['tipo']=='furgoneta') echo 'selected'; ?>>Furgoneta</option>
+                    <option value="utilitario" <?php if(isset($_GET['tipo']) && $_GET['tipo']=='utilitario') echo 'selected'; ?>>Utilitario</option>
+                    <option value="autocaravana" <?php if(isset($_GET['tipo']) && $_GET['tipo']=='autocaravana') echo 'selected'; ?>>Autocaravana</option>
                 </select>
             </div>
 
             <!-- COMBUSTIBLE -->
             <div class="mt-3">
                 <label class="form-label">Combustible:</label>
-                <select class="form-select">
-                    <option selected>- - Selecciona un tipo - -</option>
-                    <option value="Diésel">Diésel</option>
-                    <option value="Gasolina">Gasolina</option>
-                    <option value="Eléctrico">Eléctrico</option>
-                    <option value="Híbrido">Híbrido</option>
+                <select class="form-select" name="combustible">
+                    <option value="">- - Selecciona un tipo - -</option>
+                    <option value="diesel" <?php if(isset($_GET['combustible']) && $_GET['combustible']=='diesel') echo 'selected'; ?>>Diésel</option>
+                    <option value="gasolina" <?php if(isset($_GET['combustible']) && $_GET['combustible']=='gasolina') echo 'selected'; ?>>Gasolina</option>
+                    <option value="electrico" <?php if(isset($_GET['combustible']) && $_GET['combustible']=='electrico') echo 'selected'; ?>>Eléctrico</option>
+                    <option value="hibrido" <?php if(isset($_GET['combustible']) && $_GET['combustible']=='hibrido') echo 'selected'; ?>>Híbrido</option>
                 </select>
             </div>
 
             <!-- PRECIO -->
             <div class="mt-3">
                 <label class="form-label">Precio Diario (€):</label>
-                <input type="range" class="form-range" min="0" max="500" step="10">
+                <input type="range" class="form-range" min="0" max="500" step="1" name="precio" id="precioRange" value="<?php echo isset($_GET['precio']) ? intval($_GET['precio']) : 500; ?>">
                 <div class="d-flex justify-content-between">
-                    <span>€0</span>
-                    <span>€500</span>
+                    <span>0€</span>
+                    <span id="precioValue"><?php echo isset($_GET['precio']) ? intval($_GET['precio']) : 500; ?>€</span>
                 </div>
             </div>
 
-            <!-- FECHAS -->
-            <div class="mt-3">
-                <label class="form-label">Disponibilidad</label>
-                <div class="d-flex gap-2">
-                    <div class="flex-fill">
-                        <label class="form-label">Inicio</label>
-                        <input type="date" class="form-control">
-                    </div>
-                    <div class="flex-fill">
-                        <label class="form-label">Fin</label>
-                        <input type="date" class="form-control">
-                    </div>
-                </div>
+            <!-- BOTONES FINALES -->
+            <div class="mt-4 d-grid gap-2">
+                <button class="btn btn-primary" type="submit">Aplicar Filtros</button>
             </div>
-
-
-            <!-- OTROS FILTROS -->
-            <div class="mt-3">
-                <div class="d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#equipamientoCollapse">
-                    <b>Equipamiento</b>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-
-                <div class="collapse" id="equipamientoCollapse">
-                    <!-- Checkboxes de equipamiento aquí -->
-                    <div class="form-check">
-                        <!-- OTROS FILTROS -->
-                        <div class="modal-body">
-                            <!-- Sección Características Básicas -->
-                            <div>
-                                <div>
-                                    <h6>Características Básicas</h6>
-                                </div>
-                                <div>
-                                    <div>
-                                        <input type="checkbox" id="mascota" name="mascota" <?php if (isset($_POST['mascota'])) echo 'checked'; ?>>
-                                        <label for="mascota">
-                                            Permito mascotas
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <input type="checkbox" id="fumar" name="fumar" <?php if (isset($_POST['fumar'])) echo 'checked'; ?>>
-                                        <label for="fumar">
-                                            Permito fumar
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Sección Asistencia a la Conducción -->
-                            <div>
-                                <div>
-                                    <h6>Asistencia a la Conducción</h6>
-                                </div>
-                                <div>
-                                    <div>
-                                        <input type="checkbox" id="gps" name="gps" <?php if (isset($_POST['gps'])) echo 'checked'; ?>>
-                                        <label for="gps">
-                                            GPS
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <input type="checkbox" id="sensores_aparcamiento" name="sensores_aparcamiento" <?php if (isset($_POST['sensores_aparcamiento'])) echo 'checked'; ?>>
-                                        <label for="sensores_aparcamiento">
-                                            Sensores de aparcamiento
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <input type="checkbox" id="camara_trasera" name="camara_trasera" <?php if (isset($_POST['camara_trasera'])) echo 'checked'; ?>>
-                                        <label for="camara_trasera">
-                                            Cámara de reversa
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <input type="checkbox" id="control_de_crucero" name="control_de_crucero" <?php if (isset($_POST['control_de_crucero'])) echo 'checked'; ?>>
-                                        <label for="control_de_crucero">
-                                            Control de crucero
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <input type="checkbox" id="cuatro_x_cuatro" name="cuatro_x_cuatro" <?php if (isset($_POST['cuatro_x_cuatro'])) echo 'checked'; ?>>
-                                        <label for="cuatro_x_cuatro">
-                                            Tracción 4x4
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Sección Portaequipajes y Accesorios -->
-                            <div>
-                                <div>
-                                    <h6>Portaequipajes y Accesorios</h6>
-                                </div>
-                                <div>
-                                    <div>
-                                        <input type="checkbox" id="baca" name="baca" <?php if (isset($_POST['baca'])) echo 'checked'; ?>>
-                                        <label for="baca">
-                                            Baca
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <input type="checkbox" id="portabicicletas" name="portabicicletas" <?php if (isset($_POST['portabicicletas'])) echo 'checked'; ?>>
-                                        <label for="portabicicletas">
-                                            Portabicicletas
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <input type="checkbox" id="portaequipajes" name="portaequipajes" <?php if (isset($_POST['portaequipajes'])) echo 'checked'; ?>>
-                                        <label for="portaequipajes">
-                                            Portaequipajes
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <input type="checkbox" id="portaesquis" name="portaesquis" <?php if (isset($_POST['portaesquis'])) echo 'checked'; ?>>
-                                        <label for="portaesquis">
-                                            Portaesquís
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <input type="checkbox" id="bola_remolque" name="bola_remolque" <?php if (isset($_POST['bola_remolque'])) echo 'checked'; ?>>
-                                        <label for="bola_remolque">
-                                            Bola de remolque
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Sección Tecnología y Navegación -->
-                            <div>
-                                <div>
-                                    <h6>Tecnología y Navegación</h6>
-                                </div>
-                                <div>
-                                    <div>
-                                        <input type="checkbox" id="bluetooth" name="bluetooth" <?php if (isset($_POST['bluetooth'])) echo 'checked'; ?>>
-                                        <label for="bluetooth">
-                                            Bluetooth
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <input type="checkbox" id="wifi" name="wifi" <?php if (isset($_POST['wifi'])) echo 'checked'; ?>>
-                                        <label for="wifi">
-                                            WiFi
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <input type="checkbox" id="android_carplay" name="android_carplay" <?php if (isset($_POST['android_carplay'])) echo 'checked'; ?>>
-                                        <label for="android_carplay">
-                                            Android CarPlay
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <input type="checkbox" id="apple_carplay" name="apple_carplay" <?php if (isset($_POST['apple_carplay'])) echo 'checked'; ?>>
-                                        <label for="apple_carplay">
-                                            Apple CarPlay
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Sección Confort y Equipamiento -->
-                            <div>
-                                <div>
-                                    <h6>Confort y Equipamiento</h6>
-                                </div>
-                                <div>
-                                    <div>
-                                        <input type="checkbox" id="aire_acondicionado" name="aire_acondicionado" <?php if (isset($_POST['aire_acondicionado'])) echo 'checked'; ?>>
-                                        <label for="aire_acondicionado">
-                                            Aire acondicionado
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <input type="checkbox" id="asientos_calefactables" name="asientos_calefactables" <?php if (isset($_POST['asientos_calefactables'])) echo 'checked'; ?>>
-                                        <label for="asientos_calefactables">
-                                            Asientos calefactables
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <input type="checkbox" id="fijacion_isofix" name="fijacion_isofix" <?php if (isset($_POST['fijacion_isofix'])) echo 'checked'; ?>>
-                                        <label for="fijacion_isofix">
-                                            Fijaciones ISOFIX
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <input type="checkbox" id="movilidad_reducida" name="movilidad_reducida" <?php if (isset($_POST['movilidad_reducida'])) echo 'checked'; ?>>
-                                        <label for="movilidad_reducida">
-                                            Adaptado para personas con movilidad reducida
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- BOTONES FINALES -->
-        <div class="mt-4 d-grid gap-2">
-            <button class="btn btn-primary" type="button">Aplicar Filtros</button>
-            <button class="btn btn-warning" type="submit">Buscar</button>
         </div>
     </div>
+    </form>
+
+    <script>
+    // Mostrar el valor del rango de precio
+    const precioRange = document.getElementById('precioRange');
+    const precioValue = document.getElementById('precioValue');
+    if(precioRange && precioValue) {
+        precioRange.addEventListener('input', function() {
+            precioValue.textContent = this.value + "€";
+        });
+    }
+
+    // Cargar marcas desde la API
+    document.addEventListener('DOMContentLoaded', function () {
+        const marcaSelect = document.getElementById('marca-filtro');
+        // El select de modelo ya no existe, así que no lo buscamos ni lo usamos
+
+        // Cargar marcas desde la API
+        fetch('https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json')
+            .then(res => res.json())
+            .then(data => {
+                let marcas = data.Results || [];
+                marcas.sort((a, b) => a.MakeName.localeCompare(b.MakeName));
+                let marcaSeleccionada = "<?php echo isset($_GET['marca']) ? addslashes($_GET['marca']) : ''; ?>";
+                marcas.forEach(function (marca) {
+                    const option = document.createElement('option');
+                    option.value = marca.MakeName;
+                    option.textContent = marca.MakeName;
+                    if (marcaSeleccionada && marcaSeleccionada === marca.MakeName) {
+                        option.selected = true;
+                    }
+                    marcaSelect.appendChild(option);
+                });
+            })
+            .catch(error => {});
+    });
+    </script>
 
     <!-- Script para rotar el ícono del botón -->
     <script>
@@ -888,6 +805,38 @@
     </script>
     <div id="offcanvas-overlay"></div>
 
+
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const marcaSelect = document.getElementById('marca-filtro');
+    // El select de modelo ya no existe, así que no lo buscamos ni lo usamos
+
+    // Cargar marcas desde la API
+    fetch('https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json')
+        .then(res => res.json())
+        .then(data => {
+            let marcas = data.Results || [];
+            marcas.sort((a, b) => a.MakeName.localeCompare(b.MakeName));
+            let marcaSeleccionada = "<?php echo isset($_GET['marca']) ? addslashes($_GET['marca']) : ''; ?>";
+            marcas.forEach(function (marca) {
+                const option = document.createElement('option');
+                option.value = marca.MakeName;
+                option.textContent = marca.MakeName;
+                if (marcaSeleccionada && marcaSeleccionada === marca.MakeName) {
+                    option.selected = true;
+                }
+                marcaSelect.appendChild(option);
+            });
+        })
+        .catch(error => {
+            console.error('Error al cargar marcas:', error);
+        });
+
+    marcaSelect.addEventListener('change', function () {
+        cargarModelos(this.value, "");
+    });
+});
+</script>
 
 </body>
 
