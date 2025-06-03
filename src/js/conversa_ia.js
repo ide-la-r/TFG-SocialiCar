@@ -154,10 +154,31 @@ ensureDOMReady(() => {
 
 // 2. Crear botón flotante
 let chatToggleButton = document.getElementById('sc-chat-toggle');
+
 if (!chatToggleButton) {
     chatToggleButton = document.createElement('button');
     chatToggleButton.id = 'sc-chat-toggle';
-    chatToggleButton.innerText = 'Chat';
+
+    // Estilos del botón
+    chatToggleButton.style.border = 'none';
+    chatToggleButton.style.background = '#ffffff'; // Fondo blanco
+    chatToggleButton.style.cursor = 'pointer';
+    chatToggleButton.style.position = 'fixed';
+    chatToggleButton.style.bottom = '20px';
+    chatToggleButton.style.right = '20px';
+    chatToggleButton.style.zIndex = '1000';
+    chatToggleButton.style.padding = '6px'; // Botón más compacto
+    chatToggleButton.style.borderRadius = '50%'; // Botón redondo
+    chatToggleButton.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)'; // Sombra sutil
+
+    // Ícono más grande
+    const iconImg = document.createElement('img');
+    iconImg.src = '/src/img/icon-ia.png'; 
+    iconImg.alt = 'Chat';
+    iconImg.style.width = '54px'; // Aumentado ligeramente
+    iconImg.style.height = '54px';
+
+    chatToggleButton.appendChild(iconImg);
     document.body.appendChild(chatToggleButton);
 }
 
@@ -166,19 +187,40 @@ let chatWidget = document.getElementById('sc-chat-widget');
 if (!chatWidget) {
     chatWidget = document.createElement('div');
     chatWidget.id = 'sc-chat-widget';
+
     chatWidget.innerHTML = `
-        <div class="sc-header">
-            <img src=\"/src/img/favicon.png\" alt=\"Logo SocialiCar\" class=\"sc-logo\">
-            <span class=\"sc-title\">SocialiCar Chatbot</span>
+        <div class="sc-header" style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background-color: #6BBFBF; color: white;">
+            <div style="display: flex; align-items: center;">
+                <img src="/src/img/favicon.png" alt="Logo SocialiCar" class="sc-logo" style="width: 30px; height: 30px; margin-right: 10px;">
+                <span class="sc-title">SocialiCar Chatbot</span>
+            </div>
+            <button id="sc-close-btn" style="background: none; border: none; color: black; font-size: 15px; cursor: pointer;">❌</button>
         </div>
-        <div id=\"sc-messages\"></div>
-        <div class=\"sc-input-area\"> 
-            <input type=\"text\" id=\"sc-user-input\" placeholder=\"Escribe un mensaje...\" autocomplete=\"off\" />
-            <button id=\"sc-send-btn\">Enviar</button>
+        <div id="sc-messages" style="padding: 10px; height: 250px; overflow-y: auto; background: #f9f9f9;"></div>
+        <div class="sc-input-area" style="display: flex; border-top: 1px solid #ccc;">
+            <input type="text" id="sc-user-input" placeholder="Escribe un mensaje..." autocomplete="off" style="flex: 1; padding: 10px; border: none;">
+            <button id="sc-send-btn" style="padding: 10px 15px; background-color: #6BBFBF; color: white; border: none; cursor: pointer;">Enviar</button>
         </div>
     `;
+
+    // Estilo general del widget
+    chatWidget.style.position = 'fixed';
+    chatWidget.style.bottom = '90px';
+    chatWidget.style.right = '20px';
+    chatWidget.style.width = '320px';
+    chatWidget.style.border = '1px solid #ccc';
+    chatWidget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+    chatWidget.style.backgroundColor = 'white';
+    chatWidget.style.zIndex = '1001';
+
     document.body.appendChild(chatWidget);
+
+    // Funcionalidad del botón de cerrar
+    document.getElementById('sc-close-btn').addEventListener('click', () => {
+        chatWidget.style.display = 'none';
+    });
 }
+
 
 // 4. Referencias
 let userInput = chatWidget.querySelector('#sc-user-input');

@@ -25,7 +25,6 @@
     <p class="text-center" style="margin-bottom: 0;">¡Nos encantaría conocerte de todas formas! Puedes escribirnos a:</p>
     <a href="mailto:socialicar.rentacar@gmail.com" class="text-decoration-none" style="color: #0099cc; font-weight: 500;">socialicar.rentacar@gmail.com</a>
 </div>
-
 <?php include_once '../../components/footer-example.php';?>
 </body>
 </html>
