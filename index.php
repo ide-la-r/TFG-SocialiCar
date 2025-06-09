@@ -234,12 +234,12 @@ require(__DIR__ . "/src/config/conexion.php");
     </a>
 
     <!-- Search Form -->
-    <form method="get" action="./src/pages/rentacar/mostrar_coches.php" class="mt-5 busqueda">
+    <form method="get" action="./src/pages/rentacar/mostrar_coches.php" class="mt-5 busqueda" id="busquedaForm" onsubmit="return validarBusqueda();">
         <div class="container my-5">
             <div class="p-3 p-lg-4 border-0 shadow-lg bg-white bg-opacity-75 rounded-5">
                 <div class="row g-3 justify-content-center">
                     <div class="col-12 col-md-4">
-                        <select class="form-select form-control-custom" name="provincia">
+                        <select class="form-select form-control-custom" name="provincia" id="provinciaInput">
                             <option value="" selected hidden>¿Dónde necesitas tu coche?</option>
                             <option value="alava">Álava</option>
                             <option value="albacete">Albacete</option>
@@ -296,18 +296,39 @@ require(__DIR__ . "/src/config/conexion.php");
                         </select>
                     </div>
                     <div class="col-12 col-md-3">
-                        <input type="text" name="fecha_inicio" class="form-control form-control-custom" placeholder="Fecha de inicio" onfocus="this.type='date'" />
+                        <input type="text" name="fecha_inicio" id="fechaInicioInput" class="form-control form-control-custom" placeholder="Fecha de inicio" onfocus="this.type='date'" />
                     </div>
                     <div class="col-12 col-md-3">
-                        <input type="text" name="fecha_final" class="form-control form-control-custom" placeholder="Fecha de fin" onfocus="this.type='date'" />
+                        <input type="text" name="fecha_final" id="fechaFinalInput" class="form-control form-control-custom" placeholder="Fecha de fin" onfocus="this.type='date'" />
                     </div>
                     <div class="col-12 col-md-2">
                         <button class="btn btn-primary btn-custom w-100" style="padding: 1rem 2rem">Buscar</button>
                     </div>
                 </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <div id="filtroErrorMsg" class="alert alert-danger d-none" role="alert"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </form>
+    <script>
+    function validarBusqueda() {
+        var provincia = document.getElementById('provinciaInput').value;
+        var fechaInicio = document.getElementById('fechaInicioInput').value;
+        var fechaFinal = document.getElementById('fechaFinalInput').value;
+        var errorMsg = document.getElementById('filtroErrorMsg');
+        if (!provincia || !fechaInicio || !fechaFinal) {
+            errorMsg.textContent = "Debes seleccionar provincia, fecha de inicio y fecha de fin.";
+            errorMsg.classList.remove('d-none');
+            return false;
+        } else {
+            errorMsg.classList.add('d-none');
+            return true;
+        }
+    }
+    </script>
 
     <!-- Features -->
     <div class="container my-5">
