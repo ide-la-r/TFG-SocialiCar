@@ -186,43 +186,50 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                 $resultado = $obtener_coche->get_result();
                                                 $vehiculos = $resultado->fetch_all(MYSQLI_ASSOC);
 
-                                                foreach ($vehiculos as $vehiculo):
-                                                    $stmt_img = $_conexion->prepare("SELECT ruta_img_coche FROM imagen_coche WHERE id_coche = ? LIMIT 1");
-                                                    $stmt_img->bind_param("s", $vehiculo['matricula']);
-                                                    $stmt_img->execute();
-                                                    $res_img = $stmt_img->get_result();
-                                                    $imagen = $res_img->num_rows > 0 ? $res_img->fetch_assoc()['ruta_img_coche'] : '/src/img/default-car.jpg';
-                                                ?>
-                                                    <div class='col'>
-                                                        <div class='card shadow-sm h-100'>
-                                                            <img src='<?php echo htmlspecialchars($imagen); ?>' class='card-img-top' style='height: 200px; object-fit: cover;'>
-                                                            <div class='card-body text-center'>
-                                                                <h5 class='card-title mb-1'><?php echo htmlspecialchars($vehiculo['marca']); ?></h5>
-                                                                <p class='card-text'><?php echo htmlspecialchars($vehiculo['modelo']); ?></p>
-                                                                <div class='d-flex justify-content-center gap-2 mt-3'>
-                                                                    <form action='/src/pages/coche/editar_coche' method='GET'>
-                                                                        <input type='hidden' name='matricula' value='<?php echo htmlspecialchars($vehiculo['matricula']); ?>'>
-                                                                        <button type='submit'
-                                                                            class='btn btn-sm fw-bold text-white'
-                                                                            style='background-color: #0d6efd; border-radius: 20px; padding: 6px 14px; transition: background-color 0.3s;'>
-                                                                            <i class='fas fa-edit me-1'></i> Editar
-                                                                        </button>
-                                                                    </form>
-                                                                    <form action='/src/pages/coche/eliminar_coche?matricula=<?php echo urlencode($vehiculo['matricula']); ?>'
-                                                                        method='POST'
-                                                                        onsubmit="return confirm('¿Estás seguro de eliminar este coche?');">
-                                                                        <input type='hidden' name='matricula' value='<?php echo htmlspecialchars($vehiculo['matricula']); ?>'>
-                                                                        <button type='submit'
-                                                                            class='btn btn-sm fw-bold text-white'
-                                                                            style='background-color: #dc3545; border-radius: 20px; padding: 6px 14px; transition: background-color 0.3s;'>
-                                                                            <i class='fas fa-trash-alt me-1'></i> Borrar
-                                                                        </button>
-                                                                    </form>
+                                                if (empty($vehiculos)) {
+                                                    echo "<p class='text-muted fst-italic'>No tienes coches registrados aún.</p>";
+                                                } else {
+                                                    foreach ($vehiculos as $vehiculo):
+                                                        $stmt_img = $_conexion->prepare("SELECT ruta_img_coche FROM imagen_coche WHERE id_coche = ? LIMIT 1");
+                                                        $stmt_img->bind_param("s", $vehiculo['matricula']);
+                                                        $stmt_img->execute();
+                                                        $res_img = $stmt_img->get_result();
+                                                        $imagen = $res_img->num_rows > 0 ? $res_img->fetch_assoc()['ruta_img_coche'] : '/src/img/default-car.jpg';
+                                                        ?>
+                                                        <div class='col'>
+                                                            <div class='card shadow-sm h-100'>
+                                                                <img src='<?= htmlspecialchars($imagen); ?>' class='card-img-top' style='height: 200px; object-fit: cover;'>
+                                                                <div class='card-body text-center'>
+                                                                    <h5 class='card-title mb-1'><?= htmlspecialchars($vehiculo['marca'] . " " . htmlspecialchars($vehiculo['modelo'])); ?></h5>
+                                                                    <p class='card-text'><?= htmlspecialchars($vehiculo['matricula']); ?></p>
+                                                                    <div class='d-flex justify-content-center gap-2 mt-3'>
+                                                                        <form action='/src/pages/coche/editar_coche' method='GET'>
+                                                                            <input type='hidden' name='matricula' value='<?= htmlspecialchars($vehiculo['matricula']); ?>'>
+                                                                            <button type='submit'
+                                                                                    class='btn btn-sm fw-bold text-white'
+                                                                                    style='background-color: #0d6efd; border-radius: 20px; padding: 6px 14px; transition: background-color 0.3s;'>
+                                                                                <i class='fas fa-edit me-1'></i> Editar
+                                                                            </button>
+                                                                        </form>
+                                                                        <form action='/src/pages/coche/eliminar_coche?matricula=<?= urlencode($vehiculo['matricula']); ?>'
+                                                                              method='POST'
+                                                                              onsubmit="return confirm('¿Estás seguro de eliminar este coche?');">
+                                                                            <input type='hidden' name='matricula' value='<?= htmlspecialchars($vehiculo['matricula']); ?>'>
+                                                                            <button type='submit'
+                                                                                    class='btn btn-sm fw-bold text-white'
+                                                                                    style='background-color: #dc3545; border-radius: 20px; padding: 6px 14px; transition: background-color 0.3s;'>
+                                                                                <i class='fas fa-trash-alt me-1'></i> Borrar
+                                                                            </button>
+                                                                        </form>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                <?php endforeach; ?>
+                                                        <?php
+                                                    endforeach;
+                                                }
+                                                ?>
+                                                
                                             </div>
                                         </div>
                                     </div>
