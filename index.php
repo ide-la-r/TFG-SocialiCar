@@ -234,33 +234,101 @@ require(__DIR__ . "/src/config/conexion.php");
     </a>
 
     <!-- Search Form -->
-    <form method="get" action="./src/pages/rentacar/mostrar_coches.php" class="mt-5 busqueda">
+    <form method="get" action="./src/pages/rentacar/mostrar_coches.php" class="mt-5 busqueda" id="busquedaForm" onsubmit="return validarBusqueda();">
         <div class="container my-5">
             <div class="p-3 p-lg-4 border-0 shadow-lg bg-white bg-opacity-75 rounded-5">
                 <div class="row g-3 justify-content-center">
                     <div class="col-12 col-md-4">
-                        <select class="form-select form-control-custom" name="provincia">
-                            <option value="">¿Dónde necesitas tu coche?</option>
-                            <option value="malaga">Málaga</option>
-                            <option value="granada">Granada</option>
-                            <option value="madrid">Madrid</option>
-                            <option value="valencia">Valencia</option>
+                        <select class="form-select form-control-custom" name="provincia" id="provinciaInput">
+                            <option value="" selected hidden>¿Dónde necesitas tu coche?</option>
+                            <option value="alava">Álava</option>
+                            <option value="albacete">Albacete</option>
+                            <option value="alicante">Alicante</option>
+                            <option value="almeria">Almería</option>
+                            <option value="asturias">Asturias</option>
+                            <option value="avila">Ávila</option>
+                            <option value="badajoz">Badajoz</option>
                             <option value="barcelona">Barcelona</option>
+                            <option value="burgos">Burgos</option>
+                            <option value="caceres">Cáceres</option>
+                            <option value="cadiz">Cádiz</option>
+                            <option value="cantabria">Cantabria</option>
+                            <option value="castellon">Castellón</option>
+                            <option value="ciudad real">Ciudad Real</option>
+                            <option value="cordoba">Córdoba</option>
+                            <option value="cuenca">Cuenca</option>
+                            <option value="gerona">Gerona</option>
+                            <option value="granada">Granada</option>
+                            <option value="guadalajara">Guadalajara</option>
+                            <option value="guipuzcoa">Guipúzcoa</option>
+                            <option value="huelva">Huelva</option>
+                            <option value="huesca">Huesca</option>
+                            <option value="islas baleares">Islas Baleares</option>
+                            <option value="jaen">Jaén</option>
+                            <option value="la coruña">La Coruña</option>
+                            <option value="la rioja">La Rioja</option>
+                            <option value="las palmas">Las Palmas</option>
+                            <option value="leon">León</option>
+                            <option value="lerida">Lérida</option>
+                            <option value="lugo">Lugo</option>
+                            <option value="madrid">Madrid</option>
+                            <option value="malaga">Málaga</option>
+                            <option value="murcia">Murcia</option>
+                            <option value="navarra">Navarra</option>
+                            <option value="orense">Orense</option>
+                            <option value="palencia">Palencia</option>
+                            <option value="pontevedra">Pontevedra</option>
+                            <option value="salamanca">Salamanca</option>
+                            <option value="santa cruz de tenerife">Santa Cruz de Tenerife</option>
+                            <option value="segovia">Segovia</option>
+                            <option value="sevilla">Sevilla</option>
+                            <option value="soria">Soria</option>
+                            <option value="tarragona">Tarragona</option>
+                            <option value="teruel">Teruel</option>
+                            <option value="toledo">Toledo</option>
+                            <option value="valencia">Valencia</option>
+                            <option value="valladolid">Valladolid</option>
+                            <option value="vizcaya">Vizcaya</option>
+                            <option value="zamora">Zamora</option>
+                            <option value="zaragoza">Zaragoza</option>
+                            <option value="ceuta">Ceuta</option>
+                            <option value="melilla">Melilla</option>
                         </select>
                     </div>
                     <div class="col-12 col-md-3">
-                        <input type="text" name="fecha_inicio" class="form-control form-control-custom" placeholder="Fecha de inicio" onfocus="this.type='date'" />
+                        <input type="text" name="fecha_inicio" id="fechaInicioInput" class="form-control form-control-custom" placeholder="Fecha de inicio" onfocus="this.type='date'" />
                     </div>
                     <div class="col-12 col-md-3">
-                        <input type="text" name="fecha_final" class="form-control form-control-custom" placeholder="Fecha de fin" onfocus="this.type='date'" />
+                        <input type="text" name="fecha_final" id="fechaFinalInput" class="form-control form-control-custom" placeholder="Fecha de fin" onfocus="this.type='date'" />
                     </div>
                     <div class="col-12 col-md-2">
                         <button class="btn btn-primary btn-custom w-100" style="padding: 1rem 2rem">Buscar</button>
                     </div>
                 </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <div id="filtroErrorMsg" class="alert alert-danger d-none" role="alert"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </form>
+    <script>
+    function validarBusqueda() {
+        var provincia = document.getElementById('provinciaInput').value;
+        var fechaInicio = document.getElementById('fechaInicioInput').value;
+        var fechaFinal = document.getElementById('fechaFinalInput').value;
+        var errorMsg = document.getElementById('filtroErrorMsg');
+        if (!provincia || !fechaInicio || !fechaFinal) {
+            errorMsg.textContent = "Debes seleccionar provincia, fecha de inicio y fecha de fin.";
+            errorMsg.classList.remove('d-none');
+            return false;
+        } else {
+            errorMsg.classList.add('d-none');
+            return true;
+        }
+    }
+    </script>
 
     <!-- Features -->
     <div class="container my-5">

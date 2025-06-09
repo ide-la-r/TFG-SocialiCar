@@ -401,19 +401,20 @@ if ($otro_usuario) {
                 if ($resultado->num_rows > 0):
                     while ($fila = $resultado->fetch_assoc()):
                         $otro = $fila["otro_usuario"];
-                        $usuario_stmt = $_conexion->prepare("SELECT nombre, foto_perfil FROM usuario WHERE identificacion = ?");
+                        $usuario_stmt = $_conexion->prepare("SELECT nombre, foto_perfil, estado FROM usuario WHERE identificacion = ?");
                         $usuario_stmt->bind_param("s", $otro);
                         $usuario_stmt->execute();
                         $usuario_data = $usuario_stmt->get_result()->fetch_assoc();
 
                         $nombre = $usuario_data["nombre"] ?? "Usuario";
                         $foto = !empty($usuario_data["foto_perfil"]) ? $usuario_data["foto_perfil"] : '/src/img/perfil.png';
+                        $estado = $usuario_data["estado"] == 0 ? "Offline" : "Online";
                         $mensaje = htmlspecialchars($fila["ultimo_mensaje"]);
                         $hora = date("H:i", strtotime($fila["ultima_fecha"]));
                         $active_class = ($otro_usuario == $otro) ? 'active' : '';
                 ?>
                         <a href="conversa?chat_con=<?= urlencode($otro) ?>" class="chat-item <?= $active_class ?>">
-                            <img src="<?= htmlspecialchars($foto) ?>" alt="Perfil">
+                            <img src="<?= htmlspecialchars($foto) ?>" alt="Foto de perfil">
                             <div class="chat-info">
                                 <div class="chat-name"><?= htmlspecialchars($nombre) ?></div>
                                 <div class="last-message"><?= $mensaje ?></div>
@@ -434,14 +435,26 @@ if ($otro_usuario) {
         <div class="derecha">
             <section class="chat-area">
                 <header class="nombreUsuario">
+                    <?php
+                        if ($otro_usuario) {
+                            $usuario_stmt = $_conexion->prepare("SELECT nombre, foto_perfil, estado FROM usuario WHERE identificacion = ?");
+                            $usuario_stmt->bind_param("s", $otro_usuario);
+                            $usuario_stmt->execute();
+                            $usuario_data = $usuario_stmt->get_result()->fetch_assoc();
+
+                            $nombre = $usuario_data["nombre"] ?? "Usuario";
+                            $foto = !empty($usuario_data["foto_perfil"]) ? $usuario_data["foto_perfil"] : '/src/img/perfil.png';
+                            $estado = ($usuario_data["estado"] ?? 0) == 1 ? "Online" : "Offline";
+                        }
+                    ?>
                     <a class="back-icon" href="/src/pages/rentacar/mostrar_coches">
                         <i class="fas fa-arrow-left"></i>
                     </a>
                     <?php if ($otro_usuario): ?>
-                        <img src="<?= htmlspecialchars($foto_chat) ?>" alt="Foto de perfil">
+                        <img src="<?= htmlspecialchars($foto) ?>" alt="Foto de perfil">
                         <div class="details">
                             <div class="usuario-estado">
-                                <span class="nombre-usuario"><?= htmlspecialchars($nombre_chat) ?></span>
+                                <span class="nombre-usuario"><?= htmlspecialchars($nombre) ?></span>
                                 <span class="estado <?= $estado === 'Online' ? 'online' : 'offline' ?>"></span>
                             </div>
                             <?php if ($datos): ?>

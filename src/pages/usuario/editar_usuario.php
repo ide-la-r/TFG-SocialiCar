@@ -237,6 +237,7 @@
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary mb-3">Guardar cambios</button>
+                <a href="/src/pages/usuario/perfil_usuario" class="btn btn-secondary mb-3">Cancelar</a>
             </form>
         </div>
     </div>

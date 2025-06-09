@@ -401,11 +401,13 @@
 
                     <div class="mb-4 reserva-fechas">
                         <h5 class="mb-3"><i class="bi bi-calendar-range-fill feature-icon"></i> Selecciona tu rango de reserva</h5>
-                        <input type="text" id="fecha_rango" class="form-control py-3" placeholder="Elige el rango de fechas" readonly>
-                        <input type="hidden" id="fecha_inicio" name="fecha_inicio">
-                        <input type="hidden" id="fecha_fin" name="fecha_fin">
+                        <input type="date" id="fecha_inicio" name="fecha_inicio" class="form-control mb-2" placeholder="Fecha de inicio">
+                        <input type="date" id="fecha_fin" name="fecha_fin" class="form-control mb-2" placeholder="Fecha de fin">
+                        <div class="mt-3">
+                            <span class="fw-bold">Total a pagar: </span>
+                            <span id="precioTotal" class="fs-5 text-primary"><?= $precio ?> €</span>
+                        </div>
                     </div>
-
                     <div class="mb-4 d-flex gap-2 flex-wrap">
                         <?php
                         $duenio_id = $fila['id_usuario'];
@@ -418,6 +420,11 @@
                                 echo "<a href='/src/pages/chat/conversa?matricula=$matricula&chat_con=$duenio_id' class='btn btn-outline-primary btn-lg flex-grow-1'>
                                         <i class='bi bi-chat-dots me-2'></i> Contactar
                                       </a>";
+                                echo '<form action="" method="post" class="flex-grow-1">
+                                        <a href="../pago/iniciar_pago.php?tipo=coche&precio_coche=' . $precio . '" class="btn btn-success btn-lg w-100">
+                                            <i class="bi bi-cart-plus me-2"></i> Alquilar
+                                        </a>
+                                     </form>';
                             } else {
                                 echo "<a href='/src/pages/coche/editar_coche?matricula=$matricula' class='btn btn-outline-primary btn-lg flex-grow-1'>
                                         <i class='bi bi-pencil-square me-2'></i> Editar
@@ -429,13 +436,14 @@
                                   </a>";
                         }
                         ?>
-                        <form action="" method="post" class="flex-grow-1">
-                            <a href="../pago/iniciar_pago.php?tipo=coche&precio_coche=<?= $precio; ?>" class="btn btn-success btn-lg w-100">
+                        <form action="" method="post" class="flex-grow-1" id="formAlquilar">
+                            <a href="../pago/iniciar_pago.php?tipo=coche&precio_coche=<?= $precio; ?>" class="btn btn-success btn-lg w-100" id="alquilarBtn">
                                 <i class="bi bi-cart-plus me-2"></i> Alquilar
                             </a>
                         </form>
+
                         <button class="btn btn-outline-secondary btn-lg flex-grow-1">
-                            <i class="bi bi-heart me-2"></i> Guardar
+                            <i class="bi bi-heart me-2"></i> Favoritos
                         </button>
                     </div>
                 </div>
@@ -553,6 +561,39 @@
             const accordion2 = new bootstrap.Collapse(document.getElementById('collapseExtras'), {
                 toggle: false
             });
+        });
+
+        // Calcular precio total según días seleccionados
+        document.addEventListener('DOMContentLoaded', function() {
+            var precioPorDia = <?= (int)$precio ?>;
+            var fechaInicioInput = document.getElementById('fecha_inicio');
+            var fechaFinInput = document.getElementById('fecha_fin');
+            var precioTotalSpan = document.getElementById('precioTotal');
+            var alquilarBtn = document.getElementById('alquilarBtn');
+
+            function calcularTotal() {
+                var inicio = fechaInicioInput.value;
+                var fin = fechaFinInput.value;
+                if (inicio && fin) {
+                    var d1 = new Date(inicio);
+                    var d2 = new Date(fin);
+                    var diff = Math.round((d2 - d1) / (1000 * 60 * 60 * 24)) + 1;
+                    var dias = diff > 0 ? diff : 1;
+                    var total = precioPorDia * dias;
+                    precioTotalSpan.textContent = total + " €";
+                    if (alquilarBtn) {
+                        alquilarBtn.href = "../pago/iniciar_pago.php?tipo=coche&precio_coche=" + total;
+                    }
+                } else {
+                    precioTotalSpan.textContent = precioPorDia + " €";
+                    if (alquilarBtn) {
+                        alquilarBtn.href = "../pago/iniciar_pago.php?tipo=coche&precio_coche=" + precioPorDia;
+                    }
+                }
+            }
+
+            fechaInicioInput.addEventListener('change', calcularTotal);
+            fechaFinInput.addEventListener('change', calcularTotal);
         });
     </script>
     <script src="../../js/fecha_rango.js"></script>
