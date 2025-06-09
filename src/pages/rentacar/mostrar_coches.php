@@ -633,7 +633,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && (
                                     AND sus.activo = TRUE 
                                     AND sus.tipo = 'Plus'
                                 ORDER BY coche.precio ASC
-                                LIMIT 6
+                                LIMIT 12
                             ");
                     $obtener_coche_plus->execute();
                     $resultado = $obtener_coche_plus->get_result();
