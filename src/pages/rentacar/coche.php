@@ -420,6 +420,11 @@
                                 echo "<a href='/src/pages/chat/conversa?matricula=$matricula&chat_con=$duenio_id' class='btn btn-outline-primary btn-lg flex-grow-1'>
                                         <i class='bi bi-chat-dots me-2'></i> Contactar
                                       </a>";
+                                echo '<form action="" method="post" class="flex-grow-1">
+                                        <a href="../pago/iniciar_pago.php?tipo=coche&precio_coche=' . $precio . '" class="btn btn-success btn-lg w-100">
+                                            <i class="bi bi-cart-plus me-2"></i> Alquilar
+                                        </a>
+                                     </form>';
                             } else {
                                 echo "<a href='/src/pages/coche/editar_coche?matricula=$matricula' class='btn btn-outline-primary btn-lg flex-grow-1'>
                                         <i class='bi bi-pencil-square me-2'></i> Editar
@@ -436,8 +441,9 @@
                                 <i class="bi bi-cart-plus me-2"></i> Alquilar
                             </a>
                         </form>
+
                         <button class="btn btn-outline-secondary btn-lg flex-grow-1">
-                            <i class="bi bi-heart me-2"></i> Guardar
+                            <i class="bi bi-heart me-2"></i> Favoritos
                         </button>
                     </div>
                 </div>
