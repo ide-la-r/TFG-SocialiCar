@@ -262,7 +262,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && (
             <div class="mt-3">
                 <label class="form-label">Marca:</label>
                 <select class="form-select" name="marca" id="marca-filtro">
-                    <option value="">- - Selecciona una marca - -</option>
+                    <option value="" selected hidden>- - Selecciona una marca - -</option>
                     <!-- Opciones de marca se rellenan por JS -->
                 </select>
             </div>
@@ -271,12 +271,59 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && (
             <div class="mt-3">
                 <label class="form-label">Ubicación:</label>
                 <select class="form-select" name="ciudad">
-                    <option value="">- - Selecciona una ciudad - -</option>
-                    <option value="malaga" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='malaga') echo 'selected'; ?>>Málaga</option>
-                    <option value="granada" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='granada') echo 'selected'; ?>>Granada</option>
-                    <option value="madrid" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='madrid') echo 'selected'; ?>>Madrid</option>
-                    <option value="valencia" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='valencia') echo 'selected'; ?>>Valencia</option>
+                    <option value="" selected hidden>- - Selecciona una ciudad - -</option>
+                    <option value="alava" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='alava') echo 'selected'; ?>>Álava</option>
+                    <option value="albacete" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='albacete') echo 'selected'; ?>>Albacete</option>
+                    <option value="alicante" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='alicante') echo 'selected'; ?>>Alicante</option>
+                    <option value="almeria" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='almeria') echo 'selected'; ?>>Almería</option>
+                    <option value="asturias" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='asturias') echo 'selected'; ?>>Asturias</option>
+                    <option value="avila" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='avila') echo 'selected'; ?>>Ávila</option>
+                    <option value="badajoz" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='badajoz') echo 'selected'; ?>>Badajoz</option>
                     <option value="barcelona" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='barcelona') echo 'selected'; ?>>Barcelona</option>
+                    <option value="burgos" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='burgos') echo 'selected'; ?>>Burgos</option>
+                    <option value="caceres" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='caceres') echo 'selected'; ?>>Cáceres</option>
+                    <option value="cadiz" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='cadiz') echo 'selected'; ?>>Cádiz</option>
+                    <option value="cantabria" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='cantabria') echo 'selected'; ?>>Cantabria</option>
+                    <option value="castellon" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='castellon') echo 'selected'; ?>>Castellón</option>
+                    <option value="ciudad real" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='ciudad real') echo 'selected'; ?>>Ciudad Real</option>
+                    <option value="cordoba" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='cordoba') echo 'selected'; ?>>Córdoba</option>
+                    <option value="cuenca" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='cuenca') echo 'selected'; ?>>Cuenca</option>
+                    <option value="gerona" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='gerona') echo 'selected'; ?>>Gerona</option>
+                    <option value="granada" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='granada') echo 'selected'; ?>>Granada</option>
+                    <option value="guadalajara" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='guadalajara') echo 'selected'; ?>>Guadalajara</option>
+                    <option value="guipuzcoa" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='guipuzcoa') echo 'selected'; ?>>Guipúzcoa</option>
+                    <option value="huelva" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='huelva') echo 'selected'; ?>>Huelva</option>
+                    <option value="huesca" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='huesca') echo 'selected'; ?>>Huesca</option>
+                    <option value="islas baleares" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='islas baleares') echo 'selected'; ?>>Islas Baleares</option>
+                    <option value="jaen" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='jaen') echo 'selected'; ?>>Jaén</option>
+                    <option value="la coruña" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='la coruña') echo 'selected'; ?>>La Coruña</option>
+                    <option value="la rioja" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='la rioja') echo 'selected'; ?>>La Rioja</option>
+                    <option value="las palmas" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='las palmas') echo 'selected'; ?>>Las Palmas</option>
+                    <option value="leon" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='leon') echo 'selected'; ?>>León</option>
+                    <option value="lerida" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='lerida') echo 'selected'; ?>>Lérida</option>
+                    <option value="lugo" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='lugo') echo 'selected'; ?>>Lugo</option>
+                    <option value="madrid" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='madrid') echo 'selected'; ?>>Madrid</option>
+                    <option value="malaga" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='malaga') echo 'selected'; ?>>Málaga</option>
+                    <option value="murcia" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='murcia') echo 'selected'; ?>>Murcia</option>
+                    <option value="navarra" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='navarra') echo 'selected'; ?>>Navarra</option>
+                    <option value="orense" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='orense') echo 'selected'; ?>>Orense</option>
+                    <option value="palencia" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='palencia') echo 'selected'; ?>>Palencia</option>
+                    <option value="pontevedra" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='pontevedra') echo 'selected'; ?>>Pontevedra</option>
+                    <option value="salamanca" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='salamanca') echo 'selected'; ?>>Salamanca</option>
+                    <option value="santa cruz de tenerife" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='santa cruz de tenerife') echo 'selected'; ?>>Santa Cruz de Tenerife</option>
+                    <option value="segovia" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='segovia') echo 'selected'; ?>>Segovia</option>
+                    <option value="sevilla" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='sevilla') echo 'selected'; ?>>Sevilla</option>
+                    <option value="soria" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='soria') echo 'selected'; ?>>Soria</option>
+                    <option value="tarragona" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='tarragona') echo 'selected'; ?>>Tarragona</option>
+                    <option value="teruel" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='teruel') echo 'selected'; ?>>Teruel</option>
+                    <option value="toledo" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='toledo') echo 'selected'; ?>>Toledo</option>
+                    <option value="valencia" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='valencia') echo 'selected'; ?>>Valencia</option>
+                    <option value="valladolid" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='valladolid') echo 'selected'; ?>>Valladolid</option>
+                    <option value="vizcaya" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='vizcaya') echo 'selected'; ?>>Vizcaya</option>
+                    <option value="zamora" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='zamora') echo 'selected'; ?>>Zamora</option>
+                    <option value="zaragoza" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='zaragoza') echo 'selected'; ?>>Zaragoza</option>
+                    <option value="ceuta" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='ceuta') echo 'selected'; ?>>Ceuta</option>
+                    <option value="melilla" <?php if(isset($_GET['ciudad']) && $_GET['ciudad']=='melilla') echo 'selected'; ?>>Melilla</option>
                 </select>
             </div>
 
@@ -284,7 +331,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && (
             <div class="mt-3">
                 <label class="form-label">Tipo de Coche:</label>
                 <select class="form-select" name="tipo">
-                    <option value="">- - Selecciona un tipo de coche - -</option>
+                    <option value="" selected hidden>- - Selecciona un tipo de coche - -</option>
                     <option value="berlina" <?php if(isset($_GET['tipo']) && $_GET['tipo']=='berlina') echo 'selected'; ?>>Berlina</option>
                     <option value="coupé" <?php if(isset($_GET['tipo']) && $_GET['tipo']=='coupé') echo 'selected'; ?>>Coupé</option>
                     <option value="monovolumen" <?php if(isset($_GET['tipo']) && $_GET['tipo']=='monovolumen') echo 'selected'; ?>>Monovolumen</option>
@@ -300,7 +347,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && (
             <div class="mt-3">
                 <label class="form-label">Combustible:</label>
                 <select class="form-select" name="combustible">
-                    <option value="">- - Selecciona un tipo - -</option>
+                    <option value="" selected hidden>- - Selecciona un tipo - -</option>
                     <option value="diesel" <?php if(isset($_GET['combustible']) && $_GET['combustible']=='diesel') echo 'selected'; ?>>Diésel</option>
                     <option value="gasolina" <?php if(isset($_GET['combustible']) && $_GET['combustible']=='gasolina') echo 'selected'; ?>>Gasolina</option>
                     <option value="electrico" <?php if(isset($_GET['combustible']) && $_GET['combustible']=='electrico') echo 'selected'; ?>>Eléctrico</option>
